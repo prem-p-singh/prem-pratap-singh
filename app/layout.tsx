@@ -16,23 +16,23 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: {
-    default: "Dr. Prem Pratap Singh | Postdoctoral Scholar & Plant Scientist",
-    template: "%s | Dr. Prem Pratap Singh",
+    default: "Prem Pratap Singh | Postdoctoral Scholar & Plant Scientist",
+    template: "%s | Prem Pratap Singh",
   },
-  description: "Postdoctoral Scholar at UC Davis specializing in plant-pathogen interactions, multi-omics analysis, and postharvest biology. Research focus on grapevine virology and nano-encapsulated formulations.",
-  keywords: ["Plant Science", "Grapevine Virology", "GRBV", "Postharvest Biology", "Food Safety", "Multi-omics", "Bioinformatics", "UC Davis", "Postdoctoral Scholar"],
-  authors: [{ name: "Dr. Prem Pratap Singh" }],
+  description: "Postdoctoral Scholar at UC Davis specializing in plant-pathogen interactions and multi-omics analysis. Research focus on grapevine-virus interactions, transcriptomics, and nano-encapsulated formulations.",
+  keywords: ["Plant Science", "Grapevine Virology", "GRBV", "Postharvest Biology", "Food Safety", "Multi-omics", "Bioinformatics", "UC Davis", "Postdoctoral Scholar", "RNA-seq", "Plant Pathology"],
+  authors: [{ name: "Prem Pratap Singh" }],
   openGraph: {
     type: "website",
     locale: "en_US",
     url: "https://premsingh.io",
-    siteName: "Dr. Prem Pratap Singh",
-    title: "Dr. Prem Pratap Singh | Postdoctoral Scholar & Plant Scientist",
+    siteName: "Prem Pratap Singh",
+    title: "Prem Pratap Singh | Postdoctoral Scholar & Plant Scientist",
     description: "Postdoctoral Scholar at UC Davis specializing in plant-pathogen interactions and multi-omics analysis.",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Dr. Prem Pratap Singh | Postdoctoral Scholar & Plant Scientist",
+    title: "Prem Pratap Singh | Postdoctoral Scholar & Plant Scientist",
     description: "Postdoctoral Scholar at UC Davis specializing in plant-pathogen interactions and multi-omics analysis.",
   },
   robots: {

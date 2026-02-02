@@ -64,7 +64,7 @@ export default function Header() {
             href="/"
             className="text-xl font-bold text-foreground hover:text-primary transition-colors"
           >
-            Dr. Prem P. Singh
+            Prem P. Singh
           </Link>
 
           {/* Desktop Navigation */}
