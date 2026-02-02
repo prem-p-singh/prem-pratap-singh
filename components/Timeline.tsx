@@ -4,6 +4,7 @@ export interface TimelineItem {
   location?: string;
   startDate: string;
   endDate: string;
+  mentor?: string;
   description?: string;
   highlights?: string[];
 }
@@ -29,6 +30,11 @@ export default function Timeline({ items }: TimelineProps) {
                 {item.organization}
                 {item.location && ` · ${item.location}`}
               </p>
+              {item.mentor && (
+                <p className="text-sm text-muted-foreground">
+                  Mentor: {item.mentor}
+                </p>
+              )}
             </div>
             <p className="text-xs text-muted-foreground whitespace-nowrap">
               {item.startDate} - {item.endDate}

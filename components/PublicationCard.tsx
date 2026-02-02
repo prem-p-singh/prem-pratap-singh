@@ -3,7 +3,7 @@ export interface Publication {
   authors: string[];
   venue: string;
   year: number;
-  type: "journal" | "conference" | "preprint" | "thesis";
+  type: "journal" | "conference" | "preprint" | "thesis" | "book";
   links?: {
     paper?: string;
     code?: string;
@@ -22,6 +22,7 @@ const typeLabels = {
   conference: "Conference",
   preprint: "Preprint",
   thesis: "Thesis",
+  book: "Book Chapter",
 };
 
 export default function PublicationCard({ publication }: PublicationCardProps) {
