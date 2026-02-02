@@ -42,6 +42,36 @@ export const publications: Publication[] = [
     },
   },
   {
+    title: "Nanoencapsulated plant-based antifungal formulation against Aspergillus flavus and aflatoxin B1 contamination: Unraveling the biochemical and molecular mechanism of action",
+    authors: ["A. Kumar", "P. P. Singh", "M. Kumar", "B. Prakash"],
+    venue: "International Journal of Food Microbiology",
+    year: 2022,
+    type: "journal",
+    links: {
+      paper: "#",
+    },
+  },
+  {
+    title: "Assessing the efficacy of chitosan nanomatrix incorporated with Cymbopogon citratus essential oil against food-borne molds and aflatoxin B1 production in food system",
+    authors: ["A. Kumar", "P. P. Singh", "B. Prakash"],
+    venue: "Pesticide Biochemistry and Physiology",
+    year: 2022,
+    type: "journal",
+    links: {
+      paper: "#",
+    },
+  },
+  {
+    title: "Botanicals for Sustainable Management of Stored Food Grains: Pesticidal Efficacy, Mode of Action and Ecological Risk Assessment Using Computational Approaches",
+    authors: ["B. Prakash", "P. P. Singh", "A. Kumar", "V. Gupta"],
+    venue: "Anthropocene Science",
+    year: 2022,
+    type: "journal",
+    links: {
+      paper: "#",
+    },
+  },
+  {
     title: "Untangling the multi-regime molecular mechanism of verbenol-chemotype Zingiber officinale essential oil against Aspergillus flavus and aflatoxin B1",
     authors: ["P. P. Singh", "A. K. Jaiswal", "A. Kumar", "V. Gupta", "B. Prakash"],
     venue: "Scientific Reports",
@@ -62,6 +92,36 @@ export const publications: Publication[] = [
     },
   },
   {
+    title: "Pesticidal efficacy, mode of action and safety limits profile of essential oils based nanoformulation against Callosobruchus chinensis and Aspergillus flavus",
+    authors: ["A. Yadav", "A. Kumar", "P. P. Singh", "B. Prakash"],
+    venue: "Pesticide Biochemistry and Physiology",
+    year: 2021,
+    type: "journal",
+    links: {
+      paper: "#",
+    },
+  },
+  {
+    title: "Potential Anti-Mycobacterium tuberculosis Activity of Plant Secondary Metabolites: Insight with Molecular Docking Interactions",
+    authors: ["M. Kumar", "S. K. Singh", "P. P. Singh", "V. K. Singh", "A. C. Rai", "A. K. Srivastava", "L. Shukla", "et al."],
+    venue: "Antioxidants",
+    year: 2021,
+    type: "journal",
+    links: {
+      paper: "#",
+    },
+  },
+  {
+    title: "Microbial biosurfactant: a new frontier for sustainable agriculture and pharmaceutical industries",
+    authors: ["A. Kumar", "S. K. Singh", "C. Kant", "H. Verma", "D. Kumar", "P. P. Singh", "A. Modi", "et al."],
+    venue: "Antioxidants",
+    year: 2021,
+    type: "journal",
+    links: {
+      paper: "#",
+    },
+  },
+  {
     title: "Elucidation of antifungal toxicity of Callistemon lanceolatus essential oil encapsulated in chitosan nanogel against Aspergillus flavus",
     authors: ["P. P. Singh", "A. Kumar", "B. Prakash"],
     venue: "Food Additives & Contaminants: Part A",
@@ -69,6 +129,36 @@ export const publications: Publication[] = [
     type: "journal",
     links: {
       paper: "https://doi.org/10.1080/19440049.2020.1775310",
+    },
+  },
+  {
+    title: "Fabrication of volatile compounds loaded-chitosan biopolymer nanoparticles: Optimization, characterization and assessment against Aspergillus flavus and aflatoxin B1 contamination",
+    authors: ["A. Kumar", "V. Gupta", "P. P. Singh", "A. Kujur", "B. Prakash"],
+    venue: "International Journal of Biological Macromolecules",
+    year: 2020,
+    type: "journal",
+    links: {
+      paper: "#",
+    },
+  },
+  {
+    title: "Unravelling the antifungal and anti-aflatoxin B1 mechanism of chitosan nanocomposite incorporated with Foeniculum vulgare essential oil",
+    authors: ["A. Kumar", "P. P. Singh", "B. Prakash"],
+    venue: "Carbohydrate Polymers",
+    year: 2020,
+    type: "journal",
+    links: {
+      paper: "#",
+    },
+  },
+  {
+    title: "Nanoencapsulated plant-based bioactive formulation against food-borne molds and aflatoxin B1 contamination: Preparation, characterization and stability evaluation in the food system",
+    authors: ["A. Kumar", "A. Kujur", "P. P. Singh", "B. Prakash"],
+    venue: "Food Chemistry",
+    year: 2019,
+    type: "journal",
+    links: {
+      paper: "#",
     },
   },
   {
@@ -91,6 +181,36 @@ export const publications: Publication[] = [
       paper: "#",
     },
   },
+  {
+    title: "Distribution of cyanobacteria and their interactions with pesticides in paddy field: A comprehensive review",
+    authors: ["A. K. Singh", "P. P. Singh", "V. Tripathi", "H. Verma", "S. K. Singh", "A. K. Srivastava", "A. Kumar"],
+    venue: "Journal of Environmental Management",
+    year: 2018,
+    type: "journal",
+    links: {
+      paper: "#",
+    },
+  },
+  {
+    title: "Biotechnological aspects of plants metabolites in the treatment of ulcer: A new prospective",
+    authors: ["A. K. Singh", "S. K. Singh", "P. P. Singh", "A. K. Srivastava", "K. D. Pandey", "A. Kumar", "H. Yadav"],
+    venue: "Biotechnology Reports",
+    year: 2018,
+    type: "journal",
+    links: {
+      paper: "#",
+    },
+  },
+  {
+    title: "Isolation of plant growth promoting rhizobacteria and their impact on growth and curcumin content in Curcuma longa L.",
+    authors: ["A. Kumar", "M. Singh", "P. P. Singh", "S. K. Singh", "P. K. Singh", "K. D. Pandey"],
+    venue: "Biocatalysis and Agricultural Biotechnology",
+    year: 2016,
+    type: "journal",
+    links: {
+      paper: "#",
+    },
+  },
 ];
 
 export const bookChapters: Publication[] = [
@@ -99,6 +219,26 @@ export const bookChapters: Publication[] = [
     authors: ["B. Prakash", "P. P. Singh", "A. Kumar", "V. Gupta"],
     venue: "Research and Technological Advances in Food Science, Academic Press",
     year: 2022,
+    type: "book",
+    links: {
+      paper: "#",
+    },
+  },
+  {
+    title: "Prospects of plant products in the management of insect pests of food grains: current status and future perspectives",
+    authors: ["B. Prakash", "A. Kumar", "P. P. Singh", "S. Das", "N. K. Dubey"],
+    venue: "Natural Bioactive Compounds, Academic Press",
+    year: 2021,
+    type: "book",
+    links: {
+      paper: "#",
+    },
+  },
+  {
+    title: "Recent advancement in plant disease management",
+    authors: ["P. P. Singh", "A. Kumar", "V. Gupta", "B. Prakash"],
+    venue: "Food Security and Plant Disease Management, Woodhead Publishing",
+    year: 2021,
     type: "book",
     links: {
       paper: "#",
@@ -115,10 +255,30 @@ export const bookChapters: Publication[] = [
     },
   },
   {
-    title: "Recent advancement in plant disease management",
-    authors: ["P. P. Singh", "A. Kumar", "V. Gupta", "B. Prakash"],
-    venue: "Food Security and Plant Disease Management, Woodhead Publishing",
-    year: 2021,
+    title: "Antimicrobial and antioxidant properties of phytochemicals: current status and future perspective",
+    authors: ["B. Prakash", "A. Kumar", "P. P. Singh", "L. S. Songachan"],
+    venue: "Functional and Preservative Properties of Phytochemicals, Academic Press",
+    year: 2020,
+    type: "book",
+    links: {
+      paper: "#",
+    },
+  },
+  {
+    title: "Phytochemicals: Intellectual property rights",
+    authors: ["M. K. Singh", "S. K. Singh", "A. V. Singh", "H. Verma", "P. P. Singh", "A. Kumar"],
+    venue: "Functional and Preservative Properties of Phytochemicals, Academic Press",
+    year: 2020,
+    type: "book",
+    links: {
+      paper: "#",
+    },
+  },
+  {
+    title: "Microbes as a Novel Source of Secondary Metabolite Products of Industrial Significance",
+    authors: ["B. Prakash", "P. P. Singh", "A. Kumar", "S. Das", "A. K. Chaudhari"],
+    venue: "Role of Plant Growth Promoting Microorganisms in Sustainable Agriculture and Nanotechnology",
+    year: 2019,
     type: "book",
     links: {
       paper: "#",
@@ -156,6 +316,14 @@ export const inPipeline: Publication[] = [
   {
     title: "Temporal Dynamics of Grapevine red blotch virus accumulation in Grapevine leaves is Influenced by Fruit Maturity Stages",
     authors: ["P. P. Singh", "H. Scully", "K. Reddy", "A. M. Boghozian", "C. Medina-Plaza", "A. Oberholster", "M. R. Sudarshana"],
+    venue: "In Preparation",
+    year: 2025,
+    type: "journal",
+    links: {},
+  },
+  {
+    title: "Systematic elucidation of aflatoxigenic Aspergillus flavus inhibition: Integrating EOs-based formulation with mathematical modeling and transcriptomic analysis",
+    authors: ["P. P. Singh", "R. Singh", "P. K. Verma", "B. Prakash"],
     venue: "In Preparation",
     year: 2025,
     type: "journal",

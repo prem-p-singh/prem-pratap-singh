@@ -34,6 +34,7 @@ export const workExperience: TimelineItem[] = [
     location: "Davis, CA, USA",
     startDate: "Sep 2023",
     endDate: "Present",
+    mentor: "The late Dr. Anita Oberholster & Dr. David E Block",
     description: "Leading multi-omics research on grapevine-virus interactions under CDFA and USDA-funded projects.",
     highlights: [
       "Led a multi-year, omics-driven project to dissect metabolic and transcriptional impacts of Grapevine Red Blotch Virus (GRBV) on Vitis vinifera cv. Merlot berries and wine quality",
@@ -88,13 +89,18 @@ export const training = [
     year: "2023",
   },
   {
+    title: "Bioinformatics & Data Analysis Workshop",
+    organization: "Redcliffe Genetics, Banaras Hindu University",
+    year: "2022",
+  },
+  {
     title: "Advanced Multi-omics Data Analysis",
     organization: "Nextgenhelper",
     year: "2022",
   },
   {
-    title: "Microbial Endophytes for Agricultural Applications",
-    organization: "ICAR-NBAIM",
+    title: "Bacterial Endophytes in Agriculture: Concepts to Application",
+    organization: "ICAR-NBAIM, Mau",
     year: "2019",
   },
 ];

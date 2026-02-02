@@ -1,23 +1,24 @@
 export const personal = {
-  name: "Dr. Prem Pratap Singh",
-  title: "Postdoctoral Scholar & Plant Scientist",
-  tagline: "Plant scientist with 6+ years of research experience in plant physiology, food safety, and multi-omics analysis. Expertise in grapevine-virus interactions, postharvest biology, and nano-encapsulated formulations.",
-  bio: `I am a Postdoctoral Scholar at the University of California, Davis, investigating grapevine-virus interactions using transcriptomic and metabolomic approaches. My research focuses on understanding the metabolic and transcriptional impacts of Grapevine Red Blotch Virus (GRBV) on grape quality and wine production.
+  name: "Prem Pratap Singh",
+  title: "Postdoctoral Scholar | Plant Scientist",
+  tagline: "Plant scientist with expertise in plant-pathogen interactions and multi-omics analysis. Currently investigating grapevine-virus interactions using transcriptomic and metabolomic approaches. Proficient in R, Python, GC-MS, LC-MS/MS, RNA-seq, and bioinformatics pipelines.",
+  bio: `I am a Postdoctoral Scholar at the University of California, Davis, investigating grapevine-virus interactions using transcriptomic and metabolomic approaches, building on foundational GRBV research. I lead CDFA/USDA-funded projects on grapevine virus impacts.
 
 My doctoral research at Banaras Hindu University focused on developing nano-encapsulated antifungal formulations against food-borne pathogens. I engineered chitosan-based delivery systems that significantly inhibited Aspergillus flavus growth and aflatoxin contamination.
 
-With a track record of 20+ peer-reviewed publications, I am passionate about translating fundamental research into practical solutions for sustainable agriculture and food safety.`,
+With a track record of 20+ publications, grant contributions, and mentorship experience, I am passionate about translating fundamental research into practical solutions for sustainable agriculture and food safety.`,
   location: "Davis, CA, USA",
   email: "ppssingh@ucdavis.edu",
+  secondaryEmail: "pr0982@gmail.com",
   phone: "(530) 760-8784",
   social: {
-    github: "",
-    linkedin: "",
-    googleScholar: "https://scholar.google.com/",
+    github: "https://github.com/prem-p-singh",
+    linkedin: "https://www.linkedin.com/in/prem-p-singh",
+    googleScholar: "https://scholar.google.com/citations?user=UGFMZEYAAAAJ&hl=en",
     twitter: "",
     orcid: "https://orcid.org/0000-0001-7921-9379",
-    researchgate: "https://www.researchgate.net/",
-    scopus: "https://www.scopus.com/",
+    researchgate: "https://www.researchgate.net/profile/Prem-Singh-12",
+    scopus: "",
   },
   avatar: "/images/profile.jpg",
 };
