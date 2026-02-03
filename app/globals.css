@@ -318,14 +318,16 @@ body {
   align-items: center;
   padding: 0.25rem 0.75rem;
   background: var(--accent-muted);
-  color: var(--accent);
+  color: #0d9488;
   border-radius: 9999px;
   font-size: 0.875rem;
   font-weight: 500;
+  border: 1px solid rgba(13, 148, 136, 0.3);
 }
 
 .dark .tech-badge {
   color: var(--accent);
+  border-color: rgba(100, 255, 218, 0.3);
 }
 
 /* Section title */
