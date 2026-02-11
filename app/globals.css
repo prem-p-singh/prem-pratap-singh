@@ -312,6 +312,165 @@ body {
   }
 }
 
+/* Horizontal Education Timeline */
+.edu-timeline-wrapper {
+  overflow-x: auto;
+  padding: 1rem 0;
+  -webkit-overflow-scrolling: touch;
+}
+
+.edu-timeline {
+  display: flex;
+  position: relative;
+  min-width: min-content;
+  padding: 0 2rem;
+  gap: 0;
+}
+
+/* The connecting horizontal line */
+.edu-timeline-line {
+  position: absolute;
+  top: calc(2rem + 24px);
+  left: 2rem;
+  right: 2rem;
+  height: 3px;
+  background: linear-gradient(90deg, var(--primary), var(--accent), var(--primary));
+  border-radius: 2px;
+  z-index: 0;
+}
+
+.edu-timeline-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1;
+  min-width: 240px;
+  position: relative;
+  z-index: 1;
+}
+
+/* Date on top */
+.edu-timeline-date {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--primary);
+  background: var(--muted);
+  border: 1px solid var(--border);
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px;
+  white-space: nowrap;
+  margin-bottom: 0.75rem;
+}
+
+/* The circular node */
+.edu-timeline-node {
+  width: 3rem;
+  height: 3rem;
+  border-radius: 50%;
+  background: var(--card);
+  border: 3px solid var(--primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--primary);
+  box-shadow: 0 4px 12px rgba(0, 123, 255, 0.25);
+  transition: all 0.3s ease;
+  z-index: 2;
+  margin-bottom: 1rem;
+}
+
+/* Card below */
+.edu-timeline-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 0.75rem;
+  padding: 1.25rem;
+  width: 100%;
+  max-width: 280px;
+  text-align: center;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+}
+
+.edu-timeline-card::before {
+  content: '';
+  position: absolute;
+  top: -8px;
+  left: 50%;
+  transform: translateX(-50%) rotate(45deg);
+  width: 14px;
+  height: 14px;
+  background: var(--card);
+  border-left: 1px solid var(--border);
+  border-top: 1px solid var(--border);
+}
+
+.edu-timeline-item:hover .edu-timeline-card {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 30px -10px rgba(0, 123, 255, 0.2);
+  border-color: var(--primary);
+}
+
+.dark .edu-timeline-item:hover .edu-timeline-card {
+  box-shadow: 0 12px 30px -10px rgba(0, 123, 255, 0.3);
+}
+
+/* Mobile: stack vertically */
+@media (max-width: 767px) {
+  .edu-timeline {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 0 0.5rem 0 2.5rem;
+    gap: 2rem;
+  }
+
+  .edu-timeline-line {
+    top: 0;
+    bottom: 0;
+    left: 1.75rem;
+    right: auto;
+    width: 3px;
+    height: 100%;
+  }
+
+  .edu-timeline-item {
+    flex-direction: row;
+    align-items: flex-start;
+    min-width: unset;
+    gap: 1rem;
+  }
+
+  .edu-timeline-date {
+    display: none;
+  }
+
+  .edu-timeline-node {
+    flex-shrink: 0;
+    width: 2.5rem;
+    height: 2.5rem;
+    margin-bottom: 0;
+    position: absolute;
+    left: -2rem;
+    top: 0;
+  }
+
+  .edu-timeline-card {
+    max-width: 100%;
+    text-align: left;
+  }
+
+  .edu-timeline-card::before {
+    top: 0.75rem;
+    left: -8px;
+    transform: rotate(-45deg);
+  }
+
+  /* Show date inside card on mobile */
+  .edu-timeline-card::after {
+    display: none;
+  }
+}
+
 /* Tech stack badge */
 .tech-badge {
   display: inline-flex;
