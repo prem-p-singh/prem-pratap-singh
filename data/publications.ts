@@ -1,6 +1,32 @@
 import type { Publication } from "@/components/PublicationCard";
 
 export const publications: Publication[] = [
+  // In Pipeline
+  {
+    title: "Grapevine Red Blotch Disease: An Emerging Threat to Global Viticulture",
+    authors: ["P. P. Singh", "K. Reddy", "A. M. Boghozian", "A. Oberholster", "M. R. Sudarshana"],
+    venue: "In Pipeline",
+    year: 2025,
+    type: "journal",
+    links: {},
+  },
+  {
+    title: "Temporal Dynamics of Grapevine red blotch virus accumulation in Grapevine leaves is Influenced by Fruit Maturity Stages",
+    authors: ["P. P. Singh", "H. Scully", "K. Reddy", "A. M. Boghozian", "C. Medina-Plaza", "A. Oberholster", "M. R. Sudarshana"],
+    venue: "In Pipeline",
+    year: 2025,
+    type: "journal",
+    links: {},
+  },
+  {
+    title: "Systematic elucidation of aflatoxigenic Aspergillus flavus inhibition: Integrating EOs-based formulation with mathematical modeling and transcriptomic analysis",
+    authors: ["P. P. Singh", "R. Singh", "P. K. Verma", "B. Prakash"],
+    venue: "In Pipeline",
+    year: 2025,
+    type: "journal",
+    links: {},
+  },
+  // Published
   {
     title: "Assessment of Trachyspermum ammi essential oil against Aspergillus flavus, aflatoxin B1 contamination, and post-harvest quality of Sorghum bicolor",
     authors: ["P. P. Singh", "A. K. Jaiswal", "R. Singh", "A. Kumar", "V. Gupta", "T. S. Raghuvanshi", "A. Sharma", "B. Prakash"],
@@ -18,7 +44,7 @@ export const publications: Publication[] = [
     year: 2024,
     type: "journal",
     links: {
-      paper: "#",
+      paper: "https://doi.org/10.1016/j.fct.2023.114241",
     },
   },
   {
@@ -28,7 +54,7 @@ export const publications: Publication[] = [
     year: 2023,
     type: "journal",
     links: {
-      paper: "#",
+      paper: "https://doi.org/10.1016/j.fct.2023.114111",
     },
   },
   {
@@ -48,7 +74,7 @@ export const publications: Publication[] = [
     year: 2022,
     type: "journal",
     links: {
-      paper: "#",
+      paper: "https://doi.org/10.1016/j.ijfoodmicro.2022.109681",
     },
   },
   {
@@ -58,7 +84,7 @@ export const publications: Publication[] = [
     year: 2022,
     type: "journal",
     links: {
-      paper: "#",
+      paper: "https://doi.org/10.1016/j.pestbp.2021.105001",
     },
   },
   {
@@ -68,7 +94,7 @@ export const publications: Publication[] = [
     year: 2022,
     type: "journal",
     links: {
-      paper: "#",
+      paper: "https://doi.org/10.1007/s44177-022-00016-2",
     },
   },
   {
@@ -78,7 +104,7 @@ export const publications: Publication[] = [
     year: 2021,
     type: "journal",
     links: {
-      paper: "#",
+      paper: "https://doi.org/10.1038/s41598-021-86253-8",
     },
   },
   {
@@ -98,7 +124,7 @@ export const publications: Publication[] = [
     year: 2021,
     type: "journal",
     links: {
-      paper: "#",
+      paper: "https://doi.org/10.1016/j.pestbp.2021.104813",
     },
   },
   {
@@ -108,7 +134,7 @@ export const publications: Publication[] = [
     year: 2021,
     type: "journal",
     links: {
-      paper: "#",
+      paper: "https://doi.org/10.3390/antiox10121990",
     },
   },
   {
@@ -118,7 +144,7 @@ export const publications: Publication[] = [
     year: 2021,
     type: "journal",
     links: {
-      paper: "#",
+      paper: "https://doi.org/10.3390/antiox10091472",
     },
   },
   {
@@ -132,23 +158,23 @@ export const publications: Publication[] = [
     },
   },
   {
-    title: "Fabrication of volatile compounds loaded-chitosan biopolymer nanoparticles: Optimization, characterization and assessment against Aspergillus flavus and aflatoxin B1 contamination",
-    authors: ["A. Kumar", "V. Gupta", "P. P. Singh", "A. Kujur", "B. Prakash"],
-    venue: "International Journal of Biological Macromolecules",
-    year: 2020,
-    type: "journal",
-    links: {
-      paper: "#",
-    },
-  },
-  {
     title: "Unravelling the antifungal and anti-aflatoxin B1 mechanism of chitosan nanocomposite incorporated with Foeniculum vulgare essential oil",
     authors: ["A. Kumar", "P. P. Singh", "B. Prakash"],
     venue: "Carbohydrate Polymers",
     year: 2020,
     type: "journal",
     links: {
-      paper: "#",
+      paper: "https://doi.org/10.1016/j.carbpol.2020.116050",
+    },
+  },
+  {
+    title: "Fabrication of volatile compounds loaded-chitosan biopolymer nanoparticles: Optimization, characterization and assessment against Aspergillus flavus and aflatoxin B1 contamination",
+    authors: ["A. Kumar", "V. Gupta", "P. P. Singh", "A. Kujur", "B. Prakash"],
+    venue: "International Journal of Biological Macromolecules",
+    year: 2020,
+    type: "journal",
+    links: {
+      paper: "https://doi.org/10.1016/j.ijbiomac.2020.09.257",
     },
   },
   {
@@ -158,7 +184,7 @@ export const publications: Publication[] = [
     year: 2019,
     type: "journal",
     links: {
-      paper: "#",
+      paper: "https://doi.org/10.1016/j.foodchem.2019.02.045",
     },
   },
   {
@@ -168,7 +194,7 @@ export const publications: Publication[] = [
     year: 2018,
     type: "journal",
     links: {
-      paper: "#",
+      paper: "https://doi.org/10.1016/j.foodcont.2018.01.018",
     },
   },
   {
@@ -178,7 +204,7 @@ export const publications: Publication[] = [
     year: 2018,
     type: "journal",
     links: {
-      paper: "#",
+      paper: "https://doi.org/10.1016/j.agee.2018.08.020",
     },
   },
   {
@@ -188,7 +214,7 @@ export const publications: Publication[] = [
     year: 2018,
     type: "journal",
     links: {
-      paper: "#",
+      paper: "https://doi.org/10.1016/j.jenvman.2018.07.039",
     },
   },
   {
@@ -198,7 +224,7 @@ export const publications: Publication[] = [
     year: 2018,
     type: "journal",
     links: {
-      paper: "#",
+      paper: "https://doi.org/10.1016/j.btre.2018.e00256",
     },
   },
   {
@@ -208,7 +234,7 @@ export const publications: Publication[] = [
     year: 2016,
     type: "journal",
     links: {
-      paper: "#",
+      paper: "https://doi.org/10.1016/j.bcab.2016.07.002",
     },
   },
 ];
@@ -303,30 +329,3 @@ export const thesis = {
   expectedCompletion: "2023",
   abstract: "This research focused on engineering nano-encapsulated essential oil formulations using chitosan-gel matrices to inhibit Aspergillus flavus growth and aflatoxin B1 production. A multi-disciplinary R&D pipeline was developed integrating antifungal screening, GC-MS metabolomics, SEM imaging, and gene expression analysis.",
 };
-
-export const inPipeline: Publication[] = [
-  {
-    title: "Grapevine Red Blotch Disease: An Emerging Threat to Global Viticulture",
-    authors: ["P. P. Singh", "K. Reddy", "A. M. Boghozian", "A. Oberholster", "M. R. Sudarshana"],
-    venue: "In Preparation",
-    year: 2025,
-    type: "journal",
-    links: {},
-  },
-  {
-    title: "Temporal Dynamics of Grapevine red blotch virus accumulation in Grapevine leaves is Influenced by Fruit Maturity Stages",
-    authors: ["P. P. Singh", "H. Scully", "K. Reddy", "A. M. Boghozian", "C. Medina-Plaza", "A. Oberholster", "M. R. Sudarshana"],
-    venue: "In Preparation",
-    year: 2025,
-    type: "journal",
-    links: {},
-  },
-  {
-    title: "Systematic elucidation of aflatoxigenic Aspergillus flavus inhibition: Integrating EOs-based formulation with mathematical modeling and transcriptomic analysis",
-    authors: ["P. P. Singh", "R. Singh", "P. K. Verma", "B. Prakash"],
-    venue: "In Preparation",
-    year: 2025,
-    type: "journal",
-    links: {},
-  },
-];
