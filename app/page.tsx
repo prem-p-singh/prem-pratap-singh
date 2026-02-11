@@ -7,6 +7,7 @@ import { publications } from "@/data/publications";
 import PublicationsList from "@/components/PublicationsList";
 import EducationTimeline from "@/components/EducationTimeline";
 import ScholarAnalytics from "@/components/ScholarAnalytics";
+import ProjectIllustration from "@/components/ProjectIllustration";
 
 export default function Home() {
   return (
@@ -321,12 +322,8 @@ export default function Home() {
                 key={index}
                 className="group bg-card rounded-xl overflow-hidden border border-border card-hover"
               >
-                {/* Project Image Placeholder */}
-                <div className="h-48 bg-gradient-to-br from-primary/10 to-accent/10 flex items-center justify-center">
-                  <span className="text-5xl font-bold text-primary/30">
-                    {project.title.charAt(0)}
-                  </span>
-                </div>
+                {/* Project Illustration */}
+                <ProjectIllustration projectIndex={index} />
 
                 <div className="p-6">
                   <h3 className="text-xl font-semibold text-foreground mb-2 group-hover:text-primary transition-colors">
