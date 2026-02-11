@@ -6,6 +6,7 @@ import { projects } from "@/data/projects";
 import { publications } from "@/data/publications";
 import PublicationsList from "@/components/PublicationsList";
 import EducationTimeline from "@/components/EducationTimeline";
+import ScholarAnalytics from "@/components/ScholarAnalytics";
 
 export default function Home() {
   return (
@@ -289,17 +290,22 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Publications Section */}
+      {/* Research Impact / Analytics Section */}
       <section id="publications" className="py-20">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="section-title mb-12">Publications</h2>
+          <h2 className="section-title mb-12">Research Impact</h2>
 
-          <PublicationsList publications={publications} />
+          <ScholarAnalytics />
 
-          <div className="mt-8 text-center">
-            <p className="text-muted-foreground">
-              {publications.length} peer-reviewed publications in journals including Food Chemistry, Scientific Reports, and Food Control.
-            </p>
+          <div className="mt-16">
+            <h3 className="text-2xl font-bold text-foreground mb-8">Publications</h3>
+            <PublicationsList publications={publications} />
+
+            <div className="mt-8 text-center">
+              <p className="text-muted-foreground">
+                {publications.length} peer-reviewed publications in journals including Food Chemistry, Scientific Reports, and Food Control.
+              </p>
+            </div>
           </div>
         </div>
       </section>
