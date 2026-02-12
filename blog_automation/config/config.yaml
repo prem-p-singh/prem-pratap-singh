@@ -1,0 +1,46 @@
+site:
+  title: "prempsingh.com"
+  blog_content_dir: "./content/blog"
+
+content:
+  # Relative to repo root; override with CV_PDF_PATH env var
+  cv_pdf_path: "./public/cv.pdf"
+  manual_keywords:
+    - grapevine virology
+    - plant-pathogen interactions
+    - multi-omics
+    - nanoencapsulation
+  keyword_count: 12
+  max_sources_per_keyword: 3
+
+feeds:
+  google_news_rss: true
+
+llm:
+  use_openai: true
+  model: "gpt-4o-mini"
+
+author:
+  name: "Prem Pratap Singh"
+
+schedule:
+  daily_run_hour_local: 8
+
+guards:
+  min_reference_links: 4
+  check_link_reachability: true
+  link_timeout_seconds: 8
+  max_similarity_ratio: 0.72
+
+notifications:
+  fail_on_error: true
+  email:
+    enabled: true
+    port: 587
+  telegram:
+    enabled: false
+
+# GitHub repo for one-click publish from email
+github:
+  owner: "prem-p-singh"
+  repo: "prem-pratap-singh"
