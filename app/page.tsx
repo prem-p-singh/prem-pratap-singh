@@ -16,7 +16,7 @@ export default function Home() {
       <section className="min-h-screen flex items-center pt-16">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
-            <div className="order-2 lg:order-1">
+            <div className="order-2 lg:order-2">
               <p className="text-lg text-muted-foreground mb-2">
                 Hello, I am
               </p>
@@ -119,7 +119,7 @@ export default function Home() {
             </div>
 
             {/* Hero Profile Image */}
-            <div className="order-1 lg:order-2 flex justify-center">
+            <div className="order-1 lg:order-1 flex justify-center">
               <div className="relative w-72 h-72 sm:w-80 sm:h-80 lg:w-96 lg:h-96 float-animation">
                 <div className="absolute inset-0 bg-gradient-to-br from-primary/20 to-accent/20 rounded-full blur-3xl" />
                 <div className="relative w-full h-full rounded-full overflow-hidden border-4 border-background shadow-2xl">
