@@ -101,6 +101,7 @@ body {
 /* Card hover effect */
 .card-hover {
   transition: transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
 }
 
 .card-hover:hover {
@@ -108,8 +109,18 @@ body {
   box-shadow: 0 10px 40px -15px rgba(0, 0, 0, 0.2);
 }
 
+.card-hover:active {
+  transform: translateY(-1px) scale(0.98);
+  box-shadow: 0 4px 15px -8px rgba(0, 0, 0, 0.2);
+  transition: transform 0.1s ease, box-shadow 0.1s ease;
+}
+
 .dark .card-hover:hover {
   box-shadow: 0 10px 40px -15px rgba(0, 0, 0, 0.5);
+}
+
+.dark .card-hover:active {
+  box-shadow: 0 4px 15px -8px rgba(0, 0, 0, 0.4);
 }
 
 /* Button styles */
@@ -120,11 +131,21 @@ body {
   border-radius: 0.5rem;
   font-weight: 500;
   transition: all 0.2s ease;
+  position: relative;
+  overflow: hidden;
 }
 
 .btn-primary:hover {
   background: color-mix(in srgb, var(--primary) 85%, black);
   transform: translateY(-2px);
+  box-shadow: 0 6px 20px -4px rgba(14, 116, 144, 0.4);
+}
+
+.btn-primary:active {
+  transform: translateY(1px) scale(0.97);
+  box-shadow: 0 2px 8px -2px rgba(14, 116, 144, 0.3);
+  background: color-mix(in srgb, var(--primary) 75%, black);
+  transition: all 0.08s ease;
 }
 
 .btn-outline {
@@ -134,12 +155,23 @@ body {
   border-radius: 0.5rem;
   font-weight: 500;
   transition: all 0.2s ease;
+  position: relative;
+  overflow: hidden;
 }
 
 .btn-outline:hover {
   background: var(--primary);
   color: white;
   transform: translateY(-2px);
+  box-shadow: 0 6px 20px -4px rgba(14, 116, 144, 0.4);
+}
+
+.btn-outline:active {
+  transform: translateY(1px) scale(0.97);
+  box-shadow: 0 2px 8px -2px rgba(14, 116, 144, 0.3);
+  background: color-mix(in srgb, var(--primary) 85%, black);
+  color: white;
+  transition: all 0.08s ease;
 }
 
 /* Timeline styles (legacy) */
@@ -210,12 +242,26 @@ body {
   border-color: var(--primary);
 }
 
+.experience-card:active {
+  transform: translateY(-1px) scale(0.985);
+  box-shadow: 0 8px 20px -10px rgba(14, 116, 144, 0.2);
+  transition: all 0.1s ease;
+}
+
 .dark .experience-card:hover {
   box-shadow: 0 20px 40px -15px rgba(14, 116, 144, 0.25);
 }
 
+.dark .experience-card:active {
+  box-shadow: 0 8px 20px -10px rgba(14, 116, 144, 0.3);
+}
+
 .experience-card:hover::before {
   opacity: 0.03;
+}
+
+.experience-card:active::before {
+  opacity: 0.06;
 }
 
 /* Timeline node (desktop) */
@@ -237,6 +283,13 @@ body {
   transform: scale(1.1);
   background: var(--primary);
   color: white;
+}
+
+.experience-node:active {
+  transform: scale(0.9);
+  background: color-mix(in srgb, var(--primary) 80%, black);
+  color: white;
+  transition: all 0.08s ease;
 }
 
 /* Timeline node (mobile) */
@@ -411,8 +464,31 @@ body {
   border-color: var(--primary);
 }
 
+.edu-timeline-item:active .edu-timeline-card {
+  transform: translateY(-1px) scale(0.97);
+  box-shadow: 0 4px 12px -6px rgba(14, 116, 144, 0.25);
+  transition: all 0.1s ease;
+}
+
+.edu-timeline-item:hover .edu-timeline-node {
+  transform: scale(1.15);
+  background: var(--primary);
+  color: white;
+}
+
+.edu-timeline-item:active .edu-timeline-node {
+  transform: scale(0.9);
+  background: color-mix(in srgb, var(--primary) 80%, black);
+  color: white;
+  transition: all 0.08s ease;
+}
+
 .dark .edu-timeline-item:hover .edu-timeline-card {
   box-shadow: 0 12px 30px -10px rgba(14, 116, 144, 0.3);
+}
+
+.dark .edu-timeline-item:active .edu-timeline-card {
+  box-shadow: 0 4px 12px -6px rgba(14, 116, 144, 0.3);
 }
 
 /* Mobile: stack vertically */
@@ -574,6 +650,11 @@ body {
   transform: scale(1.02);
 }
 
+.gallery-item:active {
+  transform: scale(0.97);
+  transition: transform 0.08s ease;
+}
+
 .gallery-item img {
   width: 100%;
   height: 100%;
@@ -583,4 +664,116 @@ body {
 
 .gallery-item:hover img {
   transform: scale(1.1);
+}
+
+/* ===== Global Interactive States ===== */
+
+/* Social icon links (hero + footer) */
+a[aria-label] {
+  transition: all 0.2s ease;
+}
+
+a[aria-label]:hover {
+  transform: translateY(-2px);
+}
+
+a[aria-label]:active {
+  transform: translateY(1px) scale(0.9);
+  transition: all 0.08s ease;
+}
+
+/* Footer social icons with rounded bg */
+.rounded-full[aria-label]:hover {
+  box-shadow: 0 6px 16px -4px rgba(14, 116, 144, 0.3);
+}
+
+.rounded-full[aria-label]:active {
+  box-shadow: 0 2px 6px -2px rgba(14, 116, 144, 0.2);
+}
+
+/* Tech badges */
+.tech-badge {
+  transition: all 0.2s ease;
+  cursor: default;
+}
+
+.tech-badge:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 3px 10px -3px rgba(217, 119, 6, 0.3);
+  background: color-mix(in srgb, var(--accent-muted) 80%, var(--accent));
+}
+
+.tech-badge:active {
+  transform: translateY(0) scale(0.95);
+  transition: all 0.08s ease;
+}
+
+/* Date badge press */
+.experience-date-badge {
+  transition: all 0.2s ease;
+}
+
+.experience-date-badge:hover {
+  border-color: var(--primary);
+  color: var(--primary);
+}
+
+/* Nav links */
+nav a {
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+nav a:active {
+  transform: scale(0.95);
+  transition: all 0.08s ease;
+}
+
+/* Section title interaction */
+.section-title {
+  transition: color 0.2s ease;
+}
+
+.section-title:hover::after {
+  width: 100%;
+  transition: width 0.3s ease;
+}
+
+/* Publication / list items press */
+.border.rounded-lg {
+  transition: all 0.2s ease;
+}
+
+.border.rounded-lg:hover {
+  border-color: var(--primary);
+  box-shadow: 0 4px 16px -6px rgba(14, 116, 144, 0.15);
+}
+
+.border.rounded-lg:active {
+  transform: scale(0.985);
+  box-shadow: 0 2px 8px -4px rgba(14, 116, 144, 0.15);
+  transition: all 0.08s ease;
+}
+
+/* Ripple-like feedback for all clickable elements */
+a, button {
+  -webkit-tap-highlight-color: rgba(14, 116, 144, 0.1);
+}
+
+/* Focus-visible for keyboard navigation */
+a:focus-visible,
+button:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* Smooth press for show more/less buttons */
+button {
+  transition: all 0.2s ease;
+}
+
+button:active {
+  transform: scale(0.96);
+  transition: all 0.08s ease;
 }
