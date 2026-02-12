@@ -4,7 +4,7 @@ import { getAllPosts } from "@/lib/mdx";
 
 export const metadata: Metadata = {
   title: "Blog",
-  description: "Deep dives into machine learning, transformers, and AI research. Technical tutorials and insights from my journey as a PhD researcher.",
+  description: "Exploring plant-pathogen interactions, multi-omics, and sustainable agriculture. Research insights and updates from my work in grapevine virology and food safety.",
 };
 
 export default function BlogPage() {
@@ -24,8 +24,8 @@ export default function BlogPage() {
               Blog
             </h1>
             <p className="text-xl text-muted-foreground leading-relaxed">
-              Deep dives into machine learning, transformers, and AI research.
-              Technical tutorials and insights from my journey as a PhD researcher.
+              Exploring plant-pathogen interactions, multi-omics, and sustainable agriculture.
+              Research insights and updates from my work in grapevine virology and food safety.
             </p>
           </div>
         </div>
@@ -198,8 +198,8 @@ export default function BlogPage() {
                 No articles yet
               </h2>
               <p className="text-muted-foreground max-w-md mx-auto">
-                I&apos;m working on some exciting content about machine learning,
-                deep learning, and AI research. Check back soon!
+                I&apos;m working on some exciting content about grapevine virology,
+                plant-pathogen interactions, and multi-omics research. Check back soon!
               </p>
             </div>
           )}
