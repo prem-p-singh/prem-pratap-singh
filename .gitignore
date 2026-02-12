@@ -44,4 +44,8 @@ next-env.d.ts
 .idea/
 
 # source documents (already copied to public)
-resource _doc/
+resource_doc/
+blog_automation/.venv/
+blog_automation/daily.log
+__pycache__/
+*.pyc

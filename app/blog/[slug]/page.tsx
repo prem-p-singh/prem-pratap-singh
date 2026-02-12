@@ -117,10 +117,10 @@ export default async function BlogPostPage({ params }: Props) {
             <div className="flex items-center gap-4 text-sm text-muted-foreground">
               <div className="flex items-center gap-2">
                 <div className="w-10 h-10 rounded-full bg-gradient-to-br from-primary to-accent flex items-center justify-center text-white font-semibold">
-                  SW
+                  PS
                 </div>
                 <div>
-                  <p className="font-medium text-foreground">Suchinthaka W.</p>
+                  <p className="font-medium text-foreground">Prem Pratap Singh</p>
                   <p className="text-xs">{formattedDate} · {post.readingTime}</p>
                 </div>
               </div>

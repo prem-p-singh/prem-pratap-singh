@@ -54,6 +54,10 @@ export function getAllPosts(): BlogPostMeta[] {
 }
 
 export function getPostBySlug(slug: string): BlogPost | null {
+  // Validate slug to prevent path traversal
+  if (!/^[a-zA-Z0-9-]+$/.test(slug)) {
+    return null;
+  }
   const fullPath = path.join(contentDirectory, `${slug}.mdx`);
 
   if (!fs.existsSync(fullPath)) {

@@ -69,7 +69,7 @@ export default function BlogPage() {
               </div>
 
               <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-3">
-                {seriesPosts.reverse().map((post, index) => {
+                {[...seriesPosts].reverse().map((post, index) => {
                   const partMatch = post.title.match(/Part (\d+)/);
                   const partNum = partMatch ? partMatch[1] : index + 1;
                   const shortTitle = post.title.replace(/Transformer Deep Dive: Part \d+ - /, "");
@@ -218,7 +218,7 @@ export default function BlogPage() {
             </p>
             <div className="flex justify-center gap-4">
               <a
-                href="https://github.com/SuchinW"
+                href="https://github.com/prem-p-singh"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="p-3 rounded-full bg-card border border-border hover:border-primary hover:text-primary transition-all"
@@ -229,7 +229,7 @@ export default function BlogPage() {
                 </svg>
               </a>
               <a
-                href="https://www.linkedin.com/in/suchinthaka"
+                href="https://www.linkedin.com/in/prem-p-singh"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="p-3 rounded-full bg-card border border-border hover:border-primary hover:text-primary transition-all"
@@ -240,7 +240,7 @@ export default function BlogPage() {
                 </svg>
               </a>
               <a
-                href="mailto:swanninayaka@ucdavis.edu"
+                href="mailto:ppssingh@ucdavis.edu"
                 className="p-3 rounded-full bg-card border border-border hover:border-primary hover:text-primary transition-all"
                 aria-label="Email"
               >

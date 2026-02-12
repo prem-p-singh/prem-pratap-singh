@@ -1,0 +1,80 @@
+name: Publish Blog Draft
+
+on:
+  workflow_dispatch:
+    inputs:
+      draft_filename:
+        description: "Filename of the pending draft (e.g. 20260212_130411--daily-research-update.mdx)"
+        required: true
+        type: string
+      slug:
+        description: "Slug for the published post"
+        required: true
+        type: string
+      skip_guards:
+        description: "Skip quality guards (--force)"
+        required: false
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+
+jobs:
+  publish-draft:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install deps
+        run: pip install -r blog_automation/requirements.txt
+
+      - name: Verify draft exists
+        run: |
+          DRAFT_PATH="blog_automation/drafts/pending/${{ inputs.draft_filename }}"
+          if [ ! -f "$DRAFT_PATH" ]; then
+            echo "::error::Draft not found: $DRAFT_PATH"
+            echo "Available drafts:"
+            ls -la blog_automation/drafts/pending/ || echo "(empty)"
+            exit 1
+          fi
+          echo "DRAFT_PATH=$DRAFT_PATH" >> $GITHUB_ENV
+          echo "Found draft: $DRAFT_PATH"
+
+      - name: Publish draft
+        run: |
+          FORCE_FLAG=""
+          if [ "${{ inputs.skip_guards }}" = "true" ]; then
+            FORCE_FLAG="--force"
+          fi
+          python blog_automation/approve_and_publish.py \
+            --file "${{ env.DRAFT_PATH }}" \
+            --yes \
+            $FORCE_FLAG
+
+      - name: Commit and push
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add content/blog/ blog_automation/drafts/pending/
+          if git diff --cached --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "publish: ${{ inputs.slug }}"
+            git push
+          fi
+
+      - name: Summary
+        run: |
+          echo "## Published!" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "- **Slug:** \`${{ inputs.slug }}\`" >> $GITHUB_STEP_SUMMARY
+          echo "- **File:** \`content/blog/${{ inputs.slug }}.mdx\`" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "The post will be live after your next site deployment." >> $GITHUB_STEP_SUMMARY
