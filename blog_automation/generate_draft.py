@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 import argparse
 import datetime as dt
+import json
 import os
 import re
 import smtplib
@@ -104,6 +105,89 @@ def gather_sources(keywords: List[str], max_per_keyword: int, use_news: bool) ->
             item["keyword"] = kw
             merged.append(item)
     return merged[:30]
+
+
+def build_ranking_prompt(sources: List[Dict], keywords: List[str]) -> str:
+    """Build a prompt to rank sources by importance, popularity, innovation, and recency."""
+    source_list = []
+    for i, s in enumerate(sources):
+        source_list.append(
+            f"[{i}] Title: {s['title']}\n"
+            f"    Source: {s['source']} | Keyword: {s.get('keyword', 'N/A')}\n"
+            f"    Summary: {s.get('summary', 'No summary')[:200]}"
+        )
+    sources_text = "\n\n".join(source_list)
+
+    return f"""You are a research article curator for a plant scientist specializing in: {', '.join(keywords)}.
+
+Below is a list of articles fetched from arXiv and Google News. Rate EACH article on a scale of 1-10 based on these criteria:
+- **Importance**: How significant is this for plant science / the author's research areas?
+- **Popularity**: Is this likely a widely discussed or high-impact finding?
+- **Innovation**: Does this present a novel method, discovery, or approach?
+- **Recency**: Is this about very recent developments or breaking news?
+
+Then compute a total score (sum of all 4 criteria, max 40).
+
+IMPORTANT: Only select articles that are DIRECTLY relevant to plant science, agriculture, virology, omics, or food safety. Discard articles that are tangentially related or off-topic.
+
+Return ONLY a valid JSON array of objects, sorted by total score descending. Each object must have:
+- "index": the article index number from the list below
+- "total": the total score (4-40)
+- "reason": one short sentence explaining why this article is noteworthy
+
+Articles:
+{sources_text}
+
+Return ONLY the JSON array, no other text.""".strip()
+
+
+def rank_sources(sources: List[Dict], keywords: List[str], model: str, top_n: int = 8) -> List[Dict]:
+    """Use LLM to rank and filter sources by importance, popularity, innovation, recency."""
+    if not sources or OpenAI is None:
+        return sources[:top_n]
+
+    api_key = os.getenv("OPENAI_API_KEY")
+    if not api_key:
+        print("Warning: OPENAI_API_KEY not set, skipping source ranking")
+        return sources[:top_n]
+
+    prompt = build_ranking_prompt(sources, keywords)
+    client = OpenAI(api_key=api_key)
+
+    try:
+        resp = client.chat.completions.create(
+            model=model,
+            messages=[{"role": "user", "content": prompt}],
+            temperature=0.2,
+        )
+        raw = resp.choices[0].message.content.strip()
+
+        # Extract JSON from response (handle markdown code blocks)
+        if raw.startswith("```"):
+            raw = re.sub(r"^```(?:json)?\s*", "", raw)
+            raw = re.sub(r"\s*```$", "", raw)
+
+        rankings = json.loads(raw)
+
+        # Select top_n articles by score
+        ranked = []
+        for entry in rankings[:top_n]:
+            idx = int(entry["index"])
+            if 0 <= idx < len(sources):
+                sources[idx]["rank_score"] = entry.get("total", 0)
+                sources[idx]["rank_reason"] = entry.get("reason", "")
+                ranked.append(sources[idx])
+
+        if ranked:
+            print(f"Ranked {len(ranked)} sources from {len(sources)} candidates")
+            for s in ranked:
+                print(f"  [{s.get('rank_score', '?')}/40] {s['title'][:80]}")
+            return ranked
+
+    except (json.JSONDecodeError, KeyError, ValueError) as e:
+        print(f"Warning: source ranking failed ({e}), using unranked sources")
+
+    return sources[:top_n]
 
 
 def sample_sources(keywords: List[str]) -> List[Dict]:
@@ -422,6 +506,12 @@ def main() -> None:
     site_title = cfg["site"]["title"]
     use_openai = bool(cfg["llm"].get("use_openai", True))
     model = cfg["llm"].get("model", "gpt-4o-mini")
+    top_sources = int(cfg["content"].get("top_sources", 8))
+
+    # Rank and filter sources for quality (important, popular, innovative, new)
+    if use_openai and not args.offline and len(sources) > top_sources:
+        print(f"Ranking {len(sources)} sources to select top {top_sources}...")
+        sources = rank_sources(sources, keywords, model, top_n=top_sources)
 
     if use_openai and not args.offline:
         prompt = build_prompt(site_title, keywords, sources, today)

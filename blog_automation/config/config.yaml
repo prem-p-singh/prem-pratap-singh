@@ -12,6 +12,7 @@ content:
     - nanoencapsulation
   keyword_count: 12
   max_sources_per_keyword: 3
+  top_sources: 8  # number of best sources to keep after LLM ranking
 
 feeds:
   google_news_rss: true
