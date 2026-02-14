@@ -323,12 +323,8 @@ def build_publish_url(cfg: Dict, draft_filename: str, slug: str) -> str:
     repo = gh.get("repo", "")
     if not owner or not repo:
         return ""
-    # GitHub workflow_dispatch URL that pre-fills the inputs
-    return (
-        f"https://github.com/{owner}/{repo}/actions/workflows/publish-draft.yml"
-        f"?inputs%5Bdraft_filename%5D={urllib.parse.quote(draft_filename)}"
-        f"&inputs%5Bslug%5D={urllib.parse.quote(slug)}"
-    )
+    # GitHub workflow_dispatch page — inputs are now optional (auto-detected)
+    return f"https://github.com/{owner}/{repo}/actions/workflows/publish-draft.yml"
 
 
 def build_email_html(slug: str, draft_filename: str, draft_preview: str, publish_url: str) -> str:
@@ -345,7 +341,8 @@ def build_email_html(slug: str, draft_filename: str, draft_preview: str, publish
             &#9889; Publish This Draft Now
           </a>
           <p style="margin-top: 8px; font-size: 12px; color: #78716c;">
-            Opens GitHub Actions &mdash; click &ldquo;Run workflow&rdquo; to publish instantly
+            Opens GitHub Actions &mdash; just click the green &ldquo;Run workflow&rdquo; button.<br>
+            All fields are optional &mdash; leave them empty, the workflow auto-detects the latest draft.
           </p>
         </div>
         """

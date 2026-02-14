@@ -4,13 +4,15 @@ on:
   workflow_dispatch:
     inputs:
       draft_filename:
-        description: "Filename of the pending draft (e.g. 20260212_130411--daily-research-update.mdx)"
-        required: true
+        description: "Filename of the pending draft (leave empty to auto-detect latest)"
+        required: false
         type: string
+        default: ""
       slug:
-        description: "Slug for the published post"
-        required: true
+        description: "Slug for the published post (leave empty to auto-detect from filename)"
+        required: false
         type: string
+        default: ""
       skip_guards:
         description: "Skip quality guards (--force)"
         required: false
@@ -35,17 +37,44 @@ jobs:
       - name: Install deps
         run: pip install -r blog_automation/requirements.txt
 
-      - name: Verify draft exists
+      - name: Detect draft
         run: |
-          DRAFT_PATH="blog_automation/drafts/pending/${{ inputs.draft_filename }}"
+          PENDING_DIR="blog_automation/drafts/pending"
+
+          # Use provided filename or auto-detect the latest
+          if [ -n "${{ inputs.draft_filename }}" ]; then
+            DRAFT_FILE="${{ inputs.draft_filename }}"
+          else
+            echo "No filename provided, auto-detecting latest draft..."
+            DRAFT_FILE=$(ls -t "$PENDING_DIR"/*.mdx 2>/dev/null | head -1 | xargs basename 2>/dev/null || echo "")
+          fi
+
+          if [ -z "$DRAFT_FILE" ]; then
+            echo "::error::No pending drafts found in $PENDING_DIR"
+            exit 1
+          fi
+
+          DRAFT_PATH="$PENDING_DIR/$DRAFT_FILE"
           if [ ! -f "$DRAFT_PATH" ]; then
             echo "::error::Draft not found: $DRAFT_PATH"
             echo "Available drafts:"
-            ls -la blog_automation/drafts/pending/ || echo "(empty)"
+            ls -la "$PENDING_DIR"/ || echo "(empty)"
             exit 1
           fi
+
+          # Auto-detect slug from filename if not provided
+          # Filename format: 20260214_130411--daily-research-update-grapevine-virology-2026-02-14.mdx
+          if [ -n "${{ inputs.slug }}" ]; then
+            SLUG="${{ inputs.slug }}"
+          else
+            SLUG=$(echo "$DRAFT_FILE" | sed 's/^[0-9]*_[0-9]*--//' | sed 's/\.mdx$//')
+          fi
+
           echo "DRAFT_PATH=$DRAFT_PATH" >> $GITHUB_ENV
+          echo "DRAFT_FILE=$DRAFT_FILE" >> $GITHUB_ENV
+          echo "SLUG=$SLUG" >> $GITHUB_ENV
           echo "Found draft: $DRAFT_PATH"
+          echo "Using slug: $SLUG"
 
       - name: Publish draft
         run: |
@@ -66,7 +95,7 @@ jobs:
           if git diff --cached --quiet; then
             echo "No changes to commit"
           else
-            git commit -m "publish: ${{ inputs.slug }}"
+            git commit -m "publish: ${{ env.SLUG }}"
             git push
           fi
 
@@ -74,7 +103,7 @@ jobs:
         run: |
           echo "## Published!" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
-          echo "- **Slug:** \`${{ inputs.slug }}\`" >> $GITHUB_STEP_SUMMARY
-          echo "- **File:** \`content/blog/${{ inputs.slug }}.mdx\`" >> $GITHUB_STEP_SUMMARY
+          echo "- **Slug:** \`${{ env.SLUG }}\`" >> $GITHUB_STEP_SUMMARY
+          echo "- **File:** \`content/blog/${{ env.SLUG }}.mdx\`" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "The post will be live after your next site deployment." >> $GITHUB_STEP_SUMMARY
