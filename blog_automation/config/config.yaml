@@ -19,7 +19,7 @@ feeds:
 
 llm:
   use_openai: true
-  model: "gpt-4o-mini"
+  model: "gpt-5.2"
 
 author:
   name: "Prem Pratap Singh"
