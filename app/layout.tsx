@@ -25,7 +25,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "en_US",
-    url: "https://premsingh.io",
+    url: "https://www.prempsingh.com",
     siteName: "Prem Pratap Singh",
     title: "Prem Pratap Singh | Postdoctoral Scholar & Plant Scientist",
     description: "Postdoctoral Scholar at UC Davis specializing in plant-pathogen interactions and multi-omics analysis.",

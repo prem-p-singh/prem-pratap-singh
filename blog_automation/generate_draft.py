@@ -196,16 +196,38 @@ def build_frontmatter(title: str, date_iso: str, description: str, tags: List[st
     )
 
 
+def sanitize_mdx(body: str) -> str:
+    """Strip potentially dangerous patterns from LLM-generated MDX."""
+    # Remove import/export statements (could execute arbitrary code)
+    body = re.sub(r"^\s*(import|export)\s+.*$", "", body, flags=re.MULTILINE)
+    # Remove script tags
+    body = re.sub(r"<script[\s\S]*?</script>", "", body, flags=re.IGNORECASE)
+    # Remove iframe tags
+    body = re.sub(r"<iframe[\s\S]*?</iframe>", "", body, flags=re.IGNORECASE)
+    body = re.sub(r"<iframe[^>]*/>", "", body, flags=re.IGNORECASE)
+    # Remove event handler attributes (onclick, onerror, onload, etc.)
+    body = re.sub(r"\s+on\w+\s*=\s*[\"'][^\"']*[\"']", "", body, flags=re.IGNORECASE)
+    body = re.sub(r"\s+on\w+\s*=\s*\{[^}]*\}", "", body, flags=re.IGNORECASE)
+    # Remove javascript: URLs
+    body = re.sub(r"href\s*=\s*[\"']javascript:[^\"']*[\"']", 'href="#"', body, flags=re.IGNORECASE)
+    # Remove data: URLs in src attributes (except data:image for legit images)
+    body = re.sub(r"src\s*=\s*[\"']data:(?!image/)[^\"']*[\"']", 'src=""', body, flags=re.IGNORECASE)
+    # Remove style attributes with url() that could leak data
+    body = re.sub(r"style\s*=\s*[\"'][^\"']*url\s*\([^)]*\)[^\"']*[\"']", "", body, flags=re.IGNORECASE)
+    return body.strip()
+
+
 def save_pending_mdx(frontmatter: str, body: str, pending_dir: Path, title: str) -> Tuple[Path, str]:
     pending_dir.mkdir(parents=True, exist_ok=True)
     ts = dt.datetime.now().strftime("%Y%m%d_%H%M%S")
     base_slug = slugify(title)
     filename = f"{ts}--{base_slug}.mdx"
     path = pending_dir / filename
+    sanitized_body = sanitize_mdx(body)
     with path.open("w", encoding="utf-8") as f:
         f.write(frontmatter)
         f.write("\n")
-        f.write(body.strip())
+        f.write(sanitized_body)
         f.write("\n")
     return path, base_slug
 

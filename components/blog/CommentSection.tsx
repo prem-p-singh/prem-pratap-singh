@@ -19,11 +19,26 @@ export default function CommentSection({ slug }: CommentSectionProps) {
   const [content, setContent] = useState("");
   const [isExpanded, setIsExpanded] = useState(false);
 
-  // Load comments from localStorage
+  // Load comments from localStorage with validation
   useEffect(() => {
-    const storedComments = localStorage.getItem(`comments-${slug}`);
-    if (storedComments) {
-      setComments(JSON.parse(storedComments));
+    try {
+      const storedComments = localStorage.getItem(`comments-${slug}`);
+      if (storedComments) {
+        const parsed = JSON.parse(storedComments);
+        if (Array.isArray(parsed)) {
+          const valid = parsed.filter(
+            (c: unknown): c is Comment =>
+              typeof c === "object" && c !== null &&
+              typeof (c as Comment).id === "string" &&
+              typeof (c as Comment).name === "string" &&
+              typeof (c as Comment).content === "string" &&
+              typeof (c as Comment).timestamp === "number"
+          );
+          setComments(valid);
+        }
+      }
+    } catch {
+      localStorage.removeItem(`comments-${slug}`);
     }
   }, [slug]);
 
@@ -96,6 +111,7 @@ export default function CommentSection({ slug }: CommentSectionProps) {
               placeholder="Your name"
               value={name}
               onChange={(e) => setName(e.target.value)}
+              maxLength={100}
               className="w-full px-4 py-2 bg-background border border-border rounded-lg text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all"
               required
             />
@@ -105,6 +121,7 @@ export default function CommentSection({ slug }: CommentSectionProps) {
               placeholder="Share your thoughts..."
               value={content}
               onChange={(e) => setContent(e.target.value)}
+              maxLength={2000}
               rows={3}
               className="w-full px-4 py-3 bg-background border border-border rounded-lg text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all resize-none"
               required

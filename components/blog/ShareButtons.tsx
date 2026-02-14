@@ -10,7 +10,7 @@ interface ShareButtonsProps {
 
 export default function ShareButtons({ title, slug, description }: ShareButtonsProps) {
   const [copied, setCopied] = useState(false);
-  const url = `https://suchinthaka.io/blog/${slug}`;
+  const url = `https://www.prempsingh.com/blog/${slug}`;
 
   const shareLinks = [
     {
