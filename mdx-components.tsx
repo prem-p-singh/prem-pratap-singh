@@ -26,11 +26,19 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
     pre: ({ children }) => (
       <pre className="bg-muted p-4 rounded-lg overflow-x-auto mb-4 text-sm">{children}</pre>
     ),
-    a: ({ href, children }) => (
-      <a href={href} className="text-primary hover:underline">
-        {children}
-      </a>
-    ),
+    a: ({ href, children }) => {
+      const safeHref = href && /^(https?:\/\/|\/|#|mailto:)/.test(href) ? href : "#";
+      const isExternal = safeHref.startsWith("http");
+      return (
+        <a
+          href={safeHref}
+          className="text-primary hover:underline"
+          {...(isExternal ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+        >
+          {children}
+        </a>
+      );
+    },
     blockquote: ({ children }) => (
       <blockquote className="border-l-4 border-primary pl-4 italic my-4">
         {children}
