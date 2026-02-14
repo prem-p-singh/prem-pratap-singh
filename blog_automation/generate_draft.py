@@ -252,12 +252,12 @@ def generate_with_openai(prompt: str, model: str) -> str:
 
 def build_title(keywords: List[str], today: str) -> str:
     key = keywords[0].replace("-", " ").title() if keywords else "Research"
-    return f"Daily Research Update: {key} ({today})"
+    return f"Research Update: {key} ({today})"
 
 
 def build_description(keywords: List[str]) -> str:
     short = ", ".join(k.replace("-", " ") for k in keywords[:4])
-    return f"A daily brief linking current developments in {short}."
+    return f"A brief linking current developments in {short}."
 
 
 def slugify(text: str) -> str:
