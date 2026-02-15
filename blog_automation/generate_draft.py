@@ -2,12 +2,15 @@
 import argparse
 import datetime as dt
 import json
+import logging
 import os
 import re
 import smtplib
+import time
 import urllib.parse
+from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Dict, List, Tuple
+from typing import Dict, List, Optional, Tuple
 
 import feedparser
 import requests
@@ -22,6 +25,163 @@ try:
 except Exception:
     OpenAI = None
 
+# Try to import specific OpenAI error types for retry logic
+try:
+    from openai import (
+        RateLimitError,
+        APITimeoutError,
+        APIConnectionError,
+        InternalServerError,
+        AuthenticationError,
+    )
+except Exception:
+    RateLimitError = None
+    APITimeoutError = None
+    APIConnectionError = None
+    InternalServerError = None
+    AuthenticationError = None
+
+# ── Logging ──────────────────────────────────────────────────────────────────
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s [%(levelname)s] %(message)s",
+    datefmt="%Y-%m-%d %H:%M:%S",
+)
+log = logging.getLogger("generate_draft")
+
+
+# ── DiagnosticReport ─────────────────────────────────────────────────────────
+@dataclass
+class StepResult:
+    name: str
+    ok: bool
+    duration_s: float = 0.0
+    detail: str = ""
+
+
+@dataclass
+class VerifyResult:
+    check: str
+    passed: bool
+    detail: str = ""
+
+
+@dataclass
+class DiagnosticReport:
+    steps: List[StepResult] = field(default_factory=list)
+    verifications: List[VerifyResult] = field(default_factory=list)
+
+    def add_step(self, name: str, ok: bool, duration_s: float = 0.0, detail: str = ""):
+        self.steps.append(StepResult(name=name, ok=ok, duration_s=duration_s, detail=detail))
+
+    def add_verify(self, check: str, passed: bool, detail: str = ""):
+        self.verifications.append(VerifyResult(check=check, passed=passed, detail=detail))
+
+    @property
+    def all_steps_ok(self) -> bool:
+        return all(s.ok for s in self.steps)
+
+    @property
+    def all_checks_passed(self) -> bool:
+        return all(v.passed for v in self.verifications)
+
+    def troubleshooting_tips(self) -> List[str]:
+        tips = []
+        for s in self.steps:
+            if not s.ok:
+                if "keyword" in s.name.lower():
+                    tips.append("Keyword extraction failed — ensure CV PDF exists and is readable.")
+                elif "source" in s.name.lower() and "rank" not in s.name.lower():
+                    tips.append("Source gathering failed — check internet connectivity and feed URLs.")
+                elif "rank" in s.name.lower():
+                    tips.append("Source ranking failed — check OpenAI API key and quota. Pipeline continues with unranked sources.")
+                elif "draft" in s.name.lower() or "generation" in s.name.lower():
+                    tips.append("Draft generation failed — check OpenAI API key, quota, and model availability.")
+        for v in self.verifications:
+            if not v.passed:
+                if "word count" in v.check.lower():
+                    tips.append(f"Word count issue: {v.detail}. Consider adjusting the prompt's length instructions or config min_words/max_words.")
+                elif "section" in v.check.lower():
+                    tips.append(f"Missing sections: {v.detail}. The LLM may have deviated from the prompt structure.")
+                elif "reference" in v.check.lower():
+                    tips.append("Few or no reference links found. Check that sources were passed to the LLM prompt.")
+                elif "artifact" in v.check.lower():
+                    tips.append(f"LLM artifacts detected: {v.detail}. These are auto-stripped but indicate prompt issues.")
+        return tips
+
+    def summary_text(self) -> str:
+        lines = ["", "=" * 60, "PIPELINE DIAGNOSTIC REPORT", "=" * 60, ""]
+        lines.append("Pipeline Steps:")
+        for s in self.steps:
+            status = "[OK]  " if s.ok else "[FAIL]"
+            dur = f"({s.duration_s:.1f}s)" if s.duration_s > 0 else ""
+            detail = f" -- {s.detail}" if s.detail else ""
+            lines.append(f"  {status} {s.name} {dur}{detail}")
+
+        if self.verifications:
+            lines.append("")
+            lines.append("Content Verification:")
+            for v in self.verifications:
+                status = "[PASS]" if v.passed else "[WARN]"
+                detail = f" -- {v.detail}" if v.detail else ""
+                lines.append(f"  {status} {v.check}{detail}")
+
+        tips = self.troubleshooting_tips()
+        if tips:
+            lines.append("")
+            lines.append("Troubleshooting Tips:")
+            for tip in tips:
+                lines.append(f"  • {tip}")
+
+        lines.append("")
+        lines.append("=" * 60)
+        return "\n".join(lines)
+
+    def html_table(self) -> str:
+        rows_steps = ""
+        for s in self.steps:
+            icon = "✅" if s.ok else "❌"
+            dur = f"{s.duration_s:.1f}s" if s.duration_s > 0 else "—"
+            detail = s.detail or "—"
+            rows_steps += f"<tr><td>{icon}</td><td>{s.name}</td><td>{dur}</td><td>{detail}</td></tr>\n"
+
+        rows_verify = ""
+        for v in self.verifications:
+            icon = "✅" if v.passed else "⚠️"
+            detail = v.detail or "—"
+            rows_verify += f"<tr><td>{icon}</td><td>{v.check}</td><td colspan='2'>{detail}</td></tr>\n"
+
+        tips_html = ""
+        tips = self.troubleshooting_tips()
+        if tips:
+            tip_items = "".join(f"<li>{t}</li>" for t in tips)
+            tips_html = f"""
+            <h4 style="margin: 12px 0 6px; color: #b91c1c;">Troubleshooting Tips</h4>
+            <ul style="font-size: 12px; color: #78716c; padding-left: 20px;">{tip_items}</ul>
+            """
+
+        return f"""
+        <h4 style="margin: 12px 0 6px; color: #0e7490;">Pipeline Steps</h4>
+        <table style="width: 100%; font-size: 12px; border-collapse: collapse;">
+          <tr style="background: #f5f5f4; text-align: left;">
+            <th style="padding: 4px 8px;"></th><th style="padding: 4px 8px;">Step</th>
+            <th style="padding: 4px 8px;">Time</th><th style="padding: 4px 8px;">Detail</th>
+          </tr>
+          {rows_steps}
+        </table>
+        <h4 style="margin: 12px 0 6px; color: #0e7490;">Content Verification</h4>
+        <table style="width: 100%; font-size: 12px; border-collapse: collapse;">
+          <tr style="background: #f5f5f4; text-align: left;">
+            <th style="padding: 4px 8px;"></th><th style="padding: 4px 8px;">Check</th>
+            <th colspan="2" style="padding: 4px 8px;">Detail</th>
+          </tr>
+          {rows_verify}
+        </table>
+        {tips_html}
+        """
+
+
+# ── Stopwords ────────────────────────────────────────────────────────────────
 STOPWORDS = {
     "the", "and", "for", "with", "that", "from", "this", "are", "was", "were", "have", "has",
     "had", "into", "your", "you", "our", "their", "about", "using", "used", "use", "based",
@@ -34,6 +194,7 @@ STOPWORDS = {
 }
 
 
+# ── Config & PDF ─────────────────────────────────────────────────────────────
 def load_config(path: Path) -> Dict:
     with path.open("r", encoding="utf-8") as f:
         return yaml.safe_load(f)
@@ -60,6 +221,7 @@ def extract_keywords(text: str, top_n: int) -> List[str]:
     return [w for w, _ in ranked[:top_n]]
 
 
+# ── Source Gathering ─────────────────────────────────────────────────────────
 def fetch_arxiv(keyword: str, max_items: int) -> List[Dict]:
     q = requests.utils.quote(keyword)
     url = f"https://export.arxiv.org/api/query?search_query=all:{q}&start=0&max_results={max_items}"
@@ -107,6 +269,7 @@ def gather_sources(keywords: List[str], max_per_keyword: int, use_news: bool) ->
     return merged[:30]
 
 
+# ── Source Ranking ───────────────────────────────────────────────────────────
 def build_ranking_prompt(sources: List[Dict], keywords: List[str]) -> str:
     """Build a prompt to rank sources by importance, popularity, innovation, and recency."""
     source_list = []
@@ -148,7 +311,7 @@ def rank_sources(sources: List[Dict], keywords: List[str], model: str, top_n: in
 
     api_key = os.getenv("OPENAI_API_KEY")
     if not api_key:
-        print("Warning: OPENAI_API_KEY not set, skipping source ranking")
+        log.warning("OPENAI_API_KEY not set, skipping source ranking")
         return sources[:top_n]
 
     prompt = build_ranking_prompt(sources, keywords)
@@ -179,17 +342,18 @@ def rank_sources(sources: List[Dict], keywords: List[str], model: str, top_n: in
                 ranked.append(sources[idx])
 
         if ranked:
-            print(f"Ranked {len(ranked)} sources from {len(sources)} candidates")
+            log.info(f"Ranked {len(ranked)} sources from {len(sources)} candidates")
             for s in ranked:
-                print(f"  [{s.get('rank_score', '?')}/40] {s['title'][:80]}")
+                log.info(f"  [{s.get('rank_score', '?')}/40] {s['title'][:80]}")
             return ranked
 
     except (json.JSONDecodeError, KeyError, ValueError) as e:
-        print(f"Warning: source ranking failed ({e}), using unranked sources")
+        log.warning(f"Source ranking parse failed ({e}), using unranked sources")
 
     return sources[:top_n]
 
 
+# ── Sample Sources (offline) ─────────────────────────────────────────────────
 def sample_sources(keywords: List[str]) -> List[Dict]:
     out = []
     for i, kw in enumerate(keywords[:5], start=1):
@@ -212,6 +376,7 @@ def markdown_links(sources: List[Dict]) -> str:
     return "\n".join(lines)
 
 
+# ── LLM Prompt & Generation ─────────────────────────────────────────────────
 def build_prompt(site_title: str, keywords: List[str], sources: List[Dict], today: str) -> str:
     links_md = markdown_links(sources)
     return f"""
@@ -235,21 +400,125 @@ Source links:
 """.strip()
 
 
-def generate_with_openai(prompt: str, model: str) -> str:
+def call_openai_with_retry(prompt: str, model: str, cfg: Dict) -> str:
+    """Call OpenAI with exponential backoff retry for transient errors."""
     if OpenAI is None:
         raise RuntimeError("openai package not available")
     api_key = os.getenv("OPENAI_API_KEY")
     if not api_key:
         raise RuntimeError("OPENAI_API_KEY is not set")
+
+    max_retries = int(cfg.get("llm", {}).get("max_retries", 3))
+    base_delay = float(cfg.get("llm", {}).get("retry_base_delay", 2.0))
+
     client = OpenAI(api_key=api_key)
-    resp = client.chat.completions.create(
-        model=model,
-        messages=[{"role": "user", "content": prompt}],
-        temperature=0.4,
+
+    # Build set of retryable error types (only if imported successfully)
+    retryable = tuple(
+        e for e in [RateLimitError, APITimeoutError, APIConnectionError, InternalServerError]
+        if e is not None
     )
-    return resp.choices[0].message.content.strip()
+
+    last_error = None
+    for attempt in range(1, max_retries + 1):
+        try:
+            log.info(f"OpenAI API call attempt {attempt}/{max_retries} (model={model})")
+            resp = client.chat.completions.create(
+                model=model,
+                messages=[{"role": "user", "content": prompt}],
+                temperature=0.4,
+            )
+            return resp.choices[0].message.content.strip()
+
+        except Exception as e:
+            last_error = e
+            # Never retry authentication errors
+            if AuthenticationError is not None and isinstance(e, AuthenticationError):
+                log.error(f"Authentication failed (not retryable): {e}")
+                raise
+
+            # Retry on known transient errors
+            if retryable and isinstance(e, retryable):
+                delay = base_delay * (2 ** (attempt - 1))
+                log.warning(f"Transient error on attempt {attempt}: {e}. Retrying in {delay:.1f}s...")
+                time.sleep(delay)
+                continue
+
+            # Unknown error — don't retry
+            log.error(f"Non-retryable error: {e}")
+            raise
+
+    raise RuntimeError(f"OpenAI API failed after {max_retries} attempts: {last_error}")
 
 
+# ── Content Verification ─────────────────────────────────────────────────────
+REQUIRED_SECTIONS = [
+    "## Why this matters",
+    "## What changed today",
+    "## My research angle",
+    "## References",
+]
+
+LLM_ARTIFACT_PATTERNS = [
+    (r"^```", "Wrapping code fence"),
+    (r"(?i)\bas an ai\b", "AI self-reference"),
+    (r"(?i)\bi am an? (?:language|ai)\b", "AI self-reference"),
+    (r"^# [^\n]+$", "Unexpected H1 heading (should start with intro paragraph)"),
+]
+
+
+def verify_draft(body: str, cfg: Dict, report: DiagnosticReport) -> str:
+    """Validate LLM output before saving. Returns cleaned body. Results go into report as verifications."""
+    min_words = int(cfg.get("content", {}).get("min_words", 700))
+    max_words = int(cfg.get("content", {}).get("max_words", 1100))
+
+    # Auto-strip wrapping code fences (common LLM artifact)
+    cleaned = body.strip()
+    if cleaned.startswith("```"):
+        cleaned = re.sub(r"^```(?:mdx|markdown|md)?\s*\n?", "", cleaned)
+        cleaned = re.sub(r"\n?\s*```\s*$", "", cleaned)
+        cleaned = cleaned.strip()
+        log.info("Auto-stripped wrapping code fences from LLM output")
+
+    # 1. Word count check
+    word_count = len(cleaned.split())
+    if min_words <= word_count <= max_words:
+        report.add_verify("Word count", True, f"{word_count} words (expected {min_words}-{max_words})")
+    else:
+        report.add_verify("Word count", False, f"{word_count} words (expected {min_words}-{max_words})")
+
+    # 2. Required sections
+    missing = [s for s in REQUIRED_SECTIONS if s.lower() not in cleaned.lower()]
+    if not missing:
+        report.add_verify("Required sections", True, f"All {len(REQUIRED_SECTIONS)} sections present")
+    else:
+        report.add_verify("Required sections", False, f"Missing: {', '.join(missing)}")
+
+    # 3. Reference links
+    ref_section = re.search(r"##\s+References\s*\n([\s\S]*?)(?:\n##|\Z)", cleaned)
+    if ref_section:
+        links = re.findall(r"\[.+?\]\(https?://.+?\)", ref_section.group(1))
+        if links:
+            report.add_verify("Reference links", True, f"{len(links)} links found")
+        else:
+            report.add_verify("Reference links", False, "References section has no markdown links")
+    else:
+        report.add_verify("Reference links", False, "No References section found to check links")
+
+    # 4. LLM artifacts
+    artifacts_found = []
+    for pattern, label in LLM_ARTIFACT_PATTERNS:
+        if re.search(pattern, cleaned, re.MULTILINE):
+            artifacts_found.append(label)
+    if not artifacts_found:
+        report.add_verify("LLM artifacts", True, "Clean")
+    else:
+        report.add_verify("LLM artifacts", False, "; ".join(artifacts_found))
+
+    return cleaned
+
+
+# ── Build helpers ────────────────────────────────────────────────────────────
 def build_title(keywords: List[str], today: str) -> str:
     key = keywords[0].replace("-", " ").title() if keywords else "Research"
     return f"Research Update: {key} ({today})"
@@ -316,6 +585,7 @@ def save_pending_mdx(frontmatter: str, body: str, pending_dir: Path, title: str)
     return path, base_slug
 
 
+# ── Notification ─────────────────────────────────────────────────────────────
 def build_publish_url(cfg: Dict, draft_filename: str, slug: str) -> str:
     """Build a GitHub Actions workflow_dispatch URL for one-click publish."""
     gh = cfg.get("github", {})
@@ -327,8 +597,9 @@ def build_publish_url(cfg: Dict, draft_filename: str, slug: str) -> str:
     return f"https://github.com/{owner}/{repo}/actions/workflows/publish-draft.yml"
 
 
-def build_email_html(slug: str, draft_filename: str, draft_preview: str, publish_url: str) -> str:
-    """Build an HTML email with draft preview and one-click publish button."""
+def build_email_html(slug: str, draft_filename: str, draft_preview: str, publish_url: str,
+                     report: Optional[DiagnosticReport] = None) -> str:
+    """Build an HTML email with draft preview, diagnostic report, and one-click publish button."""
     preview_html = draft_preview.replace("\n", "<br>").replace(" ", "&nbsp;")
     publish_button = ""
     if publish_url:
@@ -347,6 +618,19 @@ def build_email_html(slug: str, draft_filename: str, draft_preview: str, publish
         </div>
         """
 
+    # Diagnostic report section
+    diagnostic_html = ""
+    if report:
+        diagnostic_html = f"""
+        <div style="background: #f5f5f4; border: 1px solid #e7e5e4; border-radius: 8px;
+                    padding: 12px; margin: 16px 0;">
+          <h3 style="margin: 0 0 8px; color: #0e7490; font-size: 14px; text-transform: uppercase; letter-spacing: 0.5px;">
+            Pipeline Diagnostics
+          </h3>
+          {report.html_table()}
+        </div>
+        """
+
     return f"""
     <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
                 max-width: 600px; margin: 0 auto; color: #1c1917;">
@@ -360,6 +644,8 @@ def build_email_html(slug: str, draft_filename: str, draft_preview: str, publish
       <div style="background: #fafaf9; border: 1px solid #e7e5e4; border-top: none;
                   padding: 20px; border-radius: 0 0 12px 12px;">
         {publish_button}
+
+        {diagnostic_html}
 
         <h3 style="margin: 16px 0 8px; color: #0e7490; font-size: 14px; text-transform: uppercase; letter-spacing: 0.5px;">
           Draft Preview
@@ -428,7 +714,40 @@ def send_telegram_notification(cfg: Dict, message: str):
         raise RuntimeError(f"Telegram notification failed: {resp.status_code} {resp.text}")
 
 
-def notify_new_draft(cfg: Dict, draft_path: Path, slug: str, draft_content: str):
+def _send_error_notification(cfg: Dict, error_msg: str, report: Optional[DiagnosticReport] = None):
+    """Send a failure report email when pipeline fails before creating a draft."""
+    subject = "[Blog Pipeline] ❌ Draft generation failed"
+    plain_text = f"Blog draft generation failed.\n\nError: {error_msg}\n"
+    if report:
+        plain_text += report.summary_text()
+
+    diagnostic_html = report.html_table() if report else ""
+    html_body = f"""
+    <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+                max-width: 600px; margin: 0 auto; color: #1c1917;">
+      <div style="background: linear-gradient(135deg, #b91c1c, #991b1b); padding: 24px; border-radius: 12px 12px 0 0;">
+        <h1 style="margin: 0; color: white; font-size: 20px;">❌ Blog Draft Generation Failed</h1>
+      </div>
+      <div style="background: #fafaf9; border: 1px solid #e7e5e4; border-top: none;
+                  padding: 20px; border-radius: 0 0 12px 12px;">
+        <div style="background: #fef2f2; border: 1px solid #fecaca; border-radius: 8px; padding: 12px; margin-bottom: 16px;">
+          <p style="margin: 0; color: #991b1b; font-size: 14px;"><strong>Error:</strong> {error_msg}</p>
+        </div>
+        {diagnostic_html}
+      </div>
+    </div>
+    """
+
+    try:
+        send_email_notification(cfg, subject, plain_text, html_body)
+        log.info("Error notification email sent")
+    except Exception as e:
+        log.warning(f"Failed to send error notification: {e}")
+
+
+def notify_new_draft(cfg: Dict, draft_path: Path, slug: str, draft_content: str,
+                     report: Optional[DiagnosticReport] = None):
+    """Send notification about new draft. Never raises — errors are logged but don't crash the pipeline."""
     draft_filename = draft_path.name
     subject = f"[Blog Draft] New pending draft: {slug}"
 
@@ -447,17 +766,17 @@ def notify_new_draft(cfg: Dict, draft_path: Path, slug: str, draft_content: str)
         "Or publish manually:\n"
         "python blog_automation/approve_and_publish.py"
     )
+    if report:
+        plain_text += "\n" + report.summary_text()
 
     # Draft preview (first 30 lines)
     preview_lines = draft_content.strip().splitlines()[:30]
     draft_preview = "\n".join(preview_lines)
 
-    # HTML email with publish button
-    html_body = build_email_html(slug, draft_filename, draft_preview, publish_url)
+    # HTML email with publish button and diagnostics
+    html_body = build_email_html(slug, draft_filename, draft_preview, publish_url, report)
 
-    strict = bool(cfg.get("notifications", {}).get("fail_on_error", False))
     errors = []
-
     try:
         send_email_notification(cfg, subject, plain_text, html_body)
     except Exception as e:
@@ -470,59 +789,126 @@ def notify_new_draft(cfg: Dict, draft_path: Path, slug: str, draft_content: str)
 
     if errors:
         text = " | ".join(errors)
-        if strict:
-            raise RuntimeError(f"Notification error(s): {text}")
-        print(f"Warning: notification error(s): {text}")
+        # Notifications never block the pipeline — draft is already saved
+        log.warning(f"Notification error(s): {text}")
 
 
+# ── Main Pipeline ────────────────────────────────────────────────────────────
 def main() -> None:
-    parser = argparse.ArgumentParser(description="Generate a daily MDX blog draft from CV keywords + daily updates")
+    parser = argparse.ArgumentParser(description="Generate a blog draft from CV keywords + research updates")
     parser.add_argument("--config", default="./blog_automation/config/config.yaml", help="Path to YAML config")
     parser.add_argument("--offline", action="store_true", help="Use synthetic sources and skip network/LLM for local testing")
     args = parser.parse_args()
 
+    report = DiagnosticReport()
     cfg = load_config(Path(args.config))
-    cv_path = Path(os.getenv("CV_PDF_PATH", cfg["content"]["cv_pdf_path"]))
-    manual_keywords = cfg["content"].get("manual_keywords", [])
-    keyword_count = int(cfg["content"].get("keyword_count", 10))
-    max_per_keyword = int(cfg["content"].get("max_sources_per_keyword", 2))
 
-    cv_text = extract_text_from_pdf(cv_path)
-    cv_keywords = extract_keywords(cv_text, keyword_count)
-    keywords = list(dict.fromkeys(manual_keywords + cv_keywords))[:keyword_count]
+    # ── Step 1: Keyword extraction ────────────────────────────────────────
+    t0 = time.time()
+    try:
+        cv_path = Path(os.getenv("CV_PDF_PATH", cfg["content"]["cv_pdf_path"]))
+        manual_keywords = cfg["content"].get("manual_keywords", [])
+        keyword_count = int(cfg["content"].get("keyword_count", 10))
 
-    use_news = bool(cfg["feeds"].get("google_news_rss", True))
-    if args.offline:
-        sources = sample_sources(keywords)
-    else:
-        sources = gather_sources(keywords, max_per_keyword, use_news)
-    if not sources:
-        raise RuntimeError("No sources fetched. Check internet connectivity or keyword quality.")
+        cv_text = extract_text_from_pdf(cv_path)
+        cv_keywords = extract_keywords(cv_text, keyword_count)
+        keywords = list(dict.fromkeys(manual_keywords + cv_keywords))[:keyword_count]
 
+        dur = time.time() - t0
+        report.add_step("Keyword extraction", True, dur, f"{len(keywords)} keywords")
+        log.info(f"Extracted {len(keywords)} keywords in {dur:.1f}s")
+    except Exception as e:
+        dur = time.time() - t0
+        report.add_step("Keyword extraction", False, dur, str(e))
+        log.error(f"Keyword extraction failed: {e}")
+        log.info(report.summary_text())
+        _send_error_notification(cfg, str(e), report)
+        raise
+
+    # ── Step 2: Source gathering ──────────────────────────────────────────
+    t0 = time.time()
+    try:
+        max_per_keyword = int(cfg["content"].get("max_sources_per_keyword", 2))
+        use_news = bool(cfg["feeds"].get("google_news_rss", True))
+
+        if args.offline:
+            sources = sample_sources(keywords)
+        else:
+            sources = gather_sources(keywords, max_per_keyword, use_news)
+
+        if not sources:
+            raise RuntimeError("No sources fetched. Check internet connectivity or keyword quality.")
+
+        dur = time.time() - t0
+        report.add_step("Source gathering", True, dur, f"{len(sources)} sources")
+        log.info(f"Gathered {len(sources)} sources in {dur:.1f}s")
+    except Exception as e:
+        dur = time.time() - t0
+        report.add_step("Source gathering", False, dur, str(e))
+        log.error(f"Source gathering failed: {e}")
+        log.info(report.summary_text())
+        _send_error_notification(cfg, str(e), report)
+        raise
+
+    # ── Step 3: Source ranking ────────────────────────────────────────────
     today = dt.date.today().isoformat()
     site_title = cfg["site"]["title"]
     use_openai = bool(cfg["llm"].get("use_openai", True))
     model = cfg["llm"].get("model", "gpt-4o-mini")
     top_sources = int(cfg["content"].get("top_sources", 8))
 
-    # Rank and filter sources for quality (important, popular, innovative, new)
+    t0 = time.time()
     if use_openai and not args.offline and len(sources) > top_sources:
-        print(f"Ranking {len(sources)} sources to select top {top_sources}...")
-        sources = rank_sources(sources, keywords, model, top_n=top_sources)
-
-    if use_openai and not args.offline:
-        prompt = build_prompt(site_title, keywords, sources, today)
-        body = generate_with_openai(prompt, model)
+        try:
+            log.info(f"Ranking {len(sources)} sources to select top {top_sources}...")
+            sources = rank_sources(sources, keywords, model, top_n=top_sources)
+            dur = time.time() - t0
+            report.add_step("Source ranking", True, dur, f"Top {len(sources)} selected")
+            log.info(f"Source ranking complete in {dur:.1f}s")
+        except Exception as e:
+            dur = time.time() - t0
+            report.add_step("Source ranking", False, dur, f"Fallback to unranked: {e}")
+            log.warning(f"Source ranking failed ({e}), continuing with unranked sources")
+            sources = sources[:top_sources]
     else:
-        body = (
-            "This is a generated daily summary draft.\n\n"
-            "## Why this matters\n\n"
-            "## What changed today\n\n"
-            "## My research angle\n\n"
-            "## References\n\n"
-            + markdown_links(sources[:10])
-        )
+        report.add_step("Source ranking", True, 0.0, "Skipped (offline or few sources)")
 
+    # ── Step 4: Draft generation ──────────────────────────────────────────
+    t0 = time.time()
+    try:
+        if use_openai and not args.offline:
+            prompt = build_prompt(site_title, keywords, sources, today)
+            body = call_openai_with_retry(prompt, model, cfg)
+        else:
+            body = (
+                "This is a generated summary draft.\n\n"
+                "## Why this matters\n\n"
+                "## What changed today\n\n"
+                "## My research angle\n\n"
+                "## References\n\n"
+                + markdown_links(sources[:10])
+            )
+
+        dur = time.time() - t0
+        word_count = len(body.split())
+        report.add_step("Draft generation", True, dur, f"{word_count} words via {model}")
+        log.info(f"Draft generated in {dur:.1f}s ({word_count} words)")
+    except Exception as e:
+        dur = time.time() - t0
+        report.add_step("Draft generation", False, dur, str(e))
+        log.error(f"Draft generation failed: {e}")
+        log.info(report.summary_text())
+        _send_error_notification(cfg, str(e), report)
+        raise
+
+    # ── Step 5: Content verification ──────────────────────────────────────
+    t0 = time.time()
+    body = verify_draft(body, cfg, report)
+    dur = time.time() - t0
+    report.add_step("Content verification", True, dur, "All checks recorded")
+    log.info(f"Content verification complete in {dur:.1f}s")
+
+    # ── Step 6: Save draft ────────────────────────────────────────────────
     title = build_title(keywords, today)
     description = build_description(keywords)
     tags = [k.replace("-", " ") for k in keywords[:6]]
@@ -531,9 +917,14 @@ def main() -> None:
 
     full_content = frontmatter + "\n" + body.strip() + "\n"
     out, slug = save_pending_mdx(frontmatter, body, Path("./blog_automation/drafts/pending"), title)
-    print(f"Draft created: {out}")
-    print(f"Suggested slug: {slug}")
-    notify_new_draft(cfg, out, slug, full_content)
+    log.info(f"Draft saved: {out}")
+    log.info(f"Slug: {slug}")
+
+    # ── Step 7: Notification (non-blocking) ───────────────────────────────
+    notify_new_draft(cfg, out, slug, full_content, report)
+
+    # ── Print full diagnostic report to CI logs ───────────────────────────
+    log.info(report.summary_text())
 
 
 if __name__ == "__main__":

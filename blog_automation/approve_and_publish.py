@@ -1,12 +1,22 @@
 #!/usr/bin/env python3
 import argparse
 import difflib
+import logging
 import re
 import shutil
+import time
 from pathlib import Path
 
 import requests
 import yaml
+
+# ── Logging ──────────────────────────────────────────────────────────────────
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s [%(levelname)s] %(message)s",
+    datefmt="%Y-%m-%d %H:%M:%S",
+)
+log = logging.getLogger("approve_publish")
 
 
 def load_config(path: Path):
@@ -64,16 +74,22 @@ def extract_reference_links(body: str):
     return re.findall(r"\[[^\]]+\]\((https?://[^)]+)\)", refs_block)
 
 
-def check_links_reachable(links, timeout_sec: int):
+def check_links_reachable(links, timeout_sec: int, delay: float = 0.5):
     bad = []
-    for link in links:
+    for i, link in enumerate(links):
+        # Rate limit between requests
+        if i > 0 and delay > 0:
+            time.sleep(delay)
         try:
+            log.info(f"  Checking link {i + 1}/{len(links)}: {link[:80]}")
             r = requests.head(link, allow_redirects=True, timeout=timeout_sec)
             if r.status_code >= 400 or r.status_code < 200:
                 r = requests.get(link, allow_redirects=True, timeout=timeout_sec)
                 if r.status_code >= 400 or r.status_code < 200:
+                    log.warning(f"  Unreachable ({r.status_code}): {link}")
                     bad.append((link, r.status_code))
         except Exception:
+            log.warning(f"  Error reaching: {link}")
             bad.append((link, "error"))
     return bad
 
@@ -104,29 +120,47 @@ def run_quality_guards(raw_text: str, cfg: dict, content_dir: Path):
     min_links = int(guards.get("min_reference_links", 4))
     check_reachability = bool(guards.get("check_link_reachability", True))
     timeout_sec = int(guards.get("link_timeout_seconds", 8))
+    link_check_delay = float(guards.get("link_check_delay", 0.5))
     plagiarism_threshold = float(guards.get("max_similarity_ratio", 0.72))
 
     _, body = split_frontmatter_and_body(raw_text)
     refs = extract_reference_links(body)
     errors = []
 
+    # Guard 1: References section exists
     if "## References" not in body:
+        log.warning("Missing '## References' section")
         errors.append("Missing '## References' section.")
-    if len(refs) < min_links:
-        errors.append(f"Reference links too few: found {len(refs)}, need at least {min_links}.")
 
+    # Guard 2: Minimum reference links
+    if len(refs) < min_links:
+        log.warning(f"Reference links too few: {len(refs)}/{min_links}")
+        errors.append(f"Reference links too few: found {len(refs)}, need at least {min_links}.")
+    else:
+        log.info(f"Reference links: {len(refs)} (min: {min_links})")
+
+    # Guard 3: Link reachability (rate-limited)
     if check_reachability and refs:
-        bad_links = check_links_reachable(refs, timeout_sec)
+        log.info(f"Checking {len(refs)} reference links (delay={link_check_delay}s)...")
+        bad_links = check_links_reachable(refs, timeout_sec, delay=link_check_delay)
         if bad_links:
             bad_preview = ", ".join(f"{u} ({s})" for u, s in bad_links[:3])
+            log.warning(f"Unreachable links: {bad_preview}")
             errors.append(f"Unreachable reference links detected: {bad_preview}")
+        else:
+            log.info("All reference links reachable")
 
+    # Guard 4: Plagiarism/similarity check
+    log.info("Running similarity check against existing posts...")
     sim_ratio, sim_file = max_similarity_with_existing(body, content_dir)
     if sim_ratio > plagiarism_threshold:
+        log.warning(f"High similarity: {sim_ratio:.2f} (threshold: {plagiarism_threshold})")
         errors.append(
             f"Plagiarism/self-duplication risk: similarity {sim_ratio:.2f} exceeds {plagiarism_threshold:.2f}"
             + (f" (closest: {sim_file})" if sim_file else "")
         )
+    else:
+        log.info(f"Similarity check passed: {sim_ratio:.2f} (threshold: {plagiarism_threshold})")
 
     return errors
 
@@ -151,12 +185,12 @@ def main() -> None:
     else:
         drafts = list_pending(pending_dir)
         if not drafts:
-            print("No pending drafts to publish.")
+            log.info("No pending drafts to publish.")
             return
         src = drafts[-1]
 
-    print(f"Selected draft: {src}")
-    print("Preview (first 35 lines):")
+    log.info(f"Selected draft: {src}")
+    log.info("Preview (first 35 lines):")
     raw_text = ""
     with src.open("r", encoding="utf-8") as f:
         raw_text = f.read()
@@ -166,19 +200,22 @@ def main() -> None:
             print(line.rstrip("\n"))
 
     if not args.force:
+        log.info("Running quality guards...")
         errors = run_quality_guards(raw_text, cfg, content_dir)
         if errors:
-            print("\nQuality guards blocked publishing:")
+            log.error("Quality guards blocked publishing:")
             for e in errors:
-                print(f"- {e}")
-            print("Fix draft and try again, or use --force to override.")
+                log.error(f"  - {e}")
+            log.info("Fix draft and try again, or use --force to override.")
             return
-        print("\nQuality guards passed.")
+        log.info("All quality guards passed.")
+    else:
+        log.info("Quality guards skipped (--force)")
 
     if not args.yes:
         reply = input("Publish this draft to content/blog for your website? [y/N]: ").strip().lower()
         if reply != "y":
-            print("Cancelled. Draft remains pending.")
+            log.info("Cancelled. Draft remains pending.")
             return
 
     slug = extract_slug_from_filename(src)
@@ -189,8 +226,8 @@ def main() -> None:
     with dst.open("w", encoding="utf-8") as f:
         f.write(clean_text)
     src.unlink()
-    print(f"Published to site content: {dst}")
-    print("Next: commit and deploy your site to make it live.")
+    log.info(f"Published to site content: {dst}")
+    log.info("Next: commit and deploy your site to make it live.")
 
 
 if __name__ == "__main__":

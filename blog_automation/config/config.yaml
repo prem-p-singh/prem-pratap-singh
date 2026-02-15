@@ -13,6 +13,8 @@ content:
   keyword_count: 12
   max_sources_per_keyword: 3
   top_sources: 8  # number of best sources to keep after LLM ranking
+  min_words: 700
+  max_words: 1100
 
 feeds:
   google_news_rss: true
@@ -20,6 +22,8 @@ feeds:
 llm:
   use_openai: true
   model: "gpt-5.2"
+  max_retries: 3
+  retry_base_delay: 2.0
 
 author:
   name: "Prem Pratap Singh"
@@ -32,9 +36,10 @@ guards:
   check_link_reachability: true
   link_timeout_seconds: 8
   max_similarity_ratio: 0.72
+  link_check_delay: 0.5
 
 notifications:
-  fail_on_error: true
+  fail_on_error: false
   email:
     enabled: true
     port: 587
