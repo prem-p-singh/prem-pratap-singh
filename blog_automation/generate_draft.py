@@ -103,6 +103,8 @@ class DiagnosticReport:
                     tips.append(f"Word count issue: {v.detail}. Consider adjusting the prompt's length instructions or config min_words/max_words.")
                 elif "section" in v.check.lower():
                     tips.append(f"Missing sections: {v.detail}. The LLM may have deviated from the prompt structure.")
+                elif "reference accuracy" in v.check.lower():
+                    tips.append(f"Reference accuracy issue: {v.detail}. The LLM hallucinated URLs that were auto-replaced with real fetched sources.")
                 elif "reference" in v.check.lower():
                     tips.append("Few or no reference links found. Check that sources were passed to the LLM prompt.")
                 elif "artifact" in v.check.lower():
@@ -388,9 +390,16 @@ Required outcome:
 - Start with a short intro paragraph (no top-level # heading).
 - Include sections: ## Why this matters, ## What changed today, ## My research angle, ## References.
 - Keep factual claims grounded in provided sources.
-- In References, include markdown links exactly from the provided list.
 - Tone: professional, thoughtful, suitable for a personal research website.
 - Keep it concise (700-1100 words).
+
+CRITICAL — References section rules:
+- In the ## References section, you MUST use ONLY the exact URLs from the "Source links" list below.
+- Copy each URL verbatim — do NOT modify, shorten, generalize, or invent any URL.
+- Do NOT link to journal homepages (e.g., frontiersin.org/journals/...) — use the specific article URLs provided.
+- Do NOT hallucinate or fabricate any reference that is not in the source list.
+- Every reference must use the markdown format: [Title](exact_url_from_list)
+- Include at least 4 references from the provided sources.
 
 Author keyword profile:
 {', '.join(keywords)}
@@ -467,7 +476,132 @@ LLM_ARTIFACT_PATTERNS = [
 ]
 
 
-def verify_draft(body: str, cfg: Dict, report: DiagnosticReport) -> str:
+def _normalize_url(url: str) -> str:
+    """Normalize a URL for comparison: strip protocol, www, trailing slash, query params."""
+    url = re.sub(r"^https?://", "", url)
+    url = re.sub(r"^www\.", "", url)
+    url = url.rstrip("/")
+    url = url.split("?")[0]  # strip query params
+    return url.lower()
+
+
+def _title_word_overlap(title_a: str, title_b: str) -> float:
+    """Compute word overlap ratio between two titles."""
+    words_a = set(re.findall(r"[a-z]{3,}", title_a.lower()))
+    words_b = set(re.findall(r"[a-z]{3,}", title_b.lower()))
+    if not words_a or not words_b:
+        return 0.0
+    intersection = words_a & words_b
+    return len(intersection) / min(len(words_a), len(words_b))
+
+
+def enforce_real_references(body: str, sources: List[Dict], min_links: int = 4) -> Tuple[str, int, int]:
+    """Replace hallucinated references with real fetched URLs.
+
+    Returns (cleaned_body, replaced_count, kept_count).
+    """
+    # Split body at ## References
+    ref_match = re.search(r"(##\s+References\s*\n)", body)
+    if not ref_match:
+        return body, 0, 0
+
+    before_refs = body[:ref_match.start()]
+    refs_header = ref_match.group(1)
+    after_header = body[ref_match.end():]
+
+    # Find where references end (next ## section or end of string)
+    next_section = re.search(r"\n##\s+", after_header)
+    if next_section:
+        refs_text = after_header[:next_section.start()]
+        after_refs = after_header[next_section.start():]
+    else:
+        refs_text = after_header
+        after_refs = ""
+
+    # Extract [title](url) from references section
+    ref_pattern = re.compile(r"-?\s*\[([^\]]+)\]\((https?://[^)]+)\)")
+    found_refs = ref_pattern.findall(refs_text)
+
+    # Build real URL set and lookup
+    real_urls = {_normalize_url(s["link"]): s for s in sources if s.get("link")}
+
+    kept = []
+    replaced = []
+    used_real_urls = set()
+
+    for ref_title, ref_url in found_refs:
+        norm_ref = _normalize_url(ref_url)
+
+        # Check exact match
+        if norm_ref in real_urls:
+            kept.append((ref_title, ref_url))
+            used_real_urls.add(norm_ref)
+            continue
+
+        # Try domain match + title overlap
+        best_match = None
+        best_score = 0.0
+        for norm_real, source in real_urls.items():
+            if norm_real in used_real_urls:
+                continue
+            # Check if domains match
+            ref_domain = norm_ref.split("/")[0] if "/" in norm_ref else norm_ref
+            real_domain = norm_real.split("/")[0] if "/" in norm_real else norm_real
+            if ref_domain == real_domain:
+                score = _title_word_overlap(ref_title, source["title"])
+                if score > best_score:
+                    best_score = score
+                    best_match = source
+
+        if best_match and best_score > 0.2:
+            log.info(f"  Replaced hallucinated ref: {ref_url[:60]} → {best_match['link'][:60]}")
+            kept.append((best_match["title"], best_match["link"]))
+            used_real_urls.add(_normalize_url(best_match["link"]))
+            replaced.append(ref_url)
+            continue
+
+        # No domain match — try pure title overlap as fallback
+        best_match = None
+        best_score = 0.0
+        for norm_real, source in real_urls.items():
+            if norm_real in used_real_urls:
+                continue
+            score = _title_word_overlap(ref_title, source["title"])
+            if score > best_score:
+                best_score = score
+                best_match = source
+
+        if best_match and best_score > 0.4:
+            log.info(f"  Replaced hallucinated ref (title match): {ref_url[:60]} → {best_match['link'][:60]}")
+            kept.append((best_match["title"], best_match["link"]))
+            used_real_urls.add(_normalize_url(best_match["link"]))
+            replaced.append(ref_url)
+        else:
+            # No match — drop this reference
+            log.info(f"  Removed hallucinated ref (no match): [{ref_title[:40]}]({ref_url[:60]})")
+
+    # If we have fewer than min_links, append unused real sources
+    if len(kept) < min_links:
+        for norm_real, source in real_urls.items():
+            if norm_real in used_real_urls:
+                continue
+            kept.append((source["title"], source["link"]))
+            used_real_urls.add(norm_real)
+            log.info(f"  Added missing ref: {source['title'][:60]}")
+            if len(kept) >= min_links:
+                break
+
+    # Rebuild references section
+    ref_lines = []
+    for title, url in kept:
+        ref_lines.append(f"- [{title}]({url})")
+    new_refs_text = "\n".join(ref_lines) + "\n"
+
+    cleaned_body = before_refs + refs_header + new_refs_text + after_refs
+    return cleaned_body, len(replaced), len(kept)
+
+
+def verify_draft(body: str, cfg: Dict, report: DiagnosticReport, sources: Optional[List[Dict]] = None) -> str:
     """Validate LLM output before saving. Returns cleaned body. Results go into report as verifications."""
     min_words = int(cfg.get("content", {}).get("min_words", 700))
     max_words = int(cfg.get("content", {}).get("max_words", 1100))
@@ -479,6 +613,17 @@ def verify_draft(body: str, cfg: Dict, report: DiagnosticReport) -> str:
         cleaned = re.sub(r"\n?\s*```\s*$", "", cleaned)
         cleaned = cleaned.strip()
         log.info("Auto-stripped wrapping code fences from LLM output")
+
+    # 0. Enforce real references (replace hallucinated URLs with fetched ones)
+    if sources:
+        min_ref_links = int(cfg.get("guards", {}).get("min_reference_links", 4))
+        cleaned, replaced_count, kept_count = enforce_real_references(cleaned, sources, min_links=min_ref_links)
+        if replaced_count > 0:
+            report.add_verify("Reference accuracy", False,
+                              f"{replaced_count} hallucinated URL(s) replaced, {kept_count} total refs kept")
+        else:
+            report.add_verify("Reference accuracy", True,
+                              f"All {kept_count} references use real fetched URLs")
 
     # 1. Word count check
     word_count = len(cleaned.split())
@@ -903,7 +1048,7 @@ def main() -> None:
 
     # ── Step 5: Content verification ──────────────────────────────────────
     t0 = time.time()
-    body = verify_draft(body, cfg, report)
+    body = verify_draft(body, cfg, report, sources)
     dur = time.time() - t0
     report.add_step("Content verification", True, dur, "All checks recorded")
     log.info(f"Content verification complete in {dur:.1f}s")
