@@ -8,8 +8,11 @@ import PublicationsList from "@/components/PublicationsList";
 import EducationTimeline from "@/components/EducationTimeline";
 import ScholarAnalytics from "@/components/ScholarAnalytics";
 import ProjectIllustration from "@/components/ProjectIllustration";
+import { getAllPosts } from "@/lib/mdx";
 
 export default function Home() {
+  const latestPosts = getAllPosts().slice(0, 3);
+
   return (
     <>
       {/* Hero Section */}
@@ -369,6 +372,60 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+      {/* Blog Section */}
+      {latestPosts.length > 0 && (
+        <section id="blog" className="py-20 section-divider">
+          <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="flex items-center justify-between mb-12">
+              <h2 className="section-title">Latest from the Blog</h2>
+              <Link
+                href="/blog"
+                className="text-sm font-medium text-primary hover:underline transition-colors"
+              >
+                View all posts &rarr;
+              </Link>
+            </div>
+
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {latestPosts.map((post) => (
+                <Link
+                  key={post.slug}
+                  href={`/blog/${post.slug}`}
+                  className="group glass-card glow-hover p-6"
+                >
+                  <div className="flex flex-wrap gap-2 mb-3">
+                    {post.tags.slice(0, 2).map((tag) => (
+                      <span
+                        key={tag}
+                        className="px-2 py-0.5 text-xs bg-muted text-muted-foreground rounded"
+                      >
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                  <h3 className="text-lg font-semibold text-foreground mb-2 line-clamp-2 group-hover:text-primary transition-colors">
+                    {post.title}
+                  </h3>
+                  <p className="text-sm text-muted-foreground mb-4 line-clamp-3">
+                    {post.description}
+                  </p>
+                  <div className="flex items-center justify-between text-xs text-muted-foreground">
+                    <time dateTime={post.date}>
+                      {new Date(post.date).toLocaleDateString("en-US", {
+                        year: "numeric",
+                        month: "short",
+                        day: "numeric",
+                      })}
+                    </time>
+                    <span>{post.readingTime}</span>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
 
       {/* Contact Section */}
       <section id="contact" className="py-20 section-divider">
