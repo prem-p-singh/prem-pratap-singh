@@ -1,5 +1,14 @@
 @import "tailwindcss";
 
+/* Hide Vercel deployment badge */
+#vercel-live-feedback,
+.vercel-live-feedback,
+[data-vercel-live-feedback],
+a[aria-label="Vercel Logo"],
+img[alt="Vercel Logo"] {
+  display: none !important;
+}
+
 /* ═══════════════════════════════════════════════════════════════════════════
    Dark-first color system
    :root = dark (default), .light = light override
