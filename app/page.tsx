@@ -13,14 +13,19 @@ export default function Home() {
   return (
     <>
       {/* Hero Section */}
-      <section className="min-h-screen flex items-center pt-16">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+      <section className="min-h-screen flex items-center pt-16 relative overflow-hidden">
+        {/* Dot grid background */}
+        <div className="absolute inset-0 bg-dot-grid opacity-40" />
+        {/* Radial glow */}
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-primary/5 rounded-full blur-3xl pointer-events-none" />
+
+        <div className="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div className="order-2 lg:order-2">
               <p className="text-lg text-muted-foreground mb-2">
                 Hello, I am
               </p>
-              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-foreground mb-4">
+              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold gradient-text mb-4">
                 {personal.name}
               </h1>
               <h2 className="text-2xl sm:text-3xl lg:text-4xl font-semibold text-muted-foreground mb-6">
@@ -122,7 +127,7 @@ export default function Home() {
             <div className="order-1 lg:order-1 flex justify-center">
               <div className="relative w-72 h-72 sm:w-80 sm:h-80 lg:w-96 lg:h-96 float-animation">
                 <div className="absolute inset-0 bg-gradient-to-br from-primary/20 to-accent/20 rounded-full blur-3xl" />
-                <div className="relative w-full h-full rounded-full overflow-hidden border-4 border-background shadow-2xl">
+                <div className="relative w-full h-full rounded-full overflow-hidden border-4 border-border shadow-2xl">
                   <Image
                     src="/images/profile.jpg"
                     alt={personal.name}
@@ -138,7 +143,7 @@ export default function Home() {
       </section>
 
       {/* About Section */}
-      <section id="about" className="py-20 section-alt">
+      <section id="about" className="py-20 section-divider">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className="section-title mb-12">About Me</h2>
 
@@ -164,7 +169,7 @@ export default function Home() {
             </div>
 
             {/* Skills */}
-            <div className="bg-card rounded-xl p-6 border border-border">
+            <div className="glass-card glow-hover p-6">
               <h3 className="text-lg font-semibold text-foreground mb-6">Skills & Expertise</h3>
               <div className="space-y-6">
                 {skills.map((skillGroup, index) => (
@@ -174,7 +179,7 @@ export default function Home() {
                       {skillGroup.items.map((skill, i) => (
                         <span
                           key={i}
-                          className="px-3 py-1 text-sm bg-muted text-muted-foreground rounded-md hover:bg-primary hover:text-white transition-colors cursor-default"
+                          className="px-3 py-1 text-sm bg-muted text-muted-foreground rounded-md hover:bg-primary hover:text-primary-foreground transition-colors cursor-default"
                         >
                           {skill}
                         </span>
@@ -189,7 +194,7 @@ export default function Home() {
       </section>
 
       {/* Experience Section */}
-      <section id="experience" className="py-20">
+      <section id="experience" className="py-20 section-divider">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className="section-title mb-16">Experience</h2>
 
@@ -298,7 +303,7 @@ export default function Home() {
       </section>
 
       {/* Education Section */}
-      <section id="education" className="py-20 section-alt">
+      <section id="education" className="py-20 section-divider">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className="section-title mb-12">Education</h2>
 
@@ -307,7 +312,7 @@ export default function Home() {
       </section>
 
       {/* Research Impact / Analytics Section */}
-      <section id="publications" className="py-20">
+      <section id="publications" className="py-20 section-divider">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className="section-title mb-12">Research Impact</h2>
 
@@ -327,7 +332,7 @@ export default function Home() {
       </section>
 
       {/* Projects Section */}
-      <section id="projects" className="py-20 section-alt">
+      <section id="projects" className="py-20 section-divider">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className="section-title mb-12">Research Projects</h2>
 
@@ -335,7 +340,7 @@ export default function Home() {
             {projects.map((project, index) => (
               <div
                 key={index}
-                className="group bg-card rounded-xl overflow-hidden border border-border card-hover"
+                className="group glass-card glow-hover overflow-hidden"
               >
                 {/* Project Illustration */}
                 <ProjectIllustration projectIndex={index} />
@@ -352,7 +357,7 @@ export default function Home() {
                     {project.tech.map((t) => (
                       <span
                         key={t}
-                        className="px-2 py-1 text-xs bg-muted text-muted-foreground rounded"
+                        className="px-2 py-1 text-xs bg-muted text-muted-foreground rounded border border-border"
                       >
                         {t}
                       </span>
@@ -366,7 +371,7 @@ export default function Home() {
       </section>
 
       {/* Contact Section */}
-      <section id="contact" className="py-20">
+      <section id="contact" className="py-20 section-divider">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="max-w-2xl mx-auto text-center">
             <h2 className="section-title mx-auto mb-8">Get In Touch</h2>
@@ -405,7 +410,7 @@ export default function Home() {
                   href={personal.social.orcid}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="p-3 text-muted-foreground hover:text-primary bg-card rounded-full border border-border hover:border-primary transition-all"
+                  className="p-3 text-muted-foreground hover:text-primary bg-surface rounded-full border border-border hover:border-primary hover:shadow-[0_0_16px_-4px_var(--glow-primary)] transition-all"
                   aria-label="ORCID"
                 >
                   <svg className="h-6 w-6" viewBox="0 0 24 24" fill="currentColor">
@@ -418,7 +423,7 @@ export default function Home() {
                   href={personal.social.googleScholar}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="p-3 text-muted-foreground hover:text-primary bg-card rounded-full border border-border hover:border-primary transition-all"
+                  className="p-3 text-muted-foreground hover:text-primary bg-surface rounded-full border border-border hover:border-primary hover:shadow-[0_0_16px_-4px_var(--glow-primary)] transition-all"
                   aria-label="Google Scholar"
                 >
                   <svg className="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
@@ -431,7 +436,7 @@ export default function Home() {
                   href={personal.social.linkedin}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="p-3 text-muted-foreground hover:text-primary bg-card rounded-full border border-border hover:border-primary transition-all"
+                  className="p-3 text-muted-foreground hover:text-primary bg-surface rounded-full border border-border hover:border-primary hover:shadow-[0_0_16px_-4px_var(--glow-primary)] transition-all"
                   aria-label="LinkedIn"
                 >
                   <svg className="h-6 w-6" viewBox="0 0 24 24" fill="currentColor">
@@ -444,7 +449,7 @@ export default function Home() {
                   href={personal.social.researchgate}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="p-3 text-muted-foreground hover:text-primary bg-card rounded-full border border-border hover:border-primary transition-all"
+                  className="p-3 text-muted-foreground hover:text-primary bg-surface rounded-full border border-border hover:border-primary hover:shadow-[0_0_16px_-4px_var(--glow-primary)] transition-all"
                   aria-label="ResearchGate"
                 >
                   <svg className="h-6 w-6" viewBox="0 0 24 24" fill="currentColor">

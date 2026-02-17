@@ -49,7 +49,7 @@ export default function Footer() {
                   href={personal.social.github}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="p-2 text-muted-foreground hover:text-primary bg-background rounded-lg border border-border hover:border-primary transition-all"
+                  className="p-2 text-muted-foreground hover:text-primary bg-surface rounded-lg border border-border hover:border-primary hover:shadow-[0_0_16px_-4px_var(--glow-primary)] transition-all"
                   aria-label="GitHub"
                 >
                   <svg className="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
@@ -62,7 +62,7 @@ export default function Footer() {
                   href={personal.social.linkedin}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="p-2 text-muted-foreground hover:text-primary bg-background rounded-lg border border-border hover:border-primary transition-all"
+                  className="p-2 text-muted-foreground hover:text-primary bg-surface rounded-lg border border-border hover:border-primary hover:shadow-[0_0_16px_-4px_var(--glow-primary)] transition-all"
                   aria-label="LinkedIn"
                 >
                   <svg className="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
@@ -75,7 +75,7 @@ export default function Footer() {
                   href={personal.social.twitter}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="p-2 text-muted-foreground hover:text-primary bg-background rounded-lg border border-border hover:border-primary transition-all"
+                  className="p-2 text-muted-foreground hover:text-primary bg-surface rounded-lg border border-border hover:border-primary hover:shadow-[0_0_16px_-4px_var(--glow-primary)] transition-all"
                   aria-label="Twitter"
                 >
                   <svg className="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
@@ -85,7 +85,7 @@ export default function Footer() {
               )}
               <a
                 href={`mailto:${personal.email}`}
-                className="p-2 text-muted-foreground hover:text-primary bg-background rounded-lg border border-border hover:border-primary transition-all"
+                className="p-2 text-muted-foreground hover:text-primary bg-surface rounded-lg border border-border hover:border-primary hover:shadow-[0_0_16px_-4px_var(--glow-primary)] transition-all"
                 aria-label="Email"
               >
                 <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>

@@ -53,7 +53,7 @@ export default function Header() {
         visible ? "translate-y-0" : "-translate-y-full"
       } ${
         scrolled
-          ? "bg-background/95 backdrop-blur-md shadow-sm border-b border-border"
+          ? "bg-background/80 backdrop-blur-xl border-b border-border/50"
           : "bg-transparent"
       }`}
     >
@@ -124,7 +124,7 @@ export default function Header() {
 
         {/* Mobile Navigation */}
         {mobileMenuOpen && (
-          <div className="md:hidden py-4 border-t border-border bg-background/95 backdrop-blur-md">
+          <div className="md:hidden py-4 border-t border-border/50 bg-background/80 backdrop-blur-xl">
             <div className="flex flex-col gap-1">
               {navigation.map((item) => (
                 <Link

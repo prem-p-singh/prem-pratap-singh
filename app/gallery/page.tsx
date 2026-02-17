@@ -21,7 +21,7 @@ export default function GalleryPage() {
   return (
     <div className="pt-16">
       {/* Hero */}
-      <section className="py-20 section-alt">
+      <section className="py-20 bg-gradient-to-b from-muted to-background">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <h1 className="section-title mb-4">Gallery</h1>
           <p className="text-lg text-muted-foreground max-w-2xl">
@@ -40,8 +40,8 @@ export default function GalleryPage() {
                 key={category}
                 className={`px-4 py-2 text-sm font-medium rounded-full transition-colors ${
                   category === "All"
-                    ? "bg-primary text-white"
-                    : "bg-muted text-muted-foreground hover:bg-primary/10 hover:text-primary"
+                    ? "bg-primary text-primary-foreground shadow-md shadow-primary/20"
+                    : "bg-surface text-muted-foreground border border-border hover:border-primary/50 hover:text-foreground"
                 }`}
               >
                 {category}
