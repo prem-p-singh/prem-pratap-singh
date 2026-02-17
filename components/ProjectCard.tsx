@@ -17,7 +17,7 @@ export default function ProjectCard({ project }: ProjectCardProps) {
   const { title, description, tech, links } = project;
 
   return (
-    <div className="group p-5 bg-card border border-border rounded-lg card-hover">
+    <div className="group p-5 glass-card glow-hover">
       <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2">
         <div className="flex-grow">
           <h3 className="text-base font-medium text-foreground group-hover:text-accent transition-colors">

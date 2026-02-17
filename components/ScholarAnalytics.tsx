@@ -18,8 +18,8 @@ export default function ScholarAnalytics() {
           onClick={() => setActiveTab("scholar")}
           className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
             activeTab === "scholar"
-              ? "bg-primary text-white shadow-md"
-              : "bg-muted text-muted-foreground hover:bg-muted/80"
+              ? "bg-primary text-primary-foreground shadow-md shadow-primary/20"
+              : "bg-surface text-muted-foreground border border-border hover:border-primary/50 hover:text-foreground"
           }`}
         >
           <span className="inline-flex items-center gap-2">
@@ -33,8 +33,8 @@ export default function ScholarAnalytics() {
           onClick={() => setActiveTab("scopus")}
           className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
             activeTab === "scopus"
-              ? "bg-primary text-white shadow-md"
-              : "bg-muted text-muted-foreground hover:bg-muted/80"
+              ? "bg-primary text-primary-foreground shadow-md shadow-primary/20"
+              : "bg-surface text-muted-foreground border border-border hover:border-primary/50 hover:text-foreground"
           }`}
         >
           <span className="inline-flex items-center gap-2">
@@ -57,7 +57,7 @@ export default function ScholarAnalytics() {
           </div>
 
           {/* Since 2021 row */}
-          <div className="bg-card rounded-xl border border-border p-4">
+          <div className="glass-card p-4">
             <p className="text-xs text-muted-foreground mb-3 font-medium uppercase tracking-wide">Since 2021</p>
             <div className="grid grid-cols-3 gap-4">
               <div>
@@ -76,7 +76,7 @@ export default function ScholarAnalytics() {
           </div>
 
           {/* Citation chart */}
-          <div className="bg-card rounded-xl border border-border p-5">
+          <div className="glass-card p-5">
             <p className="text-sm font-medium text-foreground mb-4">Citations per Year</p>
             <div className="flex items-end gap-2 h-40">
               {googleScholar.citationsByYear.map((d) => (
@@ -122,7 +122,7 @@ export default function ScholarAnalytics() {
           </div>
 
           {/* Additional info */}
-          <div className="bg-card rounded-xl border border-border p-4">
+          <div className="glass-card p-4">
             <div className="grid grid-cols-2 gap-4">
               <div>
                 <p className="text-xl font-bold text-foreground">{scopus.metrics.citingDocuments.toLocaleString()}</p>
@@ -157,8 +157,8 @@ export default function ScholarAnalytics() {
 
 function MetricCard({ label, value }: { label: string; value: string }) {
   return (
-    <div className="bg-card rounded-xl border border-border p-5 text-center card-hover">
-      <p className="text-3xl font-bold text-primary mb-1">{value}</p>
+    <div className="glass-card glow-hover p-5 text-center">
+      <p className="text-3xl font-bold gradient-text mb-1">{value}</p>
       <p className="text-sm text-muted-foreground">{label}</p>
     </div>
   );

@@ -17,7 +17,7 @@ export default function BlogPage() {
   return (
     <div className="pt-16 min-h-screen">
       {/* Hero */}
-      <section className="py-20 bg-gradient-to-b from-muted/50 to-background">
+      <section className="py-20 bg-gradient-to-b from-muted to-background">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="max-w-3xl">
             <h1 className="text-4xl sm:text-5xl font-bold text-foreground mb-6">
@@ -207,7 +207,7 @@ export default function BlogPage() {
       </section>
 
       {/* Newsletter CTA */}
-      <section className="py-16 bg-muted/30">
+      <section className="py-16 section-divider">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="max-w-2xl mx-auto text-center">
             <h2 className="text-2xl font-bold text-foreground mb-3">
@@ -221,7 +221,7 @@ export default function BlogPage() {
                 href="https://github.com/prem-p-singh"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="p-3 rounded-full bg-card border border-border hover:border-primary hover:text-primary transition-all"
+                className="p-3 rounded-full bg-surface border border-border hover:border-primary hover:text-primary hover:shadow-[0_0_16px_-4px_var(--glow-primary)] transition-all"
                 aria-label="GitHub"
               >
                 <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
@@ -232,7 +232,7 @@ export default function BlogPage() {
                 href="https://www.linkedin.com/in/prem-p-singh"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="p-3 rounded-full bg-card border border-border hover:border-primary hover:text-primary transition-all"
+                className="p-3 rounded-full bg-surface border border-border hover:border-primary hover:text-primary hover:shadow-[0_0_16px_-4px_var(--glow-primary)] transition-all"
                 aria-label="LinkedIn"
               >
                 <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
@@ -241,7 +241,7 @@ export default function BlogPage() {
               </a>
               <a
                 href="mailto:ppssingh@ucdavis.edu"
-                className="p-3 rounded-full bg-card border border-border hover:border-primary hover:text-primary transition-all"
+                className="p-3 rounded-full bg-surface border border-border hover:border-primary hover:text-primary hover:shadow-[0_0_16px_-4px_var(--glow-primary)] transition-all"
                 aria-label="Email"
               >
                 <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>

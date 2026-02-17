@@ -73,7 +73,7 @@ export default async function BlogPostPage({ params }: Props) {
   return (
     <article className="pt-16">
       {/* Hero */}
-      <section className="py-16 bg-gradient-to-b from-muted/50 to-background">
+      <section className="py-16 bg-gradient-to-b from-muted to-background">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Back Link */}
           <Link
@@ -135,7 +135,7 @@ export default async function BlogPostPage({ params }: Props) {
       {/* Content */}
       <section className="py-12">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="prose prose-lg prose-neutral dark:prose-invert max-w-none
+          <div className="prose prose-lg prose-invert max-w-none
             prose-headings:font-bold prose-headings:tracking-tight
             prose-h2:text-2xl prose-h2:mt-12 prose-h2:mb-4 prose-h2:pb-2 prose-h2:border-b prose-h2:border-border
             prose-h3:text-xl prose-h3:mt-8 prose-h3:mb-3
