@@ -8,8 +8,6 @@ type Tab = "scholar" | "scopus";
 export default function ScholarAnalytics() {
   const [activeTab, setActiveTab] = useState<Tab>("scholar");
 
-  const maxCitations = Math.max(...googleScholar.citationsByYear.map((d) => d.count));
-
   return (
     <div>
       {/* Tab switcher */}
@@ -75,23 +73,10 @@ export default function ScholarAnalytics() {
             </div>
           </div>
 
-          {/* Citation chart */}
+          {/* Citation chart — SVG line graph */}
           <div className="glass-card p-5">
             <p className="text-sm font-medium text-foreground mb-4">Citations per Year</p>
-            <div className="flex items-end gap-2 h-40">
-              {googleScholar.citationsByYear.map((d) => (
-                <div key={d.year} className="flex-1 flex flex-col items-center gap-1">
-                  <span className="text-xs text-muted-foreground font-medium">
-                    {d.count > 0 ? d.count : ""}
-                  </span>
-                  <div
-                    className="w-full bg-primary/80 rounded-t-sm hover:bg-primary transition-colors min-h-[2px]"
-                    style={{ height: `${(d.count / maxCitations) * 100}%` }}
-                  />
-                  <span className="text-xs text-muted-foreground">{d.year}</span>
-                </div>
-              ))}
-            </div>
+            <CitationGraph data={googleScholar.citationsByYear} />
           </div>
 
           {/* Link to profile */}
@@ -151,6 +136,133 @@ export default function ScholarAnalytics() {
           </div>
         </div>
       )}
+    </div>
+  );
+}
+
+function CitationGraph({ data }: { data: { year: number; count: number }[] }) {
+  const [hovered, setHovered] = useState<number | null>(null);
+
+  const padding = { top: 20, right: 20, bottom: 32, left: 44 };
+  const width = 600;
+  const height = 240;
+  const chartW = width - padding.left - padding.right;
+  const chartH = height - padding.top - padding.bottom;
+
+  const maxCount = Math.max(...data.map((d) => d.count));
+  // Round up to a nice number for y-axis
+  const yMax = Math.ceil(maxCount / 100) * 100;
+  const yTicks = Array.from({ length: 5 }, (_, i) => Math.round((yMax / 4) * i));
+
+  const xScale = (i: number) => padding.left + (i / (data.length - 1)) * chartW;
+  const yScale = (v: number) => padding.top + chartH - (v / yMax) * chartH;
+
+  // Build line path
+  const linePath = data
+    .map((d, i) => `${i === 0 ? "M" : "L"} ${xScale(i).toFixed(1)} ${yScale(d.count).toFixed(1)}`)
+    .join(" ");
+
+  // Build area path (line + close along bottom)
+  const areaPath = `${linePath} L ${xScale(data.length - 1).toFixed(1)} ${yScale(0).toFixed(1)} L ${xScale(0).toFixed(1)} ${yScale(0).toFixed(1)} Z`;
+
+  return (
+    <div className="w-full overflow-x-auto">
+      <svg
+        viewBox={`0 0 ${width} ${height}`}
+        className="w-full h-auto min-w-[400px]"
+        onMouseLeave={() => setHovered(null)}
+      >
+        {/* Horizontal grid lines */}
+        {yTicks.map((tick) => (
+          <g key={tick}>
+            <line
+              x1={padding.left}
+              y1={yScale(tick)}
+              x2={width - padding.right}
+              y2={yScale(tick)}
+              stroke="var(--border)"
+              strokeDasharray={tick === 0 ? "0" : "4 4"}
+              strokeWidth={tick === 0 ? 1 : 0.5}
+            />
+            <text
+              x={padding.left - 8}
+              y={yScale(tick) + 4}
+              textAnchor="end"
+              className="fill-muted-foreground"
+              fontSize={11}
+            >
+              {tick}
+            </text>
+          </g>
+        ))}
+
+        {/* Area fill */}
+        <path d={areaPath} fill="var(--primary)" opacity={0.1} />
+
+        {/* Line */}
+        <path
+          d={linePath}
+          fill="none"
+          stroke="var(--primary)"
+          strokeWidth={2.5}
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+
+        {/* Data points + year labels */}
+        {data.map((d, i) => (
+          <g key={d.year} onMouseEnter={() => setHovered(i)}>
+            {/* Invisible larger hit area */}
+            <circle cx={xScale(i)} cy={yScale(d.count)} r={16} fill="transparent" />
+
+            {/* Visible dot */}
+            <circle
+              cx={xScale(i)}
+              cy={yScale(d.count)}
+              r={hovered === i ? 6 : 4}
+              fill={hovered === i ? "var(--primary)" : "var(--background)"}
+              stroke="var(--primary)"
+              strokeWidth={2}
+              className="transition-all duration-150"
+            />
+
+            {/* Tooltip on hover */}
+            {hovered === i && (
+              <g>
+                <rect
+                  x={xScale(i) - 28}
+                  y={yScale(d.count) - 30}
+                  width={56}
+                  height={22}
+                  rx={4}
+                  fill="var(--foreground)"
+                />
+                <text
+                  x={xScale(i)}
+                  y={yScale(d.count) - 15}
+                  textAnchor="middle"
+                  fill="var(--background)"
+                  fontSize={12}
+                  fontWeight={600}
+                >
+                  {d.count}
+                </text>
+              </g>
+            )}
+
+            {/* Year label on x-axis */}
+            <text
+              x={xScale(i)}
+              y={height - 6}
+              textAnchor="middle"
+              className="fill-muted-foreground"
+              fontSize={11}
+            >
+              {d.year}
+            </text>
+          </g>
+        ))}
+      </svg>
     </div>
   );
 }
