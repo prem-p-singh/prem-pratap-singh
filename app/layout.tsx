@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Geist, Geist_Mono, Source_Serif_4 } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
@@ -12,6 +12,12 @@ const geistSans = Geist({
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
+});
+
+const sourceSerif = Source_Serif_4({
+  variable: "--font-source-serif",
+  subsets: ["latin"],
+  weight: ["400", "600", "700"],
 });
 
 export const metadata: Metadata = {
@@ -41,6 +47,38 @@ export const metadata: Metadata = {
   },
 };
 
+const personJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  name: "Prem Pratap Singh",
+  jobTitle: "Postdoctoral Scholar",
+  affiliation: {
+    "@type": "Organization",
+    name: "University of California, Davis",
+  },
+  url: "https://www.prempsingh.com",
+  email: "ppssingh@ucdavis.edu",
+  sameAs: [
+    "https://scholar.google.com/citations?user=UGFMZEYAAAAJ&hl=en",
+    "https://orcid.org/0000-0001-7921-9379",
+    "https://www.linkedin.com/in/prem-p-singh",
+    "https://www.researchgate.net/profile/Prem-Singh-12",
+    "https://github.com/prem-p-singh",
+  ],
+  knowsAbout: [
+    "Grapevine Virology",
+    "Plant Pathology",
+    "Multi-omics",
+    "Transcriptomics",
+    "Nano-encapsulation",
+    "Food Safety",
+  ],
+  alumniOf: {
+    "@type": "CollegeOrUniversity",
+    name: "Banaras Hindu University",
+  },
+};
+
 const themeScript = `
 (function(){
   try {
@@ -59,9 +97,13 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <head>
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd) }}
+        />
       </head>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen flex flex-col`}
+        className={`${geistSans.variable} ${geistMono.variable} ${sourceSerif.variable} antialiased min-h-screen flex flex-col`}
         suppressHydrationWarning
       >
         <Header />
