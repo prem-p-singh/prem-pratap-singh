@@ -1,6 +1,7 @@
 export interface Project {
   title: string;
   description: string;
+  impact?: string;
   tech: string[];
   links?: {
     live?: string;

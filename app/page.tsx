@@ -3,12 +3,13 @@ import Image from "next/image";
 import { personal, researchInterests, skills } from "@/data/personal";
 import { education, workExperience } from "@/data/experience";
 import { projects } from "@/data/projects";
-import { publications } from "@/data/publications";
+import { publications, bookChapters } from "@/data/publications";
 import PublicationsList from "@/components/PublicationsList";
 import EducationTimeline from "@/components/EducationTimeline";
 import ScholarAnalytics from "@/components/ScholarAnalytics";
 import ProjectIllustration from "@/components/ProjectIllustration";
 import { getAllPosts } from "@/lib/mdx";
+import ScrollReveal from "@/components/ScrollReveal";
 
 export default function Home() {
   const latestPosts = getAllPosts().slice(0, 3);
@@ -147,6 +148,7 @@ export default function Home() {
 
       {/* About Section */}
       <section id="about" className="py-20 section-divider">
+        <ScrollReveal>
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className="section-title mb-12">About Me</h2>
 
@@ -194,10 +196,12 @@ export default function Home() {
             </div>
           </div>
         </div>
+        </ScrollReveal>
       </section>
 
       {/* Experience Section */}
       <section id="experience" className="py-20 section-divider">
+        <ScrollReveal>
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className="section-title mb-16">Experience</h2>
 
@@ -303,19 +307,23 @@ export default function Home() {
             </div>
           </div>
         </div>
+        </ScrollReveal>
       </section>
 
       {/* Education Section */}
       <section id="education" className="py-20 section-divider">
+        <ScrollReveal>
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className="section-title mb-12">Education</h2>
 
           <EducationTimeline items={education} />
         </div>
+        </ScrollReveal>
       </section>
 
       {/* Research Impact / Analytics Section */}
       <section id="publications" className="py-20 section-divider">
+        <ScrollReveal>
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className="section-title mb-12">Research Impact</h2>
 
@@ -323,19 +331,21 @@ export default function Home() {
 
           <div className="mt-16">
             <h3 className="text-2xl font-bold text-foreground mb-8">Publications</h3>
-            <PublicationsList publications={publications} />
+            <PublicationsList publications={[...publications, ...bookChapters]} />
 
             <div className="mt-8 text-center">
               <p className="text-muted-foreground">
-                {publications.length} peer-reviewed publications in journals including Food Chemistry, Scientific Reports, and Food Control.
+                {publications.length + bookChapters.length} publications ({publications.length} journal articles, {bookChapters.length} book chapters) in venues including Food Chemistry, Scientific Reports, and Food Control.
               </p>
             </div>
           </div>
         </div>
+        </ScrollReveal>
       </section>
 
       {/* Projects Section */}
       <section id="projects" className="py-20 section-divider">
+        <ScrollReveal>
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className="section-title mb-12">Research Projects</h2>
 
@@ -352,9 +362,17 @@ export default function Home() {
                   <h3 className="text-xl font-semibold text-foreground mb-2 group-hover:text-primary transition-colors">
                     {project.title}
                   </h3>
-                  <p className="text-muted-foreground mb-4 line-clamp-3">
+                  <p className="text-muted-foreground mb-3 line-clamp-3">
                     {project.description}
                   </p>
+                  {project.impact && (
+                    <p className="text-sm text-primary font-medium mb-4 flex items-start gap-2">
+                      <svg className="h-4 w-4 flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
+                      </svg>
+                      {project.impact}
+                    </p>
+                  )}
 
                   <div className="flex flex-wrap gap-2">
                     {project.tech.map((t) => (
@@ -371,6 +389,7 @@ export default function Home() {
             ))}
           </div>
         </div>
+        </ScrollReveal>
       </section>
 
       {/* Blog Section */}
@@ -516,6 +535,35 @@ export default function Home() {
                   </svg>
                 </a>
               )}
+            </div>
+
+            {/* Newsletter Signup */}
+            <div className="mt-12 glass-card p-8 max-w-lg mx-auto">
+              <h3 className="text-lg font-semibold text-foreground mb-2">Stay Updated</h3>
+              <p className="text-sm text-muted-foreground mb-4">
+                Get notified about new publications, research updates, and blog posts.
+              </p>
+              <form
+                action="https://buttondown.com/api/emails/newsletter-subscribe"
+                method="post"
+                target="_blank"
+                className="flex gap-2"
+              >
+                <input
+                  type="email"
+                  name="email"
+                  placeholder="your@email.com"
+                  required
+                  className="flex-1 px-4 py-2 rounded-lg bg-muted border border-border text-foreground placeholder:text-muted-foreground text-sm focus:outline-none focus:border-primary transition-colors"
+                />
+                <button
+                  type="submit"
+                  className="btn-primary px-5 py-2 text-sm whitespace-nowrap"
+                >
+                  Subscribe
+                </button>
+              </form>
+              <p className="text-xs text-muted-foreground mt-2">No spam. Unsubscribe anytime.</p>
             </div>
           </div>
         </div>

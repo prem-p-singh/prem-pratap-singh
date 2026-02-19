@@ -4,6 +4,7 @@ export interface Publication {
   venue: string;
   year: number;
   type: "journal" | "conference" | "preprint" | "thesis" | "book";
+  methods?: string[];
   links?: {
     paper?: string;
     code?: string;

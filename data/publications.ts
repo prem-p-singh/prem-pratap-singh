@@ -8,6 +8,7 @@ export const publications: Publication[] = [
     venue: "In Pipeline",
     year: 2025,
     type: "journal",
+    methods: ["RNA-Seq", "Multi-omics", "Review"],
     links: {},
   },
   {
@@ -16,6 +17,7 @@ export const publications: Publication[] = [
     venue: "In Pipeline",
     year: 2025,
     type: "journal",
+    methods: ["RT-qPCR", "Digital PCR", "Statistical Modeling"],
     links: {},
   },
   {
@@ -24,6 +26,7 @@ export const publications: Publication[] = [
     venue: "In Pipeline",
     year: 2025,
     type: "journal",
+    methods: ["Transcriptomics", "Mathematical Modeling", "GC-MS"],
     links: {},
   },
   // Published
@@ -33,6 +36,7 @@ export const publications: Publication[] = [
     venue: "Food Chemistry",
     year: 2024,
     type: "journal",
+    methods: ["GC-MS", "Antifungal Screening", "Postharvest Analysis"],
     links: {
       paper: "https://doi.org/10.1016/j.foodchem.2024.138502",
     },
@@ -43,6 +47,7 @@ export const publications: Publication[] = [
     venue: "Food and Chemical Toxicology",
     year: 2024,
     type: "journal",
+    methods: ["Molecular Docking", "Toxicity Assessment", "Review"],
     links: {
       paper: "https://doi.org/10.1016/j.fct.2023.114241",
     },
@@ -53,6 +58,7 @@ export const publications: Publication[] = [
     venue: "Food and Chemical Toxicology",
     year: 2023,
     type: "journal",
+    methods: ["Molecular Simulation", "GC-MS", "Antimicrobial Assay"],
     links: {
       paper: "https://doi.org/10.1016/j.fct.2023.114111",
     },
@@ -63,6 +69,7 @@ export const publications: Publication[] = [
     venue: "International Journal of Biological Macromolecules",
     year: 2023,
     type: "journal",
+    methods: ["Nano-encapsulation", "SEM", "Chitosan"],
     links: {
       paper: "https://doi.org/10.1016/j.ijbiomac.2023.123684",
     },
@@ -73,6 +80,7 @@ export const publications: Publication[] = [
     venue: "International Journal of Food Microbiology",
     year: 2022,
     type: "journal",
+    methods: ["Nano-encapsulation", "Gene Expression", "SEM"],
     links: {
       paper: "https://doi.org/10.1016/j.ijfoodmicro.2022.109681",
     },
@@ -83,6 +91,7 @@ export const publications: Publication[] = [
     venue: "Pesticide Biochemistry and Physiology",
     year: 2022,
     type: "journal",
+    methods: ["Chitosan", "Nano-encapsulation", "Antifungal Screening"],
     links: {
       paper: "https://doi.org/10.1016/j.pestbp.2021.105001",
     },
@@ -93,6 +102,7 @@ export const publications: Publication[] = [
     venue: "Anthropocene Science",
     year: 2022,
     type: "journal",
+    methods: ["Molecular Docking", "Ecological Risk Assessment"],
     links: {
       paper: "https://doi.org/10.1007/s44177-022-00016-2",
     },
@@ -103,6 +113,7 @@ export const publications: Publication[] = [
     venue: "Scientific Reports",
     year: 2021,
     type: "journal",
+    methods: ["GC-MS", "Gene Expression", "Molecular Docking"],
     links: {
       paper: "https://doi.org/10.1038/s41598-021-86253-8",
     },
@@ -113,6 +124,7 @@ export const publications: Publication[] = [
     venue: "Critical Reviews in Food Science and Nutrition",
     year: 2021,
     type: "journal",
+    methods: ["Bioinformatics", "Toxicity Assessment", "Review"],
     links: {
       paper: "https://doi.org/10.1080/10408398.2021.2002807",
     },
@@ -123,6 +135,7 @@ export const publications: Publication[] = [
     venue: "Pesticide Biochemistry and Physiology",
     year: 2021,
     type: "journal",
+    methods: ["Nano-encapsulation", "Pesticidal Assay"],
     links: {
       paper: "https://doi.org/10.1016/j.pestbp.2021.104813",
     },
@@ -133,6 +146,7 @@ export const publications: Publication[] = [
     venue: "Antioxidants",
     year: 2021,
     type: "journal",
+    methods: ["Molecular Docking"],
     links: {
       paper: "https://doi.org/10.3390/antiox10121990",
     },
@@ -143,6 +157,7 @@ export const publications: Publication[] = [
     venue: "Antioxidants",
     year: 2021,
     type: "journal",
+    methods: ["Review"],
     links: {
       paper: "https://doi.org/10.3390/antiox10091472",
     },
@@ -153,6 +168,7 @@ export const publications: Publication[] = [
     venue: "Food Additives & Contaminants: Part A",
     year: 2020,
     type: "journal",
+    methods: ["Chitosan", "Nano-encapsulation", "GC-MS"],
     links: {
       paper: "https://doi.org/10.1080/19440049.2020.1775310",
     },
@@ -163,6 +179,7 @@ export const publications: Publication[] = [
     venue: "Carbohydrate Polymers",
     year: 2020,
     type: "journal",
+    methods: ["Chitosan", "SEM", "Gene Expression"],
     links: {
       paper: "https://doi.org/10.1016/j.carbpol.2020.116050",
     },
@@ -173,6 +190,7 @@ export const publications: Publication[] = [
     venue: "International Journal of Biological Macromolecules",
     year: 2020,
     type: "journal",
+    methods: ["Nano-encapsulation", "Chitosan", "Characterization"],
     links: {
       paper: "https://doi.org/10.1016/j.ijbiomac.2020.09.257",
     },
@@ -183,6 +201,7 @@ export const publications: Publication[] = [
     venue: "Food Chemistry",
     year: 2019,
     type: "journal",
+    methods: ["Nano-encapsulation", "Stability Analysis"],
     links: {
       paper: "https://doi.org/10.1016/j.foodchem.2019.02.045",
     },
@@ -193,6 +212,7 @@ export const publications: Publication[] = [
     venue: "Food Control",
     year: 2018,
     type: "journal",
+    methods: ["Nano-encapsulation", "Review"],
     links: {
       paper: "https://doi.org/10.1016/j.foodcont.2018.01.018",
     },
@@ -203,6 +223,7 @@ export const publications: Publication[] = [
     venue: "Agriculture, Ecosystems & Environment",
     year: 2018,
     type: "journal",
+    methods: ["Review"],
     links: {
       paper: "https://doi.org/10.1016/j.agee.2018.08.020",
     },
@@ -213,6 +234,7 @@ export const publications: Publication[] = [
     venue: "Journal of Environmental Management",
     year: 2018,
     type: "journal",
+    methods: ["Review"],
     links: {
       paper: "https://doi.org/10.1016/j.jenvman.2018.07.039",
     },
@@ -223,6 +245,7 @@ export const publications: Publication[] = [
     venue: "Biotechnology Reports",
     year: 2018,
     type: "journal",
+    methods: ["Review"],
     links: {
       paper: "https://doi.org/10.1016/j.btre.2018.e00256",
     },
@@ -233,6 +256,7 @@ export const publications: Publication[] = [
     venue: "Biocatalysis and Agricultural Biotechnology",
     year: 2016,
     type: "journal",
+    methods: ["Microbiology", "Plant Growth Analysis"],
     links: {
       paper: "https://doi.org/10.1016/j.bcab.2016.07.002",
     },

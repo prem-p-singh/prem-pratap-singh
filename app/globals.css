@@ -19,7 +19,7 @@ img[alt="Vercel Logo"] {
   --foreground: #fafafa;
   --muted: #141414;
   --muted-foreground: #a1a1aa;
-  --primary: #22d3ee;
+  --primary: #4ade80;
   --primary-foreground: #0a0a0a;
   --accent: #f59e0b;
   --accent-muted: rgba(245, 158, 11, 0.1);
@@ -31,7 +31,7 @@ img[alt="Vercel Logo"] {
   /* New dark-mode tokens */
   --surface: #141414;
   --elevated: #1a1a1a;
-  --glow-primary: rgba(34, 211, 238, 0.15);
+  --glow-primary: rgba(74, 222, 128, 0.15);
   --glow-accent: rgba(245, 158, 11, 0.12);
 }
 
@@ -40,7 +40,7 @@ img[alt="Vercel Logo"] {
   --foreground: #1c1917;
   --muted: #f5f5f4;
   --muted-foreground: #78716c;
-  --primary: #0e7490;
+  --primary: #16a34a;
   --primary-foreground: #ffffff;
   --accent: #d97706;
   --accent-muted: rgba(217, 119, 6, 0.1);
@@ -51,7 +51,7 @@ img[alt="Vercel Logo"] {
 
   --surface: #ffffff;
   --elevated: #fafaf9;
-  --glow-primary: rgba(14, 116, 144, 0.12);
+  --glow-primary: rgba(22, 163, 74, 0.12);
   --glow-accent: rgba(217, 119, 6, 0.1);
 }
 
@@ -72,6 +72,7 @@ img[alt="Vercel Logo"] {
   --color-elevated: var(--elevated);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+  --font-serif: var(--font-source-serif);
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════
@@ -87,6 +88,27 @@ body {
   color: var(--foreground);
   font-family: var(--font-sans), system-ui, sans-serif;
   line-height: 1.6;
+}
+
+/* Serif headings for academic credibility */
+h1, h2, h3 {
+  font-family: var(--font-serif), Georgia, serif;
+}
+
+/* 8px baseline spacing system */
+:root {
+  --space-1: 0.5rem;   /* 8px */
+  --space-2: 1rem;     /* 16px */
+  --space-3: 1.5rem;   /* 24px */
+  --space-4: 2rem;     /* 32px */
+  --space-6: 3rem;     /* 48px */
+  --space-8: 4rem;     /* 64px */
+  --space-10: 5rem;    /* 80px */
+}
+
+/* Constrained reading width for prose sections */
+.content-readable {
+  max-width: 720px;
 }
 
 /* Smooth transitions for theme */
@@ -368,11 +390,11 @@ body {
 }
 
 .light .experience-card:hover {
-  box-shadow: 0 20px 40px -15px rgba(14, 116, 144, 0.15);
+  box-shadow: 0 20px 40px -15px rgba(22, 163, 74, 0.15);
 }
 
 .light .experience-card:active {
-  box-shadow: 0 8px 20px -10px rgba(14, 116, 144, 0.2);
+  box-shadow: 0 8px 20px -10px rgba(22, 163, 74, 0.2);
 }
 
 .experience-card:hover::before {
@@ -613,11 +635,11 @@ body {
 }
 
 .light .edu-timeline-item:hover .edu-timeline-card {
-  box-shadow: 0 12px 30px -10px rgba(14, 116, 144, 0.2);
+  box-shadow: 0 12px 30px -10px rgba(22, 163, 74, 0.2);
 }
 
 .light .edu-timeline-item:active .edu-timeline-card {
-  box-shadow: 0 4px 12px -6px rgba(14, 116, 144, 0.25);
+  box-shadow: 0 4px 12px -6px rgba(22, 163, 74, 0.25);
 }
 
 /* Mobile: stack vertically */
@@ -940,7 +962,7 @@ nav a:active {
 
 /* Ripple-like feedback for all clickable elements */
 a, button {
-  -webkit-tap-highlight-color: rgba(34, 211, 238, 0.1);
+  -webkit-tap-highlight-color: rgba(74, 222, 128, 0.1);
 }
 
 /* Focus-visible for keyboard navigation */
