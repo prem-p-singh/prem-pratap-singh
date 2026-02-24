@@ -22,6 +22,17 @@ export default function Home() {
         <div className="absolute inset-0 bg-dot-grid opacity-40" />
         {/* Radial glow */}
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-primary/5 rounded-full blur-3xl pointer-events-none" />
+        {/* Decorative grape leaf silhouette — hero accent */}
+        <svg
+          aria-hidden="true"
+          className="pointer-events-none absolute -bottom-12 -left-16 w-[320px] h-[320px] opacity-[0.04] blur-[1px]"
+          viewBox="0 0 200 200"
+          fill="none"
+          style={{ transform: "rotate(-20deg)" }}
+        >
+          <path d="M100 15 C55 25, 15 60, 20 105 C24 140, 55 168, 85 178 C92 180, 96 182, 100 195 C104 182, 108 180, 115 178 C145 168, 176 140, 180 105 C185 60, 145 25, 100 15Z" fill="currentColor" className="text-primary" />
+          <path d="M100 25 L100 185 M100 55 L55 38 M100 55 L145 38 M100 90 L35 72 M100 90 L165 72 M100 125 L50 118 M100 125 L150 118 M100 158 L72 162 M100 158 L128 162" stroke="currentColor" className="text-primary" strokeWidth="1.2" opacity="0.5" />
+        </svg>
 
         <div className="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
@@ -344,7 +355,21 @@ export default function Home() {
       </section>
 
       {/* Projects Section */}
-      <section id="projects" className="py-20 section-divider">
+      <section id="projects" className="py-20 section-divider relative overflow-hidden">
+        {/* Decorative microscope / petri dish accent */}
+        <svg
+          aria-hidden="true"
+          className="pointer-events-none absolute -top-8 -right-16 w-[260px] h-[260px] opacity-[0.03]"
+          viewBox="0 0 100 100"
+          fill="none"
+        >
+          <circle cx="50" cy="50" r="40" stroke="currentColor" className="text-primary" strokeWidth="1.5" />
+          <circle cx="50" cy="50" r="28" stroke="currentColor" className="text-primary" strokeWidth="1" opacity="0.5" />
+          <circle cx="38" cy="42" r="6" fill="currentColor" className="text-primary" opacity="0.3" />
+          <circle cx="58" cy="38" r="4" fill="currentColor" className="text-accent" opacity="0.3" />
+          <circle cx="52" cy="58" r="5" fill="currentColor" className="text-primary" opacity="0.2" />
+          <circle cx="40" cy="60" r="3" fill="currentColor" className="text-accent" opacity="0.2" />
+        </svg>
         <ScrollReveal>
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className="section-title mb-12">Research Projects</h2>
@@ -447,7 +472,19 @@ export default function Home() {
       )}
 
       {/* Contact Section */}
-      <section id="contact" className="py-20 section-divider">
+      <section id="contact" className="py-20 section-divider relative overflow-hidden">
+        {/* Decorative vine accent */}
+        <svg
+          aria-hidden="true"
+          className="pointer-events-none absolute bottom-0 -left-12 w-[200px] h-[300px] opacity-[0.03]"
+          viewBox="0 0 80 140"
+          fill="none"
+        >
+          <path d="M60 130 C55 110, 40 100, 35 80 C30 60, 38 40, 50 20 C55 10, 60 5, 65 2" stroke="currentColor" className="text-primary" strokeWidth="2" fill="none" strokeLinecap="round" />
+          <path d="M38 75 C30 68, 22 72, 25 80 C27 85, 35 83, 38 75Z" fill="currentColor" className="text-primary" opacity="0.6" />
+          <path d="M45 50 C52 44, 60 48, 57 55 C55 60, 47 57, 45 50Z" fill="currentColor" className="text-primary" opacity="0.6" />
+          <path d="M50 20 C56 14, 60 18, 56 22 C52 25, 48 22, 50 20Z" stroke="currentColor" className="text-primary" strokeWidth="1" fill="none" />
+        </svg>
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="max-w-2xl mx-auto text-center">
             <h2 className="section-title mx-auto mb-8">Get In Touch</h2>
