@@ -1,6 +1,7 @@
 /**
  * Thick, woody grapevine branch section divider.
- * A textured brown/bark vine with knots, small branches, tendrils and leaves.
+ * Uses brown bark color layers for a 3D wood feel,
+ * with green leaves and tendrils growing from the branch.
  */
 
 interface VineDividerProps {
@@ -16,211 +17,153 @@ export default function VineDivider({ flip = false, className = "" }: VineDivide
       style={{ transform: flip ? "scaleX(-1)" : undefined }}
     >
       <svg
-        className="w-full h-12 sm:h-14 md:h-16"
-        viewBox="0 0 1200 64"
+        className="w-full h-14 sm:h-16 md:h-20"
+        viewBox="0 0 1200 72"
         fill="none"
         preserveAspectRatio="none"
       >
-        {/* ── Thick woody main branch ── */}
-        {/* Bark shadow / outer edge */}
+        {/* ═══ WOODY MAIN BRANCH — 3D bark layers ═══ */}
+        {/* Layer 1: deep shadow (darkest) */}
         <path
-          d="M-10 34 C80 30, 140 38, 250 32 C340 27, 400 36, 520 33 C620 30, 680 38, 800 32 C900 27, 960 36, 1060 33 C1140 30, 1180 34, 1210 32"
-          stroke="var(--primary)"
-          strokeWidth="10"
+          d="M-20 38 C60 32, 130 42, 260 35 C370 29, 430 40, 540 36 C640 32, 710 42, 820 35 C920 29, 990 40, 1080 36 C1150 32, 1190 38, 1220 35"
+          stroke="var(--bark-dark)"
+          strokeWidth="14"
           strokeLinecap="round"
-          opacity="0.08"
+          opacity="0.55"
           fill="none"
         />
-        {/* Main branch — thick woody center */}
+        {/* Layer 2: main bark body */}
         <path
-          d="M-10 33 C80 29, 140 37, 250 31 C340 26, 400 35, 520 32 C620 29, 680 37, 800 31 C900 26, 960 35, 1060 32 C1140 29, 1180 33, 1210 31"
-          stroke="var(--primary)"
-          strokeWidth="6"
+          d="M-20 37 C60 31, 130 41, 260 34 C370 28, 430 39, 540 35 C640 31, 710 41, 820 34 C920 28, 990 39, 1080 35 C1150 31, 1190 37, 1220 34"
+          stroke="var(--bark)"
+          strokeWidth="9"
           strokeLinecap="round"
-          opacity="0.18"
+          opacity="0.65"
           fill="none"
         />
-        {/* Bark highlight — inner lighter line */}
+        {/* Layer 3: mid bark highlight */}
         <path
-          d="M-10 32 C80 28, 140 36, 250 30 C340 25, 400 34, 520 31 C620 28, 680 36, 800 30 C900 25, 960 34, 1060 31 C1140 28, 1180 32, 1210 30"
-          stroke="var(--primary)"
-          strokeWidth="2.5"
+          d="M-20 36 C60 30, 130 40, 260 33 C370 27, 430 38, 540 34 C640 30, 710 40, 820 33 C920 27, 990 38, 1080 34 C1150 30, 1190 36, 1220 33"
+          stroke="var(--bark-light)"
+          strokeWidth="4.5"
           strokeLinecap="round"
-          opacity="0.25"
+          opacity="0.5"
+          fill="none"
+        />
+        {/* Layer 4: top highlight streak */}
+        <path
+          d="M-20 35 C60 29, 130 39, 260 32 C370 26, 430 37, 540 33 C640 29, 710 39, 820 32 C920 26, 990 37, 1080 33 C1150 29, 1190 35, 1220 32"
+          stroke="var(--bark-highlight)"
+          strokeWidth="1.5"
+          strokeLinecap="round"
+          opacity="0.35"
           fill="none"
         />
 
-        {/* ── Bark texture — tiny strokes along the branch ── */}
-        {[60, 150, 230, 330, 440, 560, 650, 740, 830, 920, 1010, 1100].map((x, i) => (
+        {/* ═══ BARK GRAIN TEXTURE ═══ */}
+        {[50, 120, 200, 310, 400, 500, 590, 680, 770, 860, 950, 1040, 1120].map((x, i) => (
           <line
-            key={`bark-${x}`}
+            key={`grain-${x}`}
             x1={x}
-            y1={29 + (i % 3) * 2}
-            x2={x + 8}
-            y2={31 + (i % 2) * 3}
-            stroke="var(--primary)"
-            strokeWidth="1"
-            opacity="0.1"
+            y1={32 + (i % 3) * 2}
+            x2={x + 12 + (i % 4) * 2}
+            y2={34 + (i % 2) * 3}
+            stroke="var(--bark-dark)"
+            strokeWidth="0.8"
+            opacity="0.35"
             strokeLinecap="round"
           />
         ))}
 
-        {/* ── Knots / wood bumps ── */}
-        <ellipse cx="280" cy="31" rx="5" ry="4" fill="var(--primary)" opacity="0.12" />
-        <ellipse cx="620" cy="32" rx="6" ry="4.5" fill="var(--primary)" opacity="0.1" />
-        <ellipse cx="950" cy="32" rx="5" ry="3.5" fill="var(--primary)" opacity="0.1" />
+        {/* ═══ WOOD KNOTS ═══ */}
+        <ellipse cx="280" cy="34" rx="6" ry="5" fill="var(--bark-dark)" opacity="0.45" />
+        <ellipse cx="280" cy="34" rx="3" ry="2.5" fill="var(--bark)" opacity="0.35" />
+        <ellipse cx="620" cy="35" rx="7" ry="5" fill="var(--bark-dark)" opacity="0.4" />
+        <ellipse cx="620" cy="35" rx="3.5" ry="2.5" fill="var(--bark)" opacity="0.3" />
+        <ellipse cx="950" cy="35" rx="5.5" ry="4" fill="var(--bark-dark)" opacity="0.4" />
+        <ellipse cx="950" cy="35" rx="3" ry="2" fill="var(--bark)" opacity="0.3" />
 
-        {/* ── Small side branches ── */}
-        {/* Branch going up-left */}
-        <path
-          d="M200 30 C192 22, 180 18, 172 14"
-          stroke="var(--primary)"
-          strokeWidth="3"
-          strokeLinecap="round"
-          opacity="0.15"
-          fill="none"
-        />
-        <path
-          d="M200 30 C192 22, 180 18, 172 14"
-          stroke="var(--primary)"
-          strokeWidth="1.5"
-          strokeLinecap="round"
-          opacity="0.22"
-          fill="none"
-        />
+        {/* ═══ SIDE BRANCHES (woody brown) ═══ */}
+        {/* Branch up-left */}
+        <path d="M200 33 C190 24, 176 18, 166 12" stroke="var(--bark-dark)" strokeWidth="5" strokeLinecap="round" opacity="0.4" fill="none" />
+        <path d="M200 33 C190 24, 176 18, 166 12" stroke="var(--bark)" strokeWidth="3" strokeLinecap="round" opacity="0.55" fill="none" />
+        <path d="M200 32 C190 23, 176 17, 166 11" stroke="var(--bark-light)" strokeWidth="1" strokeLinecap="round" opacity="0.35" fill="none" />
 
-        {/* Branch going down-right */}
-        <path
-          d="M480 33 C490 40, 498 46, 508 50"
-          stroke="var(--primary)"
-          strokeWidth="2.5"
-          strokeLinecap="round"
-          opacity="0.14"
-          fill="none"
-        />
-        <path
-          d="M480 33 C490 40, 498 46, 508 50"
-          stroke="var(--primary)"
-          strokeWidth="1.2"
-          strokeLinecap="round"
-          opacity="0.2"
-          fill="none"
-        />
+        {/* Branch down-right */}
+        <path d="M480 36 C492 44, 502 50, 514 55" stroke="var(--bark-dark)" strokeWidth="4" strokeLinecap="round" opacity="0.4" fill="none" />
+        <path d="M480 36 C492 44, 502 50, 514 55" stroke="var(--bark)" strokeWidth="2.5" strokeLinecap="round" opacity="0.5" fill="none" />
+        <path d="M480 35 C492 43, 502 49, 514 54" stroke="var(--bark-light)" strokeWidth="0.8" strokeLinecap="round" opacity="0.3" fill="none" />
 
-        {/* Branch going up-right */}
-        <path
-          d="M760 30 C770 22, 782 16, 794 12"
-          stroke="var(--primary)"
-          strokeWidth="2.5"
-          strokeLinecap="round"
-          opacity="0.14"
-          fill="none"
-        />
-        <path
-          d="M760 30 C770 22, 782 16, 794 12"
-          stroke="var(--primary)"
-          strokeWidth="1.2"
-          strokeLinecap="round"
-          opacity="0.2"
-          fill="none"
-        />
+        {/* Branch up-right */}
+        <path d="M760 33 C772 24, 786 16, 800 10" stroke="var(--bark-dark)" strokeWidth="4.5" strokeLinecap="round" opacity="0.4" fill="none" />
+        <path d="M760 33 C772 24, 786 16, 800 10" stroke="var(--bark)" strokeWidth="2.5" strokeLinecap="round" opacity="0.55" fill="none" />
+        <path d="M760 32 C772 23, 786 15, 800 9" stroke="var(--bark-light)" strokeWidth="0.8" strokeLinecap="round" opacity="0.3" fill="none" />
 
-        {/* Branch going down-left */}
-        <path
-          d="M1020 33 C1010 42, 1004 48, 996 52"
-          stroke="var(--primary)"
-          strokeWidth="2"
-          strokeLinecap="round"
-          opacity="0.13"
-          fill="none"
-        />
+        {/* Branch down-left */}
+        <path d="M1030 36 C1018 46, 1008 54, 998 58" stroke="var(--bark-dark)" strokeWidth="3.5" strokeLinecap="round" opacity="0.35" fill="none" />
+        <path d="M1030 36 C1018 46, 1008 54, 998 58" stroke="var(--bark)" strokeWidth="2" strokeLinecap="round" opacity="0.45" fill="none" />
 
-        {/* ── Grapevine leaves (five-lobed shape) ── */}
-        {/* Leaf 1 — hanging from upper-left branch */}
-        <g opacity="0.2" transform="translate(158, 6) rotate(-15)">
-          <path
-            d="M0 12 C-4 4, 0 -2, 6 0 C10 -2, 16 0, 18 6 C22 4, 26 8, 24 14 C28 16, 26 22, 20 22 C18 26, 12 26, 10 22 C4 24, -2 20, 0 12Z"
-            fill="var(--primary)"
-          />
+        {/* ═══ GRAPEVINE LEAVES (green) ═══ */}
+        {/* Leaf 1 — upper-left branch */}
+        <g opacity="0.55" transform="translate(152, 3) rotate(-15)">
+          <path d="M0 12 C-4 4, 0 -2, 6 0 C10 -2, 16 0, 18 6 C22 4, 26 8, 24 14 C28 16, 26 22, 20 22 C18 26, 12 26, 10 22 C4 24, -2 20, 0 12Z" fill="var(--primary)" />
           <path d="M12 2 L12 24 M12 8 L6 4 M12 8 L18 4 M12 14 L4 12 M12 14 L20 12 M12 20 L8 22 M12 20 L16 22" stroke="var(--primary)" strokeWidth="0.5" opacity="0.5" />
         </g>
 
-        {/* Leaf 2 — on the right side branch */}
-        <g opacity="0.18" transform="translate(788, 2) rotate(20)">
-          <path
-            d="M0 10 C-3 4, 0 -1, 5 0 C8 -1, 12 0, 14 5 C17 3, 20 6, 18 11 C21 13, 20 18, 16 18 C14 21, 10 21, 8 18 C4 20, -1 16, 0 10Z"
-            fill="var(--primary)"
-          />
-          <path d="M10 1 L10 20 M10 6 L5 3 M10 6 L15 3 M10 12 L3 10 M10 12 L17 10" stroke="var(--primary)" strokeWidth="0.4" opacity="0.4" />
+        {/* Leaf 2 — upper-right branch */}
+        <g opacity="0.5" transform="translate(794, 0) rotate(20)">
+          <path d="M0 10 C-3 4, 0 -1, 5 0 C8 -1, 12 0, 14 5 C17 3, 20 6, 18 11 C21 13, 20 18, 16 18 C14 21, 10 21, 8 18 C4 20, -1 16, 0 10Z" fill="var(--primary)" />
+          <path d="M10 1 L10 20 M10 6 L5 3 M10 6 L15 3 M10 12 L3 10 M10 12 L17 10" stroke="var(--primary)" strokeWidth="0.4" opacity="0.5" />
         </g>
 
-        {/* Leaf 3 — below the vine center-left */}
-        <g opacity="0.16" transform="translate(500, 44) rotate(10)">
-          <path
-            d="M0 8 C-3 3, 0 -1, 4 0 C7 -1, 10 0, 12 4 C14 3, 17 5, 15 9 C18 10, 16 14, 13 14 C12 17, 8 17, 7 14 C3 16, -1 13, 0 8Z"
-            fill="var(--primary)"
-          />
+        {/* Leaf 3 — below vine */}
+        <g opacity="0.45" transform="translate(506, 50) rotate(10)">
+          <path d="M0 8 C-3 3, 0 -1, 4 0 C7 -1, 10 0, 12 4 C14 3, 17 5, 15 9 C18 10, 16 14, 13 14 C12 17, 8 17, 7 14 C3 16, -1 13, 0 8Z" fill="var(--primary)" />
           <path d="M8 1 L8 16 M8 5 L4 2 M8 5 L12 2 M8 10 L2 8 M8 10 L14 8" stroke="var(--primary)" strokeWidth="0.4" opacity="0.4" />
         </g>
 
-        {/* Leaf 4 — small near right end */}
-        <g opacity="0.15" transform="translate(1090, 24) rotate(-25)">
-          <path
-            d="M0 7 C-2 2, 0 -1, 4 0 C6 -1, 8 0, 9 3 C11 2, 13 4, 12 7 C14 8, 12 11, 10 11 C9 13, 6 13, 5 11 C3 12, 0 10, 0 7Z"
-            fill="var(--primary)"
-          />
+        {/* Leaf 4 — near right */}
+        <g opacity="0.4" transform="translate(1090, 24) rotate(-30)">
+          <path d="M0 7 C-2 2, 0 -1, 4 0 C6 -1, 8 0, 9 3 C11 2, 13 4, 12 7 C14 8, 12 11, 10 11 C9 13, 6 13, 5 11 C3 12, 0 10, 0 7Z" fill="var(--primary)" />
         </g>
 
-        {/* ── Spiral tendrils ── */}
-        <path
-          d="M340 28 C346 18, 354 16, 356 22 C358 28, 350 30, 348 24 C346 18, 352 14, 358 18"
-          stroke="var(--primary)"
-          strokeWidth="1.5"
-          fill="none"
-          strokeLinecap="round"
-          opacity="0.18"
-        />
-        <path
-          d="M700 28 C692 18, 684 16, 682 22 C680 28, 688 30, 690 24 C692 18, 686 14, 680 18"
-          stroke="var(--primary)"
-          strokeWidth="1.5"
-          fill="none"
-          strokeLinecap="round"
-          opacity="0.16"
-        />
-        <path
-          d="M1140 30 C1146 20, 1154 18, 1156 24 C1158 30, 1150 32, 1148 26"
-          stroke="var(--primary)"
-          strokeWidth="1.2"
-          fill="none"
-          strokeLinecap="round"
-          opacity="0.14"
-        />
-
-        {/* ── Tiny grape clusters ── */}
-        <g opacity="0.14">
-          <circle cx="410" cy="28" r="4" fill="var(--primary)" />
-          <circle cx="418" cy="26" r="4" fill="var(--primary)" />
-          <circle cx="414" cy="22" r="4" fill="var(--primary)" />
-          <circle cx="406" cy="24" r="3.5" fill="var(--primary)" />
-          <circle cx="412" cy="18" r="3" fill="var(--primary)" opacity="0.7" />
-          {/* Tiny stem */}
-          <path d="M412 16 L414 10 Q416 6, 420 5" stroke="var(--primary)" strokeWidth="1" fill="none" strokeLinecap="round" />
+        {/* Leaf 5 — on left side */}
+        <g opacity="0.4" transform="translate(68, 26) rotate(15)">
+          <path d="M0 6 C-2 2, 0 -1, 3 0 C5 -1, 7 0, 8 3 C9 2, 11 3, 10 6 C12 7, 10 9, 8 9 C7 11, 5 11, 4 9 C2 10, 0 8, 0 6Z" fill="var(--primary)" />
         </g>
 
-        <g opacity="0.12">
-          <circle cx="880" cy="36" r="3.5" fill="var(--primary)" />
-          <circle cx="887" cy="34" r="3.5" fill="var(--primary)" />
-          <circle cx="883" cy="40" r="3.5" fill="var(--primary)" />
-          <circle cx="876" cy="38" r="3" fill="var(--primary)" />
-          <path d="M882 32 L884 26" stroke="var(--primary)" strokeWidth="1" fill="none" strokeLinecap="round" />
+        {/* ═══ SPIRAL TENDRILS (brown → green) ═══ */}
+        <path d="M340 30 C346 18, 356 16, 358 24 C360 30, 352 32, 350 26 C348 20, 354 14, 360 18" stroke="var(--bark-light)" strokeWidth="1.8" fill="none" strokeLinecap="round" opacity="0.4" />
+        <path d="M340 30 C346 18, 356 16, 358 24 C360 30, 352 32, 350 26" stroke="var(--primary)" strokeWidth="0.8" fill="none" strokeLinecap="round" opacity="0.3" />
+
+        <path d="M700 30 C692 18, 682 16, 680 24 C678 30, 686 32, 688 26 C690 20, 684 14, 678 18" stroke="var(--bark-light)" strokeWidth="1.8" fill="none" strokeLinecap="round" opacity="0.35" />
+        <path d="M700 30 C692 18, 682 16, 680 24 C678 30, 686 32, 688 26" stroke="var(--primary)" strokeWidth="0.8" fill="none" strokeLinecap="round" opacity="0.3" />
+
+        <path d="M1140 32 C1146 20, 1156 18, 1158 26 C1160 32, 1152 34, 1150 28" stroke="var(--bark-light)" strokeWidth="1.5" fill="none" strokeLinecap="round" opacity="0.3" />
+
+        {/* ═══ GRAPE CLUSTERS (purple/green) ═══ */}
+        <g opacity="0.5">
+          <circle cx="410" cy="30" r="4.5" fill="#7c3aed" />
+          <circle cx="419" cy="28" r="4.5" fill="#7c3aed" />
+          <circle cx="414" cy="23" r="4.5" fill="#8b5cf6" />
+          <circle cx="405" cy="25" r="4" fill="#7c3aed" />
+          <circle cx="412" cy="18" r="3.5" fill="#8b5cf6" opacity="0.8" />
+          <path d="M412 15 L415 8 Q417 4, 422 3" stroke="var(--bark)" strokeWidth="1.2" fill="none" strokeLinecap="round" opacity="0.6" />
         </g>
 
-        {/* ── Small buds / berries ── */}
-        <circle cx="100" cy="31" r="2" fill="var(--accent)" opacity="0.15" />
-        <circle cx="570" cy="29" r="2" fill="var(--accent)" opacity="0.12" />
-        <circle cx="860" cy="30" r="1.5" fill="var(--accent)" opacity="0.12" />
-        <circle cx="1060" cy="33" r="2" fill="var(--accent)" opacity="0.14" />
+        <g opacity="0.4">
+          <circle cx="882" cy="39" r="4" fill="#7c3aed" />
+          <circle cx="890" cy="37" r="4" fill="#8b5cf6" />
+          <circle cx="886" cy="44" r="4" fill="#7c3aed" />
+          <circle cx="878" cy="41" r="3.5" fill="#8b5cf6" />
+          <path d="M885 35 L887 28" stroke="var(--bark)" strokeWidth="1" fill="none" strokeLinecap="round" opacity="0.5" />
+        </g>
+
+        {/* ═══ BERRIES / BUDS ═══ */}
+        <circle cx="100" cy="33" r="2.5" fill="var(--accent)" opacity="0.4" />
+        <circle cx="570" cy="31" r="2" fill="var(--accent)" opacity="0.35" />
+        <circle cx="860" cy="32" r="2" fill="var(--accent)" opacity="0.35" />
+        <circle cx="1060" cy="36" r="2.5" fill="var(--accent)" opacity="0.4" />
       </svg>
     </div>
   );
