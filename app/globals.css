@@ -729,17 +729,27 @@ h1, h2, h3 {
   margin-bottom: 0.5rem;
   position: relative;
   display: inline-block;
+  padding-bottom: 16px;
 }
 
+/* Woody grapevine underline for section titles */
 .section-title::after {
   content: '';
   position: absolute;
   left: 0;
-  bottom: -8px;
-  width: 60px;
-  height: 3px;
-  background: linear-gradient(90deg, var(--primary), var(--accent));
-  border-radius: 2px;
+  bottom: 0;
+  width: 100%;
+  max-width: 160px;
+  height: 14px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 160 14' fill='none'%3E%3Cpath d='M0 8 C12 6,20 9,36 7 C52 5,60 9,80 7 C100 5,112 9,130 7 C142 5,152 8,160 7' stroke='%234ade80' stroke-width='4' stroke-linecap='round' opacity='0.2'/%3E%3Cpath d='M0 7.5 C12 5.5,20 8.5,36 6.5 C52 4.5,60 8.5,80 6.5 C100 4.5,112 8.5,130 6.5 C142 4.5,152 7.5,160 6.5' stroke='%234ade80' stroke-width='2' stroke-linecap='round' opacity='0.35'/%3E%3Cpath d='M0 7 C12 5,20 8,36 6 C52 4,60 8,80 6 C100 4,112 8,130 6 C142 4,152 7,160 6' stroke='%234ade80' stroke-width='0.8' stroke-linecap='round' opacity='0.5'/%3E%3Cpath d='M28 5 C30 2,34 1,36 3 C37 5,33 6,32 4' stroke='%234ade80' stroke-width='0.8' fill='none' stroke-linecap='round' opacity='0.3'/%3E%3Cpath d='M110 5 C112 2,116 1,118 3 C119 5,115 6,114 4' stroke='%234ade80' stroke-width='0.8' fill='none' stroke-linecap='round' opacity='0.3'/%3E%3Cpath d='M56 5 C52 1,48 2,50 6 C51 8,55 7,56 5Z' fill='%234ade80' opacity='0.2'/%3E%3Cpath d='M92 5 C96 1,100 2,98 6 C97 8,93 7,92 5Z' fill='%234ade80' opacity='0.2'/%3E%3Ccircle cx='140' cy='6' r='1.2' fill='%23f59e0b' opacity='0.3'/%3E%3Ccircle cx='18' cy='7' r='1' fill='%23f59e0b' opacity='0.25'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: left center;
+}
+
+/* Light mode — darker green for the vine underline */
+.light .section-title::after {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 160 14' fill='none'%3E%3Cpath d='M0 8 C12 6,20 9,36 7 C52 5,60 9,80 7 C100 5,112 9,130 7 C142 5,152 8,160 7' stroke='%2316a34a' stroke-width='4' stroke-linecap='round' opacity='0.2'/%3E%3Cpath d='M0 7.5 C12 5.5,20 8.5,36 6.5 C52 4.5,60 8.5,80 6.5 C100 4.5,112 8.5,130 6.5 C142 4.5,152 7.5,160 6.5' stroke='%2316a34a' stroke-width='2' stroke-linecap='round' opacity='0.35'/%3E%3Cpath d='M0 7 C12 5,20 8,36 6 C52 4,60 8,80 6 C100 4,112 8,130 6 C142 4,152 7,160 6' stroke='%2316a34a' stroke-width='0.8' stroke-linecap='round' opacity='0.55'/%3E%3Cpath d='M28 5 C30 2,34 1,36 3 C37 5,33 6,32 4' stroke='%2316a34a' stroke-width='0.8' fill='none' stroke-linecap='round' opacity='0.3'/%3E%3Cpath d='M110 5 C112 2,116 1,118 3 C119 5,115 6,114 4' stroke='%2316a34a' stroke-width='0.8' fill='none' stroke-linecap='round' opacity='0.3'/%3E%3Cpath d='M56 5 C52 1,48 2,50 6 C51 8,55 7,56 5Z' fill='%2316a34a' opacity='0.2'/%3E%3Cpath d='M92 5 C96 1,100 2,98 6 C97 8,93 7,92 5Z' fill='%2316a34a' opacity='0.2'/%3E%3Ccircle cx='140' cy='6' r='1.2' fill='%23d97706' opacity='0.3'/%3E%3Ccircle cx='18' cy='7' r='1' fill='%23d97706' opacity='0.25'/%3E%3C/svg%3E");
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════
@@ -959,8 +969,8 @@ nav a:active {
 }
 
 .section-title:hover::after {
-  width: 100%;
-  transition: width 0.3s ease;
+  max-width: 100%;
+  transition: max-width 0.4s ease;
 }
 
 /* Publication / list items press */
