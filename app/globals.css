@@ -199,6 +199,8 @@ h1, h2, h3 {
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
+  display: inline-block;
+  padding-bottom: 0.1em;
 }
 
 /* Scroll-triggered animation */
