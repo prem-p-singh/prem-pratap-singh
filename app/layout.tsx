@@ -4,6 +4,8 @@ import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import BackgroundDecor from "@/components/BackgroundDecor";
+import FloatingParticles from "@/components/FloatingParticles";
+import CursorGlow from "@/components/CursorGlow";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -108,6 +110,8 @@ export default function RootLayout({
         suppressHydrationWarning
       >
         <BackgroundDecor />
+        <FloatingParticles />
+        <CursorGlow />
         <Header />
         <main className="flex-grow relative z-10">
           {children}

@@ -10,6 +10,7 @@ import ScholarAnalytics from "@/components/ScholarAnalytics";
 import ProjectIllustration from "@/components/ProjectIllustration";
 import { getAllPosts } from "@/lib/mdx";
 import ScrollReveal from "@/components/ScrollReveal";
+import VineDivider from "@/components/VineDivider";
 
 export default function Home() {
   const latestPosts = getAllPosts().slice(0, 3);
@@ -158,7 +159,8 @@ export default function Home() {
       </section>
 
       {/* About Section */}
-      <section id="about" className="py-20 section-divider">
+      <VineDivider />
+      <section id="about" className="py-20">
         <ScrollReveal>
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className="section-title mb-12">About Me</h2>
@@ -211,7 +213,8 @@ export default function Home() {
       </section>
 
       {/* Experience Section */}
-      <section id="experience" className="py-20 section-divider">
+      <VineDivider flip />
+      <section id="experience" className="py-20">
         <ScrollReveal>
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className="section-title mb-16">Experience</h2>
@@ -322,7 +325,8 @@ export default function Home() {
       </section>
 
       {/* Education Section */}
-      <section id="education" className="py-20 section-divider">
+      <VineDivider />
+      <section id="education" className="py-20">
         <ScrollReveal>
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className="section-title mb-12">Education</h2>
@@ -333,7 +337,8 @@ export default function Home() {
       </section>
 
       {/* Research Impact / Analytics Section */}
-      <section id="publications" className="py-20 section-divider">
+      <VineDivider flip />
+      <section id="publications" className="py-20">
         <ScrollReveal>
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className="section-title mb-12">Research Impact</h2>
@@ -355,7 +360,8 @@ export default function Home() {
       </section>
 
       {/* Projects Section */}
-      <section id="projects" className="py-20 section-divider relative overflow-hidden">
+      <VineDivider />
+      <section id="projects" className="py-20 relative overflow-hidden">
         {/* Decorative microscope / petri dish accent */}
         <svg
           aria-hidden="true"
@@ -419,7 +425,9 @@ export default function Home() {
 
       {/* Blog Section */}
       {latestPosts.length > 0 && (
-        <section id="blog" className="py-20 section-divider">
+        <>
+        <VineDivider flip />
+        <section id="blog" className="py-20">
           <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex items-center justify-between mb-12">
               <h2 className="section-title">Latest from the Blog</h2>
@@ -469,10 +477,12 @@ export default function Home() {
             </div>
           </div>
         </section>
+        </>
       )}
 
       {/* Contact Section */}
-      <section id="contact" className="py-20 section-divider relative overflow-hidden">
+      <VineDivider />
+      <section id="contact" className="py-20 relative overflow-hidden">
         {/* Decorative vine accent */}
         <svg
           aria-hidden="true"
