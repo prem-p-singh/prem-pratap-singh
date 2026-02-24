@@ -33,6 +33,12 @@ img[alt="Vercel Logo"] {
   --elevated: #1a1a1a;
   --glow-primary: rgba(74, 222, 128, 0.15);
   --glow-accent: rgba(245, 158, 11, 0.12);
+
+  /* Bark / wood tones for 3D woody grapevines */
+  --bark-dark: #6B4423;
+  --bark: #8B6914;
+  --bark-light: #C4A882;
+  --bark-highlight: #DCC8A0;
 }
 
 .light {
@@ -53,6 +59,11 @@ img[alt="Vercel Logo"] {
   --elevated: #fafaf9;
   --glow-primary: rgba(22, 163, 74, 0.12);
   --glow-accent: rgba(217, 119, 6, 0.1);
+
+  --bark-dark: #3E2415;
+  --bark: #5C3A1E;
+  --bark-light: #8B6914;
+  --bark-highlight: #A0845C;
 }
 
 @theme inline {
@@ -732,24 +743,24 @@ h1, h2, h3 {
   padding-bottom: 16px;
 }
 
-/* Woody grapevine underline for section titles */
+/* Woody grapevine underline for section titles — brown bark + green leaves */
 .section-title::after {
   content: '';
   position: absolute;
   left: 0;
   bottom: 0;
   width: 100%;
-  max-width: 160px;
-  height: 14px;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 160 14' fill='none'%3E%3Cpath d='M0 8 C12 6,20 9,36 7 C52 5,60 9,80 7 C100 5,112 9,130 7 C142 5,152 8,160 7' stroke='%234ade80' stroke-width='4' stroke-linecap='round' opacity='0.2'/%3E%3Cpath d='M0 7.5 C12 5.5,20 8.5,36 6.5 C52 4.5,60 8.5,80 6.5 C100 4.5,112 8.5,130 6.5 C142 4.5,152 7.5,160 6.5' stroke='%234ade80' stroke-width='2' stroke-linecap='round' opacity='0.35'/%3E%3Cpath d='M0 7 C12 5,20 8,36 6 C52 4,60 8,80 6 C100 4,112 8,130 6 C142 4,152 7,160 6' stroke='%234ade80' stroke-width='0.8' stroke-linecap='round' opacity='0.5'/%3E%3Cpath d='M28 5 C30 2,34 1,36 3 C37 5,33 6,32 4' stroke='%234ade80' stroke-width='0.8' fill='none' stroke-linecap='round' opacity='0.3'/%3E%3Cpath d='M110 5 C112 2,116 1,118 3 C119 5,115 6,114 4' stroke='%234ade80' stroke-width='0.8' fill='none' stroke-linecap='round' opacity='0.3'/%3E%3Cpath d='M56 5 C52 1,48 2,50 6 C51 8,55 7,56 5Z' fill='%234ade80' opacity='0.2'/%3E%3Cpath d='M92 5 C96 1,100 2,98 6 C97 8,93 7,92 5Z' fill='%234ade80' opacity='0.2'/%3E%3Ccircle cx='140' cy='6' r='1.2' fill='%23f59e0b' opacity='0.3'/%3E%3Ccircle cx='18' cy='7' r='1' fill='%23f59e0b' opacity='0.25'/%3E%3C/svg%3E");
+  max-width: 180px;
+  height: 16px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 180 16' fill='none'%3E%3Cpath d='M0 9 C14 7,24 11,42 8 C60 5,72 11,94 8 C116 5,128 11,150 8 C162 5,172 9,180 8' stroke='%236B4423' stroke-width='6' stroke-linecap='round' opacity='0.5'/%3E%3Cpath d='M0 8.5 C14 6.5,24 10.5,42 7.5 C60 4.5,72 10.5,94 7.5 C116 4.5,128 10.5,150 7.5 C162 4.5,172 8.5,180 7.5' stroke='%238B6914' stroke-width='3.5' stroke-linecap='round' opacity='0.6'/%3E%3Cpath d='M0 8 C14 6,24 10,42 7 C60 4,72 10,94 7 C116 4,128 10,150 7 C162 4,172 8,180 7' stroke='%23C4A882' stroke-width='1.2' stroke-linecap='round' opacity='0.45'/%3E%3Cpath d='M32 6 C34 2,38 1,40 4 C41 6,37 7,36 5' stroke='%23C4A882' stroke-width='0.8' fill='none' stroke-linecap='round' opacity='0.35'/%3E%3Cpath d='M126 6 C128 2,132 1,134 4 C135 6,131 7,130 5' stroke='%23C4A882' stroke-width='0.8' fill='none' stroke-linecap='round' opacity='0.35'/%3E%3Cpath d='M62 5 C58 1,54 2,56 6 C57 8,61 7,62 5Z' fill='%234ade80' opacity='0.45'/%3E%3Cpath d='M106 5 C110 1,114 2,112 6 C111 8,107 7,106 5Z' fill='%234ade80' opacity='0.4'/%3E%3Ccircle cx='155' cy='7' r='1.5' fill='%23f59e0b' opacity='0.5'/%3E%3Ccircle cx='20' cy='8' r='1.2' fill='%23f59e0b' opacity='0.45'/%3E%3Cellipse cx='82' cy='8' rx='3' ry='2' fill='%236B4423' opacity='0.35'/%3E%3C/svg%3E");
   background-repeat: no-repeat;
   background-size: contain;
   background-position: left center;
 }
 
-/* Light mode — darker green for the vine underline */
+/* Light mode — darker bark tones */
 .light .section-title::after {
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 160 14' fill='none'%3E%3Cpath d='M0 8 C12 6,20 9,36 7 C52 5,60 9,80 7 C100 5,112 9,130 7 C142 5,152 8,160 7' stroke='%2316a34a' stroke-width='4' stroke-linecap='round' opacity='0.2'/%3E%3Cpath d='M0 7.5 C12 5.5,20 8.5,36 6.5 C52 4.5,60 8.5,80 6.5 C100 4.5,112 8.5,130 6.5 C142 4.5,152 7.5,160 6.5' stroke='%2316a34a' stroke-width='2' stroke-linecap='round' opacity='0.35'/%3E%3Cpath d='M0 7 C12 5,20 8,36 6 C52 4,60 8,80 6 C100 4,112 8,130 6 C142 4,152 7,160 6' stroke='%2316a34a' stroke-width='0.8' stroke-linecap='round' opacity='0.55'/%3E%3Cpath d='M28 5 C30 2,34 1,36 3 C37 5,33 6,32 4' stroke='%2316a34a' stroke-width='0.8' fill='none' stroke-linecap='round' opacity='0.3'/%3E%3Cpath d='M110 5 C112 2,116 1,118 3 C119 5,115 6,114 4' stroke='%2316a34a' stroke-width='0.8' fill='none' stroke-linecap='round' opacity='0.3'/%3E%3Cpath d='M56 5 C52 1,48 2,50 6 C51 8,55 7,56 5Z' fill='%2316a34a' opacity='0.2'/%3E%3Cpath d='M92 5 C96 1,100 2,98 6 C97 8,93 7,92 5Z' fill='%2316a34a' opacity='0.2'/%3E%3Ccircle cx='140' cy='6' r='1.2' fill='%23d97706' opacity='0.3'/%3E%3Ccircle cx='18' cy='7' r='1' fill='%23d97706' opacity='0.25'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 180 16' fill='none'%3E%3Cpath d='M0 9 C14 7,24 11,42 8 C60 5,72 11,94 8 C116 5,128 11,150 8 C162 5,172 9,180 8' stroke='%233E2415' stroke-width='6' stroke-linecap='round' opacity='0.5'/%3E%3Cpath d='M0 8.5 C14 6.5,24 10.5,42 7.5 C60 4.5,72 10.5,94 7.5 C116 4.5,128 10.5,150 7.5 C162 4.5,172 8.5,180 7.5' stroke='%235C3A1E' stroke-width='3.5' stroke-linecap='round' opacity='0.6'/%3E%3Cpath d='M0 8 C14 6,24 10,42 7 C60 4,72 10,94 7 C116 4,128 10,150 7 C162 4,172 8,180 7' stroke='%238B6914' stroke-width='1.2' stroke-linecap='round' opacity='0.5'/%3E%3Cpath d='M32 6 C34 2,38 1,40 4 C41 6,37 7,36 5' stroke='%238B6914' stroke-width='0.8' fill='none' stroke-linecap='round' opacity='0.35'/%3E%3Cpath d='M126 6 C128 2,132 1,134 4 C135 6,131 7,130 5' stroke='%238B6914' stroke-width='0.8' fill='none' stroke-linecap='round' opacity='0.35'/%3E%3Cpath d='M62 5 C58 1,54 2,56 6 C57 8,61 7,62 5Z' fill='%2316a34a' opacity='0.5'/%3E%3Cpath d='M106 5 C110 1,114 2,112 6 C111 8,107 7,106 5Z' fill='%2316a34a' opacity='0.45'/%3E%3Ccircle cx='155' cy='7' r='1.5' fill='%23d97706' opacity='0.5'/%3E%3Ccircle cx='20' cy='8' r='1.2' fill='%23d97706' opacity='0.45'/%3E%3Cellipse cx='82' cy='8' rx='3' ry='2' fill='%233E2415' opacity='0.35'/%3E%3C/svg%3E");
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════
