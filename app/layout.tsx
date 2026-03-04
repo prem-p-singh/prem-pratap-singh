@@ -1,11 +1,8 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono, Source_Serif_4 } from "next/font/google";
+import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import Header from "@/components/Header";
+import FloatingNavWrapper from "@/components/FloatingNavWrapper";
 import Footer from "@/components/Footer";
-import BackgroundDecor from "@/components/BackgroundDecor";
-import FloatingParticles from "@/components/FloatingParticles";
-import CursorGlow from "@/components/CursorGlow";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -17,11 +14,6 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-const sourceSerif = Source_Serif_4({
-  variable: "--font-source-serif",
-  subsets: ["latin"],
-  weight: ["400", "600", "700"],
-});
 
 export const metadata: Metadata = {
   title: {
@@ -106,13 +98,15 @@ export default function RootLayout({
         />
       </head>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} ${sourceSerif.variable} antialiased min-h-screen flex flex-col`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen flex flex-col`}
         suppressHydrationWarning
       >
-        <BackgroundDecor />
-        <FloatingParticles />
-        <CursorGlow />
-        <Header />
+        {/* Subtle gradient background */}
+        <div className="fixed inset-0 -z-10">
+          <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-[var(--foreground)]/[0.02] rounded-full blur-[120px]" />
+          <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-[var(--foreground)]/[0.015] rounded-full blur-[120px]" />
+        </div>
+        <FloatingNavWrapper />
         <main className="flex-grow relative z-10">
           {children}
         </main>

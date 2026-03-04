@@ -1,16 +1,15 @@
 import Link from "next/link";
 import Image from "next/image";
 import { personal, researchInterests, skills } from "@/data/personal";
-import { education, workExperience } from "@/data/experience";
 import { projects } from "@/data/projects";
 import { publications, bookChapters } from "@/data/publications";
 import PublicationsList from "@/components/PublicationsList";
-import EducationTimeline from "@/components/EducationTimeline";
 import ScholarAnalytics from "@/components/ScholarAnalytics";
-import ProjectIllustration from "@/components/ProjectIllustration";
 import { getAllPosts } from "@/lib/mdx";
-import ScrollReveal from "@/components/ScrollReveal";
-import VineDivider from "@/components/VineDivider";
+import ExperienceTimeline from "@/components/ExperienceTimeline";
+import EducationTimelineNew from "@/components/EducationTimelineNew";
+import HeroClient from "@/components/HeroClient";
+import { ShinyCard } from "@/components/ui/shiny-card";
 
 export default function Home() {
   const latestPosts = getAllPosts().slice(0, 3);
@@ -18,150 +17,10 @@ export default function Home() {
   return (
     <>
       {/* Hero Section */}
-      <section className="min-h-screen flex items-center pt-16 relative overflow-hidden">
-        {/* Dot grid background */}
-        <div className="absolute inset-0 bg-dot-grid opacity-40" />
-        {/* Radial glow */}
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-primary/5 rounded-full blur-3xl pointer-events-none" />
-        {/* Decorative grape leaf silhouette — hero accent */}
-        <svg
-          aria-hidden="true"
-          className="pointer-events-none absolute -bottom-12 -left-16 w-[320px] h-[320px] opacity-[0.04] blur-[1px]"
-          viewBox="0 0 200 200"
-          fill="none"
-          style={{ transform: "rotate(-20deg)" }}
-        >
-          <path d="M100 15 C55 25, 15 60, 20 105 C24 140, 55 168, 85 178 C92 180, 96 182, 100 195 C104 182, 108 180, 115 178 C145 168, 176 140, 180 105 C185 60, 145 25, 100 15Z" fill="currentColor" className="text-primary" />
-          <path d="M100 25 L100 185 M100 55 L55 38 M100 55 L145 38 M100 90 L35 72 M100 90 L165 72 M100 125 L50 118 M100 125 L150 118 M100 158 L72 162 M100 158 L128 162" stroke="currentColor" className="text-primary" strokeWidth="1.2" opacity="0.5" />
-        </svg>
-
-        <div className="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
-            <div className="order-2 lg:order-2">
-              <p className="text-lg text-muted-foreground mb-2">
-                Hello, I am
-              </p>
-              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold gradient-text mb-4">
-                {personal.name}
-              </h1>
-              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-semibold text-muted-foreground mb-6">
-                <span className="text-primary">{personal.title}</span>
-              </h2>
-              <p className="text-lg text-muted-foreground max-w-xl mb-8 leading-relaxed">
-                {personal.tagline}
-              </p>
-
-              <div className="flex flex-wrap gap-4">
-                <a href="#about" className="btn-primary inline-flex items-center gap-2">
-                  About Me
-                  <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                  </svg>
-                </a>
-                <a
-                  href="/cv.pdf"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="btn-outline inline-flex items-center gap-2"
-                >
-                  <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                  </svg>
-                  Download CV
-                </a>
-              </div>
-
-              {/* Social Links */}
-              <div className="flex items-center gap-4 mt-8">
-                {personal.social.orcid && (
-                  <a
-                    href={personal.social.orcid}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="p-2 text-muted-foreground hover:text-primary transition-colors"
-                    aria-label="ORCID"
-                  >
-                    <svg className="h-6 w-6" viewBox="0 0 24 24" fill="currentColor">
-                      <path d="M12 0C5.372 0 0 5.372 0 12s5.372 12 12 12 12-5.372 12-12S18.628 0 12 0zM7.369 4.378c.525 0 .947.431.947.947s-.422.947-.947.947a.95.95 0 0 1-.947-.947c0-.525.422-.947.947-.947zm-.722 3.038h1.444v10.041H6.647V7.416zm3.562 0h3.9c3.712 0 5.344 2.653 5.344 5.025 0 2.578-2.016 5.025-5.325 5.025h-3.919V7.416zm1.444 1.303v7.444h2.297c3.272 0 4.022-2.484 4.022-3.722 0-1.209-.619-3.722-3.853-3.722h-2.466z"/>
-                    </svg>
-                  </a>
-                )}
-                {personal.social.googleScholar && (
-                  <a
-                    href={personal.social.googleScholar}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="p-2 text-muted-foreground hover:text-primary transition-colors"
-                    aria-label="Google Scholar"
-                  >
-                    <svg className="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
-                      <path d="M5.242 13.769L0 9.5 12 0l12 9.5-5.242 4.269C17.548 11.249 14.978 9.5 12 9.5c-2.977 0-5.548 1.748-6.758 4.269zM12 10a7 7 0 1 0 0 14 7 7 0 0 0 0-14z"/>
-                    </svg>
-                  </a>
-                )}
-                {personal.social.linkedin && (
-                  <a
-                    href={personal.social.linkedin}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="p-2 text-muted-foreground hover:text-primary transition-colors"
-                    aria-label="LinkedIn"
-                  >
-                    <svg className="h-6 w-6" viewBox="0 0 24 24" fill="currentColor">
-                      <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
-                    </svg>
-                  </a>
-                )}
-                {personal.social.researchgate && (
-                  <a
-                    href={personal.social.researchgate}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="p-2 text-muted-foreground hover:text-primary transition-colors"
-                    aria-label="ResearchGate"
-                  >
-                    <svg className="h-6 w-6" viewBox="0 0 24 24" fill="currentColor">
-                      <rect width="24" height="24" rx="4" fill="currentColor"/>
-                      <text x="4" y="19" fontFamily="Georgia, serif" fontSize="18" fontWeight="bold" fill="var(--background, #fff)">R</text>
-                      <text x="15" y="11" fontFamily="Georgia, serif" fontSize="9" fontWeight="bold" fill="var(--background, #fff)">G</text>
-                    </svg>
-                  </a>
-                )}
-                <a
-                  href={`mailto:${personal.email}`}
-                  className="p-2 text-muted-foreground hover:text-primary transition-colors"
-                  aria-label="Email"
-                >
-                  <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75" />
-                  </svg>
-                </a>
-              </div>
-            </div>
-
-            {/* Hero Profile Image */}
-            <div className="order-1 lg:order-1 flex justify-center">
-              <div className="relative w-72 h-72 sm:w-80 sm:h-80 lg:w-96 lg:h-96 float-animation">
-                <div className="absolute inset-0 bg-gradient-to-br from-primary/20 to-accent/20 rounded-full blur-3xl" />
-                <div className="relative w-full h-full rounded-full overflow-hidden border-4 border-border shadow-2xl">
-                  <Image
-                    src="/images/profile.jpg"
-                    alt={personal.name}
-                    fill
-                    className="object-cover"
-                    priority
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+      <HeroClient />
 
       {/* About Section */}
-      <VineDivider />
       <section id="about" className="py-20">
-        <ScrollReveal>
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className="section-title mb-12">About Me</h2>
 
@@ -187,17 +46,17 @@ export default function Home() {
             </div>
 
             {/* Skills */}
-            <div className="glass-card glow-hover p-6">
-              <h3 className="text-lg font-semibold text-foreground mb-6">Skills & Expertise</h3>
+            <ShinyCard className="p-6" duration={5000}>
+              <h3 className="text-lg font-semibold text-foreground mb-6">Skills &amp; Expertise</h3>
               <div className="space-y-6">
                 {skills.map((skillGroup, index) => (
                   <div key={index}>
-                    <h4 className="text-sm font-medium text-primary mb-3">{skillGroup.category}</h4>
+                    <h4 className="text-sm font-medium text-muted-foreground mb-3">{skillGroup.category}</h4>
                     <div className="flex flex-wrap gap-2">
                       {skillGroup.items.map((skill, i) => (
                         <span
                           key={i}
-                          className="px-3 py-1 text-sm bg-muted text-muted-foreground rounded-md hover:bg-primary hover:text-primary-foreground transition-colors cursor-default"
+                          className="px-3 py-1 text-sm bg-muted text-muted-foreground rounded-md hover:bg-foreground hover:text-background transition-colors cursor-default"
                         >
                           {skill}
                         </span>
@@ -206,140 +65,29 @@ export default function Home() {
                   </div>
                 ))}
               </div>
-            </div>
+            </ShinyCard>
           </div>
         </div>
-        </ScrollReveal>
       </section>
 
       {/* Experience Section */}
-      <VineDivider flip />
       <section id="experience" className="py-20">
-        <ScrollReveal>
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="section-title mb-16">Experience</h2>
-
-          <div className="relative">
-            {/* Timeline center line - visible on lg screens */}
-            <div className="hidden lg:block absolute left-1/2 top-0 bottom-0 w-0.5 bg-gradient-to-b from-primary via-primary/50 to-transparent -translate-x-1/2" />
-
-            <div className="space-y-8 lg:space-y-12">
-              {workExperience.map((exp, index) => {
-                const isResearch = exp.title.toLowerCase().includes('research') || exp.title.toLowerCase().includes('postdoc') || exp.title.toLowerCase().includes('scholar');
-
-                return (
-                  <div
-                    key={index}
-                    className={`relative flex flex-col lg:flex-row lg:items-start gap-4 lg:gap-8 ${
-                      index % 2 === 0 ? 'lg:flex-row' : 'lg:flex-row-reverse'
-                    }`}
-                  >
-                    {/* Timeline node - centered on lg screens */}
-                    <div className="hidden lg:flex absolute left-1/2 -translate-x-1/2 z-10">
-                      <div className="experience-node">
-                        {isResearch ? (
-                          <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
-                          </svg>
-                        ) : (
-                          <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
-                          </svg>
-                        )}
-                      </div>
-                    </div>
-
-                    {/* Date badge - side placement on lg */}
-                    <div className={`lg:w-[calc(50%-2rem)] flex ${index % 2 === 0 ? 'lg:justify-end' : 'lg:justify-start'}`}>
-                      <div className="experience-date-badge">
-                        <svg className="w-4 h-4 mr-2 opacity-70" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                        </svg>
-                        {exp.startDate} — {exp.endDate}
-                      </div>
-                    </div>
-
-                    {/* Card */}
-                    <div className="lg:w-[calc(50%-2rem)]">
-                      <div className="experience-card group">
-                        {/* Accent bar */}
-                        <div className="absolute top-0 left-0 w-1 h-full bg-gradient-to-b from-primary to-primary/30 rounded-l-xl" />
-
-                        {/* Mobile timeline indicator */}
-                        <div className="lg:hidden absolute -left-6 top-6 experience-node-mobile">
-                          <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
-                          </svg>
-                        </div>
-
-                        <div className="pl-4">
-                          {/* Header */}
-                          <div className="mb-4">
-                            <h3 className="text-xl font-bold text-foreground group-hover:text-primary transition-colors">
-                              {exp.title}
-                            </h3>
-                            <p className="text-primary font-semibold text-lg">{exp.organization}</p>
-                            {exp.location && (
-                              <p className="flex items-center gap-1.5 text-sm text-muted-foreground mt-1">
-                                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                                </svg>
-                                {exp.location}
-                              </p>
-                            )}
-                          </div>
-
-                          {/* Description */}
-                          {exp.description && (
-                            <p className="text-muted-foreground mb-4 leading-relaxed">
-                              {exp.description}
-                            </p>
-                          )}
-
-                          {/* Highlights */}
-                          {exp.highlights && exp.highlights.length > 0 && (
-                            <ul className="space-y-2">
-                              {exp.highlights.map((h, i) => (
-                                <li key={i} className="experience-highlight">
-                                  <span className="experience-highlight-icon">
-                                    <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
-                                      <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                                    </svg>
-                                  </span>
-                                  <span className="text-sm text-muted-foreground">{h}</span>
-                                </li>
-                              ))}
-                            </ul>
-                          )}
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-          </div>
+          <h2 className="section-title mb-12">Experience</h2>
+          <ExperienceTimeline />
         </div>
-        </ScrollReveal>
       </section>
 
       {/* Education Section */}
-      <VineDivider />
       <section id="education" className="py-20">
-        <ScrollReveal>
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className="section-title mb-12">Education</h2>
-
-          <EducationTimeline items={education} />
+          <EducationTimelineNew />
         </div>
-        </ScrollReveal>
       </section>
 
       {/* Research Impact / Analytics Section */}
-      <VineDivider flip />
       <section id="publications" className="py-20">
-        <ScrollReveal>
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className="section-title mb-12">Research Impact</h2>
 
@@ -356,145 +104,112 @@ export default function Home() {
             </div>
           </div>
         </div>
-        </ScrollReveal>
       </section>
 
       {/* Projects Section */}
-      <VineDivider />
-      <section id="projects" className="py-20 relative overflow-hidden">
-        {/* Decorative microscope / petri dish accent */}
-        <svg
-          aria-hidden="true"
-          className="pointer-events-none absolute -top-8 -right-16 w-[260px] h-[260px] opacity-[0.03]"
-          viewBox="0 0 100 100"
-          fill="none"
-        >
-          <circle cx="50" cy="50" r="40" stroke="currentColor" className="text-primary" strokeWidth="1.5" />
-          <circle cx="50" cy="50" r="28" stroke="currentColor" className="text-primary" strokeWidth="1" opacity="0.5" />
-          <circle cx="38" cy="42" r="6" fill="currentColor" className="text-primary" opacity="0.3" />
-          <circle cx="58" cy="38" r="4" fill="currentColor" className="text-accent" opacity="0.3" />
-          <circle cx="52" cy="58" r="5" fill="currentColor" className="text-primary" opacity="0.2" />
-          <circle cx="40" cy="60" r="3" fill="currentColor" className="text-accent" opacity="0.2" />
-        </svg>
-        <ScrollReveal>
+      <section id="projects" className="py-20">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className="section-title mb-12">Research Projects</h2>
 
           <div className="grid md:grid-cols-2 gap-6">
             {projects.map((project, index) => (
-              <div
+              <ShinyCard
                 key={index}
-                className="group glass-card glow-hover overflow-hidden"
+                className="group p-6"
+                duration={4000 + index * 500}
               >
-                {/* Project Illustration */}
-                <ProjectIllustration projectIndex={index} />
-
-                <div className="p-6">
-                  <h3 className="text-xl font-semibold text-foreground mb-2 group-hover:text-primary transition-colors">
-                    {project.title}
-                  </h3>
-                  <p className="text-muted-foreground mb-3 line-clamp-3">
-                    {project.description}
+                <h3 className="text-xl font-semibold text-foreground mb-2 group-hover:text-muted-foreground transition-colors">
+                  {project.title}
+                </h3>
+                <p className="text-muted-foreground mb-3 line-clamp-3">
+                  {project.description}
+                </p>
+                {project.impact && (
+                  <p className="text-sm text-foreground/70 font-medium mb-4 flex items-start gap-2">
+                    <svg className="h-4 w-4 flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
+                    </svg>
+                    {project.impact}
                   </p>
-                  {project.impact && (
-                    <p className="text-sm text-primary font-medium mb-4 flex items-start gap-2">
-                      <svg className="h-4 w-4 flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
-                      </svg>
-                      {project.impact}
-                    </p>
-                  )}
+                )}
 
-                  <div className="flex flex-wrap gap-2">
-                    {project.tech.map((t) => (
-                      <span
-                        key={t}
-                        className="px-2 py-1 text-xs bg-muted text-muted-foreground rounded border border-border"
-                      >
-                        {t}
-                      </span>
-                    ))}
-                  </div>
+                <div className="flex flex-wrap gap-2">
+                  {project.tech.map((t) => (
+                    <span
+                      key={t}
+                      className="px-2 py-1 text-xs bg-muted text-muted-foreground rounded border border-border"
+                    >
+                      {t}
+                    </span>
+                  ))}
                 </div>
-              </div>
+              </ShinyCard>
             ))}
           </div>
         </div>
-        </ScrollReveal>
       </section>
 
       {/* Blog Section */}
       {latestPosts.length > 0 && (
-        <>
-        <VineDivider flip />
         <section id="blog" className="py-20">
           <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex items-center justify-between mb-12">
               <h2 className="section-title">Latest from the Blog</h2>
               <Link
                 href="/blog"
-                className="text-sm font-medium text-primary hover:underline transition-colors"
+                className="text-sm font-medium text-muted-foreground hover:text-foreground hover:underline transition-colors"
               >
                 View all posts &rarr;
               </Link>
             </div>
 
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {latestPosts.map((post) => (
+              {latestPosts.map((post, index) => (
                 <Link
                   key={post.slug}
                   href={`/blog/${post.slug}`}
-                  className="group glass-card glow-hover p-6"
+                  className="block"
                 >
-                  <div className="flex flex-wrap gap-2 mb-3">
-                    {post.tags.slice(0, 2).map((tag) => (
-                      <span
-                        key={tag}
-                        className="px-2 py-0.5 text-xs bg-muted text-muted-foreground rounded"
-                      >
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
-                  <h3 className="text-lg font-semibold text-foreground mb-2 line-clamp-2 group-hover:text-primary transition-colors">
-                    {post.title}
-                  </h3>
-                  <p className="text-sm text-muted-foreground mb-4 line-clamp-3">
-                    {post.description}
-                  </p>
-                  <div className="flex items-center justify-between text-xs text-muted-foreground">
-                    <time dateTime={post.date}>
-                      {new Date(post.date).toLocaleDateString("en-US", {
-                        year: "numeric",
-                        month: "short",
-                        day: "numeric",
-                      })}
-                    </time>
-                    <span>{post.readingTime}</span>
-                  </div>
+                  <ShinyCard
+                    className="group p-6 h-full"
+                    duration={4000 + index * 600}
+                  >
+                    <div className="flex flex-wrap gap-2 mb-3">
+                      {post.tags.slice(0, 2).map((tag) => (
+                        <span
+                          key={tag}
+                          className="px-2 py-0.5 text-xs bg-muted text-muted-foreground rounded"
+                        >
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
+                    <h3 className="text-lg font-semibold text-foreground mb-2 line-clamp-2 group-hover:text-muted-foreground transition-colors">
+                      {post.title}
+                    </h3>
+                    <p className="text-sm text-muted-foreground mb-4 line-clamp-3">
+                      {post.description}
+                    </p>
+                    <div className="flex items-center justify-between text-xs text-muted-foreground">
+                      <time dateTime={post.date}>
+                        {new Date(post.date).toLocaleDateString("en-US", {
+                          year: "numeric",
+                          month: "short",
+                          day: "numeric",
+                        })}
+                      </time>
+                      <span>{post.readingTime}</span>
+                    </div>
+                  </ShinyCard>
                 </Link>
               ))}
             </div>
           </div>
         </section>
-        </>
       )}
 
       {/* Contact Section */}
-      <VineDivider />
-      <section id="contact" className="py-20 relative overflow-hidden">
-        {/* Decorative vine accent */}
-        <svg
-          aria-hidden="true"
-          className="pointer-events-none absolute bottom-0 -left-12 w-[200px] h-[300px] opacity-[0.03]"
-          viewBox="0 0 80 140"
-          fill="none"
-        >
-          <path d="M60 130 C55 110, 40 100, 35 80 C30 60, 38 40, 50 20 C55 10, 60 5, 65 2" stroke="currentColor" className="text-primary" strokeWidth="2" fill="none" strokeLinecap="round" />
-          <path d="M38 75 C30 68, 22 72, 25 80 C27 85, 35 83, 38 75Z" fill="currentColor" className="text-primary" opacity="0.6" />
-          <path d="M45 50 C52 44, 60 48, 57 55 C55 60, 47 57, 45 50Z" fill="currentColor" className="text-primary" opacity="0.6" />
-          <path d="M50 20 C56 14, 60 18, 56 22 C52 25, 48 22, 50 20Z" stroke="currentColor" className="text-primary" strokeWidth="1" fill="none" />
-        </svg>
+      <section id="contact" className="py-20">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="max-w-2xl mx-auto text-center">
             <h2 className="section-title mx-auto mb-8">Get In Touch</h2>
@@ -505,112 +220,102 @@ export default function Home() {
             </p>
 
             <div className="flex flex-col sm:flex-row justify-center gap-4">
-              <a
+              <ShinyCard
+                as="a"
                 href={`mailto:${personal.email}`}
-                className="btn-primary inline-flex items-center justify-center gap-2"
+                className="inline-flex items-center justify-center gap-2 px-6 py-3 font-medium text-[var(--foreground)]"
+                borderRadius="0.75rem"
+                duration={3000}
               >
                 <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                 </svg>
                 Contact Me
-              </a>
-              <a
+              </ShinyCard>
+              <ShinyCard
+                as="a"
                 href={personal.social.googleScholar || "#"}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="btn-outline inline-flex items-center justify-center gap-2"
+                className="inline-flex items-center justify-center gap-2 px-6 py-3 font-medium text-[var(--foreground)]"
+                borderRadius="0.75rem"
+                duration={3500}
               >
                 <svg className="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
                   <path d="M5.242 13.769L0 9.5 12 0l12 9.5-5.242 4.269C17.548 11.249 14.978 9.5 12 9.5c-2.977 0-5.548 1.748-6.758 4.269zM12 10a7 7 0 1 0 0 14 7 7 0 0 0 0-14z"/>
                 </svg>
                 Google Scholar
-              </a>
+              </ShinyCard>
             </div>
 
             <div className="mt-8 flex justify-center gap-6">
               {personal.social.orcid && (
-                <a
-                  href={personal.social.orcid}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="p-3 text-muted-foreground hover:text-primary bg-surface rounded-full border border-border hover:border-primary hover:shadow-[0_0_16px_-4px_var(--glow-primary)] transition-all"
-                  aria-label="ORCID"
-                >
+                <a href={personal.social.orcid} target="_blank" rel="noopener noreferrer"
+                  className="p-3 text-muted-foreground hover:text-foreground bg-surface rounded-full border border-border hover:border-muted-foreground transition-all"
+                  aria-label="ORCID">
                   <svg className="h-6 w-6" viewBox="0 0 24 24" fill="currentColor">
                     <path d="M12 0C5.372 0 0 5.372 0 12s5.372 12 12 12 12-5.372 12-12S18.628 0 12 0zM7.369 4.378c.525 0 .947.431.947.947s-.422.947-.947.947a.95.95 0 0 1-.947-.947c0-.525.422-.947.947-.947zm-.722 3.038h1.444v10.041H6.647V7.416zm3.562 0h3.9c3.712 0 5.344 2.653 5.344 5.025 0 2.578-2.016 5.025-5.325 5.025h-3.919V7.416zm1.444 1.303v7.444h2.297c3.272 0 4.022-2.484 4.022-3.722 0-1.209-.619-3.722-3.853-3.722h-2.466z"/>
                   </svg>
                 </a>
               )}
               {personal.social.googleScholar && (
-                <a
-                  href={personal.social.googleScholar}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="p-3 text-muted-foreground hover:text-primary bg-surface rounded-full border border-border hover:border-primary hover:shadow-[0_0_16px_-4px_var(--glow-primary)] transition-all"
-                  aria-label="Google Scholar"
-                >
+                <a href={personal.social.googleScholar} target="_blank" rel="noopener noreferrer"
+                  className="p-3 text-muted-foreground hover:text-foreground bg-surface rounded-full border border-border hover:border-muted-foreground transition-all"
+                  aria-label="Google Scholar">
                   <svg className="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
                     <path d="M5.242 13.769L0 9.5 12 0l12 9.5-5.242 4.269C17.548 11.249 14.978 9.5 12 9.5c-2.977 0-5.548 1.748-6.758 4.269zM12 10a7 7 0 1 0 0 14 7 7 0 0 0 0-14z"/>
                   </svg>
                 </a>
               )}
               {personal.social.linkedin && (
-                <a
-                  href={personal.social.linkedin}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="p-3 text-muted-foreground hover:text-primary bg-surface rounded-full border border-border hover:border-primary hover:shadow-[0_0_16px_-4px_var(--glow-primary)] transition-all"
-                  aria-label="LinkedIn"
-                >
+                <a href={personal.social.linkedin} target="_blank" rel="noopener noreferrer"
+                  className="p-3 text-muted-foreground hover:text-foreground bg-surface rounded-full border border-border hover:border-muted-foreground transition-all"
+                  aria-label="LinkedIn">
                   <svg className="h-6 w-6" viewBox="0 0 24 24" fill="currentColor">
                     <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
                   </svg>
                 </a>
               )}
               {personal.social.researchgate && (
-                <a
-                  href={personal.social.researchgate}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="p-3 text-muted-foreground hover:text-primary bg-surface rounded-full border border-border hover:border-primary hover:shadow-[0_0_16px_-4px_var(--glow-primary)] transition-all"
-                  aria-label="ResearchGate"
-                >
+                <a href={personal.social.researchgate} target="_blank" rel="noopener noreferrer"
+                  className="p-3 text-muted-foreground hover:text-foreground bg-surface rounded-full border border-border hover:border-muted-foreground transition-all"
+                  aria-label="ResearchGate">
                   <svg className="h-6 w-6" viewBox="0 0 24 24" fill="currentColor">
-                    <rect width="24" height="24" rx="4" fill="currentColor"/>
-                    <text x="4" y="19" fontFamily="Georgia, serif" fontSize="18" fontWeight="bold" fill="var(--background, #fff)">R</text>
-                    <text x="15" y="11" fontFamily="Georgia, serif" fontSize="9" fontWeight="bold" fill="var(--background, #fff)">G</text>
+                    <path d="M19.586 0c-.818 0-1.508.19-2.073.565-.563.377-.97.936-1.213 1.68a3.193 3.193 0 0 0-.112.437 8.365 8.365 0 0 0-.078.53 9 9 0 0 0-.05.727c-.01.282-.013.621-.013 1.016a31.121 31.123 0 0 0 .014 1.017 9 9 0 0 0 .05.727 7.946 7.946 0 0 0 .077.53h-.005a3.334 3.334 0 0 0 .113.438c.245.743.65 1.303 1.214 1.68.565.376 1.256.564 2.075.564.8 0 1.536-.213 2.105-.603.57-.39.94-.916 1.175-1.65.076-.235.135-.558.177-.93a10.9 10.9 0 0 0 .043-1.207v-.82c0-.095-.047-.142-.14-.142h-3.064c-.094 0-.14.047-.14.141v.956c0 .094.046.14.14.14h1.666c.056 0 .084.03.084.086 0 .36 0 .62-.036.865-.038.244-.1.447-.147.606-.108.385-.348.664-.638.876-.29.212-.738.35-1.227.35-.545 0-.901-.15-1.21-.353-.306-.203-.517-.454-.67-.915a3.136 3.136 0 0 1-.147-.762 17.366 17.367 0 0 1-.034-.656c-.01-.26-.014-.572-.014-.939a26.401 26.403 0 0 1 .014-.938 15.821 15.822 0 0 1 .035-.656 3.19 3.19 0 0 1 .148-.76 1.89 1.89 0 0 1 .742-1.01c.344-.244.593-.352 1.137-.352.508 0 .815.096 1.144.303.33.207.528.492.764.925.047.094.111.118.198.07l1.044-.43c.075-.048.09-.115.042-.199a3.549 3.549 0 0 0-.466-.742 3 3 0 0 0-.679-.607 3.313 3.313 0 0 0-.903-.41A4.068 4.068 0 0 0 19.586 0zM8.217 5.836c-1.69 0-3.036.086-4.297.086-1.146 0-2.291 0-3.007-.029v.831l1.088.2c.744.144 1.174.488 1.174 2.264v11.288c0 1.777-.43 2.12-1.174 2.263l-1.088.2v.832c.773-.029 2.12-.086 3.465-.086 1.29 0 2.951.057 3.667.086v-.831l-1.49-.2c-.773-.115-1.174-.487-1.174-2.264v-4.784c.688.057 1.29.057 2.206.057 1.748 3.123 3.41 5.472 4.355 6.56.86 1.032 2.177 1.691 3.839 1.691.487 0 1.003-.086 1.318-.23v-.744c-1.031 0-2.063-.716-2.808-1.518-1.26-1.376-2.95-3.582-4.355-6.074 2.32-.545 4.04-2.722 4.04-4.9 0-3.208-2.492-4.698-5.758-4.698zm-.515 1.29c2.406 0 3.839 1.26 3.839 3.552 0 2.263-1.547 3.782-4.097 3.782-.974 0-1.404-.03-2.063-.086v-7.19c.66-.059 1.547-.059 2.32-.059z"/>
                   </svg>
                 </a>
               )}
             </div>
 
             {/* Newsletter Signup */}
-            <div className="mt-12 glass-card p-8 max-w-lg mx-auto">
-              <h3 className="text-lg font-semibold text-foreground mb-2">Stay Updated</h3>
-              <p className="text-sm text-muted-foreground mb-4">
-                Get notified about new publications, research updates, and blog posts.
-              </p>
-              <form
-                action="https://buttondown.com/api/emails/newsletter-subscribe"
-                method="post"
-                target="_blank"
-                className="flex gap-2"
-              >
-                <input
-                  type="email"
-                  name="email"
-                  placeholder="your@email.com"
-                  required
-                  className="flex-1 px-4 py-2 rounded-lg bg-muted border border-border text-foreground placeholder:text-muted-foreground text-sm focus:outline-none focus:border-primary transition-colors"
-                />
-                <button
-                  type="submit"
-                  className="btn-primary px-5 py-2 text-sm whitespace-nowrap"
+            <div className="max-w-lg mx-auto mt-12">
+              <ShinyCard className="p-8" duration={5000}>
+                <h3 className="text-lg font-semibold text-[var(--foreground)] mb-2">Stay Updated</h3>
+                <p className="text-sm text-[var(--muted-foreground)] mb-4">
+                  Get notified about new publications, research updates, and blog posts.
+                </p>
+                <form
+                  action="https://buttondown.com/api/emails/newsletter-subscribe"
+                  method="post"
+                  target="_blank"
+                  className="flex gap-2"
                 >
-                  Subscribe
-                </button>
-              </form>
-              <p className="text-xs text-muted-foreground mt-2">No spam. Unsubscribe anytime.</p>
+                  <input
+                    type="email"
+                    name="email"
+                    placeholder="your@email.com"
+                    required
+                    className="flex-1 px-4 py-2 rounded-lg bg-[var(--muted)] border border-[var(--border)] text-[var(--foreground)] placeholder:text-[var(--muted-foreground)] text-sm focus:outline-none focus:border-[var(--foreground)] transition-colors"
+                  />
+                  <button
+                    type="submit"
+                    className="px-5 py-2 text-sm whitespace-nowrap rounded-lg bg-[var(--foreground)] text-[var(--background)] font-medium hover:opacity-85 transition-opacity"
+                  >
+                    Subscribe
+                  </button>
+                </form>
+                <p className="text-xs text-[var(--muted-foreground)] mt-2">No spam. Unsubscribe anytime.</p>
+              </ShinyCard>
             </div>
           </div>
         </div>
