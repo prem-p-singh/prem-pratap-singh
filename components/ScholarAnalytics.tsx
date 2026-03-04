@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { googleScholar, scopus } from "@/data/analytics";
+import { ShinyCard } from "@/components/ui/shiny-card";
 
 type Tab = "scholar" | "scopus";
 
@@ -16,8 +17,8 @@ export default function ScholarAnalytics() {
           onClick={() => setActiveTab("scholar")}
           className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
             activeTab === "scholar"
-              ? "bg-primary text-primary-foreground shadow-md shadow-primary/20"
-              : "bg-surface text-muted-foreground border border-border hover:border-primary/50 hover:text-foreground"
+              ? "bg-[var(--foreground)] text-[var(--background)] shadow-md"
+              : "bg-[var(--muted)] text-[var(--muted-foreground)] border border-[var(--border)] hover:border-[var(--foreground)]/50 hover:text-[var(--foreground)]"
           }`}
         >
           <span className="inline-flex items-center gap-2">
@@ -31,8 +32,8 @@ export default function ScholarAnalytics() {
           onClick={() => setActiveTab("scopus")}
           className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
             activeTab === "scopus"
-              ? "bg-primary text-primary-foreground shadow-md shadow-primary/20"
-              : "bg-surface text-muted-foreground border border-border hover:border-primary/50 hover:text-foreground"
+              ? "bg-[var(--foreground)] text-[var(--background)] shadow-md"
+              : "bg-[var(--muted)] text-[var(--muted-foreground)] border border-[var(--border)] hover:border-[var(--foreground)]/50 hover:text-[var(--foreground)]"
           }`}
         >
           <span className="inline-flex items-center gap-2">
@@ -55,29 +56,29 @@ export default function ScholarAnalytics() {
           </div>
 
           {/* Since 2021 row */}
-          <div className="glass-card p-4">
-            <p className="text-xs text-muted-foreground mb-3 font-medium uppercase tracking-wide">Since 2021</p>
+          <ShinyCard className="p-4" duration={5500}>
+            <p className="text-xs text-[var(--muted-foreground)] mb-3 font-medium uppercase tracking-wide">Since 2021</p>
             <div className="grid grid-cols-3 gap-4">
               <div>
-                <p className="text-xl font-bold text-foreground">{googleScholar.since2021.citations.toLocaleString()}</p>
-                <p className="text-xs text-muted-foreground">Citations</p>
+                <p className="text-xl font-bold text-[var(--foreground)]">{googleScholar.since2021.citations.toLocaleString()}</p>
+                <p className="text-xs text-[var(--muted-foreground)]">Citations</p>
               </div>
               <div>
-                <p className="text-xl font-bold text-foreground">{googleScholar.since2021.hIndex}</p>
-                <p className="text-xs text-muted-foreground">h-index</p>
+                <p className="text-xl font-bold text-[var(--foreground)]">{googleScholar.since2021.hIndex}</p>
+                <p className="text-xs text-[var(--muted-foreground)]">h-index</p>
               </div>
               <div>
-                <p className="text-xl font-bold text-foreground">{googleScholar.since2021.i10Index}</p>
-                <p className="text-xs text-muted-foreground">i10-index</p>
+                <p className="text-xl font-bold text-[var(--foreground)]">{googleScholar.since2021.i10Index}</p>
+                <p className="text-xs text-[var(--muted-foreground)]">i10-index</p>
               </div>
             </div>
-          </div>
+          </ShinyCard>
 
-          {/* Citation chart — SVG line graph */}
-          <div className="glass-card p-5">
-            <p className="text-sm font-medium text-foreground mb-4">Citations per Year</p>
-            <CitationGraph data={googleScholar.citationsByYear} />
-          </div>
+          {/* Citation bar chart */}
+          <ShinyCard className="p-5" duration={5000}>
+            <p className="text-sm font-medium text-[var(--foreground)] mb-4">Citations per Year</p>
+            <CitationBarGraph data={googleScholar.citationsByYear} />
+          </ShinyCard>
 
           {/* Link to profile */}
           <div className="text-center">
@@ -85,7 +86,7 @@ export default function ScholarAnalytics() {
               href={googleScholar.profileUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 text-sm text-primary hover:underline"
+              className="inline-flex items-center gap-2 text-sm text-[var(--foreground)] hover:underline"
             >
               View full Google Scholar profile
               <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -107,18 +108,18 @@ export default function ScholarAnalytics() {
           </div>
 
           {/* Additional info */}
-          <div className="glass-card p-4">
+          <ShinyCard className="p-4" duration={5500}>
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <p className="text-xl font-bold text-foreground">{scopus.metrics.citingDocuments.toLocaleString()}</p>
-                <p className="text-xs text-muted-foreground">Citing Documents</p>
+                <p className="text-xl font-bold text-[var(--foreground)]">{scopus.metrics.citingDocuments.toLocaleString()}</p>
+                <p className="text-xs text-[var(--muted-foreground)]">Citing Documents</p>
               </div>
               <div>
-                <p className="text-xl font-bold text-foreground">{scopus.metrics.documents}</p>
-                <p className="text-xs text-muted-foreground">Total Documents</p>
+                <p className="text-xl font-bold text-[var(--foreground)]">{scopus.metrics.documents}</p>
+                <p className="text-xs text-[var(--muted-foreground)]">Total Documents</p>
               </div>
             </div>
-          </div>
+          </ShinyCard>
 
           {/* Link to profile */}
           <div className="text-center">
@@ -126,7 +127,7 @@ export default function ScholarAnalytics() {
               href={scopus.profileUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 text-sm text-primary hover:underline"
+              className="inline-flex items-center gap-2 text-sm text-[var(--foreground)] hover:underline"
             >
               View full Scopus profile
               <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -140,30 +141,25 @@ export default function ScholarAnalytics() {
   );
 }
 
-function CitationGraph({ data }: { data: { year: number; count: number }[] }) {
+function CitationBarGraph({ data }: { data: { year: number; count: number }[] }) {
   const [hovered, setHovered] = useState<number | null>(null);
 
-  const padding = { top: 20, right: 20, bottom: 32, left: 44 };
+  const padding = { top: 28, right: 20, bottom: 32, left: 44 };
   const width = 600;
-  const height = 240;
+  const height = 260;
   const chartW = width - padding.left - padding.right;
   const chartH = height - padding.top - padding.bottom;
 
   const maxCount = Math.max(...data.map((d) => d.count));
-  // Round up to a nice number for y-axis
   const yMax = Math.ceil(maxCount / 100) * 100;
   const yTicks = Array.from({ length: 5 }, (_, i) => Math.round((yMax / 4) * i));
 
-  const xScale = (i: number) => padding.left + (i / (data.length - 1)) * chartW;
+  const barCount = data.length;
+  const gap = 8;
+  const barWidth = (chartW - gap * (barCount - 1)) / barCount;
+
+  const xBar = (i: number) => padding.left + i * (barWidth + gap);
   const yScale = (v: number) => padding.top + chartH - (v / yMax) * chartH;
-
-  // Build line path
-  const linePath = data
-    .map((d, i) => `${i === 0 ? "M" : "L"} ${xScale(i).toFixed(1)} ${yScale(d.count).toFixed(1)}`)
-    .join(" ");
-
-  // Build area path (line + close along bottom)
-  const areaPath = `${linePath} L ${xScale(data.length - 1).toFixed(1)} ${yScale(0).toFixed(1)} L ${xScale(0).toFixed(1)} ${yScale(0).toFixed(1)} Z`;
 
   return (
     <div className="w-full overflow-x-auto">
@@ -172,6 +168,18 @@ function CitationGraph({ data }: { data: { year: number; count: number }[] }) {
         className="w-full h-auto min-w-[400px]"
         onMouseLeave={() => setHovered(null)}
       >
+        {/* Gradient definition for bars */}
+        <defs>
+          <linearGradient id="barGrad" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stopColor="var(--foreground)" stopOpacity={0.7} />
+            <stop offset="100%" stopColor="var(--foreground)" stopOpacity={0.3} />
+          </linearGradient>
+          <linearGradient id="barGradHover" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stopColor="var(--foreground)" stopOpacity={1} />
+            <stop offset="100%" stopColor="var(--foreground)" stopOpacity={0.6} />
+          </linearGradient>
+        </defs>
+
         {/* Horizontal grid lines */}
         {yTicks.map((tick) => (
           <g key={tick}>
@@ -188,7 +196,7 @@ function CitationGraph({ data }: { data: { year: number; count: number }[] }) {
               x={padding.left - 8}
               y={yScale(tick) + 4}
               textAnchor="end"
-              className="fill-muted-foreground"
+              className="fill-[var(--muted-foreground)]"
               fontSize={11}
             >
               {tick}
@@ -196,72 +204,72 @@ function CitationGraph({ data }: { data: { year: number; count: number }[] }) {
           </g>
         ))}
 
-        {/* Area fill */}
-        <path d={areaPath} fill="var(--primary)" opacity={0.1} />
+        {/* Bars + year labels */}
+        {data.map((d, i) => {
+          const barH = (d.count / yMax) * chartH;
+          const x = xBar(i);
+          const y = yScale(d.count);
+          const isHovered = hovered === i;
 
-        {/* Line */}
-        <path
-          d={linePath}
-          fill="none"
-          stroke="var(--primary)"
-          strokeWidth={2.5}
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
+          return (
+            <g key={d.year} onMouseEnter={() => setHovered(i)}>
+              {/* Invisible larger hit area */}
+              <rect
+                x={x - 4}
+                y={padding.top}
+                width={barWidth + 8}
+                height={chartH}
+                fill="transparent"
+              />
 
-        {/* Data points + year labels */}
-        {data.map((d, i) => (
-          <g key={d.year} onMouseEnter={() => setHovered(i)}>
-            {/* Invisible larger hit area */}
-            <circle cx={xScale(i)} cy={yScale(d.count)} r={16} fill="transparent" />
+              {/* Bar */}
+              <rect
+                x={x}
+                y={y}
+                width={barWidth}
+                height={barH}
+                rx={3}
+                fill={isHovered ? "url(#barGradHover)" : "url(#barGrad)"}
+                className="transition-all duration-200"
+              />
 
-            {/* Visible dot */}
-            <circle
-              cx={xScale(i)}
-              cy={yScale(d.count)}
-              r={hovered === i ? 6 : 4}
-              fill={hovered === i ? "var(--primary)" : "var(--background)"}
-              stroke="var(--primary)"
-              strokeWidth={2}
-              className="transition-all duration-150"
-            />
+              {/* Tooltip on hover */}
+              {isHovered && (
+                <g>
+                  <rect
+                    x={x + barWidth / 2 - 28}
+                    y={y - 28}
+                    width={56}
+                    height={22}
+                    rx={4}
+                    fill="var(--foreground)"
+                  />
+                  <text
+                    x={x + barWidth / 2}
+                    y={y - 13}
+                    textAnchor="middle"
+                    fill="var(--background)"
+                    fontSize={12}
+                    fontWeight={600}
+                  >
+                    {d.count}
+                  </text>
+                </g>
+              )}
 
-            {/* Tooltip on hover */}
-            {hovered === i && (
-              <g>
-                <rect
-                  x={xScale(i) - 28}
-                  y={yScale(d.count) - 30}
-                  width={56}
-                  height={22}
-                  rx={4}
-                  fill="var(--foreground)"
-                />
-                <text
-                  x={xScale(i)}
-                  y={yScale(d.count) - 15}
-                  textAnchor="middle"
-                  fill="var(--background)"
-                  fontSize={12}
-                  fontWeight={600}
-                >
-                  {d.count}
-                </text>
-              </g>
-            )}
-
-            {/* Year label on x-axis */}
-            <text
-              x={xScale(i)}
-              y={height - 6}
-              textAnchor="middle"
-              className="fill-muted-foreground"
-              fontSize={11}
-            >
-              {d.year}
-            </text>
-          </g>
-        ))}
+              {/* Year label on x-axis */}
+              <text
+                x={x + barWidth / 2}
+                y={height - 6}
+                textAnchor="middle"
+                className="fill-[var(--muted-foreground)]"
+                fontSize={11}
+              >
+                {d.year}
+              </text>
+            </g>
+          );
+        })}
       </svg>
     </div>
   );
@@ -269,9 +277,9 @@ function CitationGraph({ data }: { data: { year: number; count: number }[] }) {
 
 function MetricCard({ label, value }: { label: string; value: string }) {
   return (
-    <div className="glass-card glow-hover p-5 text-center">
-      <p className="text-3xl font-bold gradient-text mb-1">{value}</p>
-      <p className="text-sm text-muted-foreground">{label}</p>
-    </div>
+    <ShinyCard className="p-5 text-center" duration={4500}>
+      <p className="text-3xl font-bold text-[var(--foreground)] mb-1">{value}</p>
+      <p className="text-sm text-[var(--muted-foreground)]">{label}</p>
+    </ShinyCard>
   );
 }
