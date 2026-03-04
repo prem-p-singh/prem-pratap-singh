@@ -4,3 +4,4 @@ Disallow: /_next/
 Disallow: /api/
 
 Sitemap: https://www.prempsingh.com/sitemap.xml
+Host: https://www.prempsingh.com

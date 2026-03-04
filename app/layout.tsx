@@ -15,30 +15,57 @@ const geistMono = Geist_Mono({
 });
 
 
+const siteUrl = "https://www.prempsingh.com";
+
 export const metadata: Metadata = {
+  metadataBase: new URL(siteUrl),
   title: {
     default: "Prem Pratap Singh | Postdoctoral Scholar & Plant Scientist",
     template: "%s | Prem Pratap Singh",
   },
   description: "Postdoctoral Scholar at UC Davis specializing in plant-pathogen interactions and multi-omics analysis. Research focus on grapevine-virus interactions, transcriptomics, and nano-encapsulated formulations.",
   keywords: ["Plant Science", "Grapevine Virology", "GRBV", "Postharvest Biology", "Food Safety", "Multi-omics", "Bioinformatics", "UC Davis", "Postdoctoral Scholar", "RNA-seq", "Plant Pathology"],
-  authors: [{ name: "Prem Pratap Singh" }],
+  authors: [{ name: "Prem Pratap Singh", url: siteUrl }],
+  creator: "Prem Pratap Singh",
+  publisher: "Prem Pratap Singh",
   openGraph: {
     type: "website",
     locale: "en_US",
-    url: "https://www.prempsingh.com",
+    url: siteUrl,
     siteName: "Prem Pratap Singh",
     title: "Prem Pratap Singh | Postdoctoral Scholar & Plant Scientist",
     description: "Postdoctoral Scholar at UC Davis specializing in plant-pathogen interactions and multi-omics analysis.",
+    images: [
+      {
+        url: "/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "Prem Pratap Singh — Postdoctoral Scholar at UC Davis",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
     title: "Prem Pratap Singh | Postdoctoral Scholar & Plant Scientist",
     description: "Postdoctoral Scholar at UC Davis specializing in plant-pathogen interactions and multi-omics analysis.",
+    images: ["/og-image.png"],
   },
   robots: {
     index: true,
     follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
+  alternates: {
+    canonical: siteUrl,
+    types: {
+      "application/rss+xml": `${siteUrl}/feed.xml`,
+    },
   },
 };
 
@@ -46,13 +73,35 @@ const personJsonLd = {
   "@context": "https://schema.org",
   "@type": "Person",
   name: "Prem Pratap Singh",
+  givenName: "Prem Pratap",
+  familyName: "Singh",
   jobTitle: "Postdoctoral Scholar",
+  description:
+    "Plant scientist specializing in plant-pathogen interactions, multi-omics analysis, and grapevine-virus interactions at UC Davis.",
+  image: `${siteUrl}/images/profile.jpg`,
+  url: siteUrl,
+  email: "ppssingh@ucdavis.edu",
+  worksFor: {
+    "@type": "Organization",
+    name: "University of California, Davis",
+    url: "https://www.ucdavis.edu",
+    department: {
+      "@type": "Organization",
+      name: "Department of Viticulture and Enology",
+    },
+  },
   affiliation: {
     "@type": "Organization",
     name: "University of California, Davis",
+    url: "https://www.ucdavis.edu",
   },
-  url: "https://www.prempsingh.com",
-  email: "ppssingh@ucdavis.edu",
+  alumniOf: [
+    {
+      "@type": "CollegeOrUniversity",
+      name: "Banaras Hindu University",
+      url: "https://www.bhu.ac.in",
+    },
+  ],
   sameAs: [
     "https://scholar.google.com/citations?user=UGFMZEYAAAAJ&hl=en",
     "https://orcid.org/0000-0001-7921-9379",
@@ -65,13 +114,49 @@ const personJsonLd = {
     "Plant Pathology",
     "Multi-omics",
     "Transcriptomics",
+    "Metabolomics",
     "Nano-encapsulation",
     "Food Safety",
+    "RNA-Seq",
+    "Bioinformatics",
   ],
-  alumniOf: {
-    "@type": "CollegeOrUniversity",
-    name: "Banaras Hindu University",
+  address: {
+    "@type": "PostalAddress",
+    addressLocality: "Davis",
+    addressRegion: "CA",
+    addressCountry: "US",
   },
+};
+
+const websiteJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  name: "Prem Pratap Singh",
+  description:
+    "Academic portfolio and research blog of Prem Pratap Singh, Postdoctoral Scholar at UC Davis.",
+  url: siteUrl,
+  author: {
+    "@type": "Person",
+    name: "Prem Pratap Singh",
+    url: siteUrl,
+  },
+  potentialAction: {
+    "@type": "SearchAction",
+    target: `${siteUrl}/blog?q={search_term_string}`,
+    "query-input": "required name=search_term_string",
+  },
+};
+
+const profilePageJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "ProfilePage",
+  mainEntity: {
+    "@type": "Person",
+    name: "Prem Pratap Singh",
+    url: siteUrl,
+  },
+  dateCreated: "2024-01-01",
+  dateModified: new Date().toISOString().split("T")[0],
 };
 
 const themeScript = `
@@ -96,6 +181,15 @@ export default function RootLayout({
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd) }}
         />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd) }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(profilePageJsonLd) }}
+        />
+        <link rel="alternate" type="application/rss+xml" title="Prem Pratap Singh's Blog" href="/feed.xml" />
       </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen flex flex-col`}

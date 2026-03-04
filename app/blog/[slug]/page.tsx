@@ -38,7 +38,18 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       description: post.description,
       type: "article",
       publishedTime: post.date,
+      authors: ["Prem Pratap Singh"],
       tags: post.tags,
+      url: `https://www.prempsingh.com/blog/${slug}`,
+      siteName: "Prem Pratap Singh",
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: post.title,
+      description: post.description,
+    },
+    alternates: {
+      canonical: `https://www.prempsingh.com/blog/${slug}`,
     },
   };
 }
@@ -70,8 +81,37 @@ export default async function BlogPostPage({ params }: Props) {
 
   const components = useMDXComponents({});
 
+  const articleJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    headline: post.title,
+    description: post.description,
+    datePublished: post.date,
+    dateModified: post.date,
+    author: {
+      "@type": "Person",
+      name: "Prem Pratap Singh",
+      url: "https://www.prempsingh.com",
+    },
+    publisher: {
+      "@type": "Person",
+      name: "Prem Pratap Singh",
+      url: "https://www.prempsingh.com",
+    },
+    url: `https://www.prempsingh.com/blog/${slug}`,
+    keywords: post.tags,
+    mainEntityOfPage: {
+      "@type": "WebPage",
+      "@id": `https://www.prempsingh.com/blog/${slug}`,
+    },
+  };
+
   return (
     <article className="pt-16">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(articleJsonLd) }}
+      />
       {/* Hero */}
       <section className="py-16 bg-gradient-to-b from-muted to-background">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
