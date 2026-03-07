@@ -155,8 +155,8 @@ const profilePageJsonLd = {
     name: "Prem Pratap Singh",
     url: siteUrl,
   },
-  dateCreated: "2024-01-01",
-  dateModified: new Date().toISOString().split("T")[0],
+  dateCreated: "2024-01-01T00:00:00+00:00",
+  dateModified: "2026-03-06T00:00:00+00:00",
 };
 
 const themeScript = `
