@@ -2,8 +2,8 @@ name: Weekly Blog Draft
 
 on:
   schedule:
-    # Runs twice a week: Monday and Thursday at 1 PM UTC (8 AM PT)
-    - cron: '0 13 * * 1,4'
+    # Runs once a week: Thursday at 1 PM UTC (8 AM PT)
+    - cron: '0 13 * * 4'
   workflow_dispatch:
 
 jobs:

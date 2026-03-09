@@ -171,6 +171,8 @@ def main() -> None:
     parser.add_argument("--file", default=None, help="Specific pending draft file")
     parser.add_argument("--yes", action="store_true", help="Skip interactive confirmation")
     parser.add_argument("--force", action="store_true", help="Bypass quality guards and publish anyway")
+    parser.add_argument("--title", default=None, help="Override the draft title before publishing")
+    parser.add_argument("--description", default=None, help="Override the draft description before publishing")
     args = parser.parse_args()
 
     cfg = load_config(Path(args.config))
@@ -211,6 +213,30 @@ def main() -> None:
         log.info("All quality guards passed.")
     else:
         log.info("Quality guards skipped (--force)")
+
+    # Apply title/description overrides if provided
+    if args.title or args.description:
+        frontmatter, body = split_frontmatter_and_body(raw_text)
+        if frontmatter:
+            if args.title:
+                safe_title = args.title.replace('"', '\\"')
+                frontmatter = re.sub(
+                    r'^title:\s*".*?"',
+                    f'title: "{safe_title}"',
+                    frontmatter,
+                    flags=re.MULTILINE,
+                )
+                log.info(f"Title overridden to: {args.title}")
+            if args.description:
+                safe_desc = args.description.replace('"', '\\"')
+                frontmatter = re.sub(
+                    r'^description:\s*".*?"',
+                    f'description: "{safe_desc}"',
+                    frontmatter,
+                    flags=re.MULTILINE,
+                )
+                log.info(f"Description overridden to: {args.description}")
+            raw_text = frontmatter + body + "\n"
 
     if not args.yes:
         reply = input("Publish this draft to content/blog for your website? [y/N]: ").strip().lower()

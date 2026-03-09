@@ -386,7 +386,17 @@ You are writing a blog post draft for {site_title}.
 Date: {today}
 
 Required outcome:
-- Return valid MDX body content only (no frontmatter block).
+- Start your response with EXACTLY two HTML comment lines for the title and description:
+  <!-- TITLE: Your Catchy Blog Post Title Here -->
+  <!-- DESCRIPTION: A compelling 1-2 sentence description of what this post covers. -->
+- The TITLE must be catchy, specific, and engaging — based on the actual content and key findings.
+  Do NOT use generic patterns like "Research Update: Topic (date)".
+  Good examples: "CRISPR Meets Grapevine: A New Frontier in Virus Resistance",
+  "Why Multi-Omics Is Changing How We Fight Plant Pathogens",
+  "Nanoencapsulation Breakthrough Targets Grapevine Leafroll Disease".
+- The DESCRIPTION must be a unique, specific summary (1-2 sentences) highlighting the key takeaway.
+  Do NOT use generic descriptions — make it reflect the actual content.
+- After the two comment lines, write the MDX body content (no frontmatter block).
 - Start with a short intro paragraph (no top-level # heading).
 - Include sections: ## Why this matters, ## What changed today, ## My research angle, ## References.
 - Keep factual claims grounded in provided sources.
@@ -664,12 +674,35 @@ def verify_draft(body: str, cfg: Dict, report: DiagnosticReport, sources: Option
 
 
 # ── Build helpers ────────────────────────────────────────────────────────────
-def build_title(keywords: List[str], today: str) -> str:
+def parse_title_description(body: str) -> Tuple[Optional[str], Optional[str], str]:
+    """Extract TITLE and DESCRIPTION from HTML comment lines at the start of LLM output.
+
+    Returns (title, description, cleaned_body) where title/description may be None if not found.
+    """
+    title = None
+    description = None
+    cleaned = body
+
+    title_match = re.search(r"<!--\s*TITLE:\s*(.+?)\s*-->", cleaned)
+    if title_match:
+        title = title_match.group(1).strip()
+        cleaned = cleaned[:title_match.start()] + cleaned[title_match.end():]
+
+    desc_match = re.search(r"<!--\s*DESCRIPTION:\s*(.+?)\s*-->", cleaned)
+    if desc_match:
+        description = desc_match.group(1).strip()
+        cleaned = cleaned[:desc_match.start()] + cleaned[desc_match.end():]
+
+    cleaned = cleaned.strip()
+    return title, description, cleaned
+
+
+def build_title_fallback(keywords: List[str], today: str) -> str:
     key = keywords[0].replace("-", " ").title() if keywords else "Research"
     return f"Research Update: {key} ({today})"
 
 
-def build_description(keywords: List[str]) -> str:
+def build_description_fallback(keywords: List[str]) -> str:
     short = ", ".join(k.replace("-", " ") for k in keywords[:4])
     return f"A brief linking current developments in {short}."
 
@@ -743,9 +776,29 @@ def build_publish_url(cfg: Dict, draft_filename: str, slug: str) -> str:
 
 
 def build_email_html(slug: str, draft_filename: str, draft_preview: str, publish_url: str,
-                     report: Optional[DiagnosticReport] = None) -> str:
+                     report: Optional[DiagnosticReport] = None,
+                     title: str = "", description: str = "") -> str:
     """Build an HTML email with draft preview, diagnostic report, and one-click publish button."""
     preview_html = draft_preview.replace("\n", "<br>").replace(" ", "&nbsp;")
+
+    title_section = ""
+    if title or description:
+        title_html = f"<strong style='font-size: 16px; color: #1c1917;'>{title}</strong>" if title else ""
+        desc_html = f"<p style='margin: 6px 0 0; color: #57534e; font-size: 13px;'>{description}</p>" if description else ""
+        title_section = f"""
+        <div style="background: #f0fdfa; border: 1px solid #99f6e4; border-radius: 8px;
+                    padding: 14px; margin-bottom: 16px;">
+          <p style="margin: 0 0 4px; font-size: 11px; color: #0e7490; text-transform: uppercase; letter-spacing: 0.5px;">
+            Generated Title &amp; Description
+          </p>
+          {title_html}
+          {desc_html}
+          <p style="margin: 10px 0 0; font-size: 11px; color: #78716c;">
+            Want to change these? Use the <strong>title</strong> and <strong>description</strong> fields when publishing via GitHub Actions.
+          </p>
+        </div>
+        """
+
     publish_button = ""
     if publish_url:
         publish_button = f"""
@@ -758,7 +811,7 @@ def build_email_html(slug: str, draft_filename: str, draft_preview: str, publish
           </a>
           <p style="margin-top: 8px; font-size: 12px; color: #78716c;">
             Opens GitHub Actions &mdash; just click the green &ldquo;Run workflow&rdquo; button.<br>
-            All fields are optional &mdash; leave them empty, the workflow auto-detects the latest draft.
+            You can optionally override the <strong>title</strong> and <strong>description</strong> fields before publishing.
           </p>
         </div>
         """
@@ -788,6 +841,8 @@ def build_email_html(slug: str, draft_filename: str, draft_preview: str, publish
 
       <div style="background: #fafaf9; border: 1px solid #e7e5e4; border-top: none;
                   padding: 20px; border-radius: 0 0 12px 12px;">
+        {title_section}
+
         {publish_button}
 
         {diagnostic_html}
@@ -891,10 +946,11 @@ def _send_error_notification(cfg: Dict, error_msg: str, report: Optional[Diagnos
 
 
 def notify_new_draft(cfg: Dict, draft_path: Path, slug: str, draft_content: str,
-                     report: Optional[DiagnosticReport] = None):
+                     report: Optional[DiagnosticReport] = None,
+                     title: str = "", description: str = ""):
     """Send notification about new draft. Never raises — errors are logged but don't crash the pipeline."""
     draft_filename = draft_path.name
-    subject = f"[Blog Draft] New pending draft: {slug}"
+    subject = f"[Blog Draft] {title}" if title else f"[Blog Draft] New pending draft: {slug}"
 
     # Build one-click publish URL
     publish_url = build_publish_url(cfg, draft_filename, slug)
@@ -902,14 +958,18 @@ def notify_new_draft(cfg: Dict, draft_path: Path, slug: str, draft_content: str,
     # Plain text fallback
     plain_text = (
         f"A new pending draft was created.\n\n"
+        f"Title: {title}\n"
+        f"Description: {description}\n"
         f"File: {draft_path}\n"
         f"Slug: {slug}\n\n"
+        f"You can override title/description when publishing via GitHub Actions or CLI.\n\n"
     )
     if publish_url:
         plain_text += f"Publish instantly:\n{publish_url}\n\n"
     plain_text += (
         "Or publish manually:\n"
-        "python blog_automation/approve_and_publish.py"
+        "python blog_automation/approve_and_publish.py\n"
+        "  --title \"Your Custom Title\" --description \"Your custom description.\"\n"
     )
     if report:
         plain_text += "\n" + report.summary_text()
@@ -919,7 +979,8 @@ def notify_new_draft(cfg: Dict, draft_path: Path, slug: str, draft_content: str,
     draft_preview = "\n".join(preview_lines)
 
     # HTML email with publish button and diagnostics
-    html_body = build_email_html(slug, draft_filename, draft_preview, publish_url, report)
+    html_body = build_email_html(slug, draft_filename, draft_preview, publish_url, report,
+                                 title=title, description=description)
 
     errors = []
     try:
@@ -1053,9 +1114,22 @@ def main() -> None:
     report.add_step("Content verification", True, dur, "All checks recorded")
     log.info(f"Content verification complete in {dur:.1f}s")
 
+    # ── Step 5b: Extract title & description from LLM output ────────────
+    llm_title, llm_description, body = parse_title_description(body)
+    if llm_title:
+        title = llm_title
+        log.info(f"LLM-generated title: {title}")
+    else:
+        title = build_title_fallback(keywords, today)
+        log.warning(f"No LLM title found, using fallback: {title}")
+    if llm_description:
+        description = llm_description
+        log.info(f"LLM-generated description: {description}")
+    else:
+        description = build_description_fallback(keywords)
+        log.warning(f"No LLM description found, using fallback: {description}")
+
     # ── Step 6: Save draft ────────────────────────────────────────────────
-    title = build_title(keywords, today)
-    description = build_description(keywords)
     tags = [k.replace("-", " ") for k in keywords[:6]]
     frontmatter = build_frontmatter(title, today, description, tags)
     body += "\n\n> Status: PENDING_APPROVAL\n"
@@ -1066,7 +1140,7 @@ def main() -> None:
     log.info(f"Slug: {slug}")
 
     # ── Step 7: Notification (non-blocking) ───────────────────────────────
-    notify_new_draft(cfg, out, slug, full_content, report)
+    notify_new_draft(cfg, out, slug, full_content, report, title=title, description=description)
 
     # ── Print full diagnostic report to CI logs ───────────────────────────
     log.info(report.summary_text())

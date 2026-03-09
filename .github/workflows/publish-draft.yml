@@ -18,6 +18,16 @@ on:
         required: false
         type: boolean
         default: false
+      title:
+        description: "Override the post title (leave empty to keep the generated title)"
+        required: false
+        type: string
+        default: ""
+      description:
+        description: "Override the post description (leave empty to keep the generated description)"
+        required: false
+        type: string
+        default: ""
 
 permissions:
   contents: write
@@ -82,10 +92,20 @@ jobs:
           if [ "${{ inputs.skip_guards }}" = "true" ]; then
             FORCE_FLAG="--force"
           fi
-          python blog_automation/approve_and_publish.py \
+          TITLE_FLAG=""
+          if [ -n "${{ inputs.title }}" ]; then
+            TITLE_FLAG="--title \"${{ inputs.title }}\""
+          fi
+          DESC_FLAG=""
+          if [ -n "${{ inputs.description }}" ]; then
+            DESC_FLAG="--description \"${{ inputs.description }}\""
+          fi
+          eval python blog_automation/approve_and_publish.py \
             --file "${{ env.DRAFT_PATH }}" \
             --yes \
-            $FORCE_FLAG
+            $FORCE_FLAG \
+            $TITLE_FLAG \
+            $DESC_FLAG
 
       - name: Commit and push
         run: |
