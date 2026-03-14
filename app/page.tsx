@@ -108,20 +108,20 @@ export default function Home() {
 
       {/* Projects Section */}
       <section id="projects" className="py-20">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className="section-title mb-12">Research Projects</h2>
 
-          <div className="grid md:grid-cols-2 gap-6">
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             {projects.map((project, index) => (
               <ShinyCard
                 key={index}
                 className="group p-6"
                 duration={4000 + index * 500}
               >
-                <h3 className="text-xl font-semibold text-foreground mb-2 group-hover:text-muted-foreground transition-colors">
+                <h3 className="text-lg font-semibold text-foreground mb-2 group-hover:text-muted-foreground transition-colors">
                   {project.title}
                 </h3>
-                <p className="text-muted-foreground mb-3 line-clamp-3">
+                <p className="text-sm text-muted-foreground mb-3 line-clamp-3">
                   {project.description}
                 </p>
                 {project.impact && (
