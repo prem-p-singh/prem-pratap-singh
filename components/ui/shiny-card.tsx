@@ -31,7 +31,7 @@ export function ShinyCard({
         style={{ borderRadius: `calc(${borderRadius} * 0.96)` }}
       >
         <MovingBorder duration={duration} rx="30%" ry="30%">
-          <div className="h-20 w-20 opacity-[0.8] bg-[radial-gradient(var(--foreground)_40%,transparent_60%)]" />
+          <div className="h-10 w-10 opacity-[0.4] bg-[radial-gradient(var(--foreground)_20%,transparent_60%)]" />
         </MovingBorder>
       </div>
 
