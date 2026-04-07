@@ -494,6 +494,10 @@ LLM_ARTIFACT_PATTERNS = [
 
 def humanize_text(text: str) -> str:
     """Remove common AI-generated writing patterns to make text sound more natural."""
+    # ── Smart quotes → straight quotes ──
+    text = text.replace("\u201c", '"').replace("\u201d", '"')   # " "
+    text = text.replace("\u2018", "'").replace("\u2019", "'")   # ' '
+
     # ── Em dash replacement with context-appropriate punctuation ──
     def _replace_dash(m: re.Match) -> str:
         before = m.string[:m.start()].rstrip()
