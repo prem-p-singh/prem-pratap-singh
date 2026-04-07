@@ -507,7 +507,8 @@ def humanize_text(text: str) -> str:
         # Default → comma
         return ", "
 
-    text = re.sub(r"\s*[—–]\s*", _replace_dash, text)
+    # Only match dashes with at least one space (avoid breaking compound words like "plant–pathogen")
+    text = re.sub(r"(?<=\s)[—–]\s*|\s*[—–](?=\s)", _replace_dash, text)
     # Collapse double spaces left by replacements
     text = re.sub(r"  +", " ", text)
 
@@ -560,7 +561,9 @@ def humanize_text(text: str) -> str:
         text = re.sub(pattern, replacement, text)
 
     # Fix capitalization after removals that left lowercase at sentence start
-    text = re.sub(r"(?<=\.\s)([a-z])", lambda m: m.group(1).upper(), text)
+    # Skip abbreviations like "vs.", "e.g.", "i.e.", "et al.", "Dr.", "Fig.", etc.
+    abbrevs = r"(?<!\bvs)(?<!\be\.g)(?<!\bi\.e)(?<!\bet al)(?<!\bDr)(?<!\bFig)(?<!\bNo)(?<!\bcv)"
+    text = re.sub(abbrevs + r"(?<=\.\s)([a-z])", lambda m: m.group(1).upper(), text)
 
     log.info("Humanizer pass complete")
     return text
