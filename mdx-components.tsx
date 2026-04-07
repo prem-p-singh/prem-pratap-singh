@@ -15,10 +15,13 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
       <p className="mb-4 leading-relaxed text-foreground/90">{children}</p>
     ),
     ul: ({ children }) => (
-      <ul className="list-disc list-inside mb-4 space-y-1">{children}</ul>
+      <ul className="list-disc pl-6 mb-4 space-y-1">{children}</ul>
     ),
     ol: ({ children }) => (
-      <ol className="list-decimal list-inside mb-4 space-y-1">{children}</ol>
+      <ol className="list-decimal pl-6 mb-4 space-y-2">{children}</ol>
+    ),
+    li: ({ children }) => (
+      <li className="[&>p]:inline [&>p]:mb-0">{children}</li>
     ),
     code: ({ children }) => (
       <code className="bg-muted px-1.5 py-0.5 rounded text-sm font-mono">{children}</code>
