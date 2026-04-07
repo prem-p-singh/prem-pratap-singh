@@ -21,7 +21,7 @@ feeds:
 
 llm:
   use_openai: true
-  model: "gpt-5.2"
+  model: "gpt-5.4"
   max_retries: 3
   retry_base_delay: 2.0
 

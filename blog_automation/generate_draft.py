@@ -401,6 +401,12 @@ Required outcome:
 - Include sections: ## Why this matters, ## What changed today, ## My research angle, ## References.
 - Keep factual claims grounded in provided sources.
 - Tone: professional, thoughtful, suitable for a personal research website.
+- Write like a real researcher, NOT like AI. Avoid em dashes (use commas, colons,
+  or semicolons instead). Avoid filler transitions
+  (e.g. "Moreover", "Furthermore", "Interestingly", "It's worth noting"),
+  and inflated words (e.g. "delve", "landscape", "groundbreaking", "pivotal",
+  "holistic", "leverage", "utilize", "tapestry", "plethora", "nuanced", "robust").
+  Use plain, direct language.
 - Keep it concise (700-1100 words).
 
 CRITICAL — References section rules:
@@ -484,6 +490,80 @@ LLM_ARTIFACT_PATTERNS = [
     (r"(?i)\bi am an? (?:language|ai)\b", "AI self-reference"),
     (r"^# [^\n]+$", "Unexpected H1 heading (should start with intro paragraph)"),
 ]
+
+
+def humanize_text(text: str) -> str:
+    """Remove common AI-generated writing patterns to make text sound more natural."""
+    # ── Em dash replacement with context-appropriate punctuation ──
+    def _replace_dash(m: re.Match) -> str:
+        before = m.string[:m.start()].rstrip()
+        after = m.string[m.end():].lstrip()
+        # If introducing a list, definition, or explanation → colon
+        if after and after[0].islower() and re.match(r"(that is|meaning|namely|specifically|i\.e\.|e\.g\.)", after, re.I):
+            return ": "
+        # If between two independent clauses (both sides look sentence-like) → semicolon
+        if before and before[-1] not in ".,;:!?" and after and after[0].isupper():
+            return "; "
+        # Default → comma
+        return ", "
+
+    text = re.sub(r"\s*[—–]\s*", _replace_dash, text)
+    # Collapse double spaces left by replacements
+    text = re.sub(r"  +", " ", text)
+
+    # ── Phrase-level replacements ──
+    ai_phrases = [
+        # Filler hedging
+        (r"(?i)\bIt['']s worth noting that ", ""),
+        (r"(?i)\bIt is worth noting that ", ""),
+        (r"(?i)\bIt['']s important to note that ", ""),
+        (r"(?i)\bIt is important to note that ", ""),
+        (r"(?i)\bInterestingly,?\s*", ""),
+        (r"(?i)\bNotably,?\s*", ""),
+        (r"(?i)\bRemarkably,?\s*", ""),
+        (r"(?i)\bFurthermore,?\s*", ""),
+        (r"(?i)\bMoreover,?\s*", ""),
+        (r"(?i)\bAdditionally,?\s*", ""),
+        (r"(?i)\bIn conclusion,?\s*", ""),
+        # Inflated language
+        (r"(?i)\bdelve(?:s|d)? into\b", "explore"),
+        (r"(?i)\bDelve(?:s|d)? into\b", "Explore"),
+        (r"(?i)\blandscape\b", "field"),
+        (r"(?i)\bunlock(?:s|ed|ing)?\b", "reveal"),
+        (r"(?i)\bgame[- ]?changer\b", "advance"),
+        (r"(?i)\bgroundbreaking\b", "notable"),
+        (r"(?i)\bcutting[- ]?edge\b", "recent"),
+        (r"(?i)\bpivotal\b", "important"),
+        (r"(?i)\bparadigm shift\b", "change"),
+        (r"(?i)\bholistic\b", "broad"),
+        (r"(?i)\bseamless(?:ly)?\b", "smooth\\1" if "ly" else "smooth"),
+        (r"(?i)\bseamlessly\b", "smoothly"),
+        (r"(?i)\bseamless\b", "smooth"),
+        (r"(?i)\bleverage(?:s|d)?\b", "use"),
+        (r"(?i)\butilize(?:s|d)?\b", "use"),
+        (r"(?i)\bcommence(?:s|d)?\b", "start"),
+        (r"(?i)\bfacilitate(?:s|d)?\b", "help"),
+        (r"(?i)\bin the realm of\b", "in"),
+        (r"(?i)\bin today['']s (?:rapidly )?(?:evolving|changing) (?:world|landscape)\b", "today"),
+        (r"(?i)\ba testament to\b", "evidence of"),
+        (r"(?i)\bthe power of\b", "how"),
+        (r"(?i)\btapestry of\b", "mix of"),
+        (r"(?i)\bplethora of\b", "many"),
+        (r"(?i)\bmyriad of\b", "many"),
+        (r"(?i)\ba myriad\b", "many"),
+        (r"(?i)\bnuanced\b", "detailed"),
+        (r"(?i)\brobust\b", "strong"),
+        (r"(?i)\boverall,?\s*", ""),
+    ]
+
+    for pattern, replacement in ai_phrases:
+        text = re.sub(pattern, replacement, text)
+
+    # Fix capitalization after removals that left lowercase at sentence start
+    text = re.sub(r"(?<=\.\s)([a-z])", lambda m: m.group(1).upper(), text)
+
+    log.info("Humanizer pass complete")
+    return text
 
 
 def _normalize_url(url: str) -> str:
@@ -1106,6 +1186,12 @@ def main() -> None:
         log.info(report.summary_text())
         _send_error_notification(cfg, str(e), report)
         raise
+
+    # ── Step 4b: Humanize text ───────────────────────────────────────────
+    t0 = time.time()
+    body = humanize_text(body)
+    dur = time.time() - t0
+    report.add_step("Humanizer pass", True, dur, "Removed AI writing patterns")
 
     # ── Step 5: Content verification ──────────────────────────────────────
     t0 = time.time()
