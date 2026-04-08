@@ -2,8 +2,11 @@
 import argparse
 import difflib
 import logging
+import os
 import re
 import shutil
+import subprocess
+import tempfile
 import time
 from pathlib import Path
 
@@ -165,6 +168,93 @@ def run_quality_guards(raw_text: str, cfg: dict, content_dir: Path):
     return errors
 
 
+def get_editor() -> str:
+    """Return the user's preferred editor."""
+    for var in ("VISUAL", "EDITOR"):
+        editor = os.environ.get(var)
+        if editor:
+            return editor
+    # Fallback chain: VS Code > nano > vi
+    for candidate in ("code --wait", "nano", "vi"):
+        binary = candidate.split()[0]
+        if shutil.which(binary):
+            return candidate
+    return "vi"
+
+
+def open_in_editor(file_path: Path) -> str:
+    """Open a file in the user's editor and return the edited content."""
+    editor = get_editor()
+    log.info(f"Opening draft in editor: {editor}")
+    log.info("Save and close the editor when you are done editing.")
+    cmd = editor.split() + [str(file_path)]
+    subprocess.run(cmd)
+    return file_path.read_text(encoding="utf-8")
+
+
+ALLOWED_IMAGE_EXTENSIONS = {".png", ".jpg", ".jpeg", ".gif", ".webp", ".svg"}
+
+
+def copy_figures(figure_paths: list[str], slug: str) -> list[tuple[str, str]]:
+    """Copy figure files to public/blog/<slug>/ and return (filename, web_path) pairs."""
+    dest_dir = Path("./public/blog") / slug
+    dest_dir.mkdir(parents=True, exist_ok=True)
+
+    copied = []
+    for fig in figure_paths:
+        fig_path = Path(fig).resolve()
+        if not fig_path.exists():
+            log.warning(f"Figure not found, skipping: {fig_path}")
+            continue
+        if fig_path.suffix.lower() not in ALLOWED_IMAGE_EXTENSIONS:
+            log.warning(f"Unsupported image format, skipping: {fig_path.name}")
+            continue
+
+        dest_file = dest_dir / fig_path.name
+        # Handle name collisions
+        if dest_file.exists():
+            stem = fig_path.stem
+            suffix = fig_path.suffix
+            i = 2
+            while dest_file.exists():
+                dest_file = dest_dir / f"{stem}-{i}{suffix}"
+                i += 1
+
+        shutil.copy2(fig_path, dest_file)
+        web_path = f"/blog/{slug}/{dest_file.name}"
+        log.info(f"Copied figure: {fig_path.name} -> {dest_file}")
+        copied.append((dest_file.name, web_path))
+
+    return copied
+
+
+def insert_figures_into_body(raw_text: str, figures: list[tuple[str, str]], position: str = "before_references") -> str:
+    """Insert figure markdown into the blog body.
+
+    figures: list of (filename, web_path) tuples
+    position: 'before_references' inserts a Figures section above ## References
+    """
+    if not figures:
+        return raw_text
+
+    figure_block_lines = ["\n## Figures\n"]
+    for i, (filename, web_path) in enumerate(figures, 1):
+        caption = Path(filename).stem.replace("-", " ").replace("_", " ").title()
+        figure_block_lines.append(f"![{caption}]({web_path})")
+        figure_block_lines.append(f"*Figure {i}: {caption}*\n")
+
+    figure_block = "\n".join(figure_block_lines)
+
+    if position == "before_references":
+        ref_match = re.search(r"\n(## References)", raw_text)
+        if ref_match:
+            insert_at = ref_match.start()
+            return raw_text[:insert_at] + "\n" + figure_block + "\n" + raw_text[insert_at:]
+
+    # Fallback: append before the end
+    return raw_text.rstrip() + "\n\n" + figure_block + "\n"
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description="Approve and publish pending MDX draft to content/blog")
     parser.add_argument("--config", default="./blog_automation/config/config.yaml")
@@ -173,6 +263,11 @@ def main() -> None:
     parser.add_argument("--force", action="store_true", help="Bypass quality guards and publish anyway")
     parser.add_argument("--title", default=None, help="Override the draft title before publishing")
     parser.add_argument("--description", default=None, help="Override the draft description before publishing")
+    parser.add_argument("--edit", action="store_true", help="Open draft in your editor before publishing")
+    parser.add_argument(
+        "--figures", nargs="+", metavar="IMAGE",
+        help="One or more image files to include (png, jpg, gif, webp, svg)"
+    )
     args = parser.parse_args()
 
     cfg = load_config(Path(args.config))
@@ -192,14 +287,40 @@ def main() -> None:
         src = drafts[-1]
 
     log.info(f"Selected draft: {src}")
-    log.info("Preview (first 35 lines):")
-    raw_text = ""
-    with src.open("r", encoding="utf-8") as f:
-        raw_text = f.read()
+    raw_text = src.read_text(encoding="utf-8")
+
+    # ── Edit mode: open in editor ───────────────────────────────────────────
+    if args.edit:
+        # Work on a temp copy so the original stays intact if editor is aborted
+        with tempfile.NamedTemporaryFile(
+            mode="w", suffix=".mdx", prefix="blog-edit-", delete=False, encoding="utf-8"
+        ) as tmp:
+            tmp.write(raw_text)
+            tmp_path = Path(tmp.name)
+        try:
+            raw_text = open_in_editor(tmp_path)
+            # Write edits back to the original pending file
+            src.write_text(raw_text, encoding="utf-8")
+            log.info("Draft updated with your edits.")
+        finally:
+            tmp_path.unlink(missing_ok=True)
+    else:
+        # Show preview if not editing
+        log.info("Preview (first 35 lines):")
         for i, line in enumerate(raw_text.splitlines()):
             if i >= 35:
                 break
             print(line.rstrip("\n"))
+
+    # ── Figures: copy images and insert into body ───────────────────────────
+    slug = extract_slug_from_filename(src)
+    if args.figures:
+        copied_figures = copy_figures(args.figures, slug)
+        if copied_figures:
+            raw_text = insert_figures_into_body(raw_text, copied_figures)
+            log.info(f"Inserted {len(copied_figures)} figure(s) into draft.")
+        else:
+            log.warning("No valid figures were copied.")
 
     if not args.force:
         log.info("Running quality guards...")
@@ -244,7 +365,6 @@ def main() -> None:
             log.info("Cancelled. Draft remains pending.")
             return
 
-    slug = extract_slug_from_filename(src)
     dst = ensure_unique_destination(content_dir, slug)
 
     # Strip the PENDING_APPROVAL marker before publishing
@@ -253,6 +373,8 @@ def main() -> None:
         f.write(clean_text)
     src.unlink()
     log.info(f"Published to site content: {dst}")
+    if args.figures:
+        log.info(f"Figures saved to: public/blog/{slug}/")
     log.info("Next: commit and deploy your site to make it live.")
 
 
