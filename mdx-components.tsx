@@ -12,7 +12,7 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
       <h3 className="text-xl font-semibold mt-4 mb-2 text-foreground">{children}</h3>
     ),
     p: ({ children }) => (
-      <p className="mb-4 leading-relaxed text-foreground/90">{children}</p>
+      <p className="mb-4 leading-relaxed text-foreground/90 text-justify">{children}</p>
     ),
     ul: ({ children }) => (
       <ul className="list-disc pl-6 mb-4 space-y-1">{children}</ul>
