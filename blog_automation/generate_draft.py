@@ -572,6 +572,24 @@ def humanize_text(text: str) -> str:
     return text
 
 
+def humanizer_selftest() -> None:
+    """Run humanize_text against a fixed string to catch regex bugs BEFORE the OpenAI call.
+
+    If any pattern is broken (invalid backref, bad group, etc.), this raises immediately
+    so we don't waste OpenAI tokens on a run that will crash in post-processing.
+    """
+    probe = (
+        "This seamless, holistic, robust pipeline leverages cutting-edge methods. "
+        "It delves into a plethora of nuanced topics — furthermore, it is pivotal. "
+        "Moreover, it's worth noting that the groundbreaking landscape facilitates insight. "
+        'With "quoted" text and \u2018smart\u2019 quotes and vs. abbreviations.'
+    )
+    try:
+        humanize_text(probe)
+    except Exception as e:
+        raise RuntimeError(f"Humanizer self-test failed (regex bug?): {e}") from e
+
+
 def _normalize_url(url: str) -> str:
     """Normalize a URL for comparison: strip protocol, www, trailing slash, query params."""
     url = re.sub(r"^https?://", "", url)
@@ -1095,6 +1113,21 @@ def main() -> None:
     report = DiagnosticReport()
     cfg = load_config(Path(args.config))
 
+    # ── Step 0: Self-test post-processing (catch bugs BEFORE paid OpenAI calls) ──
+    t0 = time.time()
+    try:
+        humanizer_selftest()
+        dur = time.time() - t0
+        report.add_step("Pre-flight self-test", True, dur, "Post-processing regex OK")
+        log.info("Pre-flight self-test passed")
+    except Exception as e:
+        dur = time.time() - t0
+        report.add_step("Pre-flight self-test", False, dur, str(e))
+        log.error(f"Pre-flight self-test FAILED (aborting to avoid wasted API calls): {e}")
+        log.info(report.summary_text())
+        _send_error_notification(cfg, f"Pre-flight failed: {e}", report)
+        raise
+
     # ── Step 1: Keyword extraction ────────────────────────────────────────
     t0 = time.time()
     try:
@@ -1193,11 +1226,30 @@ def main() -> None:
         _send_error_notification(cfg, str(e), report)
         raise
 
-    # ── Step 4b: Humanize text ───────────────────────────────────────────
+    # ── Step 4a: Save RAW LLM output to disk BEFORE any post-processing ──
+    # If a downstream step crashes, this raw file preserves the paid OpenAI output
+    # so it can be recovered and re-processed locally without re-calling the API.
+    try:
+        raw_dir = Path("./blog_automation/drafts/raw")
+        raw_dir.mkdir(parents=True, exist_ok=True)
+        raw_ts = dt.datetime.now().strftime("%Y%m%d_%H%M%S")
+        raw_path = raw_dir / f"{raw_ts}--raw.mdx"
+        raw_path.write_text(body, encoding="utf-8")
+        log.info(f"Raw LLM output saved (token-safe recovery): {raw_path}")
+    except Exception as e:
+        log.warning(f"Could not save raw backup (continuing): {e}")
+
+    # ── Step 4b: Humanize text (non-fatal on failure) ────────────────────
     t0 = time.time()
-    body = humanize_text(body)
-    dur = time.time() - t0
-    report.add_step("Humanizer pass", True, dur, "Removed AI writing patterns")
+    try:
+        body = humanize_text(body)
+        dur = time.time() - t0
+        report.add_step("Humanizer pass", True, dur, "Removed AI writing patterns")
+    except Exception as e:
+        dur = time.time() - t0
+        report.add_step("Humanizer pass", False, dur, f"Skipped due to error: {e}")
+        log.error(f"Humanizer failed (keeping raw LLM text): {e}")
+        # Do NOT re-raise — we still have a valid draft to save.
 
     # ── Step 5: Content verification ──────────────────────────────────────
     t0 = time.time()
