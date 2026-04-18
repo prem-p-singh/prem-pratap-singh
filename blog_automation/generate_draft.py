@@ -541,7 +541,6 @@ def humanize_text(text: str) -> str:
         (r"(?i)\bpivotal\b", "important"),
         (r"(?i)\bparadigm shift\b", "change"),
         (r"(?i)\bholistic\b", "broad"),
-        (r"(?i)\bseamless(?:ly)?\b", "smooth\\1" if "ly" else "smooth"),
         (r"(?i)\bseamlessly\b", "smoothly"),
         (r"(?i)\bseamless\b", "smooth"),
         (r"(?i)\bleverage(?:s|d)?\b", "use"),
