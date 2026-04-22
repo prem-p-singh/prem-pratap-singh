@@ -10,6 +10,9 @@ interface OpenAlexData {
   name: string;
   works: number;
   citations: number;
+  citationsReportedByOpenAlex?: number;
+  excludedCitations?: number;
+  firstPaperYear?: number;
   hIndex: number | null;
   i10Index: number | null;
   twoYearMeanCitedness: number | null;

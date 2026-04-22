@@ -4,6 +4,7 @@ import { NextResponse } from "next/server";
 export const revalidate = 86400;
 
 const OPENALEX_AUTHOR_ID = "A5049732395"; // Prem Pratap Singh (ORCID 0000-0001-7921-9379)
+const FIRST_PAPER_YEAR = 2016; // Author's first publication. Filters out disambiguation errors.
 
 interface OpenAlexAuthor {
   display_name: string;
@@ -37,14 +38,28 @@ export async function GET() {
 
     const data: OpenAlexAuthor = await res.json();
 
-    const citationsByYear = (data.counts_by_year || [])
+    // Filter out disambiguation errors: any citations reported in years
+    // before the author's first published paper cannot be theirs.
+    const rawCounts = data.counts_by_year || [];
+    const citationsByYear = rawCounts
+      .filter((y) => y.year >= FIRST_PAPER_YEAR)
       .map((y) => ({ year: y.year, count: y.cited_by_count }))
       .sort((a, b) => a.year - b.year);
+
+    // Recompute citation total from the filtered years so the headline
+    // number matches the bar chart and excludes disambiguation noise.
+    const filteredTotalCitations = citationsByYear.reduce((sum, y) => sum + y.count, 0);
+    const excludedCitations = rawCounts
+      .filter((y) => y.year < FIRST_PAPER_YEAR)
+      .reduce((sum, y) => sum + y.cited_by_count, 0);
 
     return NextResponse.json({
       name: data.display_name,
       works: data.works_count,
-      citations: data.cited_by_count,
+      citations: filteredTotalCitations,
+      citationsReportedByOpenAlex: data.cited_by_count,
+      excludedCitations,
+      firstPaperYear: FIRST_PAPER_YEAR,
       hIndex: data.summary_stats?.h_index ?? null,
       i10Index: data.summary_stats?.i10_index ?? null,
       twoYearMeanCitedness: data.summary_stats?.["2yr_mean_citedness"] ?? null,
