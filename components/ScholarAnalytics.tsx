@@ -1,13 +1,45 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { googleScholar, scopus } from "@/data/analytics";
 import { ShinyCard } from "@/components/ui/shiny-card";
 
-type Tab = "scholar" | "scopus";
+type Tab = "scholar" | "scopus" | "openalex";
+
+interface OpenAlexData {
+  name: string;
+  works: number;
+  citations: number;
+  hIndex: number | null;
+  i10Index: number | null;
+  twoYearMeanCitedness: number | null;
+  citationsByYear: { year: number; count: number }[];
+  updatedAt: string | null;
+  profileUrl: string;
+}
 
 export default function ScholarAnalytics() {
   const [activeTab, setActiveTab] = useState<Tab>("scholar");
+  const [openAlex, setOpenAlex] = useState<OpenAlexData | null>(null);
+  const [openAlexError, setOpenAlexError] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (activeTab !== "openalex" || openAlex) return;
+    let cancelled = false;
+    fetch("/api/openalex")
+      .then((r) => r.json())
+      .then((data) => {
+        if (cancelled) return;
+        if (data.error) setOpenAlexError(data.error);
+        else setOpenAlex(data);
+      })
+      .catch((e) => {
+        if (!cancelled) setOpenAlexError(e.message || "Failed to load");
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [activeTab, openAlex]);
 
   return (
     <div>
@@ -41,6 +73,23 @@ export default function ScholarAnalytics() {
               <path d="M24 19.059l-12-6.529-12 6.529 12 6.529 12-6.529zm-12-7.412l-12-6.529 12-6.529 12 6.529-12 6.529z" />
             </svg>
             Scopus
+          </span>
+        </button>
+        <button
+          onClick={() => setActiveTab("openalex")}
+          className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
+            activeTab === "openalex"
+              ? "bg-[var(--foreground)] text-[var(--background)] shadow-md"
+              : "bg-[var(--muted)] text-[var(--muted-foreground)] border border-[var(--border)] hover:border-[var(--foreground)]/50 hover:text-[var(--foreground)]"
+          }`}
+        >
+          <span className="inline-flex items-center gap-2">
+            <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+              <circle cx="12" cy="12" r="9" />
+              <path strokeLinecap="round" strokeLinejoin="round" d="M12 3v18M3 12h18" />
+            </svg>
+            OpenAlex
+            <span className="px-1.5 py-0.5 text-[10px] font-semibold bg-green-500/20 text-green-600 dark:text-green-400 rounded">LIVE</span>
           </span>
         </button>
       </div>
@@ -135,6 +184,85 @@ export default function ScholarAnalytics() {
               </svg>
             </a>
           </div>
+        </div>
+      )}
+
+      {/* OpenAlex Panel (live) */}
+      {activeTab === "openalex" && (
+        <div className="space-y-6">
+          {!openAlex && !openAlexError && (
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+              {[0, 1, 2, 3].map((i) => (
+                <ShinyCard key={i} className="p-5 text-center" duration={4500}>
+                  <div className="h-8 w-16 mx-auto bg-[var(--muted)] rounded animate-pulse mb-2" />
+                  <div className="h-4 w-20 mx-auto bg-[var(--muted)] rounded animate-pulse" />
+                </ShinyCard>
+              ))}
+            </div>
+          )}
+
+          {openAlexError && (
+            <div className="text-sm text-[var(--muted-foreground)] text-center py-8">
+              Live data temporarily unavailable ({openAlexError}). Try Google Scholar or Scopus above.
+            </div>
+          )}
+
+          {openAlex && (
+            <>
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <MetricCard label="Total Citations" value={openAlex.citations.toLocaleString()} />
+                <MetricCard label="h-index" value={openAlex.hIndex?.toString() ?? "-"} />
+                <MetricCard label="i10-index" value={openAlex.i10Index?.toString() ?? "-"} />
+                <MetricCard label="Works Indexed" value={openAlex.works.toString()} />
+              </div>
+
+              {openAlex.twoYearMeanCitedness !== null && (
+                <ShinyCard className="p-4" duration={5500}>
+                  <p className="text-xs text-[var(--muted-foreground)] mb-3 font-medium uppercase tracking-wide">Impact</p>
+                  <div className="grid grid-cols-2 gap-4">
+                    <div>
+                      <p className="text-xl font-bold text-[var(--foreground)]">
+                        {openAlex.twoYearMeanCitedness?.toFixed(2)}
+                      </p>
+                      <p className="text-xs text-[var(--muted-foreground)]">2-year mean citedness</p>
+                    </div>
+                    <div>
+                      <p className="text-xl font-bold text-[var(--foreground)]">
+                        {openAlex.citationsByYear.length > 0 ? openAlex.citationsByYear[openAlex.citationsByYear.length - 1].count : 0}
+                      </p>
+                      <p className="text-xs text-[var(--muted-foreground)]">Citations this year</p>
+                    </div>
+                  </div>
+                </ShinyCard>
+              )}
+
+              {openAlex.citationsByYear.length > 0 && (
+                <ShinyCard className="p-5" duration={5000}>
+                  <p className="text-sm font-medium text-[var(--foreground)] mb-4">Citations per Year</p>
+                  <CitationBarGraph data={openAlex.citationsByYear} />
+                </ShinyCard>
+              )}
+
+              <div className="text-center space-y-2">
+                <a
+                  href={openAlex.profileUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 text-sm text-[var(--foreground)] hover:underline"
+                >
+                  View full OpenAlex profile
+                  <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                  </svg>
+                </a>
+                {openAlex.updatedAt && (
+                  <p className="text-xs text-[var(--muted-foreground)]">
+                    Last updated by OpenAlex: {new Date(openAlex.updatedAt).toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric" })}
+                  </p>
+                )}
+              </div>
+            </>
+          )}
         </div>
       )}
     </div>
