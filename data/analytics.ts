@@ -3,12 +3,12 @@ export const googleScholar = {
   metrics: {
     citations: 2326,
     hIndex: 25,
-    i10Index: 40,
+    i10Index: 38,
   },
   since2021: {
     citations: 1895,
     hIndex: 24,
-    i10Index: 38,
+    i10Index: 36,
   },
   citationsByYear: [
     { year: 2019, count: 30 },
@@ -27,7 +27,7 @@ export const scopus = {
   metrics: {
     citations: 1758,
     documents: 50,
-    hIndex: 21,
+    hIndex: 22,
     citingDocuments: 1518,
   },
 };

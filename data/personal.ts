@@ -1,12 +1,12 @@
 export const personal = {
   name: "Prem Pratap Singh",
-  title: "Postdoctoral Scholar | Plant Scientist",
-  tagline: "Plant scientist with expertise in plant-pathogen interactions and multi-omics analysis. Currently investigating grapevine-virus interactions using transcriptomic and metabolomic approaches. Proficient in R, Python, GC-MS, LC-MS/MS, RNA-seq, and bioinformatics pipelines.",
-  bio: `I am a Postdoctoral Scholar at the University of California, Davis, investigating grapevine-virus interactions using transcriptomic and metabolomic approaches, building on foundational GRBV research. I lead CDFA/USDA-funded projects on grapevine virus impacts.
+  title: "Postdoctoral Scholar & Plant Scientist · Viticulture & Enology, UC Davis",
+  tagline: "Plant pathologist working on grapevine–virus interactions and the metabolic consequences of viral infection in berries. Methods span RT-qPCR, digital PCR, RNA-Seq, LC-MS/MS and GC-MS metabolomics, paired with computational structure and docking work.",
+  bio: `Plant pathologist and molecular biologist at the University of California, Davis, working on grapevine–virus interactions and the metabolic consequences of viral infection in berries. Current research under the mentorship of Dr. David E. Block continues a project initiated by the late Dr. Anita Oberholster and is co-conducted with Dr. Mysore R. Sudarshana (USDA-ARS, UC Davis) on Grapevine Red Blotch Virus impact in Merlot berries and wine quality.
 
-My doctoral research at Banaras Hindu University focused on developing nano-encapsulated antifungal formulations against food-borne pathogens. I engineered chitosan-based delivery systems that significantly inhibited Aspergillus flavus growth and aflatoxin contamination.
+Doctoral training at Banaras Hindu University focused on mycotoxin control through plant-based nano-encapsulated formulations, combining wet-lab efficacy studies with computational target identification. Published research spans 36 peer-reviewed articles and 21 book chapters across transcriptomics, targeted metabolomics, nanoencapsulation, and computational biology.
 
-With a track record of 20+ publications, grant contributions, and mentorship experience, I am passionate about translating fundamental research into practical solutions for sustainable agriculture and food safety.`,
+Recent commentaries in Plant Physiology, co-authored with Dr. Ritu Singh, cover plant defense against Sclerotinia and Xanthomonas in Brassica, extending a long-standing interest in how pathogens rewrite host metabolism and how that rewriting can be interrupted with practical molecular tools.`,
   location: "Davis, CA, USA",
   email: "ppssingh@ucdavis.edu",
   secondaryEmail: "pr0982@gmail.com",
@@ -18,7 +18,7 @@ With a track record of 20+ publications, grant contributions, and mentorship exp
     twitter: "",
     orcid: "https://orcid.org/0000-0001-7921-9379",
     researchgate: "https://www.researchgate.net/profile/Prem-Singh-12",
-    scopus: "",
+    scopus: "https://www.scopus.com/authid/detail.uri?authorId=57199272095",
   },
   avatar: "/images/profile.jpg",
 };
