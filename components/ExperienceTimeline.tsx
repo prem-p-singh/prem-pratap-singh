@@ -1,6 +1,7 @@
 "use client";
 
 import { Timeline } from "@/components/ui/timeline";
+import { renderMentor } from "@/components/Timeline";
 import { workExperience } from "@/data/experience";
 
 export default function ExperienceTimeline() {
@@ -56,7 +57,7 @@ export default function ExperienceTimeline() {
                 d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
               />
             </svg>
-            <span><span className="font-medium text-[var(--foreground)]">Mentor:</span> {exp.mentor}</span>
+            <span><span className="font-medium text-[var(--foreground)]">Mentor:</span> {renderMentor(exp.mentor)}</span>
           </p>
         )}
 

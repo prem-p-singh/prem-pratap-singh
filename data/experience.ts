@@ -34,7 +34,10 @@ export const workExperience: TimelineItem[] = [
     location: "Davis, CA, USA",
     startDate: "Sep 2023",
     endDate: "Present",
-    mentor: "Dr. David E. Block (current); Dr. Anita Oberholster (former, deceased Jan 2025)",
+    mentor: [
+      { name: "Dr. David E. Block", url: "https://wineserver.ucdavis.edu/people/david-block", note: "current" },
+      { name: "Dr. Anita Oberholster", url: "https://wineserver.ucdavis.edu/people/anita-oberholster", note: "former, deceased Jan 2025" },
+    ],
     description: "CDFA- and USDA-funded research on the molecular and metabolic impact of Grapevine Red Blotch Virus (GRBV) on Vitis vinifera cv. Merlot berries and wine quality, co-conducted with Dr. Mysore R. Sudarshana (USDA-ARS, UC Davis).",
     highlights: [
       "Quantified GRBV titer across more than ten vineyard blocks using RT-qPCR and digital PCR",
@@ -58,7 +61,9 @@ export const workExperience: TimelineItem[] = [
     location: "India",
     startDate: "2017",
     endDate: "2023",
-    mentor: "Dr. Bhanu Prakash",
+    mentor: [
+      { name: "Dr. Bhanu Prakash", url: "https://www.bhu.ac.in/Site/FacultyProfile/1_148?FA000446" },
+    ],
     description: "Thesis on plant-based bioactive formulations against food-borne microbes, spanning wet-lab formulation, mechanism-of-action assays, and computational target work.",
     highlights: [
       "Optimized a ternary essential-oil formulation (Zingiber, Trachyspermum, Coleus at 1:4:1) by augmented simplex-centroid mixture design",

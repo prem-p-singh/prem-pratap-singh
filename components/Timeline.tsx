@@ -1,16 +1,44 @@
+export interface MentorLink {
+  name: string;
+  url?: string;
+  note?: string;
+}
+
 export interface TimelineItem {
   title: string;
   organization: string;
   location?: string;
   startDate: string;
   endDate: string;
-  mentor?: string;
+  mentor?: string | MentorLink[];
   description?: string;
   highlights?: string[];
 }
 
 interface TimelineProps {
   items: TimelineItem[];
+}
+
+export function renderMentor(mentor: string | MentorLink[]) {
+  if (typeof mentor === "string") return mentor;
+  return mentor.map((m, i) => (
+    <span key={i}>
+      {i > 0 && "; "}
+      {m.url ? (
+        <a
+          href={m.url}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-primary hover:underline"
+        >
+          {m.name}
+        </a>
+      ) : (
+        <span>{m.name}</span>
+      )}
+      {m.note && ` (${m.note})`}
+    </span>
+  ));
 }
 
 export default function Timeline({ items }: TimelineProps) {
@@ -32,7 +60,7 @@ export default function Timeline({ items }: TimelineProps) {
               </p>
               {item.mentor && (
                 <p className="text-sm text-muted-foreground">
-                  Mentor: {item.mentor}
+                  Mentor: {renderMentor(item.mentor)}
                 </p>
               )}
             </div>
