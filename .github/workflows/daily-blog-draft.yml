@@ -1,9 +1,10 @@
 name: Weekly Blog Draft
 
 on:
-  schedule:
-    # Runs once a week: Thursday at 1 PM UTC (8 AM PT)
-    - cron: '0 13 * * 4'
+  # Sandboxed: scheduled run disabled. Manual trigger only.
+  # Re-enable by uncommenting the schedule block below.
+  # schedule:
+  #   - cron: '0 13 * * 4'   # Thursday 1 PM UTC (8 AM PT)
   workflow_dispatch:
 
 jobs:
