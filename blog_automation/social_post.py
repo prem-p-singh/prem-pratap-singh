@@ -131,18 +131,36 @@ Blog body excerpt:
 \"\"\"{body_snippet}\"\"\"
 
 Write ONE image-generation prompt (text only, no preamble) that captures
-the central scientific thesis of the post. The figure should:
-- Be a clean editorial scientific illustration in the style of a Nature
-  Plants journal cover. Muted earth tones, sage green, terracotta, deep
-  purple accents, soft cream background.
-- Be conceptual, not literal. Use cross-sections, point-cloud
-  representations, or microscopy-style insets where relevant.
-- Avoid any human figures, logos, or readable text labels other than
-  short panel descriptors.
-- Use a 16:9 aspect ratio framing.
+the central scientific thesis of the post. STRICT visual rules:
 
-Keep the prompt under 220 words. Output only the prompt text, no JSON, no
-markdown headers, no quotes around it.
+VISUAL STYLE:
+- Clean editorial scientific illustration. Painterly textures,
+  hand-illustrated feel, like a high-quality botanical-science book plate.
+- Muted earth-tone palette: sage green, terracotta, soft cream, with
+  deep purple accents only on signaling/molecular elements.
+- 16:9 horizontal composition.
+
+WHAT TO SHOW:
+- Be conceptual, not literal. Composite scenes (cross-sections,
+  point-cloud renderings, microscopy-style insets) are good.
+- Use 1-3 panels arranged horizontally if the thesis is multi-scale.
+
+ABSOLUTELY DO NOT INCLUDE:
+- Any rendered text, labels, captions, journal titles, headings, or
+  callouts inside the image. No "Nature Plants" wording. No panel labels.
+  No annotations. No species names. No DNA letters. The image must be
+  text-free.
+- Logos, watermarks, page numbers, journal mastheads.
+- Human figures, hands, or face elements.
+- Stock-illustration vector flatness; aim for editorial painterly depth.
+
+Phrase the final prompt so the image generator focuses on visuals only.
+Do not name the journal. Do not request labels. Begin the prompt with
+"A wordless scientific illustration..." to set the no-text expectation
+explicitly.
+
+Keep the prompt under 200 words. Output only the prompt text, no JSON,
+no markdown headers, no quotes around it.
 """.strip()
 
 
@@ -186,6 +204,41 @@ before or after.
 
 
 # ── OpenAI image generation ──────────────────────────────────────────────────
+
+# Phrases that cause image models to render literal text on the image.
+TEXT_TRIGGERING_PHRASES = [
+    r"(?i)\bjournal cover\b",
+    r"(?i)\bnature plants\b",
+    r"(?i)\bnature\b(?=\s+(?:plants|microbiology|methods|biotechnology|cell))",
+    r"(?i)\bcover of\b",
+    r"(?i)\btitle area\b",
+    r"(?i)\bheader\b",
+    r"(?i)\bcaption\b",
+    r"(?i)\blabels?\s+(?:say|read|reading|that say|saying)",
+    r"(?i)\bsmall label area\b",
+    r"(?i)\bpanel descriptors?\b",
+    r"(?i)\btext\s+(?:reads|saying)\b",
+    r"(?i)\bsays\s+\"[^\"]+\"",
+]
+
+NO_TEXT_SUFFIX = (
+    " The final image MUST contain absolutely no rendered text, no labels, "
+    "no captions, no journal mastheads, no logos, no annotations, no "
+    "lettering of any kind. Pure visual composition only."
+)
+
+
+def sanitize_image_prompt(prompt: str) -> str:
+    """Strip phrases that historically cause image models to render text,
+    then append a hard no-text suffix."""
+    cleaned = prompt
+    for pat in TEXT_TRIGGERING_PHRASES:
+        cleaned = re.sub(pat, "", cleaned)
+    cleaned = re.sub(r"\s{2,}", " ", cleaned).strip()
+    if "no rendered text" not in cleaned.lower() and "no text" not in cleaned.lower():
+        cleaned = cleaned.rstrip(". ") + "." + NO_TEXT_SUFFIX
+    return cleaned
+
 
 def generate_image(prompt: str, cfg: dict) -> bytes:
     """Generate a hero image and return raw PNG bytes."""
@@ -321,6 +374,8 @@ def main() -> None:
                 build_image_prompt_request(title, description, body), model, cfg
             )
             log.info(f"Image prompt ({len(image_prompt)} chars) drafted.")
+            image_prompt = sanitize_image_prompt(image_prompt)
+            log.info(f"Image prompt sanitized ({len(image_prompt)} chars).")
             log.info("Generating image via OpenAI image API...")
             image_bytes = generate_image(image_prompt, cfg)
             log.info(f"Image generated ({len(image_bytes)} bytes).")

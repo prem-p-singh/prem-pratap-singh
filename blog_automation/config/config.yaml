@@ -6,7 +6,7 @@ site:
 social:
   image_model: "gpt-image-1"
   image_size: "1536x1024"   # 16:9 landscape for LinkedIn hero
-  image_quality: "medium"    # low | medium | high
+  image_quality: "high"      # low | medium | high (high produces cleaner illustrations)
 
 content:
   # Relative to repo root; override with CV_PDF_PATH env var
