@@ -81,10 +81,24 @@ def split_frontmatter_and_body(raw: str) -> tuple[dict, str]:
     return {}, raw.strip()
 
 
+def _safe_slug(slug: str) -> str:
+    """Strict slug validator: only [a-z0-9-_], no path separators or traversal."""
+    if not re.fullmatch(r"[a-z0-9][a-z0-9_\-]{0,128}", slug or ""):
+        raise ValueError(
+            f"Invalid slug '{slug}'. Slugs may contain only lowercase letters, "
+            "digits, hyphens, and underscores."
+        )
+    return slug
+
+
 def find_blog_post(slug: Optional[str], content_dir: Path) -> tuple[Path, dict, str]:
+    # Resolve content_dir to its canonical absolute path so we can verify the
+    # final file lives inside it (defense in depth against path traversal).
+    content_dir = content_dir.resolve()
     if slug:
-        path = content_dir / f"{slug}.mdx"
-        if not path.exists():
+        slug = _safe_slug(slug)
+        path = (content_dir / f"{slug}.mdx").resolve()
+        if not path.is_file() or content_dir not in path.parents:
             raise FileNotFoundError(f"No published post found for slug '{slug}'")
     else:
         candidates = sorted(content_dir.glob("*.mdx"))
@@ -333,6 +347,22 @@ def main() -> None:
         )
         post_text = humanize_text(post_raw)
         log.info(f"LinkedIn post ready ({len(post_text.split())} words).")
+
+        # ── Domain guard: force the canonical blog URL ──
+        # If the LLM hallucinated a different URL or omitted yours, fix it.
+        allowed_host = re.sub(r"^https?://", "", site_url).rstrip("/")
+        # Strip any URL not pointing to your domain
+        def _strip_foreign_urls(m: re.Match) -> str:
+            url = m.group(0)
+            host_match = re.match(r"https?://([^/\s]+)", url)
+            if host_match and allowed_host in host_match.group(1):
+                return url
+            return ""
+        post_text = re.sub(r"https?://\S+", _strip_foreign_urls, post_text)
+        # Make sure the canonical URL is present exactly once
+        if blog_url not in post_text:
+            post_text = post_text.rstrip() + f"\n\n🔗 {blog_url}\n"
+            log.warning("LLM omitted blog URL; appended canonical URL.")
 
     # 4. Save post text + image-prompt next to it
     social_dir = Path("./blog_automation/drafts/social") / slug
