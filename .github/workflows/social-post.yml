@@ -1,0 +1,65 @@
+name: Blog → LinkedIn Post
+
+on:
+  workflow_dispatch:
+    inputs:
+      slug:
+        description: "Slug of the published post (leave empty for latest)"
+        required: false
+        type: string
+        default: ""
+      no_image:
+        description: "Skip image generation (text only)"
+        required: false
+        type: boolean
+        default: false
+
+jobs:
+  social-post:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install deps
+        run: pip install -r blog_automation/requirements.txt
+
+      - name: Generate social artifacts
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          SMTP_HOST: ${{ secrets.SMTP_HOST }}
+          SMTP_USERNAME: ${{ secrets.SMTP_USERNAME }}
+          SMTP_PASSWORD: ${{ secrets.SMTP_PASSWORD }}
+          EMAIL_FROM: ${{ secrets.EMAIL_FROM }}
+          EMAIL_TO: ${{ secrets.EMAIL_TO }}
+        run: |
+          ARGS=""
+          if [ -n "${{ inputs.slug }}" ]; then
+            ARGS="$ARGS --slug ${{ inputs.slug }}"
+          fi
+          if [ "${{ inputs.no_image }}" = "true" ]; then
+            ARGS="$ARGS --no-image"
+          fi
+          python blog_automation/social_post.py $ARGS
+
+      - name: Commit artifacts
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add blog_automation/drafts/social/
+          if [ -d public/blog ]; then
+            git add public/blog/
+          fi
+          if git diff --cached --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "social: add LinkedIn artifacts for blog post"
+            git push
+          fi

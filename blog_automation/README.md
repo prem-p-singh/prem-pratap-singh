@@ -108,6 +108,42 @@ Referenced in the post as `/blog/<slug>/<filename>`.
 
 ---
 
+## Blog → LinkedIn pipeline
+
+A separate single-run pipeline turns a published blog post into a hero image and a LinkedIn-ready post.
+
+```bash
+python blog_automation/social_post.py                      # latest published blog
+python blog_automation/social_post.py --slug <slug>        # specific blog
+python blog_automation/social_post.py --no-image           # text only
+python blog_automation/social_post.py --offline            # mock; no API calls
+```
+
+Steps:
+1. Pre-flight humanizer self-test (zero-cost regex check).
+2. Pick the blog (latest by frontmatter date, or by `--slug`).
+3. LLM drafts a tailored Nature-Plants-style image prompt for that post.
+4. OpenAI image API generates the figure (`gpt-image-1`, 1536x1024 by default).
+5. Image saved to `public/blog/<slug>/social-figure.png`.
+6. LLM drafts a 70-110 word LinkedIn post with hook + soft CTA + hashtags.
+7. Humanizer pass cleans AI patterns.
+8. Post text saved to `blog_automation/drafts/social/<slug>/linkedin.md`.
+9. Email sent with post text inline + image attached.
+
+**Why no auto-posting?** LinkedIn does not provide a public personal-posting API. The pipeline gives you a copy-paste-ready post and an image to upload manually.
+
+Trigger from GitHub Actions: `Actions → Blog → LinkedIn Post → Run workflow`. Optional inputs: `slug` (defaults to latest) and `no_image` (text-only mode).
+
+Image config lives in `config.yaml`:
+```yaml
+social:
+  image_model: "gpt-image-1"
+  image_size: "1536x1024"   # 16:9 hero
+  image_quality: "medium"    # low | medium | high
+```
+
+---
+
 ## Token-safety guarantees
 
 Three layers prevent wasted OpenAI spend on post-processing bugs:
