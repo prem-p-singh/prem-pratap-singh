@@ -300,10 +300,15 @@ export default function Home() {
                   target="_blank"
                   className="flex gap-2"
                 >
+                  <label htmlFor="newsletter-email" className="sr-only">
+                    Email address
+                  </label>
                   <input
+                    id="newsletter-email"
                     type="email"
                     name="email"
                     placeholder="your@email.com"
+                    aria-label="Email address"
                     required
                     className="flex-1 px-4 py-2 rounded-lg bg-[var(--muted)] border border-[var(--border)] text-[var(--foreground)] placeholder:text-[var(--muted-foreground)] text-sm focus:outline-none focus:border-[var(--foreground)] transition-colors"
                   />
