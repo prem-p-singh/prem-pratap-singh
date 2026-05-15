@@ -16,7 +16,7 @@ export default function HeroClient() {
           {/* Text Column */}
           <div className="order-2 lg:order-2">
             <p className="text-sm font-medium text-muted-foreground mb-3 tracking-wide uppercase">
-              Postdoctoral Scholar at UC Davis
+              Mechanism · Measurement · Decision
             </p>
 
             <SparklesText
