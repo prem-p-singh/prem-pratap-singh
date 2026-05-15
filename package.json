@@ -20,6 +20,7 @@
     "framer-motion": "^12.34.5",
     "gray-matter": "^4.0.3",
     "katex": "^0.16.28",
+    "lightningcss": "^1.32.0",
     "lucide-react": "^0.576.0",
     "next": "^16.1.6",
     "next-mdx-remote": "^6.0.0",
