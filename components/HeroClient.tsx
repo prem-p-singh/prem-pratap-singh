@@ -15,7 +15,7 @@ export default function HeroClient() {
         <div className="grid lg:grid-cols-2 gap-16 items-center">
           {/* Text Column */}
           <div className="order-2 lg:order-2">
-            <p className="text-sm font-medium text-muted-foreground mb-3 tracking-wide uppercase">
+            <p className="text-sm font-bold text-foreground mb-3 tracking-wide uppercase">
               Mechanism · Measurement · Decision
             </p>
 

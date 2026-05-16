@@ -17,8 +17,8 @@ export default function SkillsMatrix() {
 
   return (
     <ShinyCard className="p-6" duration={5000}>
-      <h3 className="text-lg font-semibold text-foreground mb-4">
-        Core Competencies
+      <h3 className="text-lg font-semibold text-foreground mb-4 tracking-wide">
+        SKILLS
       </h3>
 
       {/* Competency options (header) */}
