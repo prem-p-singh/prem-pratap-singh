@@ -56,6 +56,7 @@ export const researchInterests = [
 export const skills = [
   {
     category: "Molecular Diagnostics & Assay Development",
+    short: "Diagnostics",
     items: [
       "RT-qPCR", "Digital PCR (dPCR)", "Assay design", "Assay validation",
       "Primer/probe design", "Standard-curve calibration", "Limit of detection",
@@ -66,6 +67,7 @@ export const skills = [
   },
   {
     category: "NGS Workflow & Library Preparation",
+    short: "NGS",
     items: [
       "Illumina TAG-seq", "RNA-Seq", "Library preparation", "Library QC",
       "RNA isolation", "Sequencing-run setup", "UMI-aware quantification",
@@ -74,6 +76,7 @@ export const skills = [
   },
   {
     category: "Computational Biology & Software Engineering",
+    short: "Computation",
     items: [
       "Python", "NumPy", "pandas", "scikit-learn", "R", "Bioconductor",
       "Bash", "Snakemake", "SLURM", "Linux / HPC", "Pipeline development",
@@ -83,6 +86,7 @@ export const skills = [
   },
   {
     category: "Bioinformatics & Statistical Analysis",
+    short: "Bioinformatics",
     items: [
       "Differential expression (DESeq2, limma-voom, edgeR)", "Repeated-measures voom",
       "Pathway enrichment (GSEA, GO, KEGG, MapMan)",
@@ -101,6 +105,7 @@ export const skills = [
   },
   {
     category: "Analytical Chemistry & Metabolomics",
+    short: "Analytical",
     items: [
       "GC-MS", "LC-MS/MS", "Volatile profiling", "Targeted metabolomics",
       "HPLC", "FT-IR", "UV-Vis", "Fluorescence spectrophotometry",
@@ -109,6 +114,7 @@ export const skills = [
   },
   {
     category: "Plant Pathology & Disease Biology",
+    short: "Pathology",
     items: [
       "Plant-virus biology", "Plant-fungal pathogen biology",
       "Vineyard / field sampling design", "Pathogen culture", "Infection assays",
@@ -120,6 +126,7 @@ export const skills = [
   },
   {
     category: "Documentation, Communication & Cross-Functional Work",
+    short: "Documentation",
     items: [
       "SOP authoring", "Technical-report writing",
       "Reproducible-research documentation", "Manuscript writing",
