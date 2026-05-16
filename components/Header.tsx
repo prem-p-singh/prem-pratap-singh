@@ -7,6 +7,7 @@ import ThemeToggle from "./ThemeToggle";
 
 const navigation = [
   { name: "About", href: "/#about" },
+  { name: "Skills", href: "/#skills" },
   { name: "Experience", href: "/#experience" },
   { name: "Education", href: "/#education" },
   { name: "Publications", href: "/#publications" },

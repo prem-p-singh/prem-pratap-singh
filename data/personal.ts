@@ -50,21 +50,80 @@ export const researchInterests = [
   },
 ];
 
+// Seven core-competency domains. Items are ordered strongest-first; the
+// SkillsMatrix component shows the leading subset by default and reveals
+// the full list on demand. Keep terms paper-verified (no vague claims).
 export const skills = [
   {
-    category: "Analytical Techniques",
-    items: ["GC-MS", "LC-MS/MS", "RT-qPCR", "Digital PCR", "RNA-seq", "SEM Imaging", "Spectral Analysis"],
+    category: "Molecular Diagnostics & Assay Development",
+    items: [
+      "RT-qPCR", "Digital PCR (dPCR)", "Assay design", "Assay validation",
+      "Primer/probe design", "Standard-curve calibration", "Limit of detection",
+      "Limit of quantification", "Replicate-variance characterization",
+      "Nucleic-acid extraction", "RNA / DNA handling", "Low-input sample handling",
+      "MIC determination",
+    ],
   },
   {
-    category: "Data Science & Bioinformatics",
-    items: ["R (Bioconductor, DESeq2, ggplot2)", "Python", "Multi-omics Integration", "Statistical Modeling", "Pathway Enrichment Analysis"],
+    category: "NGS Workflow & Library Preparation",
+    items: [
+      "Illumina TAG-seq", "RNA-Seq", "Library preparation", "Library QC",
+      "RNA isolation", "Sequencing-run setup", "UMI-aware quantification",
+      "Low-input plant-tissue protocols", "Sample QC", "Bioanalyzer", "Qubit",
+    ],
   },
   {
-    category: "Research Areas",
-    items: ["Plant Pathology", "Grapevine Virology", "Postharvest Biology", "Food Safety", "Aflatoxin Analysis"],
+    category: "Computational Biology & Software Engineering",
+    items: [
+      "Python", "NumPy", "pandas", "scikit-learn", "R", "Bioconductor",
+      "Bash", "Snakemake", "SLURM", "Linux / HPC", "Pipeline development",
+      "Git / GitHub", "conda / mamba", "Singularity containers",
+      "Environment management", "Version control",
+    ],
   },
   {
-    category: "Formulation & Delivery",
-    items: ["Nano-encapsulation", "Chitosan Matrices", "Essential Oil Formulations", "Sustained-release Systems"],
+    category: "Bioinformatics & Statistical Analysis",
+    items: [
+      "Differential expression (DESeq2, limma-voom, edgeR)", "Repeated-measures voom",
+      "Pathway enrichment (GSEA, GO, KEGG, MapMan)",
+      "Co-expression networks (WGCNA, GENIE3, DGCA)",
+      "Multi-omics integration (MOFA)", "Machine-learning classification",
+      "Biomarker discovery", "LASSO / random forest / SVM / gradient boosting",
+      "Stability selection", "Cross-validation", "Bayesian inference (brms, Stan)",
+      "Causal mediation (HIMA)", "Design of experiments",
+      "Response-surface methodology", "Simplex-centroid mixture design",
+      "Polynomial regression", "Model-adequacy testing", "JMP",
+      "Cross-genome synteny (JCVI MCScan)",
+      "Protein structure prediction (AlphaFold, Rosetta)",
+      "Molecular docking (AutoDock)", "Molecular dynamics (Amber, MM-PBSA)",
+      "Binding-energy validation",
+    ],
+  },
+  {
+    category: "Analytical Chemistry & Metabolomics",
+    items: [
+      "GC-MS", "LC-MS/MS", "Volatile profiling", "Targeted metabolomics",
+      "HPLC", "FT-IR", "UV-Vis", "Fluorescence spectrophotometry",
+      "In-vitro release profiling", "Sample preparation",
+    ],
+  },
+  {
+    category: "Plant Pathology & Disease Biology",
+    items: [
+      "Plant-virus biology", "Plant-fungal pathogen biology",
+      "Vineyard / field sampling design", "Pathogen culture", "Infection assays",
+      "Postharvest disease modeling", "Stored-grain matrices",
+      "Biopesticide formulation chemistry", "Mixture-design optimization",
+      "Chitosan nano-encapsulation",
+      "Mechanism-of-action characterization (biochemical, structural-computational, transcriptomic)",
+    ],
+  },
+  {
+    category: "Documentation, Communication & Cross-Functional Work",
+    items: [
+      "SOP authoring", "Technical-report writing",
+      "Reproducible-research documentation", "Manuscript writing",
+      "Peer review", "Invited commentary", "Cross-functional collaboration",
+    ],
   },
 ];

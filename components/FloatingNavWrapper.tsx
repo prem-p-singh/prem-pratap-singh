@@ -7,6 +7,7 @@ import { MovingBorder } from "@/components/ui/moving-border";
 
 const navItems = [
   { name: "About", link: "/#about" },
+  { name: "Skills", link: "/#skills" },
   { name: "Experience", link: "/#experience" },
   { name: "Publications", link: "/#publications" },
   { name: "Projects", link: "/#projects" },

@@ -1,9 +1,10 @@
 import Link from "next/link";
 import Image from "next/image";
-import { personal, researchInterests, skills } from "@/data/personal";
+import { personal, researchInterests } from "@/data/personal";
 import { projects } from "@/data/projects";
 import { publications, bookChapters } from "@/data/publications";
 import PublicationsList from "@/components/PublicationsList";
+import SkillsMatrix from "@/components/SkillsMatrix";
 import ScholarAnalytics from "@/components/ScholarAnalytics";
 import { getAllPosts } from "@/lib/mdx";
 import ExperienceTimeline from "@/components/ExperienceTimeline";
@@ -25,48 +26,36 @@ export default function Home() {
           <h2 className="section-title mb-12">About Me</h2>
 
           <div className="grid lg:grid-cols-2 gap-12 items-start">
-            <div>
-              <div className="text-muted-foreground space-y-4 leading-relaxed">
-                {personal.bio.split('\n').filter(p => p.trim()).map((paragraph, index) => (
-                  <p key={index}>{paragraph.trim()}</p>
-                ))}
-              </div>
-
-              {/* Research Interests */}
-              <div className="mt-8">
-                <h3 className="text-lg font-semibold text-foreground mb-4">Research Interests</h3>
-                <div className="flex flex-wrap gap-2">
-                  {researchInterests.map((interest, index) => (
-                    <span key={index} className="tech-badge">
-                      {interest.title}
-                    </span>
-                  ))}
-                </div>
-              </div>
+            <div className="text-muted-foreground space-y-4 leading-relaxed">
+              {personal.bio.split('\n').filter(p => p.trim()).map((paragraph, index) => (
+                <p key={index}>{paragraph.trim()}</p>
+              ))}
             </div>
 
-            {/* Skills */}
+            {/* Research Interests */}
             <ShinyCard className="p-6" duration={5000}>
-              <h3 className="text-lg font-semibold text-foreground mb-6">Skills &amp; Expertise</h3>
-              <div className="space-y-6">
-                {skills.map((skillGroup, index) => (
-                  <div key={index}>
-                    <h4 className="text-sm font-medium text-muted-foreground mb-3">{skillGroup.category}</h4>
-                    <div className="flex flex-wrap gap-2">
-                      {skillGroup.items.map((skill, i) => (
-                        <span
-                          key={i}
-                          className="px-3 py-1 text-sm bg-muted text-muted-foreground rounded-md hover:bg-foreground hover:text-background transition-colors cursor-default"
-                        >
-                          {skill}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
+              <h3 className="text-lg font-semibold text-foreground mb-4">Research Interests</h3>
+              <div className="flex flex-wrap gap-2">
+                {researchInterests.map((interest, index) => (
+                  <span key={index} className="tech-badge">
+                    {interest.title}
+                  </span>
                 ))}
               </div>
             </ShinyCard>
           </div>
+        </div>
+      </section>
+
+      {/* Core Competencies Section */}
+      <section id="skills" className="py-20">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+          <h2 className="section-title mb-4">Core Competencies</h2>
+          <p className="text-muted-foreground mb-12 max-w-2xl">
+            Seven domains spanning bench diagnostics, NGS, computation, and
+            analytical chemistry. Select a domain to see the methods within it.
+          </p>
+          <SkillsMatrix />
         </div>
       </section>
 
