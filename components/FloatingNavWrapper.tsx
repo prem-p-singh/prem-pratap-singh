@@ -12,6 +12,7 @@ const navItems = [
   { name: "Publications", link: "/#publications" },
   { name: "Projects", link: "/#projects" },
   { name: "Blog", link: "/blog" },
+  { name: "Journey", link: "/journey" },
   { name: "Contact", link: "/#contact" },
 ];
 

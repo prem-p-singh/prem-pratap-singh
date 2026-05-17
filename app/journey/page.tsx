@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { ShinyCard } from "@/components/ui/shiny-card";
+import JourneyImpact from "@/components/JourneyImpact";
 
 export const metadata: Metadata = {
   title: "A Research Journey",
@@ -124,20 +125,8 @@ export default function JourneyPage() {
             </div>
           </div>
 
-          {/* Impact strip */}
-          <div className="mt-14 grid grid-cols-2 sm:grid-cols-4 gap-4 max-w-3xl mx-auto">
-            {[
-              { v: "36", l: "Journal articles" },
-              { v: "21", l: "Book chapters" },
-              { v: "1,900+", l: "Citations" },
-              { v: "h 25 · i10 38", l: "Indices" },
-            ].map((s) => (
-              <div key={s.l} className="text-center">
-                <p className="text-xl font-bold text-foreground">{s.v}</p>
-                <p className="text-xs text-muted-foreground mt-1">{s.l}</p>
-              </div>
-            ))}
-          </div>
+          {/* Impact strip (citations + indices live from OpenAlex) */}
+          <JourneyImpact />
         </div>
       </section>
 
