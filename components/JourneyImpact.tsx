@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 // these because it also indexes preprints and other items, so journal and
 // chapter counts stay static while citations and indices update live.
 const STATIC = {
-  journalArticles: "36",
+  journalArticles: "37",
   bookChapters: "21",
 };
 

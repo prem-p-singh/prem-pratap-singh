@@ -4,7 +4,7 @@ export const personal = {
   tagline: "Molecular biology that closes the loop on plant disease, from sample to inference, on commercial crop systems.",
   bio: `Plant pathologist and molecular biologist at the University of California, Davis, working on grapevine–virus interactions and the metabolic consequences of viral infection in berries. Current research under the mentorship of Dr. David E. Block continues a project initiated by the late Dr. Anita Oberholster and is co-conducted with Dr. Mysore R. Sudarshana (USDA-ARS, UC Davis) on Grapevine Red Blotch Virus impact in Merlot berries and wine quality.
 
-Doctoral training at Banaras Hindu University focused on mycotoxin control through plant-based nano-encapsulated formulations, combining wet-lab efficacy studies with computational target identification. Published research spans 36 peer-reviewed articles and 21 book chapters across transcriptomics, targeted metabolomics, nanoencapsulation, and computational biology.
+Doctoral training at Banaras Hindu University focused on mycotoxin control through plant-based nano-encapsulated formulations, combining wet-lab efficacy studies with computational target identification. Published research spans 37 peer-reviewed articles and 21 book chapters across transcriptomics, targeted metabolomics, nanoencapsulation, and computational biology.
 
 Recent commentaries in Plant Physiology, co-authored with Dr. Ritu Singh, cover plant defense against Sclerotinia and Xanthomonas in Brassica, extending a long-standing interest in how pathogens rewrite host metabolism and how that rewriting can be interrupted with practical molecular tools.`,
   location: "Davis, CA, USA",

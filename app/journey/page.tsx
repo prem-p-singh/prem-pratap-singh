@@ -57,7 +57,7 @@ const milestones = [
   { marker: "2017", stat: "Gold", label: "M.Sc. medal, BHU" },
   { marker: "2023", stat: "Ph.D.", label: "+ UC Davis postdoc" },
   { marker: "2025", stat: "Fellow", label: "Handshake AI" },
-  { marker: "2026", stat: "36 + 21", label: "articles + chapters" },
+  { marker: "2026", stat: "37 + 21", label: "articles + chapters" },
 ];
 
 export default function JourneyPage() {

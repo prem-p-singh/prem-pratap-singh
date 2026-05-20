@@ -3,15 +3,6 @@ import type { Publication } from "@/components/PublicationCard";
 export const publications: Publication[] = [
   // ── Manuscripts in preparation ─────────────────────────────────────────
   {
-    title: "Temporal Dynamics of Grapevine Red Blotch Virus Accumulation in Grapevine Leaves is Influenced by Fruit Maturity Stages",
-    authors: ["P. P. Singh", "H. Scully", "K. Reddy", "A. M. Boghozian", "C. Medina-Plaza", "A. Oberholster", "M. R. Sudarshana"],
-    venue: "In Preparation",
-    year: 2026,
-    type: "journal",
-    methods: ["RT-qPCR", "Digital PCR", "Statistical Modeling"],
-    links: {},
-  },
-  {
     title: "Grapevine Red Blotch Disease: An Emerging Threat to Global Viticulture",
     authors: ["P. P. Singh", "K. Reddy", "A. M. Boghozian", "A. Oberholster", "M. R. Sudarshana"],
     venue: "In Preparation",
@@ -22,6 +13,18 @@ export const publications: Publication[] = [
   },
 
   // ── 2026 ───────────────────────────────────────────────────────────────
+  {
+    title: "Temporal dynamics of Grapevine red blotch virus accumulation in grapevine leaves is influenced by fruit maturity stages",
+    authors: ["P. P. Singh", "K. Reddy", "H. Scully", "A. M. Boghozian", "C. Medina-Plaza", "A. Oberholster", "M. R. Sudarshana"],
+    venue: "Archives of Virology, 171(6), 183",
+    year: 2026,
+    type: "journal",
+    methods: ["RT-qPCR", "Digital PCR", "Field sampling", "Statistical modeling"],
+    links: {
+      paper: "https://link.springer.com/article/10.1007/s00705-026-06634-0",
+      doi: "https://doi.org/10.1007/s00705-026-06634-0",
+    },
+  },
   {
     title: "Rethinking Arsenal: Non-TAL Effectors Drive Xanthomonas Virulence in Brassica",
     authors: ["R. Singh", "P. P. Singh"],
