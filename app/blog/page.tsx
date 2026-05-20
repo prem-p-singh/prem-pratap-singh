@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { getAllPosts } from "@/lib/mdx";
+import BlogSearchList from "@/components/blog/BlogSearchList";
 
 export const metadata: Metadata = {
   title: "Blog",
@@ -162,91 +163,11 @@ export default function BlogPage() {
         </section>
       )}
 
-      {/* All Posts */}
+      {/* All Posts (with client-side search) */}
       <section className="py-16">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           {posts.length > 0 ? (
-            <>
-              <div className="flex items-center justify-between mb-8">
-                <h2 className="text-2xl font-bold text-foreground">
-                  All Articles
-                </h2>
-                <span className="text-sm text-muted-foreground">
-                  {posts.length} {posts.length === 1 ? "article" : "articles"}
-                </span>
-              </div>
-
-              <div className="space-y-4">
-                {posts.map((post) => {
-                  const formattedDate = new Date(post.date).toLocaleDateString("en-US", {
-                    year: "numeric",
-                    month: "short",
-                    day: "numeric",
-                  });
-
-                  return (
-                    <Link
-                      key={post.slug}
-                      href={`/blog/${post.slug}`}
-                      className="group block"
-                    >
-                      <article className="flex flex-col sm:flex-row sm:items-start gap-4 p-4 sm:p-6 bg-card rounded-xl border border-border hover:border-primary/50 hover:shadow-lg hover:shadow-primary/5 transition-all">
-                        {/* Number/Icon */}
-                        <div className="hidden sm:flex flex-shrink-0 w-12 h-12 rounded-xl bg-gradient-to-br from-primary/10 to-accent/10 items-center justify-center">
-                          <svg className="w-6 h-6 text-primary/50" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                          </svg>
-                        </div>
-
-                        {/* Content */}
-                        <div className="flex-grow min-w-0">
-                          <div className="flex flex-wrap items-center gap-2 text-sm text-muted-foreground mb-2">
-                            <time dateTime={post.date}>{formattedDate}</time>
-                            <span className="hidden sm:inline">·</span>
-                            <span>{post.readingTime}</span>
-                          </div>
-
-                          <h3 className="text-lg sm:text-xl font-semibold text-foreground mb-2 group-hover:text-primary transition-colors">
-                            {post.title}
-                          </h3>
-
-                          {post.description && (
-                            <p className="text-muted-foreground text-sm sm:text-base line-clamp-2 mb-3">
-                              {post.description}
-                            </p>
-                          )}
-
-                          {post.tags && post.tags.length > 0 && (
-                            <div className="flex flex-wrap gap-2">
-                              {post.tags.slice(0, 4).map((tag) => (
-                                <span
-                                  key={tag}
-                                  className="px-2 py-1 text-xs bg-muted text-muted-foreground rounded-md"
-                                >
-                                  {tag}
-                                </span>
-                              ))}
-                              {post.tags.length > 4 && (
-                                <span className="px-2 py-1 text-xs text-muted-foreground">
-                                  +{post.tags.length - 4}
-                                </span>
-                              )}
-                            </div>
-                          )}
-                        </div>
-
-                        {/* Arrow */}
-                        <div className="hidden sm:flex flex-shrink-0 items-center">
-                          <svg className="w-5 h-5 text-muted-foreground group-hover:text-primary group-hover:translate-x-1 transition-all" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                          </svg>
-                        </div>
-                      </article>
-                    </Link>
-                  );
-                })}
-              </div>
-            </>
+            <BlogSearchList posts={posts} />
           ) : (
             <div className="text-center py-20">
               <div className="w-20 h-20 mx-auto mb-6 rounded-full bg-muted flex items-center justify-center">

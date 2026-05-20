@@ -10,6 +10,7 @@ import "katex/dist/katex.min.css";
 import ClapButton from "@/components/blog/ClapButton";
 import ShareButtons from "@/components/blog/ShareButtons";
 import CommentSection from "@/components/blog/CommentSection";
+import TldrCallout from "@/components/blog/TldrCallout";
 
 interface Props {
   params: Promise<{ slug: string }>;
@@ -189,6 +190,9 @@ export default async function BlogPostPage({ params }: Props) {
             prose-strong:text-foreground prose-strong:font-semibold
             prose-ul:my-4 prose-ol:my-4 prose-li:my-1
           ">
+            {post.tldr && post.tldr.length > 0 && (
+              <TldrCallout items={post.tldr} />
+            )}
             <MDXRemote
               source={post.content}
               components={components}
