@@ -386,9 +386,10 @@ You are writing a blog post draft for {site_title}.
 Date: {today}
 
 Required outcome:
-- Start your response with EXACTLY two HTML comment lines for the title and description:
+- Start your response with EXACTLY THREE HTML comment lines for the title, description, and key takeaways:
   <!-- TITLE: Your Catchy Blog Post Title Here -->
   <!-- DESCRIPTION: A compelling 1-2 sentence description of what this post covers. -->
+  <!-- TLDR: First takeaway in one sentence. | Second takeaway in one sentence. | Third takeaway in one sentence. -->
 - The TITLE must be catchy, specific, and engaging — based on the actual content and key findings.
   Do NOT use generic patterns like "Research Update: Topic (date)".
   Good examples: "CRISPR Meets Grapevine: A New Frontier in Virus Resistance",
@@ -396,7 +397,11 @@ Required outcome:
   "Nanoencapsulation Breakthrough Targets Grapevine Leafroll Disease".
 - The DESCRIPTION must be a unique, specific summary (1-2 sentences) highlighting the key takeaway.
   Do NOT use generic descriptions — make it reflect the actual content.
-- After the two comment lines, write the MDX body content (no frontmatter block).
+- The TLDR must contain 3 or 4 takeaways separated by ' | ' (pipe with spaces). Each takeaway:
+  * One sentence, ideally under 22 words.
+  * Specific and grounded in the post; no buzzwords or em dashes.
+  * Written as a standalone bullet that a busy reader could scan.
+- After the three comment lines, write the MDX body content (no frontmatter block).
 - Start with a short intro paragraph (no top-level # heading).
 - Include sections: ## Why this matters, ## What changed today, ## My research angle, ## References.
 - Keep factual claims grounded in provided sources.
@@ -778,13 +783,17 @@ def verify_draft(body: str, cfg: Dict, report: DiagnosticReport, sources: Option
 
 
 # ── Build helpers ────────────────────────────────────────────────────────────
-def parse_title_description(body: str) -> Tuple[Optional[str], Optional[str], str]:
-    """Extract TITLE and DESCRIPTION from HTML comment lines at the start of LLM output.
+def parse_title_description(
+    body: str,
+) -> Tuple[Optional[str], Optional[str], Optional[List[str]], str]:
+    """Extract TITLE, DESCRIPTION, and TLDR from HTML comment lines at the start of LLM output.
 
-    Returns (title, description, cleaned_body) where title/description may be None if not found.
+    Returns (title, description, tldr_list, cleaned_body). Any field may be None if not found.
+    The TLDR is a pipe-separated list inside the comment; this function splits and trims it.
     """
     title = None
     description = None
+    tldr: Optional[List[str]] = None
     cleaned = body
 
     title_match = re.search(r"<!--\s*TITLE:\s*(.+?)\s*-->", cleaned)
@@ -797,8 +806,16 @@ def parse_title_description(body: str) -> Tuple[Optional[str], Optional[str], st
         description = desc_match.group(1).strip()
         cleaned = cleaned[:desc_match.start()] + cleaned[desc_match.end():]
 
+    tldr_match = re.search(r"<!--\s*TLDR:\s*(.+?)\s*-->", cleaned, re.DOTALL)
+    if tldr_match:
+        raw = tldr_match.group(1).strip()
+        # Split on pipe, trim, drop empties, cap at 5 bullets defensively
+        items = [s.strip().rstrip(".") + "." for s in raw.split("|") if s.strip()]
+        tldr = items[:5] if items else None
+        cleaned = cleaned[:tldr_match.start()] + cleaned[tldr_match.end():]
+
     cleaned = cleaned.strip()
-    return title, description, cleaned
+    return title, description, tldr, cleaned
 
 
 def build_title_fallback(keywords: List[str], today: str) -> str:
@@ -817,18 +834,30 @@ def slugify(text: str) -> str:
     return slug[:90]
 
 
-def build_frontmatter(title: str, date_iso: str, description: str, tags: List[str]) -> str:
+def build_frontmatter(
+    title: str,
+    date_iso: str,
+    description: str,
+    tags: List[str],
+    tldr: Optional[List[str]] = None,
+) -> str:
     tags_line = "[" + ", ".join(f'\"{t}\"' for t in tags[:6]) + "]"
     safe_title = title.replace('"', '\\"')
     safe_description = description.replace('"', '\\"')
-    return (
+    out = (
         "---\n"
         f'title: "{safe_title}"\n'
         f'date: "{date_iso}"\n'
         f'description: "{safe_description}"\n'
         f"tags: {tags_line}\n"
-        "---\n"
     )
+    if tldr:
+        out += "tldr:\n"
+        for item in tldr:
+            safe = item.replace('"', '\\"')
+            out += f'  - "{safe}"\n'
+    out += "---\n"
+    return out
 
 
 def sanitize_mdx(body: str) -> str:
@@ -1258,8 +1287,8 @@ def main() -> None:
     report.add_step("Content verification", True, dur, "All checks recorded")
     log.info(f"Content verification complete in {dur:.1f}s")
 
-    # ── Step 5b: Extract title & description from LLM output ────────────
-    llm_title, llm_description, body = parse_title_description(body)
+    # ── Step 5b: Extract title, description, TLDR from LLM output ────────
+    llm_title, llm_description, llm_tldr, body = parse_title_description(body)
     if llm_title:
         title = llm_title
         log.info(f"LLM-generated title: {title}")
@@ -1272,10 +1301,14 @@ def main() -> None:
     else:
         description = build_description_fallback(keywords)
         log.warning(f"No LLM description found, using fallback: {description}")
+    if llm_tldr:
+        log.info(f"LLM-generated TLDR: {len(llm_tldr)} bullet(s)")
+    else:
+        log.warning("No LLM TLDR found; post will render without a Key Takeaways callout.")
 
     # ── Step 6: Save draft ────────────────────────────────────────────────
     tags = [k.replace("-", " ") for k in keywords[:6]]
-    frontmatter = build_frontmatter(title, today, description, tags)
+    frontmatter = build_frontmatter(title, today, description, tags, llm_tldr)
     body += "\n\n> Status: PENDING_APPROVAL\n"
 
     full_content = frontmatter + "\n" + body.strip() + "\n"
