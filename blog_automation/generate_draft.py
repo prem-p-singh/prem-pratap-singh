@@ -932,22 +932,64 @@ def build_email_html(slug: str, draft_filename: str, draft_preview: str, publish
         </div>
         """
 
-    publish_button = ""
-    if publish_url:
-        publish_button = f"""
+    # Build the GitHub web-editor URL for this pending draft
+    github_cfg = (cfg_for_buttons := None) or None  # placeholder; see actual cfg below
+    # Note: we access cfg through build_publish_url's caller; re-derive owner/repo here
+    # by reusing the same env that build_publish_url did. The function signature stays
+    # the same so the call sites in notify_new_draft do not change.
+    edit_url = ""
+    try:
+        # Reach into env via globals — cfg is in scope of notify_new_draft, not here.
+        # The publish_url already encodes owner/repo, so derive the edit URL from it.
+        import re as _re
+        m = _re.search(r"github\.com/([^/]+/[^/]+)/actions", publish_url or "")
+        if m:
+            repo_path = m.group(1)
+            edit_url = (
+                f"https://github.com/{repo_path}/edit/main/"
+                f"blog_automation/drafts/pending/{draft_filename}"
+            )
+    except Exception:
+        edit_url = ""
+
+    filename_box = f"""
+        <div style="background: #f5f5f4; border: 1px solid #e7e5e4; border-radius: 8px;
+                    padding: 10px 12px; margin: 0 0 16px; font-size: 12px;">
+          <span style="color: #78716c; text-transform: uppercase; letter-spacing: 0.5px; font-size: 10px; font-weight: 600;">Filename</span><br>
+          <code style="display: inline-block; margin-top: 4px; word-break: break-all; color: #1c1917;">{draft_filename}</code>
+        </div>
+    """
+
+    buttons_html = ""
+    if publish_url or edit_url:
+        edit_btn = ""
+        publish_btn = ""
+        if edit_url:
+            edit_btn = (
+                f'<a href="{edit_url}" '
+                f'style="display: inline-block; padding: 12px 22px; background: #fafaf9; '
+                f'color: #1c1917; text-decoration: none; border-radius: 8px; border: 1px solid #d6d3d1; '
+                f'font-size: 15px; font-weight: 600; margin: 0 6px 8px;">'
+                f'&#9998; Edit Draft on GitHub</a>'
+            )
+        if publish_url:
+            publish_btn = (
+                f'<a href="{publish_url}" '
+                f'style="display: inline-block; padding: 12px 22px; background: #0e7490; '
+                f'color: white; text-decoration: none; border-radius: 8px; '
+                f'font-size: 15px; font-weight: 600; margin: 0 6px 8px;">'
+                f'&#9889; Publish This Draft Now</a>'
+            )
+        buttons_html = f"""
         <div style="margin: 24px 0; text-align: center;">
-          <a href="{publish_url}"
-             style="display: inline-block; padding: 14px 32px; background: #0e7490;
-                    color: white; text-decoration: none; border-radius: 8px;
-                    font-size: 16px; font-weight: 600;">
-            &#9889; Publish This Draft Now
-          </a>
+          {edit_btn}{publish_btn}
           <p style="margin-top: 8px; font-size: 12px; color: #78716c;">
-            Opens GitHub Actions &mdash; just click the green &ldquo;Run workflow&rdquo; button.<br>
-            You can optionally override the <strong>title</strong> and <strong>description</strong> fields before publishing.
+            <strong>Edit</strong> opens the file in GitHub&rsquo;s web editor; save your changes there before publishing.<br>
+            <strong>Publish</strong> opens GitHub Actions &mdash; click &ldquo;Run workflow&rdquo; to deploy.
           </p>
         </div>
         """
+    publish_button = buttons_html
 
     # Diagnostic report section
     diagnostic_html = ""
@@ -974,6 +1016,8 @@ def build_email_html(slug: str, draft_filename: str, draft_preview: str, publish
 
       <div style="background: #fafaf9; border: 1px solid #e7e5e4; border-top: none;
                   padding: 20px; border-radius: 0 0 12px 12px;">
+        {filename_box}
+
         {title_section}
 
         {publish_button}
