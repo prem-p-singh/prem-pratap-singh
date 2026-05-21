@@ -37,13 +37,16 @@ export const publications: Publication[] = [
     },
   },
   {
-    title: "Systematic investigation of aflatoxigenic Aspergillus flavus inhibition: Integrating essential-oils-based formulation with mathematical modeling and transcriptomic analysis",
+    title: "Systematic investigation of aflatoxigenic Aspergillus flavus inhibition: Integrating essential oils-based formulation with mathematical modeling and transcriptomic analysis",
     authors: ["P. P. Singh", "R. Singh", "P. K. Verma", "B. Prakash"],
-    venue: "International Journal of Food Microbiology",
+    venue: "International Journal of Food Microbiology, 450, 111632",
     year: 2026,
     type: "journal",
-    methods: ["Transcriptomics", "Mathematical Modeling", "GC-MS"],
-    links: {},
+    methods: ["Transcriptomics", "Mathematical modeling", "GC-MS", "Mode-of-action assays"],
+    links: {
+      paper: "https://www.sciencedirect.com/science/article/abs/pii/S0168160526000115",
+      doi: "https://doi.org/10.1016/j.ijfoodmicro.2026.111632",
+    },
   },
 
   // ── 2025 ───────────────────────────────────────────────────────────────
