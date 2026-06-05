@@ -22,16 +22,32 @@ export default function BlogPage() {
     "research-update-grapevine-virology-2026-03-05",
   ]);
 
-  // Group: Deep Dives (longer standalone articles)
+  // Group: Deep Dives — broader mechanism / RNA / multi-omics perspective pieces
   const deepDiveSlugs = new Set([
     "crosskingdom-rna-signals-and-climate-extremes-two-forces-rewriting-plantmicrobe-outcomes",
     "from-crop-residues-to-cross-omics-a-practical-path-to-predicting-plant-disease-before-symp",
     "from-single-cell-four-omics-to-spatial-maps-the-multi-omics-shift-plant-pathology-cant-ign",
+    "from-lipid-signaling-to-3d-vines-new-clues-for-smarter-plant-disease-research",
+    "pathogen-rnas-are-crossing-kingdoms-and-plant-disease-research-needs-to-catch-up",
+  ]);
+
+  // Group: Vine Sensing & Phenotyping — structure, imaging, biomarkers, sensing for grapevine
+  const sensingSlugs = new Set([
+    "from-vine-structure-to-pathogen-risk-what-new-plant-sensing-papers-suggest-for-grapevine-r",
+    "from-vine-geometry-to-disease-insight-why-3d-grapevine-modeling-caught-my-attention-today",
+    "from-plant-immunity-to-grapevine-sensing-what-todays-papers-suggest-about-smarter-disease-",
+    "from-vine-geometry-to-disease-defense-what-todays-plant-papers-suggest-for-smarter-grapevi",
   ]);
 
   const researchJournal = posts.filter(p => researchJournalSlugs.has(p.slug));
   const deepDives = posts.filter(p => deepDiveSlugs.has(p.slug));
-  const otherPosts = posts.filter(p => !researchJournalSlugs.has(p.slug) && !deepDiveSlugs.has(p.slug));
+  const sensing = posts.filter(p => sensingSlugs.has(p.slug));
+  const otherPosts = posts.filter(
+    p =>
+      !researchJournalSlugs.has(p.slug) &&
+      !deepDiveSlugs.has(p.slug) &&
+      !sensingSlugs.has(p.slug)
+  );
 
   return (
     <div className="pt-16 min-h-screen">
@@ -82,6 +98,64 @@ export default function BlogPage() {
                     key={post.slug}
                     href={`/blog/${post.slug}`}
                     className="group relative bg-gradient-to-br from-primary/5 via-card to-accent/5 rounded-2xl border border-border hover:border-primary/50 hover:shadow-lg hover:shadow-primary/5 transition-all p-5"
+                  >
+                    <div className="flex flex-col h-full">
+                      <time className="text-xs text-muted-foreground mb-2">{formattedDate}</time>
+                      <h3 className="font-semibold text-foreground group-hover:text-primary transition-colors mb-2 line-clamp-2">
+                        {post.title}
+                      </h3>
+                      {post.description && (
+                        <p className="text-sm text-muted-foreground line-clamp-3 mb-3 flex-grow">
+                          {post.description}
+                        </p>
+                      )}
+                      <div className="flex items-center justify-between mt-auto pt-3 border-t border-border/50">
+                        <span className="text-xs text-muted-foreground">{post.readingTime}</span>
+                        <svg className="w-4 h-4 text-muted-foreground group-hover:text-primary group-hover:translate-x-1 transition-all" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                        </svg>
+                      </div>
+                    </div>
+                  </Link>
+                );
+              })}
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* Vine Sensing & Phenotyping */}
+      {sensing.length > 0 && (
+        <section className="py-16 border-b border-border">
+          <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="flex items-center gap-3 mb-8">
+              <div className="p-2 rounded-lg bg-accent/10">
+                <svg className="w-5 h-5 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 7l9-4 9 4-9 4-9-4zM3 12l9 4 9-4M3 17l9 4 9-4" />
+                </svg>
+              </div>
+              <div>
+                <h2 className="text-2xl font-bold text-foreground">
+                  Vine Sensing &amp; Phenotyping
+                </h2>
+                <p className="text-sm text-muted-foreground">
+                  3D structure, imaging, and biomarkers for grapevine health
+                </p>
+              </div>
+            </div>
+
+            <div className="grid sm:grid-cols-1 lg:grid-cols-2 gap-4">
+              {sensing.map((post) => {
+                const formattedDate = new Date(post.date).toLocaleDateString("en-US", {
+                  year: "numeric",
+                  month: "short",
+                  day: "numeric",
+                });
+                return (
+                  <Link
+                    key={post.slug}
+                    href={`/blog/${post.slug}`}
+                    className="group relative bg-gradient-to-br from-accent/5 via-card to-primary/5 rounded-2xl border border-border hover:border-primary/50 hover:shadow-lg hover:shadow-primary/5 transition-all p-5"
                   >
                     <div className="flex flex-col h-full">
                       <time className="text-xs text-muted-foreground mb-2">{formattedDate}</time>
