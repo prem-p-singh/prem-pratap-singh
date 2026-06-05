@@ -8,8 +8,11 @@ interface BlogSearchListProps {
   posts: BlogPostMeta[];
 }
 
+const DEFAULT_VISIBLE = 2;
+
 export default function BlogSearchList({ posts }: BlogSearchListProps) {
   const [query, setQuery] = useState("");
+  const [showAll, setShowAll] = useState(false);
 
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();
@@ -25,6 +28,11 @@ export default function BlogSearchList({ posts }: BlogSearchListProps) {
       return haystack.includes(q);
     });
   }, [query, posts]);
+
+  // When searching, show all matches. Otherwise respect the show-more toggle.
+  const isSearching = query.trim().length > 0;
+  const visible = isSearching || showAll ? filtered : filtered.slice(0, DEFAULT_VISIBLE);
+  const hiddenCount = filtered.length - DEFAULT_VISIBLE;
 
   return (
     <>
@@ -60,7 +68,7 @@ export default function BlogSearchList({ posts }: BlogSearchListProps) {
 
       {filtered.length > 0 ? (
         <div className="space-y-4">
-          {filtered.map((post) => {
+          {visible.map((post) => {
             const formattedDate = new Date(post.date).toLocaleDateString(
               "en-US",
               { year: "numeric", month: "short", day: "numeric" }
@@ -145,6 +153,32 @@ export default function BlogSearchList({ posts }: BlogSearchListProps) {
             );
           })}
         </div>
+
+        {/* Show more / Show less — only when not searching */}
+        {!isSearching && hiddenCount > 0 && (
+          <div className="mt-6 text-center">
+            <button
+              onClick={() => setShowAll((v) => !v)}
+              className="inline-flex items-center gap-2 px-6 py-2.5 text-sm font-medium border border-border rounded-lg text-foreground hover:bg-muted transition-colors"
+            >
+              {showAll ? (
+                <>
+                  Show less
+                  <svg className="w-4 h-4 rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                  </svg>
+                </>
+              ) : (
+                <>
+                  Show {hiddenCount} more {hiddenCount === 1 ? "article" : "articles"}
+                  <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                  </svg>
+                </>
+              )}
+            </button>
+          </div>
+        )}
       ) : (
         <div className="text-center py-12 border border-dashed border-border rounded-xl">
           <p className="text-muted-foreground">
