@@ -67,6 +67,7 @@ export default function BlogSearchList({ posts }: BlogSearchListProps) {
       </div>
 
       {filtered.length > 0 ? (
+        <>
         <div className="space-y-4">
           {visible.map((post) => {
             const formattedDate = new Date(post.date).toLocaleDateString(
@@ -179,6 +180,7 @@ export default function BlogSearchList({ posts }: BlogSearchListProps) {
             </button>
           </div>
         )}
+        </>
       ) : (
         <div className="text-center py-12 border border-dashed border-border rounded-xl">
           <p className="text-muted-foreground">
