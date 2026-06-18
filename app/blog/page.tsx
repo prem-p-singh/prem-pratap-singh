@@ -30,6 +30,7 @@ export default function BlogPage() {
     "from-lipid-signaling-to-3d-vines-new-clues-for-smarter-plant-disease-research",
     "pathogen-rnas-are-crossing-kingdoms-and-plant-disease-research-needs-to-catch-up",
     "single-cell-mapping-and-new-mass-spectrometry-tools-point-to-a-sharper-future-for-plant-mu",
+    "from-peach-defense-chemistry-to-grapevine-sensing-what-this-week-says-about-smarter-plant-",
   ]);
 
   // Group: Vine Sensing & Phenotyping — structure, imaging, biomarkers, sensing for grapevine
