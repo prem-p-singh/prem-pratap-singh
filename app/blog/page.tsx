@@ -29,6 +29,7 @@ export default function BlogPage() {
     "from-single-cell-four-omics-to-spatial-maps-the-multi-omics-shift-plant-pathology-cant-ign",
     "from-lipid-signaling-to-3d-vines-new-clues-for-smarter-plant-disease-research",
     "pathogen-rnas-are-crossing-kingdoms-and-plant-disease-research-needs-to-catch-up",
+    "single-cell-mapping-and-new-mass-spectrometry-tools-point-to-a-sharper-future-for-plant-mu",
   ]);
 
   // Group: Vine Sensing & Phenotyping — structure, imaging, biomarkers, sensing for grapevine
@@ -37,6 +38,7 @@ export default function BlogPage() {
     "from-vine-geometry-to-disease-insight-why-3d-grapevine-modeling-caught-my-attention-today",
     "from-plant-immunity-to-grapevine-sensing-what-todays-papers-suggest-about-smarter-disease-",
     "from-vine-geometry-to-disease-defense-what-todays-plant-papers-suggest-for-smarter-grapevi",
+    "from-point-clouds-to-pathogens-what-new-plant-research-suggests-for-smarter-grapevine-dise",
   ]);
 
   const researchJournal = posts.filter(p => researchJournalSlugs.has(p.slug));
