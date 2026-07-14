@@ -1,0 +1,154 @@
+# Keyword bank for blog draft generation.
+#
+# Selection strategy: TRIANGULATED ROTATION.
+# Every run's keyword set is built from three vertices:
+#   1. two anchors  — plant_pathogen_biology + synthetic_biology, always sampled
+#   2. one rotating — a different theme each week, chosen so no theme repeats
+#                     until all rotatable themes have been used
+#
+# The rotating theme is picked by shuffling the rotatable themes with a
+# year-seeded RNG (order is randomized once per year, stable within the year),
+# then indexing by ISO week number. This gives a fresh theme every week and full
+# coverage before any repeat. Within-theme keyword picks are seeded by the run
+# date, so the exact keywords also vary week to week.
+
+selection:
+  # Fixed anchor themes and how many keywords to sample from each per run.
+  anchors:
+    plant_pathogen_biology: 3
+    synthetic_biology: 3
+  # The rotating vertex: one theme per run (all themes except the anchors are
+  # eligible), and how many keywords to sample from it.
+  rotating:
+    sample: 4
+
+themes:
+  virology_and_grapevine:
+    - grapevine leafroll disease
+    - grapevine fanleaf virus
+    - grapevine virus diagnostics
+    - grapevine viral evolution
+    - vineyard disease surveillance
+    - vineyard digital twin
+    - vineyard microbiome
+    - virus vector management
+    - mealybug transmission
+    - certified clean planting material
+
+  plant_immunity:
+    - plant immune signaling
+    - immune receptor engineering
+    - NLR engineering
+    - PRR engineering
+    - effector biology
+    - fungal effectors
+    - host susceptibility genes
+    - durable disease resistance
+    - quantitative disease resistance
+    - broad spectrum resistance
+
+  rna_technologies:
+    - spray induced gene silencing
+    - SIGS
+    - host induced gene silencing
+    - HIGS
+    - dsRNA delivery
+    - RNA nanoparticle delivery
+    - RNA stability
+    - environmental RNA
+    - extracellular vesicles plants
+    - RNA transport plants
+
+  gene_editing:
+    - prime editing plants
+    - base editing plants
+    - epigenome editing plants
+    - multiplex CRISPR plants
+    - CRISPR diagnostics plants
+    - de novo domestication
+    - gene drive plants
+
+  ai_and_foundation_models:
+    - plant foundation model
+    - biological foundation model
+    - multimodal AI biology
+    - AI for crop breeding
+    - AI for plant genomics
+    - AI protein design
+    - AI pathogen prediction
+    - digital agriculture AI
+    - agricultural robotics
+    - agentic AI biology
+
+  computational_biology:
+    - single cell plant transcriptomics
+    - spatial multiomics
+    - pangenome plants
+    - fungal pangenome
+    - graph genome
+    - comparative genomics fungi
+    - evolutionary genomics plant pathogens
+    - systems biology plants
+    - causal inference biology
+    - gene regulatory networks
+
+  # ANCHOR — always sampled every run
+  plant_pathogen_biology:
+    - Botrytis cinerea
+    - Fusarium graminearum
+    - Xylella fastidiosa
+    - powdery mildew
+    - downy mildew
+    - bacterial wilt
+    - emerging plant pathogens
+    - fungicide resistance
+    - pathogen evolution
+    - host range evolution
+
+  microbiome:
+    - synthetic microbial communities
+    - synthetic microbiome
+    - rhizosphere engineering
+    - phyllosphere microbiome
+    - microbiome therapeutics plants
+    - endophytes agriculture
+    - microbiome succession
+
+  climate_and_sustainability:
+    - climate resilient agriculture
+    - disease forecasting
+    - precision plant protection
+    - regenerative agriculture
+    - carbon farming
+    - drought disease interactions
+    - extreme weather crops
+    - sustainable crop protection
+
+  sensors_and_imaging:
+    - drone phenotyping
+    - autonomous vineyard
+    - computer vision agriculture
+    - thermal imaging crops
+    - fluorescence imaging plants
+    - satellite agriculture
+    - edge AI agriculture
+    - digital phenotyping
+
+  # ANCHOR — always sampled every run
+  synthetic_biology:
+    - synthetic biology plants
+    - metabolic engineering plants
+    - biosynthetic gene clusters
+    - cell free agriculture
+    - synthetic promoters plants
+    - programmable gene expression
+
+  industry_and_regulation:
+    - EPA biopesticide
+    - USDA biotechnology
+    - EFSA plant health
+    - RNA pesticide regulation
+    - CRISPR regulation
+    - agricultural startups
+    - agtech investment
+    - biological crop protection

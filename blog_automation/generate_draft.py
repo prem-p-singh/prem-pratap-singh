@@ -1,9 +1,11 @@
 #!/usr/bin/env python3
 import argparse
 import datetime as dt
+import html
 import json
 import logging
 import os
+import random
 import re
 import smtplib
 import time
@@ -70,6 +72,7 @@ class VerifyResult:
 class DiagnosticReport:
     steps: List[StepResult] = field(default_factory=list)
     verifications: List[VerifyResult] = field(default_factory=list)
+    usage: Optional[Dict] = None
 
     def add_step(self, name: str, ok: bool, duration_s: float = 0.0, detail: str = ""):
         self.steps.append(StepResult(name=name, ok=ok, duration_s=duration_s, detail=detail))
@@ -128,6 +131,19 @@ class DiagnosticReport:
                 detail = f" -- {v.detail}" if v.detail else ""
                 lines.append(f"  {status} {v.check}{detail}")
 
+        if self.usage:
+            u = self.usage
+            lines.append("")
+            lines.append("Token Usage & Cost:")
+            lines.append(f"  API calls:          {u.get('calls', 0)}")
+            lines.append(f"  Prompt tokens:      {u.get('prompt_tokens', 0):,}")
+            lines.append(f"  Completion tokens:  {u.get('completion_tokens', 0):,}")
+            lines.append(f"  Total tokens:       {u.get('total_tokens', 0):,}")
+            if u.get("priced"):
+                lines.append(f"  Estimated cost:     ${u.get('cost_usd', 0.0):.4f}")
+            else:
+                lines.append("  Estimated cost:     n/a (set llm.pricing in config.yaml)")
+
         tips = self.troubleshooting_tips()
         if tips:
             lines.append("")
@@ -162,6 +178,33 @@ class DiagnosticReport:
             <ul style="font-size: 12px; color: #78716c; padding-left: 20px;">{tip_items}</ul>
             """
 
+        usage_html = ""
+        if self.usage:
+            u = self.usage
+            cost_cell = (
+                f"${u.get('cost_usd', 0.0):.4f}" if u.get("priced")
+                else "n/a (set llm.pricing)"
+            )
+            usage_html = f"""
+            <h4 style="margin: 12px 0 6px; color: #0e7490;">Token Usage &amp; Cost</h4>
+            <table style="width: 100%; font-size: 12px; border-collapse: collapse;">
+              <tr style="background: #f5f5f4; text-align: left;">
+                <th style="padding: 4px 8px;">API calls</th>
+                <th style="padding: 4px 8px;">Prompt</th>
+                <th style="padding: 4px 8px;">Completion</th>
+                <th style="padding: 4px 8px;">Total</th>
+                <th style="padding: 4px 8px;">Est. cost</th>
+              </tr>
+              <tr>
+                <td style="padding: 4px 8px;">{u.get('calls', 0)}</td>
+                <td style="padding: 4px 8px;">{u.get('prompt_tokens', 0):,}</td>
+                <td style="padding: 4px 8px;">{u.get('completion_tokens', 0):,}</td>
+                <td style="padding: 4px 8px;"><strong>{u.get('total_tokens', 0):,}</strong></td>
+                <td style="padding: 4px 8px;"><strong>{cost_cell}</strong></td>
+              </tr>
+            </table>
+            """
+
         return f"""
         <h4 style="margin: 12px 0 6px; color: #0e7490;">Pipeline Steps</h4>
         <table style="width: 100%; font-size: 12px; border-collapse: collapse;">
@@ -179,8 +222,47 @@ class DiagnosticReport:
           </tr>
           {rows_verify}
         </table>
+        {usage_html}
         {tips_html}
         """
+
+
+# ── Token usage tracking ─────────────────────────────────────────────────────
+_USAGE = {"prompt_tokens": 0, "completion_tokens": 0, "calls": 0}
+
+
+def reset_usage() -> None:
+    _USAGE.update(prompt_tokens=0, completion_tokens=0, calls=0)
+
+
+def record_usage(resp) -> None:
+    """Accumulate token counts from an OpenAI response. Never raises."""
+    try:
+        u = getattr(resp, "usage", None)
+        if u:
+            _USAGE["prompt_tokens"] += int(getattr(u, "prompt_tokens", 0) or 0)
+            _USAGE["completion_tokens"] += int(getattr(u, "completion_tokens", 0) or 0)
+            _USAGE["calls"] += 1
+    except Exception as e:
+        log.warning(f"Could not record token usage: {e}")
+
+
+def usage_summary(cfg: Dict) -> Dict:
+    """Compute totals and (if priced) estimated USD cost from accumulated usage."""
+    pricing = cfg.get("llm", {}).get("pricing", {}) or {}
+    in_price = float(pricing.get("input_per_1m", 0) or 0)
+    out_price = float(pricing.get("output_per_1m", 0) or 0)
+    pt = _USAGE["prompt_tokens"]
+    ct = _USAGE["completion_tokens"]
+    cost = (pt / 1_000_000) * in_price + (ct / 1_000_000) * out_price
+    return {
+        "prompt_tokens": pt,
+        "completion_tokens": ct,
+        "total_tokens": pt + ct,
+        "calls": _USAGE["calls"],
+        "cost_usd": cost,
+        "priced": bool(in_price or out_price),
+    }
 
 
 # ── Stopwords ────────────────────────────────────────────────────────────────
@@ -200,6 +282,16 @@ STOPWORDS = {
 def load_config(path: Path) -> Dict:
     with path.open("r", encoding="utf-8") as f:
         return yaml.safe_load(f)
+
+
+def load_voice_profile(path: Path) -> str:
+    """Load the author's voice profile markdown. Returns '' if the file is absent."""
+    try:
+        if path.exists():
+            return path.read_text(encoding="utf-8").strip()
+    except Exception as e:
+        log.warning(f"Could not read voice profile at {path}: {e}")
+    return ""
 
 
 def extract_text_from_pdf(pdf_path: Path) -> str:
@@ -223,10 +315,97 @@ def extract_keywords(text: str, top_n: int) -> List[str]:
     return [w for w, _ in ranked[:top_n]]
 
 
+# ── Triangulated keyword selection ───────────────────────────────────────────
+def select_triangulated_keywords(
+    kw_cfg: Dict, run_date: dt.date, force_theme: Optional[str] = None
+) -> Tuple[List[str], Dict]:
+    """Select one run's keywords by triangulated rotation.
+
+    Every run combines three vertices:
+      - two fixed anchor themes (plant pathogen biology + synthetic biology),
+        sampled fresh each run
+      - one rotating theme, chosen so a different theme comes up each week and
+        every rotatable theme is used before any repeat
+
+    The rotating theme is picked by shuffling the rotatable themes with a
+    year-seeded RNG (order randomized once per year, stable within the year),
+    then indexing by ISO week number. Within-theme keyword picks use a
+    date-seeded RNG so the exact keywords also vary week to week.
+
+    Returns (keywords, provenance). Provenance records what was chosen so the run
+    is auditable in the CI log.
+    """
+    themes: Dict[str, List[str]] = kw_cfg.get("themes", {})
+    sel = kw_cfg.get("selection", {})
+    anchors_cfg: Dict[str, int] = sel.get("anchors", {})
+    rotating_cfg: Dict = sel.get("rotating", {})
+
+    if not themes:
+        raise ValueError("Keyword bank has no 'themes' section.")
+
+    iso_year, iso_week, _ = run_date.isocalendar()
+    sample_rng = random.Random(int(run_date.strftime("%Y%m%d")))
+
+    def sample_theme(theme_key: str, n: int) -> List[str]:
+        pool = list(themes.get(theme_key, []))
+        if not pool:
+            log.warning(f"Keyword theme '{theme_key}' is empty or missing.")
+            return []
+        return sample_rng.sample(pool, min(int(n), len(pool)))
+
+    selected: List[str] = []
+    provenance: Dict = {
+        "iso_year": iso_year,
+        "iso_week": iso_week,
+        "anchors": {},
+        "rotating": {},
+    }
+
+    # 1. Fixed anchor themes
+    for theme_key, n in anchors_cfg.items():
+        picks = sample_theme(theme_key, n)
+        selected.extend(picks)
+        provenance["anchors"][theme_key] = picks
+
+    # 2. Rotating theme (everything except the anchors)
+    anchor_keys = set(anchors_cfg.keys())
+    rotatable = sorted(k for k in themes.keys() if k not in anchor_keys)
+    if rotatable:
+        rotating_theme = None
+        if force_theme:
+            if force_theme in rotatable:
+                rotating_theme = force_theme
+                log.info(f"Rotating theme forced to '{force_theme}' (override).")
+            else:
+                log.warning(
+                    f"Forced theme '{force_theme}' is not a rotatable theme "
+                    f"(anchors and unknown names are ignored); using weekly rotation."
+                )
+        if rotating_theme is None:
+            year_rng = random.Random(iso_year)
+            year_rng.shuffle(rotatable)
+            rotating_theme = rotatable[iso_week % len(rotatable)]
+        picks = sample_theme(rotating_theme, rotating_cfg.get("sample", 4))
+        selected.extend(picks)
+        provenance["rotating"] = {
+            "theme": rotating_theme,
+            "keywords": picks,
+            "forced": bool(force_theme and rotating_theme == force_theme),
+        }
+
+    # Dedupe while preserving order (SIGS/HIGS acronym pairs are intentional)
+    deduped = list(dict.fromkeys(selected))
+    return deduped, provenance
+
+
 # ── Source Gathering ─────────────────────────────────────────────────────────
 def fetch_arxiv(keyword: str, max_items: int) -> List[Dict]:
     q = requests.utils.quote(keyword)
-    url = f"https://export.arxiv.org/api/query?search_query=all:{q}&start=0&max_results={max_items}"
+    url = (
+        f"https://export.arxiv.org/api/query?search_query=all:{q}"
+        f"&start=0&max_results={max_items}"
+        f"&sortBy=submittedDate&sortOrder=descending"
+    )
     feed = feedparser.parse(url)
     out = []
     for e in feed.entries[:max_items]:
@@ -254,21 +433,170 @@ def fetch_google_news(keyword: str, max_items: int) -> List[Dict]:
     return out
 
 
-def gather_sources(keywords: List[str], max_per_keyword: int, use_news: bool) -> List[Dict]:
+def _reconstruct_abstract(inverted_index: Optional[Dict]) -> str:
+    """Rebuild readable abstract text from an OpenAlex abstract_inverted_index."""
+    if not inverted_index:
+        return ""
+    positions: List[Tuple[int, str]] = []
+    for word, idxs in inverted_index.items():
+        for i in idxs:
+            positions.append((i, word))
+    positions.sort(key=lambda p: p[0])
+    return " ".join(w for _, w in positions)
+
+
+def _strip_html(text: str) -> str:
+    """Strip HTML tags and unescape entities (Europe PMC titles/abstracts).
+
+    Unescape first: Europe PMC returns escaped tags (&lt;i&gt;), so entities must
+    become real tags before the tag-stripping regex can remove them.
+    """
+    text = html.unescape(text or "")
+    text = re.sub(r"<[^>]+>", "", text)
+    return text.strip()
+
+
+def fetch_openalex(keyword: str, max_items: int, from_date: str, mailto: str = "") -> List[Dict]:
+    """Fetch recent works from OpenAlex (open scholarly index; indexes bioRxiv)."""
+    params = {
+        "search": keyword,
+        "filter": f"from_publication_date:{from_date}",
+        "sort": "publication_date:desc",
+        "per-page": max_items,
+    }
+    if mailto:
+        params["mailto"] = mailto
+    out: List[Dict] = []
+    try:
+        r = requests.get("https://api.openalex.org/works", params=params, timeout=20)
+        r.raise_for_status()
+        results = r.json().get("results", [])
+    except Exception as e:
+        log.warning(f"OpenAlex fetch failed for '{keyword}': {e}")
+        return out
+    for w in results[:max_items]:
+        if w.get("is_retracted"):
+            log.info(f"  Dropped retracted OpenAlex work: {(w.get('title') or '')[:60]}")
+            continue
+        title = (w.get("title") or "").strip()
+        link = w.get("doi") or (w.get("primary_location") or {}).get("landing_page_url") or w.get("id", "")
+        if not title or not link:
+            continue
+        summary = _reconstruct_abstract(w.get("abstract_inverted_index"))
+        out.append({
+            "title": title,
+            "link": link,
+            "summary": summary[:500],
+            "source": "OpenAlex",
+        })
+    return out
+
+
+def fetch_europepmc(keyword: str, max_items: int, from_date: Optional[str] = None) -> List[Dict]:
+    """Fetch recent articles from Europe PMC (PubMed + preprints incl. bioRxiv)."""
+    query = keyword
+    if from_date:
+        today = dt.date.today().isoformat()
+        query = f"{keyword} AND (FIRST_PDATE:[{from_date} TO {today}])"
+    params = {
+        "query": query,
+        "format": "json",
+        "sort": "P_PDATE_D desc",
+        "pageSize": max_items,
+        "resultType": "core",
+    }
+    out: List[Dict] = []
+    try:
+        r = requests.get(
+            "https://www.ebi.ac.uk/europepmc/webservices/rest/search",
+            params=params, timeout=20,
+        )
+        r.raise_for_status()
+        results = r.json().get("resultList", {}).get("result", [])
+    except Exception as e:
+        log.warning(f"Europe PMC fetch failed for '{keyword}': {e}")
+        return out
+    for rec in results[:max_items]:
+        title = _strip_html(rec.get("title", "")).rstrip(".")
+        doi = rec.get("doi")
+        pmid = rec.get("pmid")
+        if doi:
+            link = f"https://doi.org/{doi}"
+        elif pmid:
+            link = f"https://europepmc.org/article/MED/{pmid}"
+        else:
+            link = ""
+        if not title or not link:
+            continue
+        out.append({
+            "title": title,
+            "link": link,
+            "summary": _strip_html(rec.get("abstractText", ""))[:500],
+            "source": "Europe PMC",
+        })
+    return out
+
+
+# Source credibility tiers (used by the ranking step to weight quality).
+TIER_BY_SOURCE = {
+    "OpenAlex": "scholarly",
+    "Europe PMC": "scholarly",
+    "arXiv": "preprint",
+    "Google News": "news",
+}
+
+
+def gather_sources(keywords: List[str], feeds_cfg: Dict) -> List[Dict]:
+    """Fetch and merge sources across all enabled platforms.
+
+    Each platform is toggled and capped per keyword under `feeds` in config.
+    Scholarly platforms (arXiv, OpenAlex, Europe PMC) are restricted to items
+    from the last `recency_days`.
+
+    Source-quality filter: retracted works are dropped upstream (OpenAlex), every
+    item is tagged with a credibility `tier`, and news items whose publisher
+    matches `news_blocklist` are removed. Returns a de-duplicated pool capped at
+    `pool_cap`.
+    """
+    recency_days = int(feeds_cfg.get("recency_days", 120))
+    from_date = (dt.date.today() - dt.timedelta(days=recency_days)).isoformat()
+    mailto = feeds_cfg.get("mailto", "")
+    pool_cap = int(feeds_cfg.get("pool_cap", 40))
+    news_blocklist = [b.lower() for b in feeds_cfg.get("news_blocklist", [])]
+
+    def enabled(name: str, default: bool = False) -> bool:
+        return bool(feeds_cfg.get(name, {}).get("enabled", default))
+
+    def cap(name: str, default: int = 3) -> int:
+        return int(feeds_cfg.get(name, {}).get("max_per_keyword", default))
+
     seen = set()
-    merged = []
+    merged: List[Dict] = []
     for kw in keywords:
-        items = fetch_arxiv(kw, max_per_keyword)
-        if use_news:
-            items.extend(fetch_google_news(kw, max_per_keyword))
+        items: List[Dict] = []
+        if enabled("arxiv", True):
+            items += fetch_arxiv(kw, cap("arxiv"))
+        if enabled("google_news", True):
+            items += fetch_google_news(kw, cap("google_news"))
+        if enabled("openalex", False):
+            items += fetch_openalex(kw, cap("openalex"), from_date, mailto)
+        if enabled("europepmc", False):
+            items += fetch_europepmc(kw, cap("europepmc"), from_date)
         for item in items:
-            key = item["link"]
+            key = item.get("link")
             if not key or key in seen:
                 continue
+            item["tier"] = TIER_BY_SOURCE.get(item.get("source"), "other")
+            # News-publisher blocklist (publisher name is in the Google News title)
+            if item["tier"] == "news" and news_blocklist:
+                title_l = item.get("title", "").lower()
+                if any(b in title_l for b in news_blocklist):
+                    log.info(f"  Dropped blocklisted news item: {item.get('title','')[:60]}")
+                    continue
             seen.add(key)
             item["keyword"] = kw
             merged.append(item)
-    return merged[:30]
+    return merged[:pool_cap]
 
 
 # ── Source Ranking ───────────────────────────────────────────────────────────
@@ -278,22 +606,22 @@ def build_ranking_prompt(sources: List[Dict], keywords: List[str]) -> str:
     for i, s in enumerate(sources):
         source_list.append(
             f"[{i}] Title: {s['title']}\n"
-            f"    Source: {s['source']} | Keyword: {s.get('keyword', 'N/A')}\n"
+            f"    Source: {s['source']} | Tier: {s.get('tier', 'other')} | Keyword: {s.get('keyword', 'N/A')}\n"
             f"    Summary: {s.get('summary', 'No summary')[:200]}"
         )
     sources_text = "\n\n".join(source_list)
 
     return f"""You are a research article curator for a plant scientist specializing in: {', '.join(keywords)}.
 
-Below is a list of articles fetched from arXiv and Google News. Rate EACH article on a scale of 1-10 based on these criteria:
+Below is a list of articles fetched from scholarly databases and news. Rate EACH article on a scale of 1-10 based on these criteria:
 - **Importance**: How significant is this for plant science / the author's research areas?
-- **Popularity**: Is this likely a widely discussed or high-impact finding?
+- **Credibility**: How trustworthy is the source? Weight by tier: scholarly (peer-reviewed literature) highest, preprint next, news lowest. Press releases and popular news are the least reliable.
 - **Innovation**: Does this present a novel method, discovery, or approach?
 - **Recency**: Is this about very recent developments or breaking news?
 
 Then compute a total score (sum of all 4 criteria, max 40).
 
-IMPORTANT: Only select articles that are DIRECTLY relevant to plant science, agriculture, virology, omics, or food safety. Discard articles that are tangentially related or off-topic.
+IMPORTANT: Only select articles that are DIRECTLY relevant to plant science, agriculture, virology, omics, or food safety. Discard articles that are tangentially related or off-topic. When two articles are similarly relevant, prefer the higher-credibility tier (scholarly over preprint over news).
 
 Return ONLY a valid JSON array of objects, sorted by total score descending. Each object must have:
 - "index": the article index number from the list below
@@ -325,6 +653,7 @@ def rank_sources(sources: List[Dict], keywords: List[str], model: str, top_n: in
             messages=[{"role": "user", "content": prompt}],
             temperature=0.2,
         )
+        record_usage(resp)
         raw = resp.choices[0].message.content.strip()
 
         # Extract JSON from response (handle markdown code blocks)
@@ -378,9 +707,43 @@ def markdown_links(sources: List[Dict]) -> str:
     return "\n".join(lines)
 
 
+def format_sources_for_prompt(sources: List[Dict], abstract_chars: int = 450) -> str:
+    """Format sources WITH abstracts so the writer reasons from content, not just titles."""
+    blocks = []
+    for i, s in enumerate(sources, start=1):
+        summary = (s.get("summary") or "").strip()
+        if len(summary) > abstract_chars:
+            summary = summary[:abstract_chars].rstrip() + "..."
+        blocks.append(
+            f"[{i}] {s['title']}\n"
+            f"    URL: {s['link']}\n"
+            f"    Source: {s['source']} (tier: {s.get('tier', 'other')})\n"
+            f"    Abstract: {summary or 'No abstract available; do not invent findings for this item.'}"
+        )
+    return "\n\n".join(blocks)
+
+
 # ── LLM Prompt & Generation ─────────────────────────────────────────────────
-def build_prompt(site_title: str, keywords: List[str], sources: List[Dict], today: str) -> str:
+def build_prompt(
+    site_title: str,
+    keywords: List[str],
+    sources: List[Dict],
+    today: str,
+    voice_profile: str = "",
+) -> str:
     links_md = markdown_links(sources)
+    sources_with_abstracts = format_sources_for_prompt(sources)
+    voice_section = ""
+    if voice_profile:
+        voice_section = (
+            "\n\n====================\n"
+            "VOICE PROFILE — write in this voice. Apply the \"Blog target\" directive in "
+            "each section. The \"Academic\" notes describe the author's journal writing "
+            "for context only; do NOT imitate that formal register. Follow the "
+            "punctuation, sentence-length, mechanism-explanation, and hedging guidance "
+            "exactly.\n\n"
+            f"{voice_profile}\n"
+        )
     return f"""
 You are writing a blog post draft for {site_title}.
 Date: {today}
@@ -404,15 +767,18 @@ Required outcome:
 - After the three comment lines, write the MDX body content (no frontmatter block).
 - Start with a short intro paragraph (no top-level # heading).
 - Include sections: ## Why this matters, ## What changed today, ## My research angle, ## References.
-- Keep factual claims grounded in provided sources.
+- GROUND EVERY FACTUAL CLAIM IN THE SOURCE ABSTRACTS BELOW. Each abstract is the
+  actual content of that paper or article. Do not describe a finding that is not
+  supported by an abstract. If an item has no abstract, refer to it only by what
+  its title states; do not invent results for it. Do not overstate: if an abstract
+  says "may" or "suggests", do not write it as established fact.
 - Tone: professional, thoughtful, suitable for a personal research website.
-- Write like a real researcher, NOT like AI. Avoid em dashes (use commas, colons,
-  or semicolons instead). Avoid filler transitions
-  (e.g. "Moreover", "Furthermore", "Interestingly", "It's worth noting"),
-  and inflated words (e.g. "delve", "landscape", "groundbreaking", "pivotal",
-  "holistic", "leverage", "utilize", "tapestry", "plethora", "nuanced", "robust").
-  Use plain, direct language.
-- Keep it concise (700-1100 words).
+- Write in the author's own voice, following the VOICE PROFILE at the end of this
+  prompt. Never use em dashes (use commas, colons, or semicolons instead). Do not
+  imitate a formal journal register; apply the "Blog target" guidance.
+- LENGTH IS A HARD CONSTRAINT: write between 700 and 750 words for the body
+  (excluding the title/description/TLDR comment lines and the References list).
+  Do not exceed 750 words. Do not go under 700 words. Aim for roughly 725.
 
 CRITICAL — References section rules:
 - In the ## References section, you MUST use ONLY the exact URLs from the "Source links" list below.
@@ -425,9 +791,12 @@ CRITICAL — References section rules:
 Author keyword profile:
 {', '.join(keywords)}
 
-Source links:
+Sources (use these abstracts as the factual basis for the post):
+{sources_with_abstracts}
+
+Source links (use these exact URLs in the References section):
 {links_md}
-""".strip()
+{voice_section}""".strip()
 
 
 def call_openai_with_retry(prompt: str, model: str, cfg: Dict) -> str:
@@ -458,6 +827,7 @@ def call_openai_with_retry(prompt: str, model: str, cfg: Dict) -> str:
                 messages=[{"role": "user", "content": prompt}],
                 temperature=0.4,
             )
+            record_usage(resp)
             return resp.choices[0].message.content.strip()
 
         except Exception as e:
@@ -498,82 +868,37 @@ LLM_ARTIFACT_PATTERNS = [
 
 
 def humanize_text(text: str) -> str:
-    """Remove common AI-generated writing patterns to make text sound more natural."""
-    # ── Smart quotes → straight quotes ──
-    text = text.replace("\u201c", '"').replace("\u201d", '"')   # " "
-    text = text.replace("\u2018", "'").replace("\u2019", "'")   # ' '
+    """Deterministic punctuation cleanup only.
 
-    # ── Em dash replacement with context-appropriate punctuation ──
+    Vocabulary and phrasing are governed by the voice profile at generation
+    time. This step keeps only the two guarantees a prompt cannot reliably make:
+    remove em/en dashes (a hard style rule) and normalize smart quotes. The old
+    word-substitution list was dropped because it mangled legitimate technical
+    terms ("fitness landscape", "robust statistics") and was a recurring source
+    of regex bugs.
+    """
+    # Smart quotes -> straight quotes
+    text = text.replace("\u201c", '"').replace("\u201d", '"')
+    text = text.replace("\u2018", "'").replace("\u2019", "'")
+
+    # Em/en dash -> context-appropriate punctuation
     def _replace_dash(m: re.Match) -> str:
         before = m.string[:m.start()].rstrip()
         after = m.string[m.end():].lstrip()
-        # If introducing a list, definition, or explanation → colon
-        if after and after[0].islower() and re.match(r"(that is|meaning|namely|specifically|i\.e\.|e\.g\.)", after, re.I):
+        # Introducing a definition or explanation -> colon
+        if after and re.match(r"(that is|meaning|namely|specifically|i\.e\.|e\.g\.)", after, re.I):
             return ": "
-        # If between two independent clauses (both sides look sentence-like) → semicolon
-        if before and before[-1] not in ".,;:!?" and after and after[0].isupper():
+        # Between two independent clauses (both sides sentence-like) -> semicolon
+        if before and before[-1] not in ".,;:!?" and after and after[:1].isupper():
             return "; "
-        # Default → comma
+        # Default -> comma
         return ", "
 
-    # Only match dashes with at least one space (avoid breaking compound words like "plant–pathogen")
-    text = re.sub(r"(?<=\s)[—–]\s*|\s*[—–](?=\s)", _replace_dash, text)
-    # Collapse double spaces left by replacements
+    # Only match dashes with a surrounding space (keep compounds like "plant-pathogen")
+    text = re.sub(r"(?<=\s)[\u2014\u2013]\s*|\s*[\u2014\u2013](?=\s)", _replace_dash, text)
     text = re.sub(r"  +", " ", text)
 
-    # ── Phrase-level replacements ──
-    ai_phrases = [
-        # Filler hedging
-        (r"(?i)\bIt['']s worth noting that ", ""),
-        (r"(?i)\bIt is worth noting that ", ""),
-        (r"(?i)\bIt['']s important to note that ", ""),
-        (r"(?i)\bIt is important to note that ", ""),
-        (r"(?i)\bInterestingly,?\s*", ""),
-        (r"(?i)\bNotably,?\s*", ""),
-        (r"(?i)\bRemarkably,?\s*", ""),
-        (r"(?i)\bFurthermore,?\s*", ""),
-        (r"(?i)\bMoreover,?\s*", ""),
-        (r"(?i)\bAdditionally,?\s*", ""),
-        (r"(?i)\bIn conclusion,?\s*", ""),
-        # Inflated language
-        (r"(?i)\bdelve(?:s|d)? into\b", "explore"),
-        (r"(?i)\bDelve(?:s|d)? into\b", "Explore"),
-        (r"(?i)\blandscape\b", "field"),
-        (r"(?i)\bunlock(?:s|ed|ing)?\b", "reveal"),
-        (r"(?i)\bgame[- ]?changer\b", "advance"),
-        (r"(?i)\bgroundbreaking\b", "notable"),
-        (r"(?i)\bcutting[- ]?edge\b", "recent"),
-        (r"(?i)\bpivotal\b", "important"),
-        (r"(?i)\bparadigm shift\b", "change"),
-        (r"(?i)\bholistic\b", "broad"),
-        (r"(?i)\bseamlessly\b", "smoothly"),
-        (r"(?i)\bseamless\b", "smooth"),
-        (r"(?i)\bleverage(?:s|d)?\b", "use"),
-        (r"(?i)\butilize(?:s|d)?\b", "use"),
-        (r"(?i)\bcommence(?:s|d)?\b", "start"),
-        (r"(?i)\bfacilitate(?:s|d)?\b", "help"),
-        (r"(?i)\bin the realm of\b", "in"),
-        (r"(?i)\bin today['']s (?:rapidly )?(?:evolving|changing) (?:world|landscape)\b", "today"),
-        (r"(?i)\ba testament to\b", "evidence of"),
-        (r"(?i)\bthe power of\b", "how"),
-        (r"(?i)\btapestry of\b", "mix of"),
-        (r"(?i)\bplethora of\b", "many"),
-        (r"(?i)\bmyriad of\b", "many"),
-        (r"(?i)\ba myriad\b", "many"),
-        (r"(?i)\bnuanced\b", "detailed"),
-        (r"(?i)\brobust\b", "strong"),
-        (r"(?i)\boverall,?\s*", ""),
-    ]
-
-    for pattern, replacement in ai_phrases:
-        text = re.sub(pattern, replacement, text)
-
-    # Fix capitalization after removals that left lowercase at sentence start
-    # Skip abbreviations like "vs.", "e.g.", "i.e.", "et al.", "Dr.", "Fig.", etc.
-    abbrevs = r"(?<!\bvs)(?<!\be\.g)(?<!\bi\.e)(?<!\bet al)(?<!\bDr)(?<!\bFig)(?<!\bNo)(?<!\bcv)"
-    text = re.sub(abbrevs + r"(?<=\.\s)([a-z])", lambda m: m.group(1).upper(), text)
-
-    log.info("Humanizer pass complete")
+    log.info("Humanizer pass complete (punctuation only)")
     return text
 
 
@@ -744,8 +1069,10 @@ def verify_draft(body: str, cfg: Dict, report: DiagnosticReport, sources: Option
             report.add_verify("Reference accuracy", True,
                               f"All {kept_count} references use real fetched URLs")
 
-    # 1. Word count check
-    word_count = len(cleaned.split())
+    # 1. Word count check (body only; exclude the References list to match the
+    #    700-750 target, which is defined over the prose, not the links)
+    body_for_count = re.split(r"\n##\s+References", cleaned)[0]
+    word_count = len(body_for_count.split())
     if min_words <= word_count <= max_words:
         report.add_verify("Word count", True, f"{word_count} words (expected {min_words}-{max_words})")
     else:
@@ -780,6 +1107,86 @@ def verify_draft(body: str, cfg: Dict, report: DiagnosticReport, sources: Option
         report.add_verify("LLM artifacts", False, "; ".join(artifacts_found))
 
     return cleaned
+
+
+# ── Claim check (advisory) ───────────────────────────────────────────────────
+def check_claims(body: str, sources: List[Dict], model: str) -> List[Dict]:
+    """Flag draft claims not supported by, or overstating, the source abstracts.
+
+    Advisory only: returns a list of {"claim", "issue"} for the notification
+    email. Never raises; on any error returns [] so the draft is still saved.
+    """
+    if OpenAI is None or not os.getenv("OPENAI_API_KEY") or not sources:
+        return []
+    ctx = format_sources_for_prompt(sources, abstract_chars=500)
+    prompt = f"""You are fact-checking a draft blog post against its sources.
+
+Below are the source abstracts, then the draft. Identify factual claims in the
+draft that are NOT supported by the abstracts, or that overstate them (a tentative
+finding written as established fact). Ignore the author's opinions, research-angle
+reflections, and general background knowledge; flag only concrete factual claims
+attributed to the sources or to recent findings.
+
+Return ONLY a JSON array. Each element:
+{{"claim": "<short quote from draft>", "issue": "<why unsupported or overstated>"}}
+If every claim is supported, return [].
+
+SOURCES:
+{ctx}
+
+DRAFT:
+{body}
+
+Return ONLY the JSON array."""
+    try:
+        client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+        resp = client.chat.completions.create(
+            model=model, messages=[{"role": "user", "content": prompt}], temperature=0.0
+        )
+        record_usage(resp)
+        raw = resp.choices[0].message.content.strip()
+        if raw.startswith("```"):
+            raw = re.sub(r"^```(?:json)?\s*", "", raw)
+            raw = re.sub(r"\s*```$", "", raw)
+        flagged = json.loads(raw)
+        if isinstance(flagged, list):
+            return flagged[:10]
+    except Exception as e:
+        log.warning(f"Claim check failed (non-fatal): {e}")
+    return []
+
+
+# ── Novelty check (advisory) ─────────────────────────────────────────────────
+def check_novelty(title: str, description: str, content_dir: Path, threshold: float = 0.5):
+    """Compare the new post's title+description against existing posts.
+
+    Cheap, deterministic word-overlap. Returns (is_novel, detail). Flags the
+    closest existing post when overlap meets the threshold.
+    """
+    new_text = f"{title} {description}"
+    if not content_dir.exists():
+        return True, "No existing posts to compare against."
+    best_ratio = 0.0
+    best_slug = None
+    for p in sorted(content_dir.glob("*.mdx")):
+        try:
+            raw = p.read_text(encoding="utf-8")
+        except Exception:
+            continue
+        m_title = re.search(r'^title:\s*"?(.*?)"?\s*$', raw, re.M)
+        m_desc = re.search(r'^description:\s*"?(.*?)"?\s*$', raw, re.M)
+        existing = " ".join(filter(None, [
+            m_title.group(1) if m_title else "",
+            m_desc.group(1) if m_desc else "",
+        ]))
+        ratio = _title_word_overlap(new_text, existing)
+        if ratio > best_ratio:
+            best_ratio = ratio
+            best_slug = p.stem
+    if best_ratio >= threshold:
+        return False, f"Overlaps existing post '{best_slug}' (overlap {best_ratio:.2f})"
+    closest = f", closest '{best_slug}'" if best_slug else ""
+    return True, f"Distinct topic (max overlap {best_ratio:.2f}{closest})"
 
 
 # ── Build helpers ────────────────────────────────────────────────────────────
@@ -1181,10 +1588,12 @@ def main() -> None:
     parser = argparse.ArgumentParser(description="Generate a blog draft from CV keywords + research updates")
     parser.add_argument("--config", default="./blog_automation/config/config.yaml", help="Path to YAML config")
     parser.add_argument("--offline", action="store_true", help="Use synthetic sources and skip network/LLM for local testing")
+    parser.add_argument("--theme", default=None, help="Force the rotating theme (e.g. ai_and_foundation_models); overrides weekly rotation")
     args = parser.parse_args()
 
     report = DiagnosticReport()
     cfg = load_config(Path(args.config))
+    reset_usage()
 
     # ── Step 0: Self-test post-processing (catch bugs BEFORE paid OpenAI calls) ──
     t0 = time.time()
@@ -1201,24 +1610,47 @@ def main() -> None:
         _send_error_notification(cfg, f"Pre-flight failed: {e}", report)
         raise
 
-    # ── Step 1: Keyword extraction ────────────────────────────────────────
+    # ── Step 1: Keyword selection ─────────────────────────────────────────
     t0 = time.time()
     try:
-        cv_path = Path(os.getenv("CV_PDF_PATH", cfg["content"]["cv_pdf_path"]))
-        manual_keywords = cfg["content"].get("manual_keywords", [])
-        keyword_count = int(cfg["content"].get("keyword_count", 10))
-
-        cv_text = extract_text_from_pdf(cv_path)
-        cv_keywords = extract_keywords(cv_text, keyword_count)
-        keywords = list(dict.fromkeys(manual_keywords + cv_keywords))[:keyword_count]
-
-        dur = time.time() - t0
-        report.add_step("Keyword extraction", True, dur, f"{len(keywords)} keywords")
-        log.info(f"Extracted {len(keywords)} keywords in {dur:.1f}s")
+        bank_path = Path(os.getenv(
+            "KEYWORDS_BANK",
+            cfg["content"].get("keywords_bank", "./blog_automation/config/keywords.yaml"),
+        ))
+        if bank_path.exists():
+            # Triangulated rotation: two fixed anchor themes + one rotating theme.
+            kw_bank = load_config(bank_path)
+            force_theme = args.theme or os.getenv("ROTATING_THEME") or None
+            keywords, kw_prov = select_triangulated_keywords(
+                kw_bank, dt.date.today(), force_theme=force_theme
+            )
+            rot = kw_prov.get("rotating", {}).get("theme", "n/a")
+            detail = (
+                f"{len(keywords)} keywords "
+                f"(rotating: {rot}, ISO week {kw_prov.get('iso_week')})"
+            )
+            dur = time.time() - t0
+            report.add_step("Keyword selection", True, dur, detail)
+            log.info(f"Triangulated selection: {detail}")
+            log.info(f"  Anchors: {kw_prov.get('anchors')}")
+            log.info(f"  Rotating: {kw_prov.get('rotating')}")
+            log.info(f"  Keywords: {keywords}")
+        else:
+            # Legacy fallback: extract keywords from the CV PDF.
+            log.warning(f"Keyword bank not found at {bank_path}; using legacy CV extraction.")
+            cv_path = Path(os.getenv("CV_PDF_PATH", cfg["content"]["cv_pdf_path"]))
+            manual_keywords = cfg["content"].get("manual_keywords", [])
+            keyword_count = int(cfg["content"].get("keyword_count", 10))
+            cv_text = extract_text_from_pdf(cv_path)
+            cv_keywords = extract_keywords(cv_text, keyword_count)
+            keywords = list(dict.fromkeys(manual_keywords + cv_keywords))[:keyword_count]
+            dur = time.time() - t0
+            report.add_step("Keyword selection", True, dur, f"{len(keywords)} keywords (legacy CV mode)")
+            log.info(f"Extracted {len(keywords)} keywords in {dur:.1f}s")
     except Exception as e:
         dur = time.time() - t0
-        report.add_step("Keyword extraction", False, dur, str(e))
-        log.error(f"Keyword extraction failed: {e}")
+        report.add_step("Keyword selection", False, dur, str(e))
+        log.error(f"Keyword selection failed: {e}")
         log.info(report.summary_text())
         _send_error_notification(cfg, str(e), report)
         raise
@@ -1226,20 +1658,22 @@ def main() -> None:
     # ── Step 2: Source gathering ──────────────────────────────────────────
     t0 = time.time()
     try:
-        max_per_keyword = int(cfg["content"].get("max_sources_per_keyword", 2))
-        use_news = bool(cfg["feeds"].get("google_news_rss", True))
-
         if args.offline:
             sources = sample_sources(keywords)
         else:
-            sources = gather_sources(keywords, max_per_keyword, use_news)
+            sources = gather_sources(keywords, cfg.get("feeds", {}))
 
         if not sources:
             raise RuntimeError("No sources fetched. Check internet connectivity or keyword quality.")
 
+        by_platform: Dict[str, int] = {}
+        for s in sources:
+            by_platform[s.get("source", "?")] = by_platform.get(s.get("source", "?"), 0) + 1
+
         dur = time.time() - t0
-        report.add_step("Source gathering", True, dur, f"{len(sources)} sources")
-        log.info(f"Gathered {len(sources)} sources in {dur:.1f}s")
+        platform_mix = ", ".join(f"{k}:{v}" for k, v in sorted(by_platform.items()))
+        report.add_step("Source gathering", True, dur, f"{len(sources)} sources ({platform_mix})")
+        log.info(f"Gathered {len(sources)} sources in {dur:.1f}s [{platform_mix}]")
     except Exception as e:
         dur = time.time() - t0
         report.add_step("Source gathering", False, dur, str(e))
@@ -1252,7 +1686,7 @@ def main() -> None:
     today = dt.date.today().isoformat()
     site_title = cfg["site"]["title"]
     use_openai = bool(cfg["llm"].get("use_openai", True))
-    model = cfg["llm"].get("model", "gpt-4o-mini")
+    model = os.getenv("OPENAI_MODEL", cfg["llm"].get("model", "gpt-4o-mini"))
     top_sources = int(cfg["content"].get("top_sources", 8))
 
     t0 = time.time()
@@ -1275,7 +1709,16 @@ def main() -> None:
     t0 = time.time()
     try:
         if use_openai and not args.offline:
-            prompt = build_prompt(site_title, keywords, sources, today)
+            voice_path = Path(os.getenv(
+                "VOICE_PROFILE",
+                cfg["content"].get("voice_profile", "./blog_automation/voice_profile.md"),
+            ))
+            voice_profile = load_voice_profile(voice_path)
+            if voice_profile:
+                log.info(f"Loaded voice profile ({len(voice_profile)} chars) from {voice_path}")
+            else:
+                log.warning(f"Voice profile not found at {voice_path}; generating without it.")
+            prompt = build_prompt(site_title, keywords, sources, today, voice_profile)
             body = call_openai_with_retry(prompt, model, cfg)
         else:
             body = (
@@ -1317,7 +1760,7 @@ def main() -> None:
     try:
         body = humanize_text(body)
         dur = time.time() - t0
-        report.add_step("Humanizer pass", True, dur, "Removed AI writing patterns")
+        report.add_step("Humanizer pass", True, dur, "Normalized dashes and quotes")
     except Exception as e:
         dur = time.time() - t0
         report.add_step("Humanizer pass", False, dur, f"Skipped due to error: {e}")
@@ -1350,6 +1793,28 @@ def main() -> None:
     else:
         log.warning("No LLM TLDR found; post will render without a Key Takeaways callout.")
 
+    # ── Step 5c: Claim check (advisory) ───────────────────────────────────
+    if use_openai and not args.offline:
+        t0 = time.time()
+        flagged_claims = check_claims(body, sources, model)
+        dur = time.time() - t0
+        if flagged_claims:
+            detail = "; ".join(f"\"{c.get('claim','')[:60]}\" ({c.get('issue','')[:60]})" for c in flagged_claims[:5])
+            report.add_verify("Claim check", False, f"{len(flagged_claims)} unsupported/overstated: {detail}")
+            report.add_step("Claim check", True, dur, f"{len(flagged_claims)} claim(s) flagged")
+            log.warning(f"Claim check flagged {len(flagged_claims)} claim(s)")
+        else:
+            report.add_verify("Claim check", True, "All checked claims supported by sources")
+            report.add_step("Claim check", True, dur, "No issues")
+    else:
+        flagged_claims = []
+
+    # ── Step 5d: Novelty check (advisory) ─────────────────────────────────
+    content_dir = Path(cfg["site"].get("blog_content_dir", "./content/blog"))
+    is_novel, novelty_detail = check_novelty(title, description, content_dir)
+    report.add_verify("Novelty", is_novel, novelty_detail)
+    log.info(f"Novelty check: {novelty_detail}")
+
     # ── Step 6: Save draft ────────────────────────────────────────────────
     tags = [k.replace("-", " ") for k in keywords[:6]]
     frontmatter = build_frontmatter(title, today, description, tags, llm_tldr)
@@ -1361,6 +1826,14 @@ def main() -> None:
     log.info(f"Slug: {slug}")
 
     # ── Step 7: Notification (non-blocking) ───────────────────────────────
+    report.usage = usage_summary(cfg)
+    u = report.usage
+    log.info(
+        f"Token usage: {u['total_tokens']:,} total "
+        f"({u['prompt_tokens']:,} prompt + {u['completion_tokens']:,} completion) "
+        f"over {u['calls']} call(s)"
+        + (f", est. ${u['cost_usd']:.4f}" if u['priced'] else ", cost unpriced")
+    )
     notify_new_draft(cfg, out, slug, full_content, report, title=title, description=description)
 
     # ── Print full diagnostic report to CI logs ───────────────────────────

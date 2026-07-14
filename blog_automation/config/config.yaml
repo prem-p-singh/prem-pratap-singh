@@ -9,6 +9,14 @@ social:
   image_quality: "high"      # low | medium | high (high produces cleaner illustrations)
 
 content:
+  # Triangulated keyword bank (primary source). If this file exists, keyword
+  # selection uses rotating-theme + anchor sampling from it. If it is missing,
+  # the pipeline falls back to legacy CV keyword extraction below.
+  keywords_bank: "./blog_automation/config/keywords.yaml"
+  # Author voice profile injected into the generation prompt (override with the
+  # VOICE_PROFILE env var). If absent, drafts generate without it.
+  voice_profile: "./blog_automation/voice_profile.md"
+  # Legacy fallback only (used when keywords_bank is absent):
   # Relative to repo root; override with CV_PDF_PATH env var
   cv_pdf_path: "./public/cv.pdf"
   manual_keywords:
@@ -20,16 +28,43 @@ content:
   max_sources_per_keyword: 3
   top_sources: 8  # number of best sources to keep after LLM ranking
   min_words: 700
-  max_words: 1100
+  max_words: 750
 
 feeds:
-  google_news_rss: true
+  # Recency window for scholarly sources (arXiv sort, OpenAlex, Europe PMC).
+  recency_days: 120
+  # Max total sources kept in the ranking pool after merge + dedupe.
+  pool_cap: 40
+  # Contact email for the OpenAlex polite pool (faster, more reliable).
+  mailto: "pr0982@gmail.com"
+  # Each platform: toggle on/off and set a per-keyword result cap.
+  arxiv:
+    enabled: true
+    max_per_keyword: 3
+  google_news:
+    enabled: true
+    max_per_keyword: 3
+  openalex:
+    enabled: true
+    max_per_keyword: 3
+  europepmc:
+    enabled: true
+    max_per_keyword: 3
 
 llm:
   use_openai: true
-  model: "gpt-5.4"
+  # Product name "GPT-5.6 Sol". Verify the exact API id at
+  # platform.openai.com/docs/models. Override without editing code by setting
+  # the OPENAI_MODEL env var (takes precedence over this value).
+  model: "gpt-5.6"
   max_retries: 3
   retry_base_delay: 2.0
+  # USD price per 1,000,000 tokens, used to estimate per-run cost in the email.
+  # Fill in from platform.openai.com/docs/pricing for your model. Leave at 0 to
+  # show token counts without a dollar estimate.
+  pricing:
+    input_per_1m: 0
+    output_per_1m: 0
 
 author:
   name: "Prem Pratap Singh"

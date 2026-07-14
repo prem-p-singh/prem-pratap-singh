@@ -5,6 +5,11 @@ on:
     # Runs once a week: Thursday at 1 PM UTC (8 AM PT)
     - cron: '0 13 * * 4'
   workflow_dispatch:
+    inputs:
+      theme:
+        description: "Force rotating theme (e.g. ai_and_foundation_models). Leave empty for weekly rotation."
+        required: false
+        default: ""
 
 jobs:
   generate-draft:
@@ -29,6 +34,7 @@ jobs:
           SMTP_PASSWORD: ${{ secrets.SMTP_PASSWORD }}
           EMAIL_FROM: ${{ secrets.EMAIL_FROM }}
           EMAIL_TO: ${{ secrets.EMAIL_TO }}
+          ROTATING_THEME: ${{ inputs.theme }}
         run: python blog_automation/generate_draft.py
 
       - name: Commit draft if changed
