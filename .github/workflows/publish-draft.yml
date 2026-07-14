@@ -51,12 +51,18 @@ jobs:
         run: |
           PENDING_DIR="blog_automation/drafts/pending"
 
-          # Use provided filename or auto-detect the latest
+          # Use provided filename or auto-detect the newest draft.
+          # NOTE: sort by the timestamp EMBEDDED IN THE FILENAME (YYYYMMDD_HHMMSS--),
+          # never by mtime. actions/checkout stamps every file with the same
+          # checkout time, so `ls -t` returns an arbitrary draft, which previously
+          # caused old drafts to be published instead of the newest one.
           if [ -n "${{ inputs.draft_filename }}" ]; then
             DRAFT_FILE="${{ inputs.draft_filename }}"
           else
-            echo "No filename provided, auto-detecting latest draft..."
-            DRAFT_FILE=$(ls -t "$PENDING_DIR"/*.mdx 2>/dev/null | head -1 | xargs basename 2>/dev/null || echo "")
+            echo "No filename provided, auto-detecting the newest draft by filename..."
+            echo "Pending drafts:"
+            ls -1 "$PENDING_DIR"/*.mdx 2>/dev/null || echo "(none)"
+            DRAFT_FILE=$(ls -1 "$PENDING_DIR"/*.mdx 2>/dev/null | sort | tail -1 | xargs -r basename)
           fi
 
           if [ -z "$DRAFT_FILE" ]; then
