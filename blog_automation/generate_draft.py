@@ -651,7 +651,6 @@ def rank_sources(sources: List[Dict], keywords: List[str], model: str, top_n: in
         resp = client.chat.completions.create(
             model=model,
             messages=[{"role": "user", "content": prompt}],
-            temperature=0.2,
         )
         record_usage(resp)
         raw = resp.choices[0].message.content.strip()
@@ -822,10 +821,11 @@ def call_openai_with_retry(prompt: str, model: str, cfg: Dict) -> str:
     for attempt in range(1, max_retries + 1):
         try:
             log.info(f"OpenAI API call attempt {attempt}/{max_retries} (model={model})")
+            # Note: gpt-5.x ("Sol") only supports the default temperature (1),
+            # so temperature is intentionally not set here.
             resp = client.chat.completions.create(
                 model=model,
                 messages=[{"role": "user", "content": prompt}],
-                temperature=0.4,
             )
             record_usage(resp)
             return resp.choices[0].message.content.strip()
@@ -1141,7 +1141,7 @@ Return ONLY the JSON array."""
     try:
         client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
         resp = client.chat.completions.create(
-            model=model, messages=[{"role": "user", "content": prompt}], temperature=0.0
+            model=model, messages=[{"role": "user", "content": prompt}]
         )
         record_usage(resp)
         raw = resp.choices[0].message.content.strip()
