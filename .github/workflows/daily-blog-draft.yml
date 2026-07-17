@@ -3,7 +3,7 @@ name: Biweekly Blog Draft
 on:
   schedule:
     # Fires every Thursday at 1 PM UTC (8 AM PT). The biweekly-gate job below
-    # then only proceeds on EVEN ISO weeks, so a draft is generated every other
+    # then only proceeds on ODD ISO weeks, so a draft is generated every other
     # Thursday. GitHub cron has no native biweekly schedule.
     - cron: '0 13 * * 4'
   workflow_dispatch:
@@ -19,7 +19,7 @@ jobs:
     outputs:
       run: ${{ steps.check.outputs.run }}
     steps:
-      - name: Biweekly gate (even ISO weeks only for scheduled runs)
+      - name: Biweekly gate (odd ISO weeks only for scheduled runs)
         id: check
         run: |
           if [ "${{ github.event_name }}" != "schedule" ]; then
@@ -28,11 +28,11 @@ jobs:
           else
             WEEK=$(date -u +%V)
             # 10# forces base-10 so leading-zero weeks (e.g. 08) are not read as octal
-            if [ $(( 10#$WEEK % 2 )) -eq 0 ]; then
-              echo "ISO week $WEEK is even: proceeding (biweekly)."
+            if [ $(( 10#$WEEK % 2 )) -ne 0 ]; then
+              echo "ISO week $WEEK is odd: proceeding (biweekly)."
               echo "run=true" >> "$GITHUB_OUTPUT"
             else
-              echo "ISO week $WEEK is odd: skipping this week (biweekly)."
+              echo "ISO week $WEEK is even: skipping this week (biweekly)."
               echo "run=false" >> "$GITHUB_OUTPUT"
             fi
           fi
