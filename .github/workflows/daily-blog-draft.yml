@@ -1,8 +1,10 @@
-name: Weekly Blog Draft
+name: Biweekly Blog Draft
 
 on:
   schedule:
-    # Runs once a week: Thursday at 1 PM UTC (8 AM PT)
+    # Fires every Thursday at 1 PM UTC (8 AM PT). The biweekly-gate job below
+    # then only proceeds on EVEN ISO weeks, so a draft is generated every other
+    # Thursday. GitHub cron has no native biweekly schedule.
     - cron: '0 13 * * 4'
   workflow_dispatch:
     inputs:
@@ -12,7 +14,32 @@ on:
         default: ""
 
 jobs:
+  gate:
+    runs-on: ubuntu-latest
+    outputs:
+      run: ${{ steps.check.outputs.run }}
+    steps:
+      - name: Biweekly gate (even ISO weeks only for scheduled runs)
+        id: check
+        run: |
+          if [ "${{ github.event_name }}" != "schedule" ]; then
+            echo "Manual trigger: proceeding regardless of week."
+            echo "run=true" >> "$GITHUB_OUTPUT"
+          else
+            WEEK=$(date -u +%V)
+            # 10# forces base-10 so leading-zero weeks (e.g. 08) are not read as octal
+            if [ $(( 10#$WEEK % 2 )) -eq 0 ]; then
+              echo "ISO week $WEEK is even: proceeding (biweekly)."
+              echo "run=true" >> "$GITHUB_OUTPUT"
+            else
+              echo "ISO week $WEEK is odd: skipping this week (biweekly)."
+              echo "run=false" >> "$GITHUB_OUTPUT"
+            fi
+          fi
+
   generate-draft:
+    needs: gate
+    if: needs.gate.outputs.run == 'true'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -45,6 +72,6 @@ jobs:
           if git diff --cached --quiet; then
             echo "No new draft to commit"
           else
-            git commit -m "chore: add weekly pending blog draft"
+            git commit -m "chore: add biweekly pending blog draft"
             git push
           fi
