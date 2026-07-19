@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import Image from "next/image";
 import { getAllPosts } from "@/lib/mdx";
 import BlogSearchList from "@/components/blog/BlogSearchList";
 
@@ -53,22 +54,85 @@ export default function BlogPage() {
       !sensingSlugs.has(p.slug)
   );
 
+  const featured = posts[0];
+
   return (
     <div className="pt-16 min-h-screen">
       {/* Hero */}
-      <section className="py-20 bg-gradient-to-b from-muted to-background">
+      <section className="pt-16 pb-10 bg-gradient-to-b from-muted to-background">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="max-w-3xl">
-            <h1 className="text-4xl sm:text-5xl font-bold text-foreground mb-6">
+            <h1 className="text-4xl sm:text-5xl font-bold text-foreground mb-4">
               Blog
             </h1>
-            <p className="text-xl text-muted-foreground leading-relaxed">
+            <p className="text-lg text-muted-foreground leading-relaxed">
               Exploring plant-pathogen interactions, multi-omics, and sustainable agriculture.
               Research insights and updates from my work in grapevine virology and food safety.
             </p>
           </div>
         </div>
       </section>
+
+      {/* Featured (latest) post */}
+      {featured && (
+        <section className="pb-16">
+          <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <Link
+              href={`/blog/${featured.slug}`}
+              className="group grid lg:grid-cols-2 gap-0 bg-card rounded-2xl border border-border hover:border-primary/50 hover:shadow-xl hover:shadow-primary/5 transition-all overflow-hidden"
+            >
+              <div className="relative aspect-[16/10] lg:aspect-auto lg:min-h-[320px] w-full overflow-hidden bg-muted">
+                {featured.image ? (
+                  <Image
+                    src={featured.image}
+                    alt={featured.title}
+                    fill
+                    priority
+                    sizes="(max-width: 1024px) 100vw, 50vw"
+                    className="object-cover group-hover:scale-[1.03] transition-transform duration-500"
+                  />
+                ) : (
+                  <div className="w-full h-full bg-gradient-to-br from-primary/15 via-card to-accent/15" />
+                )}
+              </div>
+
+              <div className="flex flex-col justify-center p-6 sm:p-8 lg:p-10">
+                <span className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-primary mb-3">
+                  <span className="w-1.5 h-1.5 rounded-full bg-primary" />
+                  Latest
+                </span>
+                <h2 className="text-2xl sm:text-3xl font-bold text-foreground group-hover:text-primary transition-colors mb-3 leading-tight">
+                  {featured.title}
+                </h2>
+                {featured.description && (
+                  <p className="text-muted-foreground leading-relaxed line-clamp-3 mb-5">
+                    {featured.description}
+                  </p>
+                )}
+                <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                  <time dateTime={featured.date}>
+                    {new Date(featured.date).toLocaleDateString("en-US", {
+                      year: "numeric",
+                      month: "short",
+                      day: "numeric",
+                    })}
+                  </time>
+                  <span>·</span>
+                  <span>{featured.readingTime}</span>
+                  <svg
+                    className="w-4 h-4 ml-auto text-muted-foreground group-hover:text-primary group-hover:translate-x-1 transition-all"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                  </svg>
+                </div>
+              </div>
+            </Link>
+          </div>
+        </section>
+      )}
 
       {/* Deep Dives */}
       {deepDives.length > 0 && (
@@ -101,9 +165,26 @@ export default function BlogPage() {
                   <Link
                     key={post.slug}
                     href={`/blog/${post.slug}`}
-                    className="group relative bg-gradient-to-br from-primary/5 via-card to-accent/5 rounded-2xl border border-border hover:border-primary/50 hover:shadow-lg hover:shadow-primary/5 transition-all p-5"
+                    className="group relative flex flex-col bg-gradient-to-br from-primary/5 via-card to-accent/5 rounded-2xl border border-border hover:border-primary/50 hover:shadow-lg hover:shadow-primary/5 transition-all overflow-hidden"
                   >
-                    <div className="flex flex-col h-full">
+                    <div className="relative aspect-[16/9] w-full overflow-hidden bg-muted">
+                      {post.image ? (
+                        <Image
+                          src={post.image}
+                          alt={post.title}
+                          fill
+                          sizes="(max-width: 1024px) 100vw, 33vw"
+                          className="object-cover group-hover:scale-105 transition-transform duration-500"
+                        />
+                      ) : (
+                        <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-primary/10 to-accent/10">
+                          <svg className="w-9 h-9 text-primary/30" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+                          </svg>
+                        </div>
+                      )}
+                    </div>
+                    <div className="flex flex-col flex-grow p-5">
                       <time className="text-xs text-muted-foreground mb-2">{formattedDate}</time>
                       <h3 className="font-semibold text-foreground group-hover:text-primary transition-colors mb-2 line-clamp-2">
                         {post.title}
@@ -159,15 +240,32 @@ export default function BlogPage() {
                   <Link
                     key={post.slug}
                     href={`/blog/${post.slug}`}
-                    className="group relative bg-gradient-to-br from-accent/5 via-card to-primary/5 rounded-2xl border border-border hover:border-primary/50 hover:shadow-lg hover:shadow-primary/5 transition-all p-5"
+                    className="group relative flex sm:flex-row flex-col bg-gradient-to-br from-accent/5 via-card to-primary/5 rounded-2xl border border-border hover:border-primary/50 hover:shadow-lg hover:shadow-primary/5 transition-all overflow-hidden"
                   >
-                    <div className="flex flex-col h-full">
+                    <div className="relative w-full sm:w-2/5 aspect-[16/9] sm:aspect-auto sm:min-h-[180px] flex-shrink-0 overflow-hidden bg-muted">
+                      {post.image ? (
+                        <Image
+                          src={post.image}
+                          alt={post.title}
+                          fill
+                          sizes="(max-width: 640px) 100vw, 20vw"
+                          className="object-cover group-hover:scale-105 transition-transform duration-500"
+                        />
+                      ) : (
+                        <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-accent/10 to-primary/10">
+                          <svg className="w-9 h-9 text-primary/30" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 7l9-4 9 4-9 4-9-4zM3 12l9 4 9-4M3 17l9 4 9-4" />
+                          </svg>
+                        </div>
+                      )}
+                    </div>
+                    <div className="flex flex-col flex-grow p-5">
                       <time className="text-xs text-muted-foreground mb-2">{formattedDate}</time>
                       <h3 className="font-semibold text-foreground group-hover:text-primary transition-colors mb-2 line-clamp-2">
                         {post.title}
                       </h3>
                       {post.description && (
-                        <p className="text-sm text-muted-foreground line-clamp-3 mb-3 flex-grow">
+                        <p className="text-sm text-muted-foreground line-clamp-2 mb-3 flex-grow">
                           {post.description}
                         </p>
                       )}

@@ -5,6 +5,12 @@ import readingTime from "reading-time";
 
 const contentDirectory = path.join(process.cwd(), "content/blog");
 
+/** Pull the first markdown image URL out of a post body, if any. */
+function extractCoverImage(content: string): string | undefined {
+  const match = content.match(/!\[[^\]]*\]\(([^)]+)\)/);
+  return match ? match[1].trim() : undefined;
+}
+
 export interface BlogPost {
   slug: string;
   title: string;
@@ -13,6 +19,7 @@ export interface BlogPost {
   tags: string[];
   tldr?: string[];
   readingTime: string;
+  image?: string;
   content: string;
 }
 
@@ -24,6 +31,7 @@ export interface BlogPostMeta {
   tags: string[];
   tldr?: string[];
   readingTime: string;
+  image?: string;
 }
 
 export function getAllPosts(): BlogPostMeta[] {
@@ -49,6 +57,7 @@ export function getAllPosts(): BlogPostMeta[] {
         tags: data.tags || [],
         tldr: Array.isArray(data.tldr) ? data.tldr : undefined,
         readingTime: stats.text,
+        image: data.image || extractCoverImage(content),
       };
     })
     .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
@@ -79,6 +88,7 @@ export function getPostBySlug(slug: string): BlogPost | null {
     tags: data.tags || [],
     tldr: Array.isArray(data.tldr) ? data.tldr : undefined,
     readingTime: stats.text,
+    image: data.image || extractCoverImage(content),
     content,
   };
 }
