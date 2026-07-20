@@ -16,6 +16,12 @@ export const projects: Project[] = [
       "Scientific writing",
     ],
     tech: ["RNA sequencing", "GC-MS", "LC-MS/MS", "R", "Python"],
+    papers: [
+      {
+        label: "Arch Virol 2026",
+        url: "https://doi.org/10.1007/s00705-026-06634-0",
+      },
+    ],
     links: {},
   },
   {
@@ -31,6 +37,12 @@ export const projects: Project[] = [
       "Statistical analysis",
     ],
     tech: ["RT-qPCR", "Digital PCR"],
+    papers: [
+      {
+        label: "Arch Virol 2026",
+        url: "https://doi.org/10.1007/s00705-026-06634-0",
+      },
+    ],
     links: {},
   },
   {
@@ -46,6 +58,20 @@ export const projects: Project[] = [
       "Food safety",
     ],
     tech: ["Nano-encapsulation", "Chitosan", "GC-MS", "Electron microscopy"],
+    papers: [
+      {
+        label: "Int J Food Microbiol 2026",
+        url: "https://doi.org/10.1016/j.ijfoodmicro.2026.111632",
+      },
+      {
+        label: "Food Chem 2024",
+        url: "https://doi.org/10.1016/j.foodchem.2024.138502",
+      },
+      {
+        label: "Food Addit Contam 2020",
+        url: "https://doi.org/10.1080/19440049.2020.1775310",
+      },
+    ],
     links: {},
   },
   {
@@ -76,6 +102,16 @@ export const projects: Project[] = [
       "Scale-up planning",
     ],
     tech: ["Chitosan matrices", "Essential oils", "Controlled release"],
+    papers: [
+      {
+        label: "Food Addit Contam 2020",
+        url: "https://doi.org/10.1080/19440049.2020.1775310",
+      },
+      {
+        label: "Int J Biol Macromol 2023",
+        url: "https://doi.org/10.1016/j.ijbiomac.2023.123684",
+      },
+    ],
     links: {},
   },
   {
@@ -91,6 +127,20 @@ export const projects: Project[] = [
       "Computational modeling",
     ],
     tech: ["Transcriptomics", "Metabolomics", "Molecular docking"],
+    papers: [
+      {
+        label: "Food Chem Toxicol 2023",
+        url: "https://doi.org/10.1016/j.fct.2023.114111",
+      },
+      {
+        label: "Sci Rep 2021",
+        url: "https://doi.org/10.1038/s41598-021-86253-8",
+      },
+      {
+        label: "Int J Food Microbiol 2026",
+        url: "https://doi.org/10.1016/j.ijfoodmicro.2026.111632",
+      },
+    ],
     links: {},
   },
 ];

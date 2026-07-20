@@ -6,6 +6,8 @@ export interface Project {
   skills?: string[];
   /** Instruments, platforms, and libraries used. */
   tech: string[];
+  /** Peer-reviewed papers arising from this project. Label is a short journal + year. */
+  papers?: { label: string; url: string }[];
   links?: {
     live?: string;
     github?: string;
