@@ -4,25 +4,27 @@ import type { Project } from "@/components/ProjectCard";
 // `skills` lists transferable capabilities; `tech` lists the tools used.
 export const projects: Project[] = [
   {
-    title: "How a Virus Changes Wine Quality",
+    title: "What Red Blotch Virus Costs a Vineyard",
     description:
-      "A multi-year study, funded by state and federal agriculture agencies, on how Grapevine Red Blotch Virus changes the chemistry of wine grapes and the quality of the wine made from them.",
+      "A multi-year study of 327 vine samples across two growing seasons and four ripening stages, funded by state and federal agriculture agencies, measuring how Grapevine Red Blotch Virus changes grape chemistry and the wine made from it.",
     impact:
-      "Pinpointed which ripening processes the virus disrupts, giving growers evidence for when to treat, replant, or harvest differently. California's wine industry is worth roughly $58 billion.",
+      "Infected vines lost roughly 4 points of sugar in a cool season and 10 in a hot one, so heat makes the damage about 2.6 times worse. The study also showed the virus does not trip the vine's immune system; it stops the vine from mounting its normal heat-stress response.",
     skills: [
       "Experimental design",
       "Large-scale data analysis",
-      "Project delivery",
+      "Reproducible pipelines",
       "Scientific writing",
     ],
-    tech: ["RNA sequencing", "GC-MS", "LC-MS/MS", "R", "Python"],
+    tech: ["RNA sequencing", "Snakemake", "DESeq2", "GC-MS", "R", "Python"],
     papers: [
       {
         label: "Arch Virol 2026",
         url: "https://doi.org/10.1007/s00705-026-06634-0",
       },
     ],
-    links: {},
+    links: {
+      github: "https://github.com/prem-p-singh/GRBV-Transcriptomics-Analysis",
+    },
   },
   {
     title: "Early Detection Test for Infected Vines",
