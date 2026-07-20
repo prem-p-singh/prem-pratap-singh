@@ -6,6 +6,7 @@ import os
 import re
 import shutil
 import subprocess
+import sys
 import tempfile
 import time
 from pathlib import Path
@@ -77,23 +78,70 @@ def extract_reference_links(body: str):
     return re.findall(r"\[[^\]]+\]\((https?://[^)]+)\)", refs_block)
 
 
+# Publishers (Wiley, ACS, Taylor & Francis, Elsevier) routinely answer automated
+# requests with these codes while the page loads fine in a browser. They mean
+# "bot blocked" or "rate limited", not "dead link".
+SOFT_BLOCK_CODES = {401, 403, 405, 429}
+
+BROWSER_UA = (
+    "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 "
+    "(KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36"
+)
+
+
+def doi_is_registered(url: str, timeout_sec: int) -> bool:
+    """Validate a DOI through Crossref, which permits automated access."""
+    match = re.search(r"doi\.org/(10\.[^\s/]+/[^\s?#]+)", url)
+    if not match:
+        return False
+    try:
+        r = requests.get(
+            f"https://api.crossref.org/works/{match.group(1)}",
+            timeout=timeout_sec,
+            headers={"User-Agent": BROWSER_UA},
+        )
+        return r.status_code == 200
+    except Exception:
+        return False
+
+
 def check_links_reachable(links, timeout_sec: int, delay: float = 0.5):
+    """Return only links that are genuinely dead.
+
+    A 403 from a publisher is bot protection, not a broken reference, so those
+    are logged but not treated as failures. DOIs that soft-block are instead
+    verified against the Crossref registry.
+    """
     bad = []
+    headers = {"User-Agent": BROWSER_UA}
     for i, link in enumerate(links):
         # Rate limit between requests
         if i > 0 and delay > 0:
             time.sleep(delay)
+        log.info(f"  Checking link {i + 1}/{len(links)}: {link[:80]}")
+        status = None
         try:
-            log.info(f"  Checking link {i + 1}/{len(links)}: {link[:80]}")
-            r = requests.head(link, allow_redirects=True, timeout=timeout_sec)
-            if r.status_code >= 400 or r.status_code < 200:
-                r = requests.get(link, allow_redirects=True, timeout=timeout_sec)
-                if r.status_code >= 400 or r.status_code < 200:
-                    log.warning(f"  Unreachable ({r.status_code}): {link}")
-                    bad.append((link, r.status_code))
-        except Exception:
-            log.warning(f"  Error reaching: {link}")
-            bad.append((link, "error"))
+            r = requests.head(link, allow_redirects=True, timeout=timeout_sec, headers=headers)
+            status = r.status_code
+            if status >= 400 or status < 200:
+                r = requests.get(link, allow_redirects=True, timeout=timeout_sec, headers=headers)
+                status = r.status_code
+        except Exception as e:
+            log.warning(f"  Error reaching: {link} ({e})")
+            status = None
+
+        if status is not None and 200 <= status < 400:
+            continue
+
+        if status in SOFT_BLOCK_CODES:
+            if "doi.org" in link and doi_is_registered(link, timeout_sec):
+                log.info(f"  Publisher blocked automation ({status}) but DOI is registered: {link}")
+            else:
+                log.warning(f"  Publisher blocked automation ({status}), not counted as broken: {link}")
+            continue
+
+        log.warning(f"  Unreachable ({status or 'error'}): {link}")
+        bad.append((link, status or "error"))
     return bad
 
 
@@ -282,8 +330,8 @@ def main() -> None:
     else:
         drafts = list_pending(pending_dir)
         if not drafts:
-            log.info("No pending drafts to publish.")
-            return
+            log.error("No pending drafts to publish.")
+            sys.exit(1)
         src = drafts[-1]
 
     log.info(f"Selected draft: {src}")
@@ -330,7 +378,9 @@ def main() -> None:
             for e in errors:
                 log.error(f"  - {e}")
             log.info("Fix draft and try again, or use --force to override.")
-            return
+            # Exit non-zero so CI fails visibly. Returning 0 here previously made
+            # the workflow report success while nothing was published.
+            sys.exit(1)
         log.info("All quality guards passed.")
     else:
         log.info("Quality guards skipped (--force)")
