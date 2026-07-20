@@ -1,46 +1,96 @@
 import type { Project } from "@/components/ProjectCard";
 
+// Descriptions are written in plain language for a non-specialist reader.
+// `skills` lists transferable capabilities; `tech` lists the tools used.
 export const projects: Project[] = [
   {
-    title: "GRBV Impact on Wine Quality",
-    description: "Multi-year, omics-driven project funded by CDFA and USDA to dissect the metabolic and transcriptional impacts of Grapevine Red Blotch Virus on Vitis vinifera cv. Merlot berries and wine quality.",
-    impact: "Identified key metabolic pathways disrupted by GRBV, informing vineyard management for the $58B California wine industry.",
-    tech: ["RNA-Seq", "GC-MS", "LC-MS/MS", "R", "Python"],
+    title: "How a Virus Changes Wine Quality",
+    description:
+      "A multi-year study, funded by state and federal agriculture agencies, on how Grapevine Red Blotch Virus changes the chemistry of wine grapes and the quality of the wine made from them.",
+    impact:
+      "Pinpointed which ripening processes the virus disrupts, giving growers evidence for when to treat, replant, or harvest differently. California's wine industry is worth roughly $58 billion.",
+    skills: [
+      "Experimental design",
+      "Large-scale data analysis",
+      "Project delivery",
+      "Scientific writing",
+    ],
+    tech: ["RNA sequencing", "GC-MS", "LC-MS/MS", "R", "Python"],
     links: {},
   },
   {
-    title: "GRBV Quantification Assays",
-    description: "Developed and validated RT-qPCR and digital PCR assays to quantify GRBV titers across >10 vineyard blocks, enabling spatial and seasonal tracking of infection load.",
-    impact: "Enabled early detection and spatial mapping of virus spread, helping growers make informed replanting decisions.",
-    tech: ["RT-qPCR", "Digital PCR", "Statistical Modeling"],
+    title: "Early Detection Test for Infected Vines",
+    description:
+      "Built and validated laboratory tests that measure how much virus is present in a vine, then ran them across more than ten vineyard blocks to follow infection through the season.",
+    impact:
+      "Growers can identify infected vines before symptoms are visible and see how infection spreads across a block, which directly informs costly replanting decisions.",
+    skills: [
+      "Diagnostic test development",
+      "Method validation",
+      "Field sampling",
+      "Statistical analysis",
+    ],
+    tech: ["RT-qPCR", "Digital PCR"],
     links: {},
   },
   {
-    title: "Nano-encapsulated Antifungal Formulation",
-    description: "Engineered a chitosan-gel matrix nano-encapsulated essential oil formulation that significantly inhibited Aspergillus flavus growth and aflatoxin B1 production in postharvest applications.",
-    impact: "Achieved >90% aflatoxin inhibition using green, food-safe materials — a viable alternative to synthetic preservatives.",
-    tech: ["Nano-encapsulation", "Chitosan", "GC-MS", "SEM"],
+    title: "Food-Safe Coating Against a Cancer-Causing Mold Toxin",
+    description:
+      "Designed a plant-oil treatment wrapped inside tiny food-safe particles that stops a mold responsible for contaminating stored grain and nuts with aflatoxin, a known human carcinogen.",
+    impact:
+      "Blocked over 90% of toxin production using food-safe, plant-derived ingredients, offering a practical alternative to synthetic chemical preservatives.",
+    skills: [
+      "Formulation development",
+      "Antimicrobial testing",
+      "Materials characterization",
+      "Food safety",
+    ],
+    tech: ["Nano-encapsulation", "Chitosan", "GC-MS", "Electron microscopy"],
     links: {},
   },
   {
-    title: "Multi-omics Biomarker Discovery",
-    description: "Integrated multi-platform datasets (GC-MS, LC-MS/MS, RNA-Seq) to identify putative biomarkers linked to virus-induced changes in grape cell wall composition and metabolite profiles.",
-    impact: "Discovered novel biomarkers that could serve as diagnostic tools for early GRBV detection in field conditions.",
-    tech: ["Bioconductor", "DESeq2", "Pathway Analysis", "Data Visualization"],
+    title: "Chemical Signatures of Early Infection",
+    description:
+      "Combined several different laboratory measurements taken from the same grape samples to find the chemical fingerprints that appear once a vine becomes infected.",
+    impact:
+      "Identified candidate markers that could become a field test for spotting infection before any visible symptoms appear.",
+    skills: [
+      "Multi-source data integration",
+      "Statistical analysis",
+      "Biomarker discovery",
+      "Data visualization",
+    ],
+    tech: ["RNA sequencing", "GC-MS", "LC-MS/MS", "R / Bioconductor"],
     links: {},
   },
   {
-    title: "Sustained-Release Delivery System",
-    description: "Developed a green, cost-effective, and scalable chitosan-based delivery system with enhanced formulation stability and sustained release over 60 days in postharvest conditions.",
-    impact: "Extended antifungal protection from days to 60+ days, reducing reapplication frequency and cost for food storage.",
-    tech: ["Chitosan Matrices", "Essential Oils", "Formulation Chemistry"],
+    title: "Long-Lasting Protection for Stored Food",
+    description:
+      "Developed a low-cost, plant-based protective coating that releases its active ingredient gradually rather than all at once, and tested how well it held up over time.",
+    impact:
+      "Extended protection of stored food from a few days to more than 60 days, cutting how often treatment must be reapplied and lowering storage cost.",
+    skills: [
+      "Formulation chemistry",
+      "Stability testing",
+      "Cost-effective design",
+      "Scale-up planning",
+    ],
+    tech: ["Chitosan matrices", "Essential oils", "Controlled release"],
     links: {},
   },
   {
-    title: "Antifungal Mechanism Elucidation",
-    description: "Multi-disciplinary R&D pipeline integrating antifungal screening, GC-MS metabolomics, SEM imaging, and gene expression analysis to uncover mechanisms involving oxidative stress and membrane disruption.",
-    impact: "Revealed a dual-target mechanism (membrane disruption + oxidative stress) opening new avenues for rational antifungal design.",
-    tech: ["Transcriptomics", "Metabolomics", "Gene Expression", "Molecular Docking"],
+    title: "Working Out How the Treatment Kills the Mold",
+    description:
+      "Traced exactly how the treatment acts on the mold, by following what happens to its outer surface, its energy production, and which of its genes switch on or off during exposure.",
+    impact:
+      "Showed the treatment attacks the mold through two separate routes at once, which makes it harder for resistance to develop and guides the design of better treatments.",
+    skills: [
+      "Mechanism-of-action studies",
+      "Gene expression analysis",
+      "Microscopy",
+      "Computational modeling",
+    ],
+    tech: ["Transcriptomics", "Metabolomics", "Molecular docking"],
     links: {},
   },
 ];

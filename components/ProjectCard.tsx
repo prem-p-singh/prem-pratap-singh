@@ -2,6 +2,9 @@ export interface Project {
   title: string;
   description: string;
   impact?: string;
+  /** Transferable capabilities, written for a non-specialist reader. */
+  skills?: string[];
+  /** Instruments, platforms, and libraries used. */
   tech: string[];
   links?: {
     live?: string;
