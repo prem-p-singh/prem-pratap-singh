@@ -7,6 +7,12 @@ import BlogSearchList from "@/components/blog/BlogSearchList";
 export const metadata: Metadata = {
   title: "Blog",
   description: "Exploring plant-pathogen interactions, multi-omics, and sustainable agriculture. Research insights and updates from my work in grapevine virology and food safety.",
+  // Must be set explicitly: without it this page inherits the root layout's
+  // canonical (the homepage), which tells Google /blog is a duplicate and
+  // keeps it out of the index.
+  alternates: {
+    canonical: "/blog",
+  },
 };
 
 // Rotating tile colors for the Research Journal date chips.

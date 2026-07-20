@@ -3,6 +3,10 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
   title: "Gallery",
   description: "Photo gallery showcasing moments from conferences, travels, and life.",
+  // Set explicitly so this page does not inherit the root layout's homepage canonical.
+  alternates: {
+    canonical: "/gallery",
+  },
 };
 
 // Placeholder gallery items - replace with your actual images
