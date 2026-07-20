@@ -51,6 +51,7 @@ export default function BlogPage() {
     "single-cell-mapping-and-new-mass-spectrometry-tools-point-to-a-sharper-future-for-plant-mu",
     "from-peach-defense-chemistry-to-grapevine-sensing-what-this-week-says-about-smarter-plant-",
     "from-orchard-lesions-to-airborne-spores-building-better-plant-disease-signals",
+    "from-xylem-recovery-to-genome-mining-connecting-plant-disease-biology-across-scales",
   ]);
 
   // Group: Vine Sensing & Phenotyping — structure, imaging, biomarkers, sensing for grapevine
