@@ -9,6 +9,18 @@ export const metadata: Metadata = {
   description: "Exploring plant-pathogen interactions, multi-omics, and sustainable agriculture. Research insights and updates from my work in grapevine virology and food safety.",
 };
 
+// Rotating tile colors for the Research Journal date chips.
+// Full class strings so Tailwind can statically detect them.
+const journalTileColors = [
+  "bg-emerald-500/15 text-emerald-600 dark:text-emerald-400",
+  "bg-sky-500/15 text-sky-600 dark:text-sky-400",
+  "bg-amber-500/15 text-amber-600 dark:text-amber-400",
+  "bg-violet-500/15 text-violet-600 dark:text-violet-400",
+  "bg-rose-500/15 text-rose-600 dark:text-rose-400",
+  "bg-teal-500/15 text-teal-600 dark:text-teal-400",
+  "bg-orange-500/15 text-orange-600 dark:text-orange-400",
+];
+
 export default function BlogPage() {
   const posts = getAllPosts();
 
@@ -304,51 +316,41 @@ export default function BlogPage() {
               </div>
             </div>
 
-            <div className="bg-card rounded-2xl border border-border overflow-hidden divide-y divide-border">
-              {researchJournal.map((post) => {
-                const formattedDate = new Date(post.date).toLocaleDateString("en-US", {
-                  year: "numeric",
-                  month: "short",
-                  day: "numeric",
-                });
-                return (
-                  <Link
-                    key={post.slug}
-                    href={`/blog/${post.slug}`}
-                    className="group flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-6 px-5 sm:px-7 py-4 hover:bg-muted/40 transition-colors"
-                  >
-                    <time
-                      dateTime={post.date}
-                      className="sm:w-32 flex-shrink-0 text-xs font-medium text-muted-foreground tabular-nums"
+            <div className="bg-card rounded-2xl border border-border p-6 sm:p-8">
+              <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3">
+                {researchJournal.map((post, index) => {
+                  const d = new Date(post.date);
+                  const month = d.toLocaleDateString("en-US", { month: "short" });
+                  const day = d.toLocaleDateString("en-US", { day: "numeric" });
+                  const tileColor = journalTileColors[index % journalTileColors.length];
+                  return (
+                    <Link
+                      key={post.slug}
+                      href={`/blog/${post.slug}`}
+                      className="group relative bg-background rounded-xl p-4 border border-border hover:border-primary/50 hover:shadow-lg hover:shadow-primary/5 transition-all"
                     >
-                      {formattedDate}
-                    </time>
-
-                    <div className="min-w-0 flex-grow">
-                      <h4 className="font-medium text-foreground group-hover:text-primary transition-colors leading-snug">
-                        {post.title}
-                      </h4>
-                      {post.description && (
-                        <p className="text-sm text-muted-foreground line-clamp-1 mt-0.5">
-                          {post.description}
-                        </p>
-                      )}
-                    </div>
-
-                    <div className="flex items-center gap-3 flex-shrink-0 sm:w-24 sm:justify-end">
-                      <span className="text-xs text-muted-foreground">{post.readingTime}</span>
-                      <svg
-                        className="w-4 h-4 text-muted-foreground/40 group-hover:text-primary group-hover:translate-x-0.5 transition-all"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                      >
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                      </svg>
-                    </div>
-                  </Link>
-                );
-              })}
+                      <div className="flex items-start gap-3">
+                        <span
+                          className={`flex-shrink-0 w-12 h-12 rounded-lg flex flex-col items-center justify-center leading-none group-hover:scale-105 transition-transform ${tileColor}`}
+                        >
+                          <span className="text-[10px] font-semibold uppercase tracking-wide">
+                            {month}
+                          </span>
+                          <span className="text-base font-bold mt-0.5">{day}</span>
+                        </span>
+                        <div className="min-w-0">
+                          <h4 className="font-medium text-foreground group-hover:text-primary transition-colors line-clamp-2 text-sm">
+                            {post.title}
+                          </h4>
+                          <p className="text-xs text-muted-foreground mt-1">
+                            {post.readingTime}
+                          </p>
+                        </div>
+                      </div>
+                    </Link>
+                  );
+                })}
+              </div>
             </div>
           </div>
         </section>
