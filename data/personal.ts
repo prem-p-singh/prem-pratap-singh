@@ -10,8 +10,8 @@ Doctoral training at Banaras Hindu University focused on mycotoxin control throu
 
 Recent commentaries in Plant Physiology, co-authored with Dr. Ritu Singh, cover plant defense against Sclerotinia and Xanthomonas in Brassica, extending a long-standing interest in how pathogens rewrite host metabolism and how that rewriting can be interrupted with practical molecular tools.`,
   location: "Davis, CA, USA",
-  email: "ppssingh@ucdavis.edu",
-  secondaryEmail: "pr0982@gmail.com",
+  email: "pr0982@gmail.com",
+  secondaryEmail: "ppssingh@ucdavis.edu",
   phone: "(530) 760-8784",
   social: {
     github: "https://github.com/prem-p-singh",
@@ -65,6 +65,14 @@ export const skills = [
       "Limit of quantification", "Replicate-variance characterization",
       "Nucleic-acid extraction", "RNA / DNA handling", "Low-input sample handling",
       "MIC determination",
+    ],
+  },
+  {
+    category: "Molecular Biology",
+    short: "Mol Bio",
+    items: [
+      "SDS-PAGE", "Protein purification", "Western blotting",
+      "Northern / Southern blotting", "Gel electrophoresis",
     ],
   },
   {
