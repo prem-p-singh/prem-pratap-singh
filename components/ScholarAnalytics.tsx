@@ -102,14 +102,14 @@ export default function ScholarAnalytics() {
         <div className="space-y-6">
           {/* Metrics cards */}
           <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-            <MetricCard label="Total Citations" value={googleScholar.metrics.citations.toLocaleString()} />
+            <MetricCard label="Citations (all-time)" value={googleScholar.metrics.citations.toLocaleString()} />
             <MetricCard label="h-index" value={googleScholar.metrics.hIndex.toString()} />
             <MetricCard label="i10-index" value={googleScholar.metrics.i10Index.toString()} />
           </div>
 
-          {/* Since 2021 row */}
+          {/* Recent-window subset */}
           <ShinyCard className="p-4" duration={5500}>
-            <p className="text-xs text-[var(--muted-foreground)] mb-3 font-medium uppercase tracking-wide">Since 2021</p>
+            <p className="text-xs text-[var(--muted-foreground)] mb-3 font-medium uppercase tracking-wide">Recent window (since 2021)</p>
             <div className="grid grid-cols-3 gap-4">
               <div>
                 <p className="text-xl font-bold text-[var(--foreground)]">{googleScholar.since2021.citations.toLocaleString()}</p>

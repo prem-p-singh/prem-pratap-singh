@@ -21,14 +21,27 @@ export default function HeroClient() {
 
             <SparklesText
               text={personal.name}
-              className="text-4xl sm:text-5xl lg:text-6xl mb-6"
+              className="text-4xl sm:text-5xl lg:text-6xl mb-4"
               colors={{ first: "#ffffff", second: "#a1a1aa" }}
               sparklesCount={8}
             />
 
-            <p className="text-lg text-muted-foreground max-w-xl mb-10 leading-relaxed">
+            {personal.subtitle && (
+              <p className="text-base sm:text-lg font-semibold text-foreground/90 mb-4">
+                {personal.subtitle}
+              </p>
+            )}
+
+            <p className="text-lg text-muted-foreground max-w-xl mb-6 leading-relaxed">
               {personal.tagline}
             </p>
+
+            {personal.openTo && (
+              <p className="inline-flex items-start gap-2 max-w-xl mb-10 rounded-lg border border-primary/30 bg-primary/5 px-3.5 py-2.5 text-sm text-foreground/80 leading-relaxed">
+                <span className="mt-1.5 flex-shrink-0 w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
+                {personal.openTo}
+              </p>
+            )}
 
             {/* CTA Buttons */}
             <div className="flex flex-wrap gap-4">

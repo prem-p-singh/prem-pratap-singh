@@ -1,7 +1,9 @@
 export const personal = {
   name: "Prem Pratap Singh",
   title: "Postdoctoral Scholar & Plant Scientist · Viticulture & Enology, UC Davis",
+  subtitle: "Molecular Diagnostics & Multi-Omics Scientist · Ag-Bio R&D · Genomics Tools",
   tagline: "Molecular biology that closes the loop on plant disease, from sample to inference, on commercial crop systems.",
+  openTo: "Open to Scientist / Scientist II roles in ag-bio R&D, molecular diagnostics, NGS workflows, and trait discovery.",
   bio: `Plant pathologist and molecular biologist at the University of California, Davis, working on grapevine–virus interactions and the metabolic consequences of viral infection in berries. Current research under the mentorship of Dr. David E. Block continues a project initiated by the late Dr. Anita Oberholster and is co-conducted with Dr. Mysore R. Sudarshana (USDA-ARS, UC Davis) on Grapevine Red Blotch Virus impact in Merlot berries and wine quality.
 
 Doctoral training at Banaras Hindu University focused on mycotoxin control through plant-based nano-encapsulated formulations, combining wet-lab efficacy studies with computational target identification. Published research spans 37 peer-reviewed articles and 21 book chapters across transcriptomics, targeted metabolomics, nanoencapsulation, and computational biology.

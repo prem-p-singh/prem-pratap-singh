@@ -14,6 +14,11 @@ import { ShinyCard } from "@/components/ui/shiny-card";
 
 export default function Home() {
   const latestPosts = getAllPosts().slice(0, 3);
+  // Count only published, peer-reviewed articles (exclude in-preparation
+  // manuscripts) so this figure matches the About section's "37".
+  const publishedJournalCount = publications.filter(
+    (p) => p.venue !== "In Preparation"
+  ).length;
 
   return (
     <>
@@ -83,7 +88,7 @@ export default function Home() {
 
             <div className="mt-8 text-center">
               <p className="text-muted-foreground">
-                {publications.length + bookChapters.length} publications ({publications.length} journal articles, {bookChapters.length} book chapters) in venues including Food Chemistry, Scientific Reports, and Food Control.
+                {publishedJournalCount} peer-reviewed articles and {bookChapters.length} book chapters ({publishedJournalCount + bookChapters.length} total) in venues including Food Chemistry, Scientific Reports, and Food Control.
               </p>
             </div>
           </div>

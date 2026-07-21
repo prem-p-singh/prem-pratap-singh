@@ -53,7 +53,11 @@ export const workExperience: TimelineItem[] = [
     location: "Remote",
     startDate: "Sep 2025",
     endDate: "Present",
-    description: "Scientific reasoning evaluation and biology-domain response grading for frontier large language models on Projects Canary and Cobalt.",
+    description: "Scientific reasoning evaluation and biology-domain response grading for frontier large language models, in partnership with two AI labs.",
+    highlights: [
+      "Reviewed and graded scientific outputs of frontier AI systems for two AI-lab partners, checking biology-domain responses against published research and flagging factual and reasoning errors to prioritize model improvements",
+      "Authored model-answer references, identified failure patterns (overconfident wrong explanations, fabricated citations), and delivered structured feedback to partner safety and capability teams",
+    ],
   },
   {
     title: "Ph.D. Research Scholar",
