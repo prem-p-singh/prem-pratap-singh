@@ -13,6 +13,8 @@ export interface TimelineItem {
   mentor?: string | MentorLink[];
   description?: string;
   highlights?: string[];
+  responsibilities?: string[];
+  accomplishments?: string[];
 }
 
 interface TimelineProps {

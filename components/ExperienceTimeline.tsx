@@ -67,6 +67,38 @@ export default function ExperienceTimeline() {
           </p>
         )}
 
+        {exp.responsibilities && exp.responsibilities.length > 0 && (
+          <div>
+            <p className="text-xs font-semibold uppercase tracking-wider text-[var(--foreground)]/70 mb-2">
+              Major Areas of Responsibility
+            </p>
+            <ul className="space-y-2">
+              {exp.responsibilities.map((h, i) => (
+                <li key={i} className="flex items-start gap-2">
+                  <span className="mt-1.5 flex-shrink-0 w-1.5 h-1.5 rounded-full bg-[var(--muted-foreground)]" />
+                  <span className="text-sm text-[var(--muted-foreground)]">{h}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
+
+        {exp.accomplishments && exp.accomplishments.length > 0 && (
+          <div>
+            <p className="text-xs font-semibold uppercase tracking-wider text-[var(--primary)] mb-2">
+              Major Accomplishments
+            </p>
+            <ul className="space-y-2">
+              {exp.accomplishments.map((h, i) => (
+                <li key={i} className="flex items-start gap-2">
+                  <span className="mt-1.5 flex-shrink-0 w-1.5 h-1.5 rounded-full bg-[var(--primary)]" />
+                  <span className="text-sm text-[var(--muted-foreground)]">{h}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
+
         {exp.highlights && exp.highlights.length > 0 && (
           <ul className="space-y-2">
             {exp.highlights.map((h, i) => (

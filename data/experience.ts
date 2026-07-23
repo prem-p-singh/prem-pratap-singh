@@ -39,12 +39,19 @@ export const workExperience: TimelineItem[] = [
       { name: "Dr. Anita Oberholster", url: "https://wineserver.ucdavis.edu/people/anita-oberholster", note: "former, deceased Jan 2025" },
     ],
     description: "CDFA- and USDA-funded research on the molecular and metabolic impact of Grapevine Red Blotch Virus (GRBV) on Vitis vinifera cv. Merlot berries and wine quality, co-conducted with Dr. Mysore R. Sudarshana (USDA-ARS, UC Davis).",
-    highlights: [
-      "Quantified GRBV titer across more than ten vineyard blocks using RT-qPCR and digital PCR",
-      "Integrated RNA-Seq, LC-MS/MS, and GC-MS data to map virus-induced changes in sugar accumulation, anthocyanin biosynthesis, and berry cell-wall composition",
-      "Performed DESeq2 differential expression and GO, KEGG, and MapMan pathway enrichment on HPC infrastructure",
-      "Co-authored two manuscripts in preparation with the Sudarshana group (USDA-ARS)",
-      "Presented results at ASEV 2024 and 2025, and at ASPB Plant Biology 2024 (Honolulu)",
+    responsibilities: [
+      "Lead the laboratory and computational sides of a viral disease-management program across 10+ commercial vineyard blocks over two growing seasons, overseeing field sampling, analysis, and partner reporting",
+      "Own the sequencing workflow end to end, from sample processing to an automated, reusable analysis pipeline the team reruns each season",
+      "Build and validate diagnostic assays (digital PCR) with quality controls and documented standard procedures",
+      "Integrate chemical, genetic, and virus-level data into unified plant-response signatures across disease progression",
+      "Coordinate with USDA-ARS scientists, commercial wineries, and university researchers on shared SOPs and data workflows",
+    ],
+    accomplishments: [
+      "Delivered a 300+ sample sequencing study (1.3 billion+ reads) from start to finish, building a pipeline that reruns each season without errors",
+      "Developed an AI/ML tool that surfaced candidate infection markers with a signal 2.29x stronger than known plant genetic regions, pointing toward disease-resistant breeding",
+      "Enabled earlier detection of viral outbreaks and management decisions that reduced disease spread",
+      "Established a statistical disease model explaining how environmental factors and virus levels combine to drive seasonal shifts in symptom severity",
+      "Set diagnostic and data-workflow SOPs now used as standard practice, speeding disease-marker identification across teams",
     ],
   },
   {
@@ -54,9 +61,13 @@ export const workExperience: TimelineItem[] = [
     startDate: "Sep 2025",
     endDate: "Present",
     description: "Scientific reasoning evaluation and biology-domain response grading for frontier large language models, in partnership with two AI labs.",
-    highlights: [
-      "Reviewed and graded scientific outputs of frontier AI systems for two AI-lab partners, checking biology-domain responses against published research and flagging factual and reasoning errors to prioritize model improvements",
-      "Authored model-answer references, identified failure patterns (overconfident wrong explanations, fabricated citations), and delivered structured feedback to partner safety and capability teams",
+    responsibilities: [
+      "Review AI-generated scientific responses in plant biology, molecular biology, and biochemistry using Linux/HPC tools, grading them against published research",
+      "Author reference answers and structured feedback for partner safety and capability teams",
+    ],
+    accomplishments: [
+      "Flagged factual and reasoning errors that helped partners prioritize corrections and improve model reliability",
+      "Documented failure patterns, such as overconfident wrong explanations and fabricated citations, that fed prompt and training refinements to reduce those errors",
     ],
   },
   {
@@ -69,12 +80,17 @@ export const workExperience: TimelineItem[] = [
       { name: "Dr. Bhanu Prakash", url: "https://www.bhu.ac.in/Site/FacultyProfile/1_148?FA000446" },
     ],
     description: "Thesis on plant-based bioactive formulations against food-borne microbes, spanning wet-lab formulation, mechanism-of-action assays, and computational target work.",
-    highlights: [
-      "Optimized a ternary essential-oil formulation (Zingiber, Trachyspermum, Coleus at 1:4:1) by augmented simplex-centroid mixture design",
-      "Nano-encapsulated the formulation in chitosan–cinnamic acid nanogels via EDC carbodiimide crosslinking",
-      "Suppressed Aspergillus flavus growth and aflatoxin biosynthesis at sub-MIC concentrations in model food systems",
-      "Mapped binding poses of essential-oil components against Nor-1, Omt-1, and Vbs in the aflatoxin pathway using AlphaFold, Rosetta, AutoDock, and Amber16 molecular dynamics with MM-PBSA binding-energy analysis",
-      "Identified tyrosyl-tRNA synthetase as a druggable antibacterial target by molecular docking",
+    responsibilities: [
+      "Developed and validated plant-based bioactive formulations to protect stored grain from toxin-producing molds, spanning wet-lab efficacy and computational mechanism work",
+      "Ran the computational pipeline end to end, from genome assembly and differential expression to molecular docking and simulation, and released the code publicly for reproducibility",
+      "Mentored 5+ junior researchers",
+    ],
+    accomplishments: [
+      "Formulated a treatment achieving 85% less mold growth and complete elimination of the toxin in stored sorghum and peanut",
+      "Engineered a nano-polymer coating that extended formulation shelf stability to 60 days under storage",
+      "Mapped 99.5% of the mold strain's genome and identified 80 toxin-producing gene clusters, including the three most dangerous",
+      "Showed the treatment attacks the mold on several fronts at once, including the proteins that produce the toxin, by combining lab assays with simulations",
+      "Authored 6 first-author peer-reviewed publications",
     ],
   },
 ];
