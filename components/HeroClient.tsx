@@ -2,7 +2,6 @@
 
 import Image from "next/image";
 import { personal } from "@/data/personal";
-import { SparklesText } from "@/components/ui/sparkles-text";
 import { MovingBorderButton } from "@/components/ui/moving-border";
 
 export default function HeroClient() {
@@ -19,12 +18,9 @@ export default function HeroClient() {
               Mechanism · Measurement · Decision
             </p>
 
-            <SparklesText
-              text={personal.name}
-              className="text-4xl sm:text-5xl lg:text-6xl mb-4"
-              colors={{ first: "#ffffff", second: "#a1a1aa" }}
-              sparklesCount={8}
-            />
+            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-foreground mb-4 leading-tight">
+              {personal.name}
+            </h1>
 
             {personal.subtitle && (
               <p className="text-base sm:text-lg font-semibold text-foreground/90 mb-4">
