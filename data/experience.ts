@@ -38,7 +38,10 @@ export const workExperience: TimelineItem[] = [
       { name: "Dr. David E. Block", url: "https://wineserver.ucdavis.edu/people/david-block", note: "current" },
       { name: "Dr. Anita Oberholster", url: "https://wineserver.ucdavis.edu/people/anita-oberholster", note: "former, deceased Jan 2025" },
     ],
-    description: "CDFA- and USDA-funded research on the molecular and metabolic impact of Grapevine Red Blotch Virus (GRBV) on Vitis vinifera cv. Merlot berries and wine quality, co-conducted with Dr. Mysore R. Sudarshana (USDA-ARS, UC Davis).",
+    collaborator: [
+      { name: "Dr. Mysore R. Sudarshana", url: "https://www.ars.usda.gov/people-locations/person/?person-id=42584", note: "USDA-ARS, UC Davis" },
+    ],
+    description: "CDFA- and USDA-funded research on the molecular and metabolic impact of Grapevine Red Blotch Virus (GRBV) on Vitis vinifera cv. Merlot berries and wine quality.",
     responsibilities: [
       "Lead the laboratory and computational sides of a viral disease-management program across 10+ commercial vineyard blocks over two growing seasons, overseeing field sampling, analysis, and partner reporting",
       "Own the sequencing workflow end to end, from sample processing to an automated, reusable analysis pipeline the team reruns each season",

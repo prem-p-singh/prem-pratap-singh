@@ -11,6 +11,7 @@ export interface TimelineItem {
   startDate: string;
   endDate: string;
   mentor?: string | MentorLink[];
+  collaborator?: string | MentorLink[];
   description?: string;
   highlights?: string[];
   responsibilities?: string[];
