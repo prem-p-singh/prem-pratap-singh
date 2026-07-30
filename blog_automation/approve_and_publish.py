@@ -108,9 +108,10 @@ def doi_is_registered(url: str, timeout_sec: int) -> bool:
 def check_links_reachable(links, timeout_sec: int, delay: float = 0.5):
     """Return only links that are genuinely dead.
 
-    A 403 from a publisher is bot protection, not a broken reference, so those
-    are logged but not treated as failures. DOIs that soft-block are instead
-    verified against the Crossref registry.
+    Publisher sites frequently block or reset automated requests (403, 429, or a
+    raw connection reset). For DOI links, the Crossref registry is the source of
+    truth: if the DOI is registered there, the reference is real regardless of how
+    the direct request failed. Non-DOI links only fail on hard errors.
     """
     bad = []
     headers = {"User-Agent": BROWSER_UA}
@@ -127,17 +128,26 @@ def check_links_reachable(links, timeout_sec: int, delay: float = 0.5):
                 r = requests.get(link, allow_redirects=True, timeout=timeout_sec, headers=headers)
                 status = r.status_code
         except Exception as e:
-            log.warning(f"  Error reaching: {link} ({e})")
+            log.warning(f"  Direct request failed for {link} ({e})")
             status = None
 
+        # Reachable directly.
         if status is not None and 200 <= status < 400:
             continue
 
-        if status in SOFT_BLOCK_CODES:
-            if "doi.org" in link and doi_is_registered(link, timeout_sec):
-                log.info(f"  Publisher blocked automation ({status}) but DOI is registered: {link}")
+        # DOI links: validate against Crossref regardless of the failure mode
+        # (403/429 bot block, connection reset, timeout). Registered means real.
+        if "doi.org" in link:
+            if doi_is_registered(link, timeout_sec):
+                log.info(f"  DOI blocked/failed automation ({status or 'conn error'}) but is registered in Crossref: {link}")
             else:
-                log.warning(f"  Publisher blocked automation ({status}), not counted as broken: {link}")
+                log.warning(f"  DOI not found in Crossref registry: {link}")
+                bad.append((link, status or "error"))
+            continue
+
+        # Non-DOI links: a soft-block code is inconclusive, not proof of a dead link.
+        if status in SOFT_BLOCK_CODES:
+            log.warning(f"  Blocked automation ({status}), not counted as broken: {link}")
             continue
 
         log.warning(f"  Unreachable ({status or 'error'}): {link}")
