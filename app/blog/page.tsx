@@ -52,6 +52,7 @@ export default function BlogPage() {
     "from-peach-defense-chemistry-to-grapevine-sensing-what-this-week-says-about-smarter-plant-",
     "from-orchard-lesions-to-airborne-spores-building-better-plant-disease-signals",
     "from-xylem-recovery-to-genome-mining-connecting-plant-disease-biology-across-scales",
+    "from-almond-resistance-to-fluorescent-lettuce-connecting-host-biology-with-earlier-disease",
   ]);
 
   // Group: Vine Sensing & Phenotyping — structure, imaging, biomarkers, sensing for grapevine
