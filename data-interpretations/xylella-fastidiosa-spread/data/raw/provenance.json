@@ -1,0 +1,11 @@
+{
+  "source": "GBIF (Global Biodiversity Information Facility)",
+  "species": "Xylella fastidiosa",
+  "taxon_key": 3222355,
+  "query_url": "https://api.gbif.org/v1/occurrence/search?taxon_key=3222355",
+  "accessed_utc": "2026-08-01T19:08:03+00:00",
+  "records_reported_by_api": 1170,
+  "records_fetched": 1170,
+  "license_note": "GBIF-mediated occurrence data; per-dataset licences (CC0/CC-BY). Cite GBIF.org.",
+  "caveat": "Occurrence records reflect sampling and digitization effort, not true disease incidence or spread."
+}

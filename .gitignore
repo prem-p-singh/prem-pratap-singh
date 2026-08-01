@@ -49,3 +49,8 @@ blog_automation/.venv/
 blog_automation/daily.log
 __pycache__/
 *.pyc
+
+# data-interpretations project (Python analysis env + caches)
+data-interpretations/.venv/
+data-interpretations/**/__pycache__/
+data-interpretations/**/world_110m.geojson

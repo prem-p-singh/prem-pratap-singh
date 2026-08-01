@@ -1,0 +1,51 @@
+---
+title: "What GBIF's Xylella Records Do and Don't Tell Us About Spread"
+date: "2026-08-01"
+description: "A read of all 1,170 public GBIF occurrence records for Xylella fastidiosa: what they honestly support, and the sampling and reporting biases that make them easy to over-read."
+dataset: "GBIF occurrence records for Xylella fastidiosa"
+source: "GBIF.org"
+sourceUrl: "https://www.gbif.org/species/3222355"
+codePath: "data-interpretations/xylella-fastidiosa-spread"
+records: 1170
+tags: ["Xylella fastidiosa", "disease surveillance", "GBIF", "open data", "data interpretation"]
+---
+
+Public databases hold a lot of plant-pathogen data that almost no one reads directly. GBIF, the Global Biodiversity Information Facility, is one of them. This first piece takes every GBIF record for *Xylella fastidiosa*, a xylem-limited bacterium behind serious diseases in grapevine, olive, almond, and citrus, and asks a plain question: what do these records actually tell us, and what do they not?
+
+I pulled all 1,170 records on 1 August 2026. They span 1906 to 2026 across 26 countries, and only 309 carry coordinates. The fetch and analysis code is public, so every number here can be reproduced exactly.
+
+One caution matters more than any chart: an occurrence record is not a disease measurement. It marks where someone recorded the organism and entered it into a database. It says nothing directly about how much disease is present, how fast it moves, or whether the pathogen is established.
+
+## Where the records come from
+
+![Records by country: the US accounts for 48 percent, followed by the UK, Italy, Brazil, France, and Spain](/data/xylella-fastidiosa-spread/records_by_country.png)
+
+Nearly half of all records, 48 percent, come from the United States, followed by the United Kingdom, Italy, Brazil, France, and Spain. It would be easy to read this as "the US has the most *Xylella*." It does not mean that. The United States digitizes and shares far more biodiversity data than most countries, so this ranking mostly reflects reporting effort, not disease burden. The United Kingdom's high count is a related signal, weighted toward interception and specimen records rather than established outbreaks.
+
+## What kind of records these are
+
+![Basis of record: 901 material samples, 190 human observations, and smaller counts of specimens](/data/xylella-fastidiosa-spread/basis_of_record.png)
+
+Splitting the records by type makes the point concrete. About 77 percent (901 records) are material samples, that is, physical samples logged and often lab-tested, and another 16 percent are human observations. This is a catalogue of detections and tests, not a structured survey of how much disease exists in a region. That distinction changes what the totals can support.
+
+## The shape over time is a reporting shape
+
+![Records per year since 1990, with a sharp 2019 spike flagged as a reporting artifact](/data/xylella-fastidiosa-spread/records_per_year.png)
+
+Records per year are uneven, with a sharp spike of 100 records in 2019, then far fewer in most later years. That spike is almost certainly a batch of data digitized or published at once, not a real jump in the pathogen. Treating reporting spikes like this as biology is one of the most common mistakes made with aggregated databases.
+
+![Cumulative records climbing steadily, labeled as a digitization curve rather than a spread curve](/data/xylella-fastidiosa-spread/cumulative_records.png)
+
+The cumulative curve rises steadily, but it is a digitization curve. It tracks how many records have been entered over time, not how far the disease has spread.
+
+## The map shows sampling, not extent
+
+![World map of 309 georeferenced records, clustered in the US, western Europe, and South America](/data/xylella-fastidiosa-spread/global_map.png)
+
+The 309 georeferenced records cluster in the United States, mainly California and the southeast, in western Europe, and in parts of South America. The clustering follows where sampling and surveillance happen. Empty regions on this map are, in most cases, places no one has sampled and uploaded to GBIF, not places the pathogen is known to be absent.
+
+## What the data honestly supports
+
+Read carefully, these records support a few statements: *Xylella fastidiosa* has been recorded across at least 26 countries and several continents, and the volume of recording has grown over the last two decades. They do not support claims about prevalence, spread rate, or which regions are worst affected. Those questions need structured surveillance with known sampling, which GBIF is not.
+
+None of this makes the data useless. Occurrence records are genuinely useful for confirming presence, flagging new locations, and pointing to where structured surveys should go next. The value is in reading them for what they are. The same discipline applies to most open datasets: the first job is to separate what was measured from what we wish it measured.
