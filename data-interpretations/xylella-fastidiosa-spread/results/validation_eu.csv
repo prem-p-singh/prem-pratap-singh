@@ -1,0 +1,6 @@
+country_code,country,documented_first_detection,note,countryCode,first_record,records,lag_years,detected
+IT,Italy,2013,"Olive quick decline syndrome confirmed in Apulia, October 2013",IT,2013.0,104.0,0.0,True
+FR,France,2015,"First confirmed outbreak in Corsica, July 2015",FR,2012.0,63.0,-3.0,True
+ES,Spain,2016,"First detection in the Balearic Islands (Mallorca), November 2016; mainland (Alicante) 2017",ES,2017.0,31.0,1.0,True
+DE,Germany,2016,Single infected glasshouse plant detected and eradicated,DE,2026.0,1.0,10.0,True
+PT,Portugal,2019,First confirmed detection in the Porto region,,,,,False

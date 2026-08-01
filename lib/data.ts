@@ -11,6 +11,12 @@ function extractCoverImage(content: string): string | undefined {
   return match ? match[1].trim() : undefined;
 }
 
+export interface KeyStat {
+  value: string;
+  label: string;
+  note?: string;
+}
+
 export interface DataPost {
   slug: string;
   title: string;
@@ -24,6 +30,11 @@ export interface DataPost {
   sourceUrl?: string;
   codePath?: string;
   records?: number;
+  /** Scannable headline numbers rendered above the article body. */
+  keyStats?: KeyStat[];
+  /** Tools and techniques used, rendered in the closing methods block. */
+  methods?: string[];
+  methodsNote?: string;
   content: string;
 }
 
@@ -44,6 +55,9 @@ function toMeta(slug: string, raw: string): DataPost {
     sourceUrl: data.sourceUrl,
     codePath: data.codePath,
     records: typeof data.records === "number" ? data.records : undefined,
+    keyStats: Array.isArray(data.keyStats) ? data.keyStats : undefined,
+    methods: Array.isArray(data.methods) ? data.methods : undefined,
+    methodsNote: data.methodsNote,
     content,
   };
 }

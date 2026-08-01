@@ -7,6 +7,7 @@ import { useMDXComponents } from "@/mdx-components";
 import remarkMath from "remark-math";
 import rehypeKatex from "rehype-katex";
 import "katex/dist/katex.min.css";
+import { KeyStats, MythReality, Takeaway, Methods } from "@/components/data/DataBlocks";
 
 const REPO = "https://github.com/prem-p-singh/prem-pratap-singh/tree/main";
 
@@ -116,6 +117,10 @@ export default async function DataReportPage({ params }: Props) {
 
       <section className="pb-16">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+          {post.keyStats && post.keyStats.length > 0 && (
+            <KeyStats stats={post.keyStats} />
+          )}
+
           <div className="prose prose-lg prose-invert max-w-none
             prose-headings:font-bold prose-headings:tracking-tight
             prose-h2:text-2xl prose-h2:mt-10 prose-h2:mb-4 prose-h2:pb-2 prose-h2:border-b prose-h2:border-border
@@ -126,10 +131,14 @@ export default async function DataReportPage({ params }: Props) {
           ">
             <MDXRemote
               source={post.content}
-              components={components}
+              components={{ ...components, KeyStats, MythReality, Takeaway, Methods }}
               options={{ mdxOptions: { remarkPlugins: [remarkMath], rehypePlugins: [rehypeKatex] } }}
             />
           </div>
+
+          {post.methods && post.methods.length > 0 && (
+            <Methods items={post.methods}>{post.methodsNote}</Methods>
+          )}
 
           <div className="mt-12 pt-6 border-t border-border text-sm text-muted-foreground">
             Every figure on this page was produced by the linked code from the raw

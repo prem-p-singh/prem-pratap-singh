@@ -1,51 +1,83 @@
 ---
-title: "What GBIF's Xylella Records Do and Don't Tell Us About Spread"
+title: "Can a Public Database Detect a Plant Disease Outbreak?"
 date: "2026-08-01"
-description: "A read of all 1,170 public GBIF occurrence records for Xylella fastidiosa: what they honestly support, and the sampling and reporting biases that make them easy to over-read."
+description: "I tested 1,170 public GBIF records of Xylella fastidiosa against documented European outbreaks. It caught Italy's epidemic the same year it was confirmed, missed Portugal's entirely, and once corrected for sampling effort the United States fell from first place to seventh."
 dataset: "GBIF occurrence records for Xylella fastidiosa"
 source: "GBIF.org"
 sourceUrl: "https://www.gbif.org/species/3222355"
 codePath: "data-interpretations/xylella-fastidiosa-spread"
 records: 1170
 tags: ["Xylella fastidiosa", "disease surveillance", "GBIF", "open data", "data interpretation"]
+keyStats:
+  - value: "0 yr"
+    label: "Italy lag"
+    note: "Recorded the same year the epidemic was confirmed"
+  - value: "2 of 5"
+    label: "Outbreaks caught"
+    note: "Within a year of documented detection"
+  - value: "1 → 7"
+    label: "US rank falls"
+    note: "Once corrected for recording effort"
+  - value: "1,170"
+    label: "Records tested"
+    note: "Every public record, pulled 1 Aug 2026"
+methods:
+  - "Python"
+  - "pandas"
+  - "matplotlib"
+  - "REST API ingestion"
+  - "Validation against ground truth"
+  - "Denominator normalisation"
+  - "Reproducible pipeline"
+methodsNote: "All 1,170 records were pulled from the GBIF API with a provenance stamp recording source, access date, and licence. Documented outbreak dates come from published European plant-health reports and are stored as a separate ground-truth file. Every figure and number here is produced by the linked code from the raw data."
 ---
 
-Public databases hold a lot of plant-pathogen data that almost no one reads directly. GBIF, the Global Biodiversity Information Facility, is one of them. This first piece takes every GBIF record for *Xylella fastidiosa*, a xylem-limited bacterium behind serious diseases in grapevine, olive, almond, and citrus, and asks a plain question: what do these records actually tell us, and what do they not?
+*Xylella fastidiosa* is one of the most damaging plant pathogens in Europe. It killed millions of olive trees in southern Italy and is under active quarantine across the continent. Meanwhile, anyone can download every public record of it from GBIF, the Global Biodiversity Information Facility, in about a second.
 
-I pulled all 1,170 records on 1 August 2026. They span 1906 to 2026 across 26 countries, and only 309 carry coordinates. The fetch and analysis code is public, so every number here can be reproduced exactly.
+So here is a question worth answering: if a new outbreak started tomorrow, would that public database notice?
 
-One caution matters more than any chart: an occurrence record is not a disease measurement. It marks where someone recorded the organism and entered it into a database. It says nothing directly about how much disease is present, how fast it moves, or whether the pathogen is established.
+I pulled all 1,170 records and tested them against outbreaks we already know happened.
 
-## Where the records come from
+## Test one: did the database notice?
 
-![Records by country: the US accounts for 48 percent, followed by the UK, Italy, Brazil, France, and Spain](/data/xylella-fastidiosa-spread/records_by_country.png)
+The European incursions are a good test case because they are recent, well documented, and independently dated by plant-health authorities. If GBIF records carry real signal, the first public record for a country should appear close to the documented first detection.
 
-Nearly half of all records, 48 percent, come from the United States, followed by the United Kingdom, Italy, Brazil, France, and Spain. It would be easy to read this as "the US has the most *Xylella*." It does not mean that. The United States digitizes and shares far more biodiversity data than most countries, so this ranking mostly reflects reporting effort, not disease burden. The United Kingdom's high count is a related signal, weighted toward interception and specimen records rather than established outbreaks.
+![Dumbbell chart comparing documented outbreak year with first GBIF record for five European countries](/data/xylella-fastidiosa-spread/validation_timeline.png)
 
-## What kind of records these are
+<Takeaway>
+Italy's first record lands in 2013, the same year the Apulia olive epidemic was confirmed. Spain follows one year after its first detection. Germany takes ten years, and Portugal has never been recorded at all.
+</Takeaway>
 
-![Basis of record: 901 material samples, 190 human observations, and smaller counts of specimens](/data/xylella-fastidiosa-spread/basis_of_record.png)
+The result is a split, and the split is the finding. The two largest and most publicised epidemics, Italy and Spain, show up in the public record almost immediately. The two smallest incursions do not. Germany's case was a single glasshouse plant that was destroyed, and Portugal's outbreak, confirmed in 2019, has left no trace in this dataset seven years later.
 
-Splitting the records by type makes the point concrete. About 77 percent (901 records) are material samples, that is, physical samples logged and often lab-tested, and another 16 percent are human observations. This is a catalogue of detections and tests, not a structured survey of how much disease exists in a region. That distinction changes what the totals can support.
+France runs the other way, with a record three years *before* the Corsica outbreak. That is worth flagging rather than smoothing over: it may be earlier undetected presence, a research collection, or a record whose date and place do not refer to the same event. A single record cannot distinguish those.
 
-## The shape over time is a reporting shape
+So the database notices, but it notices selectively. Detection appears to track how large and how publicised an outbreak is, not whether the pathogen is present. That is a usable rule with a hard limit: these records can corroborate a major incursion, and they cannot be used to argue a country is clean.
 
-![Records per year since 1990, with a sharp 2019 spike flagged as a reporting artifact](/data/xylella-fastidiosa-spread/records_per_year.png)
+## Test two: correcting the bias instead of complaining about it
 
-Records per year are uneven, with a sharp spike of 100 records in 2019, then far fewer in most later years. That spike is almost certainly a batch of data digitized or published at once, not a real jump in the pathogen. Treating reporting spikes like this as biology is one of the most common mistakes made with aggregated databases.
+The obvious objection to any country ranking here is that the United States contributes 543 of the 1,170 records, about 48 percent. The usual response is to note the bias and move on. It is more useful to correct it.
 
-![Cumulative records climbing steadily, labeled as a digitization curve rather than a spread curve](/data/xylella-fastidiosa-spread/cumulative_records.png)
+Countries differ enormously in how much biodiversity data they publish at all. The US has 1.3 billion total GBIF records; Italy has 14 million. Dividing each country's *Xylella* records by its total record count converts raw counts into a rate, which is comparable across countries.
 
-The cumulative curve rises steadily, but it is a digitization curve. It tracks how many records have been entered over time, not how far the disease has spread.
+![Bar chart of Xylella records per million total GBIF records, with the US highlighted in seventh place](/data/xylella-fastidiosa-spread/effort_corrected.png)
 
-## The map shows sampling, not extent
+<Takeaway>
+The United States falls from first place to seventh. Italy rises to the top of the ranking, which matches the fact that Italy has Europe's most severe epidemic.
+</Takeaway>
+
+This is the part I find most convincing, because the correction can be checked against what we independently know. Before correction, the ranking mostly reproduced which countries publish the most data. After correction, Italy and Brazil rise to the top, and both have documented major *Xylella* epidemics, olive quick decline and citrus variegated chlorosis respectively. The adjusted ranking agrees better with known epidemiology than the raw one did.
+
+One caveat belongs right next to that result. Iran ranks first on this measure from only 10 records, and a rate built on a small numerator is unstable. I would treat the top of this list as a shortlist worth checking, not a finding in itself.
+
+## What the raw data still cannot say
 
 ![World map of 309 georeferenced records, clustered in the US, western Europe, and South America](/data/xylella-fastidiosa-spread/global_map.png)
 
-The 309 georeferenced records cluster in the United States, mainly California and the southeast, in western Europe, and in parts of South America. The clustering follows where sampling and surveillance happen. Empty regions on this map are, in most cases, places no one has sampled and uploaded to GBIF, not places the pathogen is known to be absent.
+Only 309 of the records carry coordinates, and they cluster where surveillance programmes operate. Blank regions on this map are mostly places nobody has sampled and uploaded, not places the pathogen is known to be absent. Prevalence, rate of spread, and severity all remain out of reach here, because those need surveillance with a known sampling frame.
 
-## What the data honestly supports
+## Where this leaves things
 
-Read carefully, these records support a few statements: *Xylella fastidiosa* has been recorded across at least 26 countries and several continents, and the volume of recording has grown over the last two decades. They do not support claims about prevalence, spread rate, or which regions are worst affected. Those questions need structured surveillance with known sampling, which GBIF is not.
+Two conclusions survive the analysis. The public record reliably captures large outbreaks and misses small contained ones, which makes it a corroboration tool rather than an early-warning system. And correcting for recording effort is worth the small amount of work it takes, since it moved this ranking measurably closer to known epidemiology.
 
-None of this makes the data useless. Occurrence records are genuinely useful for confirming presence, flagging new locations, and pointing to where structured surveys should go next. The value is in reading them for what they are. The same discipline applies to most open datasets: the first job is to separate what was measured from what we wish it measured.
+The next step I would take is to add climate suitability, which is well characterised for this pathogen, and compare it against the effort-corrected rates. Countries with suitable climate, meaningful recording activity, and near-zero *Xylella* records would be the most interesting places to look, because that combination suggests a genuine surveillance gap rather than a data gap.
