@@ -1,0 +1,14 @@
+{
+  "ai_share_first_year": 2005,
+  "ai_share_first_pct": 3.14,
+  "ai_share_last_year": 2025,
+  "ai_share_last_pct": 14.77,
+  "most_studied_crop": "Tomato",
+  "most_studied_works": 2848,
+  "highest_attention_per_mt": "Coffee",
+  "highest_attention_value": 39.8,
+  "lowest_attention_per_mt": "Sugarcane",
+  "lowest_attention_value": 0.22,
+  "tomato_vs_maize_ratio": 11.5,
+  "staple_mean_per_mt": 1.43
+}

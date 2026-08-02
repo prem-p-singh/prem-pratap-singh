@@ -54,3 +54,5 @@ __pycache__/
 data-interpretations/.venv/
 data-interpretations/**/__pycache__/
 data-interpretations/**/world_110m.geojson
+data-interpretations/**/data/raw/faostat_production.zip
+data-interpretations/**/data/raw/Production_Crops_Livestock_E_*.csv

@@ -1,0 +1,9 @@
+{
+  "source": "OpenAlex (openalex.org)",
+  "endpoint": "https://api.openalex.org/works",
+  "accessed_utc": "2026-08-02T04:39:48+00:00",
+  "ai_terms": "\"deep learning\" OR \"machine learning\" OR \"neural network\"",
+  "crop_query_note": "title_and_abstract.search, requiring crop AND AI method AND a disease term",
+  "license_note": "OpenAlex data is CC0.",
+  "caveat": "Counts reflect indexed literature and keyword matching, not a curated review."
+}

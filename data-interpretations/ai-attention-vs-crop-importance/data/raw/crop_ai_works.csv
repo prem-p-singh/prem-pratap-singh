@@ -1,0 +1,15 @@
+crop,openalex_query,fao_item,ai_disease_works
+Maize,maize OR corn,Maize (corn),1658
+Rice,rice,Rice,2420
+Wheat,wheat,Wheat,1315
+Sugarcane,sugarcane,Sugar cane,443
+Potato,potato,Potatoes,1610
+Soybean,soybean,Soya beans,465
+Cassava,cassava,"Cassava, fresh",318
+Tomato,tomato,Tomatoes,2848
+Banana,banana,Bananas,493
+Barley,barley,Barley,100
+Apple,apple,Apples,1427
+Grape,grape OR grapevine,Grapes,933
+Orange,orange OR citrus,Oranges,946
+Coffee,coffee,"Coffee, green",441
