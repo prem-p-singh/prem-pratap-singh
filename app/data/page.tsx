@@ -23,13 +23,12 @@ export default function DataPage() {
               Open Data, Decoded
             </p>
             <h1 className="text-4xl sm:text-5xl font-bold text-foreground mb-4">
-              Public data, read honestly
+              What public data actually says
             </h1>
             <p className="text-lg text-muted-foreground leading-relaxed">
-              A lot of useful data in plant science sits in public databases, raw and
-              rarely interpreted. Each piece here takes one open dataset and turns it
-              into a clear, defensible reading, separating what the data shows from what
-              it does not. Every figure is reproducible, with the code linked.
+              Plenty of useful data about plants and disease is free to download, and
+              almost nobody reads it. I take one dataset at a time, work out what it
+              really shows, and say it plainly. The code behind every chart is linked.
             </p>
           </div>
         </div>

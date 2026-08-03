@@ -1,4 +1,4 @@
-# Can a public database detect a plant disease outbreak?
+# Can free data spot a plant disease outbreak?
 
 A reproducible test of whether public GBIF occurrence records carry real signal
 about *Xylella fastidiosa*, a bacterium behind severe disease in olive,

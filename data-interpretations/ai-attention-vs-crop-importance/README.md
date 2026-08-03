@@ -1,4 +1,4 @@
-# AI is taking over plant pathology. It picked the wrong crops.
+# AI studies tomatoes more than wheat
 
 Does AI plant-disease research follow agricultural importance? This combines
 the publication record with world production data to find out.
