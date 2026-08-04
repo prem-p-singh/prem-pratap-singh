@@ -1,0 +1,13 @@
+{
+  "source": "NCBI Datasets v2alpha genome dataset_report",
+  "endpoint": "https://api.ncbi.nlm.nih.gov/datasets/v2alpha/genome/taxon",
+  "accessed_utc": "2026-08-04T14:38:51+00:00",
+  "panel": "Pathogens from three published Top 10 surveys in Molecular Plant Pathology",
+  "panel_sources": [
+    "Dean et al. 2012, Top 10 fungal pathogens in molecular plant pathology",
+    "Mansfield et al. 2012, Top 10 plant pathogenic bacteria",
+    "Kamoun et al. 2015, The Top 10 oomycete pathogens in molecular plant pathology"
+  ],
+  "license_note": "NCBI data are in the public domain.",
+  "caveat": "An assembly is not an isolate. Counts include re-assemblies, alternate haplotypes and laboratory derivatives, so assembly count overstates true genomic diversity."
+}

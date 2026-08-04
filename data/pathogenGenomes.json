@@ -1,0 +1,232 @@
+[
+ {
+  "pathogen": "Pseudomonas syringae",
+  "group": "Bacterium",
+  "disease": "Bacterial speck and blights",
+  "assemblies": 1788,
+  "wellAssembled": 219,
+  "pctWell": 12.2,
+  "firstYear": "2005.0",
+  "latestYear": "2026.0"
+ },
+ {
+  "pathogen": "Xanthomonas campestris",
+  "group": "Bacterium",
+  "disease": "Black rot",
+  "assemblies": 1780,
+  "wellAssembled": 472,
+  "pctWell": 26.5,
+  "firstYear": "2002.0",
+  "latestYear": "2026.0"
+ },
+ {
+  "pathogen": "Ralstonia solanacearum",
+  "group": "Bacterium",
+  "disease": "Bacterial wilt",
+  "assemblies": 1222,
+  "wellAssembled": 293,
+  "pctWell": 24.0,
+  "firstYear": "2005.0",
+  "latestYear": "2026.0"
+ },
+ {
+  "pathogen": "Xanthomonas oryzae",
+  "group": "Bacterium",
+  "disease": "Bacterial blight of rice",
+  "assemblies": 1161,
+  "wellAssembled": 527,
+  "pctWell": 45.4,
+  "firstYear": "2005.0",
+  "latestYear": "2026.0"
+ },
+ {
+  "pathogen": "Fusarium oxysporum",
+  "group": "Fungus",
+  "disease": "Fusarium wilt",
+  "assemblies": 838,
+  "wellAssembled": 49,
+  "pctWell": 5.8,
+  "firstYear": "2011.0",
+  "latestYear": "2026.0"
+ },
+ {
+  "pathogen": "Erwinia amylovora",
+  "group": "Bacterium",
+  "disease": "Fire blight",
+  "assemblies": 669,
+  "wellAssembled": 102,
+  "pctWell": 15.2,
+  "firstYear": "2010.0",
+  "latestYear": "2026.0"
+ },
+ {
+  "pathogen": "Magnaporthe oryzae",
+  "group": "Fungus",
+  "disease": "Rice blast",
+  "assemblies": 601,
+  "wellAssembled": 56,
+  "pctWell": 9.3,
+  "firstYear": "2011.0",
+  "latestYear": "2026.0"
+ },
+ {
+  "pathogen": "Xylella fastidiosa",
+  "group": "Bacterium",
+  "disease": "Pierce's disease and olive decline",
+  "assemblies": 572,
+  "wellAssembled": 219,
+  "pctWell": 38.3,
+  "firstYear": "2001.0",
+  "latestYear": "2026.0"
+ },
+ {
+  "pathogen": "Agrobacterium tumefaciens",
+  "group": "Bacterium",
+  "disease": "Crown gall",
+  "assemblies": 559,
+  "wellAssembled": 142,
+  "pctWell": 25.4,
+  "firstYear": "2011.0",
+  "latestYear": "2026.0"
+ },
+ {
+  "pathogen": "Pectobacterium carotovorum",
+  "group": "Bacterium",
+  "disease": "Soft rot",
+  "assemblies": 252,
+  "wellAssembled": 50,
+  "pctWell": 19.8,
+  "firstYear": "2008.0",
+  "latestYear": "2026.0"
+ },
+ {
+  "pathogen": "Fusarium graminearum",
+  "group": "Fungus",
+  "disease": "Fusarium head blight",
+  "assemblies": 137,
+  "wellAssembled": 14,
+  "pctWell": 10.2,
+  "firstYear": "2008.0",
+  "latestYear": "2026.0"
+ },
+ {
+  "pathogen": "Botrytis cinerea",
+  "group": "Fungus",
+  "disease": "Grey mould",
+  "assemblies": 66,
+  "wellAssembled": 4,
+  "pctWell": 6.1,
+  "firstYear": "2011.0",
+  "latestYear": "2026.0"
+ },
+ {
+  "pathogen": "Zymoseptoria tritici",
+  "group": "Fungus",
+  "disease": "Septoria leaf blotch",
+  "assemblies": 65,
+  "wellAssembled": 24,
+  "pctWell": 36.9,
+  "firstYear": "2011.0",
+  "latestYear": "2025.0"
+ },
+ {
+  "pathogen": "Ustilago maydis",
+  "group": "Fungus",
+  "disease": "Corn smut",
+  "assemblies": 39,
+  "wellAssembled": 4,
+  "pctWell": 10.3,
+  "firstYear": "2015.0",
+  "latestYear": "2022.0"
+ },
+ {
+  "pathogen": "Phytophthora ramorum",
+  "group": "Oomycete",
+  "disease": "Sudden oak death",
+  "assemblies": 33,
+  "wellAssembled": 1,
+  "pctWell": 3.0,
+  "firstYear": "2008.0",
+  "latestYear": "2026.0"
+ },
+ {
+  "pathogen": "Phytophthora capsici",
+  "group": "Oomycete",
+  "disease": "Phytophthora blight",
+  "assemblies": 19,
+  "wellAssembled": 3,
+  "pctWell": 15.8,
+  "firstYear": "2012.0",
+  "latestYear": "2025.0"
+ },
+ {
+  "pathogen": "Phytophthora sojae",
+  "group": "Oomycete",
+  "disease": "Soybean root rot",
+  "assemblies": 12,
+  "wellAssembled": 9,
+  "pctWell": 75.0,
+  "firstYear": "2011.0",
+  "latestYear": "2024.0"
+ },
+ {
+  "pathogen": "Blumeria graminis",
+  "group": "Fungus",
+  "disease": "Powdery mildew of cereals",
+  "assemblies": 9,
+  "wellAssembled": 2,
+  "pctWell": 22.2,
+  "firstYear": "2013.0",
+  "latestYear": "2024.0"
+ },
+ {
+  "pathogen": "Phytophthora infestans",
+  "group": "Oomycete",
+  "disease": "Potato late blight",
+  "assemblies": 8,
+  "wellAssembled": 1,
+  "pctWell": 12.5,
+  "firstYear": "2009.0",
+  "latestYear": "2024.0"
+ },
+ {
+  "pathogen": "Puccinia graminis",
+  "group": "Fungus",
+  "disease": "Wheat stem rust",
+  "assemblies": 6,
+  "wellAssembled": 1,
+  "pctWell": 16.7,
+  "firstYear": "2008.0",
+  "latestYear": "2022.0"
+ },
+ {
+  "pathogen": "Plasmopara viticola",
+  "group": "Oomycete",
+  "disease": "Grapevine downy mildew",
+  "assemblies": 4,
+  "wellAssembled": 0,
+  "pctWell": 0.0,
+  "firstYear": "2017.0",
+  "latestYear": "2026.0"
+ },
+ {
+  "pathogen": "Pythium ultimum",
+  "group": "Oomycete",
+  "disease": "Damping off",
+  "assemblies": 3,
+  "wellAssembled": 0,
+  "pctWell": 0.0,
+  "firstYear": "2010.0",
+  "latestYear": "2022.0"
+ },
+ {
+  "pathogen": "Melampsora lini",
+  "group": "Fungus",
+  "disease": "Flax rust",
+  "assemblies": 0,
+  "wellAssembled": 0,
+  "pctWell": 0.0,
+  "firstYear": null,
+  "latestYear": null
+ }
+]

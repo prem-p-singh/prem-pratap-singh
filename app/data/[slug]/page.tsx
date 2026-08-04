@@ -8,6 +8,7 @@ import remarkMath from "remark-math";
 import rehypeKatex from "rehype-katex";
 import "katex/dist/katex.min.css";
 import { KeyStats, MythReality, Takeaway, Methods } from "@/components/data/DataBlocks";
+import PathogenTable from "@/components/data/PathogenTable";
 
 const REPO = "https://github.com/prem-p-singh/prem-pratap-singh/tree/main";
 
@@ -131,7 +132,7 @@ export default async function DataReportPage({ params }: Props) {
           ">
             <MDXRemote
               source={post.content}
-              components={{ ...components, KeyStats, MythReality, Takeaway, Methods }}
+              components={{ ...components, KeyStats, MythReality, Takeaway, Methods, PathogenTable }}
               options={{ mdxOptions: { remarkPlugins: [remarkMath], rehypePlugins: [rehypeKatex] } }}
             />
           </div>

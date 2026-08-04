@@ -1,0 +1,17 @@
+{
+  "pathogens_in_panel": 23,
+  "total_assemblies": 9843,
+  "most_sequenced": "Pseudomonas syringae",
+  "most_sequenced_n": 1788,
+  "least_sequenced": "Melampsora lini",
+  "least_sequenced_n": 0,
+  "zero_genome_pathogens": [
+    "Melampsora lini"
+  ],
+  "infestans_assemblies": 8,
+  "top_vs_infestans_ratio": 224,
+  "median_bacterium": 915.0,
+  "median_fungus_oomycete": 19.0,
+  "bacteria_vs_eukaryote_ratio": 48.2,
+  "median_pct_well_assembled": 16.25
+}

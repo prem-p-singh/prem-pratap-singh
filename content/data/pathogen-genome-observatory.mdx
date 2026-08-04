@@ -1,0 +1,103 @@
+---
+title: "The Famine Pathogen Has 8 Genomes. A Leaf Spot Bacterium Has 1,788."
+date: "2026-08-04"
+description: "I took the plant pathogens that scientists themselves voted the world's worst, and counted how many public genomes each one has. The gap is not about importance. It is about which genomes are easy to sequence."
+dataset: "NCBI genome assemblies for 23 major plant pathogens"
+source: "NCBI"
+sourceUrl: "https://www.ncbi.nlm.nih.gov/datasets/"
+codePath: "data-interpretations/pathogen-genome-observatory"
+records: 9843
+tags: ["plant pathogens", "genomics", "NCBI", "open data", "data interpretation"]
+keyStats:
+  - value: "8"
+    label: "Potato late blight"
+    note: "Genomes for the Irish famine pathogen"
+  - value: "1,788"
+    label: "Pseudomonas syringae"
+    note: "224 times more, for a bacterium"
+  - value: "48×"
+    label: "Bacteria vs the rest"
+    note: "Median genomes per pathogen"
+  - value: "0"
+    label: "Flax rust"
+    note: "A Top 10 fungus with no genome at all"
+methods:
+  - "Python"
+  - "pandas"
+  - "matplotlib"
+  - "NCBI Datasets API"
+  - "React"
+  - "Reproducible pipeline"
+methodsNote: "Genome counts come from the NCBI Datasets API in August 2026, covering every public assembly for each organism. The pathogen panel is not my own ranking: it is taken from three published Top 10 surveys in Molecular Plant Pathology (Dean 2012 for fungi, Mansfield 2012 for bacteria, Kamoun 2015 for oomycetes). Every figure is made by the linked code."
+---
+
+*Phytophthora infestans* caused the Irish potato famine. It still costs growers billions a year.
+
+It has **8** public genome assemblies.
+
+*Pseudomonas syringae*, a bacterium that spots leaves, has **1,788**.
+
+## What I checked
+
+I did not decide which pathogens matter. The field already did that, in three published surveys where plant pathologists voted on the most important fungi, bacteria and oomycetes in the world.
+
+I took those 23 pathogens and counted how many public genomes each one has.
+
+## What I found
+
+![Bar chart of genome assemblies for 23 top plant pathogens, coloured by group. Bacteria dominate the top; oomycetes and rust fungi sit at the bottom.](/data/pathogen-genome-observatory/assemblies_per_pathogen.png)
+
+Every pathogen on this chart was voted a global top threat. The spread between them is more than a thousandfold.
+
+- **Wheat stem rust**, which threatens the world's bread supply, has 6 genomes. Its reference is from 2008.
+- **Grapevine downy mildew** has 4.
+- **Flax rust** has none at all.
+
+## The pattern is not about biology
+
+Colour the same chart by pathogen type and the reason jumps out.
+
+![Bar chart showing median genomes per pathogen: bacteria far ahead of fungi and oomycetes](/data/pathogen-genome-observatory/by_group.png)
+
+<Takeaway>
+The median bacterium in this panel has 915 genomes. The median fungus or oomycete has 19. That is a 48-fold gap between groups whose members were all judged equally important.
+</Takeaway>
+
+Bacterial genomes are small, around 5 million letters, and they assemble cleanly. A lab can sequence hundreds cheaply.
+
+Fungal and oomycete genomes are often ten to twenty times larger, packed with repeated sequence, and sometimes carry two different genome copies in the same cell. They are slow, expensive and technically awkward.
+
+So the record does not track which pathogen does the most damage. It tracks which genome is easiest to finish.
+
+## Even the counts flatter the situation
+
+A genome in the database is not the same as a good genome.
+
+![Bar chart showing the share of assemblies reaching chromosome level for each pathogen, most below 30 percent](/data/pathogen-genome-observatory/quality.png)
+
+<Takeaway>
+Across the panel, only about 16% of assemblies reach chromosome level. Most public genomes are fragmented drafts, useful for gene lists but weak for studying the repeat-rich regions where many effector genes actually sit.
+</Takeaway>
+
+That matters for the exact pathogens already at the bottom. Rusts and oomycetes keep many of their virulence genes in repetitive regions, which are the first thing a fragmented assembly loses.
+
+## Look up any pathogen
+
+<PathogenTable />
+
+## Why it matters
+
+If you want to breed durable resistance, or track a new strain during an outbreak, you need good genomes for the pathogen in front of you.
+
+Right now that resource is thin for exactly the groups causing the hardest problems: rusts on cereals, mildews on grapes, blight on potatoes. The field agreed these are top threats, then sequenced the things that were easier to sequence.
+
+## What this does not prove
+
+- An assembly is not an isolate. Counts include re-assemblies and lab derivatives, so the true genomic diversity is lower than these numbers suggest.
+- Some genomes live in specialist databases rather than NCBI, so a few counts here are undercounts.
+- A count says nothing about whether a genome answered a useful question.
+- I searched by organism name, so species complexes and renamed taxa can split or merge counts.
+
+The honest summary is narrow. Public genome availability for major plant pathogens is uneven by a factor of a thousand, and the split follows sequencing difficulty rather than agricultural damage.
+
+The next thing worth checking is whether that gap is closing. Long-read sequencing was supposed to solve exactly the repeat problem that holds these genomes back, so the test would be whether oomycete and rust assemblies have improved since long reads became routine.
