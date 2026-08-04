@@ -34,3 +34,23 @@ cd <piece-slug>
 
 - `xylella-fastidiosa-spread/` — what GBIF's 1,170 *Xylella fastidiosa* records do
   and don't tell us about spread.
+
+## Charts
+
+Figures are drawn in R with ggplot2 using a shared theme in `R/theme_pps.R`.
+
+Colours are not chosen by eye. They come from a validated categorical palette
+and were checked with a validator for lightness band, chroma floor,
+colour-vision-deficiency separation, normal-vision separation and contrast. The
+earlier hand-picked palette failed two hard checks: two hues read as gray, and
+the green/slate pair sat at deltaE 12 in normal vision, below the 15 floor,
+meaning even full-colour-vision readers struggled to tell them apart.
+
+Run order for any project: Python first (fetches data, writes result tables),
+then R (renders the figures).
+
+```bash
+../.venv/bin/python code/fetch_*.py
+../.venv/bin/python code/analyze.py
+Rscript code/figures.R
+```
