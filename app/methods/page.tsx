@@ -22,13 +22,13 @@ export default function MethodsPage() {
               Methods That Travel
             </p>
             <h1 className="text-4xl sm:text-5xl font-bold text-foreground mb-4">
-              A model is only as good as the second problem it solves
+              Methods built for one problem, tested on another
             </h1>
             <p className="text-lg text-muted-foreground leading-relaxed">
-              Each case study takes a statistical model I built for my own research,
-              explains the problem it solved, then points the same method at a public
-              dataset in a different field. If it only works on the data it was written
-              for, it was never really a method.
+              Each case study starts with a statistical method I built for my own
+              research: the problem it had to solve, how it works in plain terms, and
+              what it answered. Then I point the same method at public data from a
+              different field, to see whether it still holds up.
             </p>
           </div>
         </div>
