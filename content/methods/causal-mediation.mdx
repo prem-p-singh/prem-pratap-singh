@@ -1,7 +1,7 @@
 ---
-title: "When Two Things Go Wrong at Once, Which One Did the Damage?"
+title: "Is It the Heat, or the Virus?"
 date: "2026-08-04"
-description: "Hot seasons make grapevine virus damage worse, but I needed to know whether the heat was acting through the virus or beside it. The same calculation, applied to sixty years of farming data, answers a different question: has the world grown more food by using more land, or by getting more from the same land?"
+description: "Hot summers make virus damage worse in wine grapes. But is the heat hurting the vine, or is it feeding the virus? I used a method that splits the blame between two causes, then tried the same method on sixty years of farming data."
 method: "Causal mediation"
 origin: "Grapevine Red Blotch Virus transcriptomics, UC Davis"
 paperUrl: "https://github.com/prem-p-singh/GRBV-Transcriptomics-Analysis"
@@ -11,17 +11,17 @@ codePath: "data-interpretations/methods-causal-mediation"
 tags: ["causal mediation", "statistical modeling", "R", "FAOSTAT"]
 keyStats:
   - value: "62%"
-    label: "Ran through the virus"
-    note: "Of heat's effect on the vine's heat-defence gene"
+    label: "Blame on the virus"
+    note: "Of the heat damage went through the virus"
   - value: "97%"
     label: "Sugarcane"
-    note: "Of its growth came from more land"
+    note: "Grew by taking more land, not better yields"
   - value: "0%"
     label: "Wheat"
-    note: "None did. Its farmland actually shrank."
+    note: "Grew on less land than in 1961"
   - value: "2,000"
     label: "Repeat runs"
-    note: "Behind every uncertainty range"
+    note: "To check how solid each number is"
 toolkit:
   - "R"
   - "Causal mediation"
@@ -31,85 +31,89 @@ toolkit:
   - "FAOSTAT bulk data"
 ---
 
-Two things go wrong at the same time, and you need to know which one caused the harm.
+A hot summer makes red blotch virus much worse for wine grapes. Everyone in the field knows this.
 
-There is a method for exactly this. It takes an effect you can measure and splits it in two: the part that travels **through** something in the middle, and the part that goes around it.
+Nobody could say why.
 
-## The problem I had
+## The problem
 
-Grapevine Red Blotch Virus damages wine grapes, and hot seasons make that damage worse. The question was why.
+There are two suspects, and they point to opposite solutions.
 
-Two explanations were possible, and they call for opposite responses:
+**Suspect one: the heat feeds the virus.** Warm weather lets the virus multiply, and the extra virus damages the vine. If this is right, you go after the virus.
 
-1. Heat makes the virus multiply faster, and the extra virus harms the vine. **Then you manage the virus.**
-2. Heat harms the vine directly, and the virus is just along for the ride. **Then you manage the heat.**
+**Suspect two: the heat hurts the vine directly.** The virus is present but not really involved. If this is right, you go after the heat, with shade, irrigation, or different sites.
 
-Measuring temperature, virus levels and the vine's response separately cannot tell these apart. You need a method that asks how much of one effect passes through the other.
+You cannot tell these apart by measuring temperature, virus levels and vine damage one at a time. All three go up together in a hot year, no matter which suspect is guilty.
 
-## How the method works
+## How I worked it out
 
-The idea is simpler than the name suggests.
+The method is a blame-splitter. It asks how much of the heat damage travels *through* the virus, and how much goes straight to the vine.
 
-First, I check how strongly heat moves the middle thing, which here is the amount of virus in the vine. Then I check how much that virus level explains the vine's response, once heat is already accounted for. Multiply those two together and you get the part of the effect that travels through the virus. Whatever is left over is the part that does not.
+It works in two steps:
 
-One practical detail matters. That "multiply two things together" step makes the uncertainty lopsided, so the usual error bars do not apply. Instead, I re-ran the whole calculation on 2,000 resampled copies of the data and took the range of answers. It is a slower way to get a confidence interval, and a more honest one here.
+1. **Does heat actually raise the virus level?** If hot years do not mean more virus, suspect one is already dead.
+2. **Does the virus level explain the vine's damage, once you have already accounted for the heat?** If it does, the virus is genuinely carrying some of the harm.
 
-## What it answered
+Multiply those two steps together and you get the share of the damage running through the virus. Whatever is left is the heat acting alone.
 
-Across the genes I tested, 39 showed heat acting through the virus after correcting for the fact that testing thousands of genes will throw up false positives by chance.
+I also needed to know how solid that number was. So I re-ran the entire calculation 2,000 times, each time on a slightly reshuffled version of the data, and looked at how much the answer moved. If it stays put across 2,000 runs, it is probably real.
 
-The strongest was a gene the vine needs in order to switch on its heat defences. **About 62% of heat's effect on that gene travelled through the virus.**
+## The answer
 
-That number changed how I read the whole system. The virus is not sitting beside the heat damage. It carries most of it, and it does so by interfering with the machinery the vine would otherwise use to cope with heat. On this reading, the vine does not fail because the heat is too strong. It fails because the infection stops it responding to heat normally.
+**About 62% of the heat damage travelled through the virus.**
 
-I should be careful here. This is a strong statistical signal in one system, and it still needs testing at the bench before anyone treats it as settled.
+Out of all the genes I tested, 39 showed this pattern clearly. The strongest was a gene the vine uses to switch on its own heat protection.
 
-## The same method, somewhere completely different
+That flips the story. The virus is not a bystander in a hot year. It is carrying most of the harm, and it does it by jamming the vine's heat defences. The vine is not losing because the summer is too hot. It is losing because the infection stops it from coping with a hot summer.
 
-If a method only works on the data it was built for, it is not much of a method. So here is the identical calculation pointed at public farming data.
+That said, this is one statistical result in one system. It points the wet-lab work in a clear direction, and it is not settled until that work is done.
 
-The world grows far more food now than in 1961. Two things could explain that: **more farmland**, or **more food from the same farmland**. The difference matters, because clearing new land usually costs habitat while raising yield does not.
+## Now try it on farming
 
-That is the same shape of question:
+A method that only works on the data it was built for is not worth much. So I pointed the same blame-splitter at something completely unrelated.
 
-| | Grapevine study | Farming data |
+The world grows far more food than it did in 1961. There are two ways that could have happened: **we farm more land**, or **we get more from each field**. The difference matters, because new farmland usually comes out of forest and habitat.
+
+Same shape of question, different suspects:
+
+| | Grapevine | Farming |
 |---|---|---|
-| What starts it | Season temperature | Passing years |
-| The middle thing | Virus level in the vine | Area of farmland |
-| What comes out | The vine's response | Food produced |
+| The cause | Hot season | Passing years |
+| The go-between | Virus level | Amount of farmland |
+| The result | Damage to the vine | Food produced |
 
-![Dot plot showing the share of production growth that came through more farmland, for six crops, with uncertainty ranges](/methods/causal-mediation/proportion_mediated.png)
-
-<Takeaway>
-Sugarcane grew almost entirely by taking more land: 97% of its production increase ran through farmland expansion. Rice is the opposite at 13%. Maize sits in between at 73%.
-</Takeaway>
-
-Rice is worth pausing on. World rice production has roughly quadrupled since 1961 with only a modest increase in land, which is why its share comes out so low. That is the Green Revolution showing up in the arithmetic.
-
-## Where the method breaks
-
-Four crops returned a share outside 0 to 100%, which cannot be a share of anything.
-
-My first guess was that the maths was struggling because years and farmland move together too closely to separate. **That guess was wrong.** Sugarcane's two measures track each other almost perfectly and the answer is fine; tomato's track each other just as closely and the answer is not. So I looked at what the two quantities were actually doing.
-
-![Scatter plot of farmland growth against production growth since 1961, showing three patterns](/methods/causal-mediation/growth_regimes.png)
+![Dot plot showing the share of production growth that came from more farmland, for six crops](/methods/causal-mediation/proportion_mediated.png)
 
 <Takeaway>
-Wheat, potato and barley now use less farmland than in 1961 while producing more food. Their share goes negative because the land route works against the total rather than with it.
+Sugarcane grew almost entirely by taking more land, at 97%. Rice barely used extra land at all, at 13%. Maize sits between them at 73%.
 </Takeaway>
 
-Three real patterns sit behind those numbers:
+Rice is the standout. Production has roughly quadrupled since 1961 on only a little more land, which is the Green Revolution showing up in plain arithmetic.
 
-- **Land shrank and yield did the work.** Wheat, potato, barley. More food from less ground, which is the best outcome on that chart.
-- **Land and yield both contributed.** Sugarcane, maize, cassava, banana, rice. The share means what it appears to mean.
-- **Land grew faster than output.** Soybean and tomato, where farmland expanded so much that the yield side turns negative once land is accounted for.
+## Where it goes wrong
 
-Reporting these rather than quietly dropping them is the point. A share that lands outside its own limits is the method telling you the summary number no longer applies, and the honest response is to show what the underlying quantities are doing instead.
+Four crops came back with a share above 100% or below zero. Neither is possible for a share.
 
-## What this does not claim
+My first guess was that years and farmland move together too closely for the method to separate them. **That guess was wrong.** Sugarcane's two measures track each other almost perfectly and its answer is fine. Tomato's track each other just as closely and its answer is not. So I went and looked at what the numbers were actually doing.
 
-Years are not a treatment anyone assigned, so this splits up an observed trend rather than proving cause. The method also assumes nothing unmeasured is driving both the middle thing and the outcome, and in the farming case that assumption plainly fails, since fertiliser, irrigation and breeding all changed over the same period. World totals also hide a great deal, because a crop expanding on one continent and retreating on another appears here as one blended number.
+![Scatter plot of farmland growth against production growth since 1961](/methods/causal-mediation/growth_regimes.png)
 
-The grapevine version rests on firmer ground, since temperature there varied across a controlled sampling design rather than drifting along with history.
+<Takeaway>
+Wheat, potato and barley grow more food today on less land than in 1961. The share goes negative because farmland moved the opposite way to production.
+</Takeaway>
 
-What I take from both is the same. This method tells you how an effect divides, once you have argued on other grounds for which thing comes first. It will never supply that ordering for you, and the interesting question in the farming case is whether the pattern holds when you break the world totals apart by region.
+Three real situations sit behind those odd numbers:
+
+- **Less land, more food.** Wheat, potato, barley. The best outcome on the chart.
+- **Both mattered.** Sugarcane, maize, cassava, banana, rice. Here the share means what it looks like.
+- **Land grew faster than food.** Soybean and tomato, where farmland expanded so fast the yield side turns negative.
+
+I report these instead of dropping them because an impossible share is useful information. It is the method saying the single summary number no longer fits, and the right response is to show what the underlying numbers are doing.
+
+## What this does not prove
+
+Nobody assigned the years, so the farming version splits up a trend rather than proving cause. It also assumes nothing unmeasured is pushing both farmland and food output, and that plainly fails here, since fertiliser, irrigation and breeding all changed over the same period. World totals hide a lot too, because a crop growing on one continent and shrinking on another shows up as a single blended number.
+
+The grapevine version stands on firmer ground, since the temperature there varied across a planned sampling design rather than drifting along with history.
+
+What I take from both is the same thing. This method tells you how blame divides between two causes, but only after you have decided, on other grounds, which one comes first. It will never work that ordering out for you. For the farming question, the thing I would check next is whether the pattern still holds once you split the world totals by region.
