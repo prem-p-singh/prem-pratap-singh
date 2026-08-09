@@ -6,6 +6,7 @@ import { getPostBySlug, getAllSlugs, getAllPosts } from "@/lib/mdx";
 import { MDXRemote } from "next-mdx-remote/rsc";
 import { useMDXComponents } from "@/mdx-components";
 import remarkMath from "remark-math";
+import remarkGfm from "remark-gfm";
 import rehypeKatex from "rehype-katex";
 import "katex/dist/katex.min.css";
 import ClapButton from "@/components/blog/ClapButton";
@@ -203,7 +204,7 @@ export default async function BlogPostPage({ params }: Props) {
               components={components}
               options={{
                 mdxOptions: {
-                  remarkPlugins: [remarkMath],
+                  remarkPlugins: [remarkMath, remarkGfm],
                   rehypePlugins: [rehypeKatex],
                 },
               }}

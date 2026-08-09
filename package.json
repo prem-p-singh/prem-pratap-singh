@@ -28,6 +28,7 @@
     "react-dom": "19.2.3",
     "reading-time": "^1.5.0",
     "rehype-katex": "^7.0.1",
+    "remark-gfm": "^4.0.1",
     "remark-math": "^6.0.0",
     "tailwind-merge": "^3.5.0"
   },

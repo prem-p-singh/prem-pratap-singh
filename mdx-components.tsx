@@ -47,6 +47,26 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
         {children}
       </blockquote>
     ),
+    // Tables come from remark-gfm. Wrapped so wide tables scroll inside their
+    // own container instead of forcing the page to scroll sideways.
+    table: ({ children }) => (
+      <div className="not-prose my-6 overflow-x-auto rounded-xl border border-border">
+        <table className="w-full text-sm border-collapse">{children}</table>
+      </div>
+    ),
+    thead: ({ children }) => <thead className="bg-muted/60">{children}</thead>,
+    tbody: ({ children }) => (
+      <tbody className="divide-y divide-border">{children}</tbody>
+    ),
+    tr: ({ children }) => <tr>{children}</tr>,
+    th: ({ children }) => (
+      <th className="px-4 py-2.5 text-left text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+        {children}
+      </th>
+    ),
+    td: ({ children }) => (
+      <td className="px-4 py-3 text-foreground/90 align-top">{children}</td>
+    ),
     ...components,
   };
 }

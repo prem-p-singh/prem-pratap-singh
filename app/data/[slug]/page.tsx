@@ -5,6 +5,7 @@ import { getDataPostBySlug, getAllDataSlugs } from "@/lib/data";
 import { MDXRemote } from "next-mdx-remote/rsc";
 import { useMDXComponents } from "@/mdx-components";
 import remarkMath from "remark-math";
+import remarkGfm from "remark-gfm";
 import rehypeKatex from "rehype-katex";
 import "katex/dist/katex.min.css";
 import { KeyStats, MythReality, Takeaway, Methods } from "@/components/data/DataBlocks";
@@ -133,7 +134,7 @@ export default async function DataReportPage({ params }: Props) {
             <MDXRemote
               source={post.content}
               components={{ ...components, KeyStats, MythReality, Takeaway, Methods, PathogenTable }}
-              options={{ mdxOptions: { remarkPlugins: [remarkMath], rehypePlugins: [rehypeKatex] } }}
+              options={{ mdxOptions: { remarkPlugins: [remarkMath, remarkGfm], rehypePlugins: [rehypeKatex] } }}
             />
           </div>
 
