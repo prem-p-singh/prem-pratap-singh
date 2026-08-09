@@ -1,0 +1,118 @@
+---
+title: "Splitting an Effect in Two: How Much Runs Through the Middle?"
+date: "2026-08-04"
+description: "In my grapevine work I needed to know how much of heat's damage travelled through the virus itself. The same estimator, pointed at 60 years of FAO data, answers a different question: how much of the world's extra food came from more land rather than better yields."
+method: "Causal mediation"
+origin: "Grapevine Red Blotch Virus transcriptomics, UC Davis"
+paperUrl: "https://github.com/prem-p-singh/GRBV-Transcriptomics-Analysis"
+paperLabel: "GRBV analysis repository (manuscript in preparation)"
+reappliedTo: "FAOSTAT world crop production, 1961-2023"
+codePath: "data-interpretations/methods-causal-mediation"
+tags: ["causal mediation", "statistical modeling", "R", "bootstrap", "FAOSTAT"]
+keyStats:
+  - value: "61.8%"
+    label: "Mediated in my study"
+    note: "Of heat's effect on MBF1c, carried by viral titer"
+  - value: "97%"
+    label: "Sugarcane"
+    note: "Of production growth came from more land"
+  - value: "0%"
+    label: "Wheat"
+    note: "None did. Its land actually shrank."
+  - value: "2,000"
+    label: "Bootstrap samples"
+    note: "For every confidence interval"
+toolkit:
+  - "R"
+  - "Causal mediation"
+  - "Bootstrap inference"
+  - "Linear modeling"
+  - "ggplot2"
+  - "FAOSTAT bulk data"
+---
+
+Two things happen at once and you want to know which one did the damage.
+
+That is the question mediation analysis answers. It takes an effect you can measure and splits it into the part that runs **through** something in the middle, and the part that goes around it.
+
+## The problem I had
+
+Grapevine Red Blotch Virus damages wine grapes, and hot seasons make the damage worse. But *why* do hot seasons make it worse?
+
+There were two possibilities, and they call for opposite responses:
+
+1. Heat drives the virus to replicate harder, and the extra virus harms the vine. **Then you manage the virus.**
+2. Heat harms the vine directly, and the virus is a bystander in that pathway. **Then you manage the heat.**
+
+Measuring temperature, viral load and gene expression separately cannot separate these. You need a model that asks how much of one effect passes through the other.
+
+## The method
+
+Mediation splits a total effect into two routes using two regressions:
+
+```
+mediator model:   M ~ X          how much X moves the middle thing
+outcome model:    Y ~ X + M      what each contributes to the outcome
+```
+
+The **indirect effect** is `a × b`, the product of those two paths, and it is the part that travels through the mediator. The **direct effect** is what remains on X once the mediator is in the model. Their ratio gives the proportion mediated.
+
+One detail matters: a product of two estimates has a skewed sampling distribution, so a standard error is the wrong tool for the confidence interval. I use a nonparametric bootstrap instead, resampling the data 2,000 times and taking percentiles of the resulting distribution.
+
+## What it answered
+
+Running that sweep across the 2,000 most variable genes returned 39 genes where temperature acted through viral titer at a joint false discovery rate below 0.05.
+
+The strongest was **MBF1c**, a co-activator the vine needs to switch on its heat-shock response. **61.8% of temperature's effect on that gene ran through viral titer** (joint p = 4.8 × 10⁻¹¹).
+
+That number changed the interpretation. The virus is not sitting beside the heat damage, it is carrying most of it, and it does so by interfering with the machinery that would otherwise mount a heat response. The vine does not fail because heat is too strong. It fails because infection stops it from responding to heat normally.
+
+## Now the same method, on public data
+
+A method that only works on the dataset it was written for is not a method. So here is the identical estimator, pointed somewhere completely different.
+
+The world grows far more food than it did in 1961. Two things could explain that: **more land**, or **better yield from the same land**. The distinction matters enormously, because land expansion generally means clearing habitat while yield gains do not.
+
+That is a mediation question with the same shape as mine:
+
+| | Grapevine study | FAO data |
+|---|---|---|
+| Exposure (X) | Season temperature | Year |
+| Mediator (M) | Viral titer | Area harvested |
+| Outcome (Y) | Gene expression | Production |
+
+![Dot plot showing the share of production growth mediated by area harvested for six crops, with bootstrap intervals](/methods/causal-mediation/proportion_mediated.png)
+
+<Takeaway>
+Sugarcane's growth is almost entirely land: 97% of the rise in production ran through expanding area. Rice is the opposite, at 13%. Maize sits at 73%.
+</Takeaway>
+
+Rice is the quiet success story here. World rice production has roughly quadrupled since 1961 with only a small increase in land, because the mediated share is low. That is the Green Revolution appearing in a decomposition.
+
+## Where the method breaks, and why that matters
+
+Four crops returned a proportion outside 0–100%, which is not a valid share of anything.
+
+My first guess was collinearity, since year and area move together. **That guess was wrong.** Sugarcane has a year-area correlation of 0.989 and behaves perfectly well; tomato has 0.990 and does not. So I checked what was actually happening to the two quantities.
+
+![Scatter of area growth against production growth since 1961, showing three regimes](/methods/causal-mediation/growth_regimes.png)
+
+<Takeaway>
+Wheat, potato and barley now use less land than in 1961 while producing more. Their mediated share goes negative because the land pathway works against the total, not with it.
+</Takeaway>
+
+The three regimes are real, not artefacts:
+
+- **Land shrank, yield did everything.** Wheat, potato, barley. Producing more from less ground, which is the best outcome on this chart.
+- **Land and yield both contributed.** Sugarcane, maize, cassava, banana, rice. The proportion is meaningful here.
+- **Land grew faster than output.** Soybean and tomato, where area expanded so aggressively that the yield pathway turns negative once area is controlled for.
+
+Reporting these rather than dropping them is the point. A proportion outside its own bounds is the model telling you the summary statistic no longer applies, and the honest response is to show the underlying quantities instead of quietly deleting the rows.
+
+## What this does not claim
+
+- Year is not a treatment anyone assigned. This is a decomposition of observational trends, not a randomised experiment, so it describes how the association partitions rather than proving causation.
+- Mediation assumes no unmeasured confounder of the mediator and the outcome. In the FAO case that assumption is certainly violated: fertiliser, irrigation and crop genetics all move together with both.
+- World totals hide enormous regional variation. A crop that expanded in one continent while contracting in another shows up here as a single blended number.
+
+The grapevine version rests on firmer ground, because temperature there varied by season across a controlled sampling design rather than drifting with history. But the caveat holds in both: mediation quantifies how an effect divides, given a causal ordering you have argued for on other grounds. It never supplies that ordering for you.

@@ -1,0 +1,10 @@
+{
+  "crops": 10,
+  "years": "1961-2023",
+  "bootstrap_samples": 2000,
+  "most_land_driven": "Tomato",
+  "most_land_pct": 130.4,
+  "most_yield_driven": "Barley",
+  "most_yield_pct": 289.3,
+  "median_prop_mediated": 54.2
+}

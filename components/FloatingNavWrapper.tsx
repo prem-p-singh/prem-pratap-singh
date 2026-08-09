@@ -13,6 +13,7 @@ const navItems = [
   { name: "Projects", link: "/#projects" },
   { name: "Blog", link: "/blog" },
   { name: "Data", link: "/data" },
+  { name: "Methods", link: "/methods" },
   { name: "Journey", link: "/journey" },
   { name: "Contact", link: "/#contact" },
 ];
