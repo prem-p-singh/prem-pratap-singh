@@ -24,9 +24,7 @@ export default function JourneyPage() {
             A Research Journey
           </h1>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto leading-relaxed">
-            From a Botany gold medal at Banaras Hindu University to grapevine
-            virology at UC Davis. A decade of building things that work at the
-            bench and in code.
+            From botany in Varanasi to grapevine virology in California.
           </p>
         </div>
       </section>
@@ -42,11 +40,6 @@ export default function JourneyPage() {
             <h2 className="mt-3 text-3xl font-bold text-foreground">
               The work kept accumulating
             </h2>
-            <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
-              Publications and citations are not the journey itself, but they
-              show how often the work has travelled beyond the lab where it
-              began.
-            </p>
           </div>
           <JourneyImpact />
         </div>
@@ -58,12 +51,7 @@ export default function JourneyPage() {
           <ShinyCard className="p-8 sm:p-10" duration={6000}>
             <blockquote className="text-center">
               <p className="text-lg text-foreground leading-relaxed mb-4">
-                None of this happened alone. Every step forward was possible
-                because mentors trusted me enough to open their labs and let me
-                learn, work, fail, and improve. Not only my postgraduate
-                teachers, Ph.D. guide, and postdoctoral mentors, but every
-                person who let me into their lab environment and believed I
-                could contribute.
+                Every chapter was made possible by mentors, collaborators, and lab communities that opened their doors.
               </p>
               <p className="text-base font-semibold text-foreground">
                 I remain deeply grateful.

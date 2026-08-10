@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { Database, Sprout, Target } from "lucide-react";
 import type { Project } from "@/components/ProjectCard";
 
 const tones = [
@@ -51,6 +52,7 @@ export default function ProjectCaseFiles({ projects }: { projects: Project[] }) 
         const open = openIndex === index;
         const tone = tones[index % tones.length];
         const panelId = `project-case-${index}`;
+        const dataRoute = project.tech.slice(0, 2).join(" + ");
 
         return (
           <article
@@ -70,18 +72,37 @@ export default function ProjectCaseFiles({ projects }: { projects: Project[] }) 
                 </span>
               </div>
 
-              <div className="mt-7">
-                {project.resultStat && (
-                  <p className={`text-3xl font-bold tracking-tight ${tone.stat}`}>
-                    {project.resultStat}
-                  </p>
-                )}
-                <h3 className="mt-3 text-xl font-bold leading-snug text-foreground">
+              <div className="mt-6">
+                <h3 className="text-xl font-bold leading-snug text-foreground">
                   {project.title}
                 </h3>
-                <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
-                  {project.question || project.description}
-                </p>
+                <div className="mt-5 grid items-stretch gap-2 sm:grid-cols-[1fr_auto_1fr_auto_1fr] sm:items-center" aria-label="Crop question to research result">
+                  <div className="flex min-h-28 flex-col justify-between rounded-2xl border border-emerald-400/25 bg-emerald-400/[0.07] p-3">
+                    <Sprout className="size-5 text-emerald-600 dark:text-emerald-300" aria-hidden="true" />
+                    <div className="mt-4">
+                      <p className="text-[9px] font-semibold uppercase tracking-[0.16em] text-muted-foreground">Crop context</p>
+                      <p className="mt-1 text-xs font-bold leading-tight text-foreground">{project.category || "Plant system"}</p>
+                    </div>
+                  </div>
+                  <span className="hidden text-center text-muted-foreground/40 sm:block" aria-hidden="true">→</span>
+                  <div className="flex min-h-28 flex-col justify-between rounded-2xl border border-sky-400/25 bg-sky-400/[0.07] p-3">
+                    <Database className="size-5 text-sky-600 dark:text-sky-300" aria-hidden="true" />
+                    <div className="mt-4">
+                      <p className="text-[9px] font-semibold uppercase tracking-[0.16em] text-muted-foreground">Data route</p>
+                      <p className="mt-1 text-xs font-bold leading-tight text-foreground">{dataRoute}</p>
+                    </div>
+                  </div>
+                  <span className="hidden text-center text-muted-foreground/40 sm:block" aria-hidden="true">→</span>
+                  <div className={`flex min-h-28 flex-col justify-between rounded-2xl border ${tone.border} bg-background/60 p-3`}>
+                    <Target className={`size-5 ${tone.stat}`} aria-hidden="true" />
+                    <div className="mt-4">
+                      <p className="text-[9px] font-semibold uppercase tracking-[0.16em] text-muted-foreground">Crop value</p>
+                      <p className={`mt-1 text-lg font-black leading-tight ${tone.stat}`}>
+                        {project.resultStat || "Evidence"}
+                      </p>
+                    </div>
+                  </div>
+                </div>
               </div>
 
               <button
@@ -91,7 +112,7 @@ export default function ProjectCaseFiles({ projects }: { projects: Project[] }) 
                 onClick={() => setOpenIndex(open ? null : index)}
                 className="mt-6 inline-flex w-full items-center justify-between rounded-xl border border-border bg-background/60 px-4 py-3 text-left text-sm font-semibold text-foreground transition-colors hover:bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground/40"
               >
-                <span>{open ? "Close case file" : "Reveal the case file"}</span>
+                <span>{open ? "Close details" : "Open details"}</span>
                 <span className={`text-lg transition-transform ${open ? "rotate-45" : ""}`} aria-hidden="true">
                   +
                 </span>
@@ -105,17 +126,28 @@ export default function ProjectCaseFiles({ projects }: { projects: Project[] }) 
                 <div className="space-y-5">
                   <div>
                     <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-muted-foreground">
-                      The experiment
+                      Crop question
                     </p>
                     <p className="mt-2 text-sm leading-relaxed text-foreground/85">
-                      {project.description}
+                      {project.question || project.description}
                     </p>
                   </div>
+
+                  {project.question && (
+                    <div>
+                      <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-muted-foreground">
+                        Study design
+                      </p>
+                      <p className="mt-2 text-sm leading-relaxed text-foreground/85">
+                        {project.description}
+                      </p>
+                    </div>
+                  )}
 
                   {project.impact && (
                     <div className="rounded-2xl border border-border bg-background/60 p-4">
                       <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-muted-foreground">
-                        What changed
+                        Data → crop value
                       </p>
                       <p className="mt-2 text-sm leading-relaxed text-foreground/90">
                         {project.impact}
@@ -125,7 +157,7 @@ export default function ProjectCaseFiles({ projects }: { projects: Project[] }) 
 
                   <div>
                     <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-muted-foreground">
-                      Skills and tools
+                      Working toolkit
                     </p>
                     <div className="mt-2 flex flex-wrap gap-1.5">
                       {[...(project.skills ?? []), ...project.tech].map((item) => (

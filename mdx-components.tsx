@@ -1,6 +1,6 @@
 import type { MDXComponents } from "mdx/types";
 
-export function useMDXComponents(components: MDXComponents): MDXComponents {
+export function getMDXComponents(components: MDXComponents): MDXComponents {
   return {
     h1: ({ children }) => (
       <h1 className="text-3xl font-bold mt-8 mb-4 text-foreground">{children}</h1>
@@ -12,7 +12,7 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
       <h3 className="text-xl font-semibold mt-4 mb-2 text-foreground">{children}</h3>
     ),
     p: ({ children }) => (
-      <p className="mb-4 leading-relaxed text-foreground/90 text-justify">{children}</p>
+      <p className="mb-4 leading-relaxed text-foreground/90 text-left">{children}</p>
     ),
     ul: ({ children }) => (
       <ul className="list-disc pl-6 mb-4 space-y-1">{children}</ul>
@@ -69,4 +69,8 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
     ),
     ...components,
   };
+}
+
+export function useMDXComponents(components: MDXComponents): MDXComponents {
+  return getMDXComponents(components);
 }

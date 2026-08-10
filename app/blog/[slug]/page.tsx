@@ -4,7 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { getPostBySlug, getAllSlugs, getAllPosts } from "@/lib/mdx";
 import { MDXRemote } from "next-mdx-remote/rsc";
-import { useMDXComponents } from "@/mdx-components";
+import { getMDXComponents } from "@/mdx-components";
 import remarkMath from "remark-math";
 import remarkGfm from "remark-gfm";
 import rehypeKatex from "rehype-katex";
@@ -83,7 +83,7 @@ export default async function BlogPostPage({ params }: Props) {
     day: "numeric",
   });
 
-  const components = useMDXComponents({});
+  const components = getMDXComponents({});
 
   const articleJsonLd = {
     "@context": "https://schema.org",
@@ -133,7 +133,7 @@ export default async function BlogPostPage({ params }: Props) {
           {/* Tags */}
           {post.tags && post.tags.length > 0 && (
             <div className="flex flex-wrap gap-2 mb-4">
-              {post.tags.map((tag) => (
+              {post.tags.slice(0, 3).map((tag) => (
                 <span
                   key={tag}
                   className="px-3 py-1 text-xs font-medium bg-primary/10 text-primary rounded-full"
@@ -141,6 +141,11 @@ export default async function BlogPostPage({ params }: Props) {
                   {tag}
                 </span>
               ))}
+              {post.tags.length > 3 && (
+                <span className="px-3 py-1 text-xs font-medium text-muted-foreground">
+                  +{post.tags.length - 3}
+                </span>
+              )}
             </div>
           )}
 
@@ -183,7 +188,7 @@ export default async function BlogPostPage({ params }: Props) {
       {/* Content */}
       <section className="py-12">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="prose prose-lg prose-invert max-w-none text-justify
+          <div className="prose prose-lg prose-invert max-w-none text-left
             prose-headings:font-bold prose-headings:tracking-tight prose-headings:text-left
             prose-h2:text-2xl prose-h2:mt-12 prose-h2:mb-4 prose-h2:pb-2 prose-h2:border-b prose-h2:border-border
             prose-h3:text-xl prose-h3:mt-8 prose-h3:mb-3

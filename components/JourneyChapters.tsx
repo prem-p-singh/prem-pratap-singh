@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { ArrowRight, BrainCircuit, MapPin } from "lucide-react";
 
 type Chapter = {
   id: string;
@@ -23,10 +24,8 @@ const chapters: Chapter[] = [
     title: "Learn the whole plant",
     place: "Banaras Hindu University · Varanasi, India",
     prompt: "Botany first. Specialization second.",
-    story:
-      "A B.Sc. in Botany built the foundation in plant science. The M.Sc. then connected plant pathology, microbial genetics, biotechnology, and ecology—and ended with the Prof. R. S. Ambasht Gold Medal.",
-    thread:
-      "The lasting lesson was to understand the system around a disease before narrowing the experiment.",
+    story: "Botany expanded into plant pathology, microbial genetics, biotechnology, and ecology—and a gold medal.",
+    thread: "Understand the whole system first.",
     markers: ["B.Sc. Botany", "M.Sc. Gold Medal", "First paper in 2016"],
     activeClass: "border-emerald-400/60 bg-emerald-400/[0.08]",
     numberClass: "bg-emerald-400/15 text-emerald-700 dark:text-emerald-300",
@@ -38,10 +37,8 @@ const chapters: Chapter[] = [
     title: "Build it, then explain it",
     place: "Banaras Hindu University · Varanasi, India",
     prompt: "From plant chemistry to food safety.",
-    story:
-      "The Ph.D. focused on plant-based formulations against toxin-producing foodborne molds. Formulation, antimicrobial assays, microscopy, gene expression, docking, and simulation became parts of the same mechanism question.",
-    thread:
-      "Wet-lab evidence and computation stopped being separate skills and became one reproducible workflow.",
+    story: "A plant-based formulation was tested from antimicrobial assay to molecular simulation.",
+    thread: "Bench and computation became one workflow.",
     markers: ["Ph.D. Plant Pathology", "6 first-author papers", "Mentored 5+ researchers"],
     activeClass: "border-amber-400/60 bg-amber-400/[0.08]",
     numberClass: "bg-amber-400/15 text-amber-700 dark:text-amber-300",
@@ -53,10 +50,8 @@ const chapters: Chapter[] = [
     title: "Scale the question to vineyards",
     place: "University of California, Davis · Davis, California",
     prompt: "Follow disease from a berry to a block.",
-    story:
-      "The postdoctoral work moved into commercial vineyards: leading laboratory and computational work across more than ten blocks, building reusable sequencing pipelines, and validating diagnostics for Grapevine Red Blotch Virus.",
-    thread:
-      "The scale changed, but the loop stayed the same: observe, measure, model, and return the result to a real decision.",
+    story: "Commercial vineyards became the laboratory for diagnostics, sequencing, and GRBV modeling.",
+    thread: "Observe, measure, model, decide.",
     markers: ["300+ samples", "1.3B+ sequencing reads", "10+ vineyard blocks"],
     activeClass: "border-violet-400/60 bg-violet-400/[0.08]",
     numberClass: "bg-violet-400/15 text-violet-700 dark:text-violet-300",
@@ -68,10 +63,8 @@ const chapters: Chapter[] = [
     title: "Make scientific judgment the subject",
     place: "Handshake AI · Remote",
     prompt: "What makes an explanation scientifically reliable?",
-    story:
-      "As a MOVE Fellow and part-time AI trainer, the work turns toward evaluating biological reasoning: checking answers against published research, writing reference responses, and documenting recurring failure patterns.",
-    thread:
-      "The same habit used at the bench—separating evidence from confidence—now helps test how AI systems reason about biology.",
+    story: "Biological reasoning is checked against published evidence to expose recurring AI failure patterns.",
+    thread: "Separate evidence from confidence.",
     markers: ["MOVE Fellow", "Biology-domain evaluation", "Scientific reasoning"],
     activeClass: "border-sky-400/60 bg-sky-400/[0.08]",
     numberClass: "bg-sky-400/15 text-sky-700 dark:text-sky-300",
@@ -97,8 +90,28 @@ export default function JourneyChapters() {
             </h2>
           </div>
           <p className="max-w-md text-sm leading-relaxed text-muted-foreground">
-            Choose a chapter to see what changed—and what stayed consistent as the questions grew.
+            Choose a chapter.
           </p>
+        </div>
+
+        <div className="mt-8 grid grid-cols-[1fr_auto_1fr_auto_1fr] items-center gap-3 rounded-3xl border border-border bg-card p-5 sm:p-6">
+          <div className="text-center">
+            <MapPin className="mx-auto size-6 text-emerald-600 dark:text-emerald-300" strokeWidth={1.7} aria-hidden="true" />
+            <p className="mt-2 text-sm font-bold text-foreground">Varanasi</p>
+            <p className="text-xs text-muted-foreground">2012</p>
+          </div>
+          <ArrowRight className="size-5 text-muted-foreground/50" aria-hidden="true" />
+          <div className="text-center">
+            <MapPin className="mx-auto size-6 text-violet-600 dark:text-violet-300" strokeWidth={1.7} aria-hidden="true" />
+            <p className="mt-2 text-sm font-bold text-foreground">Davis</p>
+            <p className="text-xs text-muted-foreground">2023</p>
+          </div>
+          <ArrowRight className="size-5 text-muted-foreground/50" aria-hidden="true" />
+          <div className="text-center">
+            <BrainCircuit className="mx-auto size-6 text-sky-600 dark:text-sky-300" strokeWidth={1.7} aria-hidden="true" />
+            <p className="mt-2 text-sm font-bold text-foreground">Scientific AI</p>
+            <p className="text-xs text-muted-foreground">2025</p>
+          </div>
         </div>
 
         <div className="mt-10 grid gap-6 lg:grid-cols-[0.82fr_1.18fr]">
@@ -163,11 +176,9 @@ export default function JourneyChapters() {
               ))}
             </div>
 
-            <div className="mt-8 rounded-2xl border border-border bg-background/60 p-5">
-              <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-muted-foreground">
-                The thread that continued
-              </p>
-              <p className="mt-2 text-sm leading-relaxed text-foreground/90">{active.thread}</p>
+            <div className="mt-8 flex items-center gap-3 rounded-2xl border border-border bg-background/60 p-5">
+              <span className={`size-2.5 shrink-0 rounded-full ${active.lineClass}`} />
+              <p className="text-sm font-semibold text-foreground">The constant: {active.thread}</p>
             </div>
           </article>
         </div>

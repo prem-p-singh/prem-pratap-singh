@@ -3,7 +3,7 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import { getMethodPostBySlug, getAllMethodSlugs } from "@/lib/methods";
 import { MDXRemote } from "next-mdx-remote/rsc";
-import { useMDXComponents } from "@/mdx-components";
+import { getMDXComponents } from "@/mdx-components";
 import remarkMath from "remark-math";
 import remarkGfm from "remark-gfm";
 import rehypeKatex from "rehype-katex";
@@ -47,7 +47,7 @@ export default async function MethodPage({ params }: Props) {
   const post = getMethodPostBySlug(slug);
   if (!post) notFound();
 
-  const components = useMDXComponents({});
+  const components = getMDXComponents({});
   const formattedDate = formatContentDate(post.date, {
     year: "numeric",
     month: "long",

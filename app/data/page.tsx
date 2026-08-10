@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import Image from "next/image";
+import { ArrowRight } from "lucide-react";
 import { getAllDataPosts } from "@/lib/data";
 import { formatContentDate } from "@/lib/date";
 
@@ -27,9 +28,7 @@ export default function DataPage() {
               What public data actually says
             </h1>
             <p className="text-lg text-muted-foreground leading-relaxed">
-              Plenty of useful data about plants and disease is free to download, and
-              almost nobody reads it. I take one dataset at a time, work out what it
-              really shows, and say it plainly. The code behind every chart is linked.
+              Public plant-science datasets, turned into maps, charts, and reproducible conclusions.
             </p>
           </div>
         </div>
@@ -86,16 +85,9 @@ export default function DataPage() {
                       <h2 className="text-lg sm:text-xl font-semibold text-foreground group-hover:text-primary transition-colors mb-2 leading-snug">
                         {post.title}
                       </h2>
-                      {post.description && (
-                        <p className="text-sm text-muted-foreground line-clamp-3 flex-grow">
-                          {post.description}
-                        </p>
-                      )}
                       <span className="mt-4 inline-flex items-center gap-1 text-sm font-medium text-primary">
-                        Read the analysis
-                        <svg className="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                        </svg>
+                        Open visual story
+                        <ArrowRight className="size-4 transition-transform group-hover:translate-x-1" strokeWidth={1.8} aria-hidden="true" />
                       </span>
                     </div>
                   </Link>

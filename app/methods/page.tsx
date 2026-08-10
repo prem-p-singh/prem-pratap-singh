@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import Image from "next/image";
+import { ArrowRight } from "lucide-react";
 import { getAllMethodPosts } from "@/lib/methods";
 
 export const metadata: Metadata = {
@@ -25,10 +26,7 @@ export default function MethodsPage() {
               Methods built for one problem, tested on another
             </h1>
             <p className="text-lg text-muted-foreground leading-relaxed">
-              Each case study starts with a statistical method I built for my own
-              research: the problem it had to solve, how it works in plain terms, and
-              what it answered. Then I point the same method at public data from a
-              different field, to see whether it still holds up.
+              Statistical ideas shown as interactive, reusable visual experiments.
             </p>
           </div>
         </div>
@@ -67,25 +65,18 @@ export default function MethodsPage() {
                     <h2 className="text-lg sm:text-xl font-semibold text-foreground group-hover:text-primary transition-colors mb-2 leading-snug">
                       {post.title}
                     </h2>
-                    {post.description && (
-                      <p className="text-sm text-muted-foreground line-clamp-3 flex-grow">
-                        {post.description}
-                      </p>
-                    )}
                     {(post.origin || post.reappliedTo) && (
-                      <p className="mt-4 text-xs text-muted-foreground">
-                        {post.origin && (
-                          <>
-                            <span className="text-foreground/70">Built for:</span> {post.origin}
-                          </>
-                        )}
-                        {post.origin && post.reappliedTo && <span className="mx-2">·</span>}
-                        {post.reappliedTo && (
-                          <>
-                            <span className="text-foreground/70">Re-applied to:</span> {post.reappliedTo}
-                          </>
-                        )}
-                      </p>
+                      <div className="mt-4 grid grid-cols-[1fr_auto_1fr] items-center gap-2 border-t border-border pt-4">
+                        <div className="rounded-xl bg-muted/50 p-3">
+                          <p className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">Built for</p>
+                          <p className="mt-1 line-clamp-2 text-xs font-medium text-foreground">{post.origin || "Original study"}</p>
+                        </div>
+                        <ArrowRight className="size-4 text-muted-foreground/50" aria-hidden="true" />
+                        <div className="rounded-xl bg-primary/10 p-3">
+                          <p className="text-[10px] font-semibold uppercase tracking-wider text-primary">Tested on</p>
+                          <p className="mt-1 line-clamp-2 text-xs font-medium text-foreground">{post.reappliedTo || "Public data"}</p>
+                        </div>
+                      </div>
                     )}
                   </div>
                 </Link>

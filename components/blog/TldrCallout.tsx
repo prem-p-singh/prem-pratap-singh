@@ -1,3 +1,5 @@
+import { Lightbulb } from "lucide-react";
+
 interface TldrCalloutProps {
   items: string[];
 }
@@ -8,36 +10,25 @@ export default function TldrCallout({ items }: TldrCalloutProps) {
   return (
     <aside
       aria-label="Key takeaways"
-      className="not-prose mb-10 rounded-xl border border-border bg-muted/40 p-5 sm:p-6"
+      className="not-prose mb-10 rounded-2xl border border-border bg-muted/30 p-5 sm:p-6"
     >
-      <div className="flex items-center gap-2 mb-3">
-        <svg
-          className="w-4 h-4 text-foreground"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
-          strokeWidth={2}
-        >
-          <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4" />
-          <circle cx="12" cy="12" r="9" />
-        </svg>
+      <div className="mb-4 flex items-center gap-2">
+        <Lightbulb className="size-4 text-foreground" strokeWidth={1.8} aria-hidden="true" />
         <p className="text-xs font-bold text-foreground tracking-wide uppercase">
-          Key Takeaways
+          Quick visual read
         </p>
       </div>
-      <ul className="space-y-2">
+      <ol className="grid gap-3 sm:grid-cols-3">
         {items.map((item, i) => (
           <li
             key={i}
-            className="flex gap-3 text-sm sm:text-base text-foreground/90 leading-relaxed text-left"
+            className="rounded-xl border border-border bg-background/70 p-4 text-left"
           >
-            <span className="text-muted-foreground select-none flex-shrink-0 mt-1">
-              ▸
-            </span>
-            <span>{item}</span>
+            <span className="text-2xl font-black tabular-nums text-foreground/15">0{i + 1}</span>
+            <span className="mt-2 block text-sm leading-relaxed text-foreground/90">{item}</span>
           </li>
         ))}
-      </ul>
+      </ol>
     </aside>
   );
 }

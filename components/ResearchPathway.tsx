@@ -2,198 +2,211 @@
 
 import Link from "next/link";
 import { useState } from "react";
+import {
+  ChartNoAxesCombined,
+  Dna,
+  Sprout,
+  Target,
+  type LucideIcon,
+} from "lucide-react";
 
-type StageId = "observe" | "measure" | "model" | "decide";
+type StageId = "crop" | "signal" | "intelligence" | "improvement";
 
 type Stage = {
   id: StageId;
   number: string;
-  title: string;
+  label: string;
   cue: string;
-  question: string;
-  approach: string;
   evidence: string;
-  outcome: string;
+  translation: string;
   href: string;
   linkLabel: string;
+  icon: LucideIcon;
+  tone: string;
   activeClass: string;
-  numberClass: string;
   glowClass: string;
 };
 
 const stages: Stage[] = [
   {
-    id: "observe",
+    id: "crop",
     number: "01",
-    title: "Observe",
-    cue: "Start in the vineyard",
-    question: "What changes first when heat and infection meet?",
-    approach:
-      "Follow vines across seasons and vineyard blocks, connecting field conditions with fruit chemistry and disease state.",
-    evidence: "327 vine samples · two growing seasons",
-    outcome:
-      "The field pattern becomes a testable biological question instead of a symptom description.",
+    label: "Crop question",
+    cue: "Phenotype first",
+    evidence: "327 vine samples · two seasons",
+    translation: "Define the disease response and crop trait worth improving.",
     href: "/#experience",
-    linkLabel: "See the field program",
+    linkLabel: "Field program",
+    icon: Sprout,
+    tone: "bg-emerald-500/15 text-emerald-700 dark:text-emerald-300",
     activeClass: "border-emerald-400/60 bg-emerald-400/[0.08]",
-    numberClass: "bg-emerald-400/15 text-emerald-700 dark:text-emerald-300",
     glowClass: "bg-emerald-400",
   },
   {
-    id: "measure",
+    id: "signal",
     number: "02",
-    title: "Measure",
-    cue: "Move to the bench",
-    question: "Is the virus changing before the vine shows the full effect?",
-    approach:
-      "Measure viral titer and molecular response with RT-qPCR, digital PCR, RNA sequencing, and metabolite profiling.",
-    evidence: "RT-qPCR · digital PCR · RNA-seq · metabolomics",
-    outcome:
-      "Hidden infection and host-response signals become numbers that can be compared across time and place.",
+    label: "Molecular signal",
+    cue: "Measure what the eye misses",
+    evidence: "dPCR · RNA-seq · metabolomics",
+    translation: "Expose infection and host response before symptoms tell the whole story.",
     href: "/#skills",
-    linkLabel: "Explore the toolkit",
+    linkLabel: "Capability map",
+    icon: Dna,
+    tone: "bg-violet-500/15 text-violet-700 dark:text-violet-300",
     activeClass: "border-violet-400/60 bg-violet-400/[0.08]",
-    numberClass: "bg-violet-400/15 text-violet-700 dark:text-violet-300",
     glowClass: "bg-violet-400",
   },
   {
-    id: "model",
+    id: "intelligence",
     number: "03",
-    title: "Model",
-    cue: "Connect the evidence",
-    question: "Which route carries the response: temperature, virus, or both?",
-    approach:
-      "Use reproducible pipelines, multi-omics integration, and causal mediation to separate pathways that move together.",
-    evidence: "39 mediating genes · 2,000 bootstrap runs",
-    outcome:
-      "A broad association narrows into a mechanism-focused lead that can be challenged experimentally.",
+    label: "Data intelligence",
+    cue: "Connect every layer",
+    evidence: "Multi-omics · causal models · machine learning",
+    translation: "Rank mechanisms and candidate markers for experimental validation.",
     href: "/methods/causal-mediation",
-    linkLabel: "Try the mediation case",
+    linkLabel: "Methods lab",
+    icon: ChartNoAxesCombined,
+    tone: "bg-sky-500/15 text-sky-700 dark:text-sky-300",
     activeClass: "border-sky-400/60 bg-sky-400/[0.08]",
-    numberClass: "bg-sky-400/15 text-sky-700 dark:text-sky-300",
     glowClass: "bg-sky-400",
   },
   {
-    id: "decide",
+    id: "improvement",
     number: "04",
-    title: "Decide",
-    cue: "Return to the crop",
-    question: "What can a grower, laboratory, or research team do next?",
-    approach:
-      "Translate the strongest signal into earlier sampling, validated assays, and clearer choices about follow-up experiments.",
-    evidence: "Earlier detection · targeted validation · reproducible evidence",
-    outcome:
-      "The work closes the loop from a plant in the field to a decision someone can actually use.",
+    label: "Crop improvement",
+    cue: "Return evidence to the plant",
+    evidence: "Earlier detection · trait leads · validated assays",
+    translation: "Move the strongest evidence toward selection and disease-resilient crops.",
     href: "/#projects",
-    linkLabel: "See research outcomes",
-    activeClass: "border-orange-400/60 bg-orange-400/[0.08]",
-    numberClass: "bg-orange-400/15 text-orange-700 dark:text-orange-300",
-    glowClass: "bg-orange-400",
+    linkLabel: "Research outcomes",
+    icon: Target,
+    tone: "bg-amber-500/15 text-amber-700 dark:text-amber-300",
+    activeClass: "border-amber-400/60 bg-amber-400/[0.08]",
+    glowClass: "bg-amber-400",
   },
 ];
 
+const dataOrbit = [
+  { label: "Field phenotype", position: "left-4 top-12 sm:left-8", tone: "border-emerald-400/40 bg-emerald-400/10 text-emerald-700 dark:text-emerald-300" },
+  { label: "dPCR", position: "right-5 top-16 sm:right-10", tone: "border-sky-400/40 bg-sky-400/10 text-sky-700 dark:text-sky-300" },
+  { label: "RNA-seq", position: "right-3 bottom-28 sm:right-8", tone: "border-violet-400/40 bg-violet-400/10 text-violet-700 dark:text-violet-300" },
+  { label: "Multi-omics", position: "left-4 bottom-20 sm:left-10", tone: "border-orange-400/40 bg-orange-400/10 text-orange-700 dark:text-orange-300" },
+  { label: "Trait leads", position: "bottom-5 left-1/2 -translate-x-1/2", tone: "border-amber-400/40 bg-amber-400/10 text-amber-700 dark:text-amber-300" },
+];
+
 export default function ResearchPathway() {
-  const [activeId, setActiveId] = useState<StageId>("observe");
+  const [activeId, setActiveId] = useState<StageId>("crop");
   const active = stages.find((stage) => stage.id === activeId) ?? stages[0];
+  const ActiveIcon = active.icon;
 
   return (
-    <section className="relative py-20 overflow-hidden" aria-labelledby="research-pathway-title">
+    <section className="relative overflow-hidden py-20" aria-labelledby="research-pathway-title">
       <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-border to-transparent" />
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="max-w-3xl">
-          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
-            Follow one research question
-          </p>
-          <h2 id="research-pathway-title" className="mt-3 text-3xl sm:text-4xl font-bold text-foreground">
-            From a vine in the field to a decision that matters
-          </h2>
-          <p className="mt-4 text-base sm:text-lg leading-relaxed text-muted-foreground">
-            Pick a stage to see how observation, molecular measurement, computation,
-            and application connect in the same research loop.
-          </p>
+      <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+        <div className="grid gap-4 lg:grid-cols-[1fr_auto] lg:items-end">
+          <div>
+            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
+              Crop improvement system
+            </p>
+            <h2 id="research-pathway-title" className="mt-3 max-w-4xl text-3xl font-bold text-foreground sm:text-5xl">
+              I start with the crop. <span className="text-primary">I move with data.</span>
+            </h2>
+          </div>
+          <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+            <span className="size-2 rounded-full bg-emerald-400" /> Field-grounded
+            <span className="ml-2 size-2 rounded-full bg-violet-400" /> Data-driven
+          </div>
         </div>
 
-        <div
-          className="mt-10 grid gap-3 sm:grid-cols-2 lg:grid-cols-4"
-          role="tablist"
-          aria-label="Research pathway stages"
-        >
-          {stages.map((stage, index) => {
-            const selected = active.id === stage.id;
-            return (
-              <button
-                key={stage.id}
-                type="button"
-                role="tab"
-                aria-selected={selected}
-                aria-controls="research-pathway-panel"
-                onClick={() => setActiveId(stage.id)}
-                className={`relative rounded-2xl border p-4 text-left transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground/40 ${
-                  selected
-                    ? `${stage.activeClass} -translate-y-1 shadow-lg`
-                    : "border-border bg-card/70 hover:-translate-y-0.5 hover:border-muted-foreground/50"
-                }`}
-              >
-                <span className="flex items-center justify-between gap-3">
-                  <span className={`rounded-full px-2.5 py-1 text-xs font-bold tabular-nums ${stage.numberClass}`}>
-                    {stage.number}
-                  </span>
-                  {index < stages.length - 1 && (
-                    <span className="hidden text-muted-foreground/50 lg:block" aria-hidden="true">
-                      →
-                    </span>
-                  )}
-                </span>
-                <span className="mt-4 block text-lg font-bold text-foreground">{stage.title}</span>
-                <span className="mt-1 block text-sm text-muted-foreground">{stage.cue}</span>
-                {selected && (
-                  <span className={`absolute inset-x-5 bottom-0 h-0.5 rounded-full ${stage.glowClass}`} />
-                )}
-              </button>
-            );
-          })}
-        </div>
+        <div className="mt-10 grid gap-6 lg:grid-cols-[0.92fr_1.08fr]">
+          <div className="relative min-h-[430px] overflow-hidden rounded-[2rem] border border-border bg-card">
+            <div className="absolute inset-0 bg-dot-grid opacity-15" />
+            <div className="absolute left-1/2 top-1/2 size-72 -translate-x-1/2 -translate-y-1/2 rounded-full border border-emerald-400/20" />
+            <div className="absolute left-1/2 top-1/2 size-52 -translate-x-1/2 -translate-y-1/2 rounded-full border border-violet-400/20" />
+            <div className="absolute left-1/2 top-1/2 size-32 -translate-x-1/2 -translate-y-1/2 rounded-full bg-gradient-to-br from-emerald-500/15 to-violet-500/15 blur-xl" />
 
-        <div
-          id="research-pathway-panel"
-          role="tabpanel"
-          aria-live="polite"
-          className="relative mt-6 overflow-hidden rounded-3xl border border-border bg-card"
-        >
-          <div className={`absolute inset-y-0 left-0 w-1 ${active.glowClass}`} />
-          <div className="grid gap-8 p-6 sm:p-8 lg:grid-cols-[1.1fr_0.9fr] lg:p-10">
-            <div>
-              <p className="text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">
-                The question
-              </p>
-              <h3 className="mt-2 text-2xl sm:text-3xl font-bold leading-tight text-foreground">
-                {active.question}
-              </h3>
-              <p className="mt-4 leading-relaxed text-muted-foreground">{active.approach}</p>
-              <Link
-                href={active.href}
-                className="mt-6 inline-flex items-center gap-2 text-sm font-semibold text-foreground hover:gap-3 transition-all"
-              >
-                {active.linkLabel}
-                <span aria-hidden="true">→</span>
-              </Link>
+            <div className="absolute left-1/2 top-1/2 z-10 flex size-32 -translate-x-1/2 -translate-y-1/2 flex-col items-center justify-center rounded-full border border-emerald-400/40 bg-background/90 text-center shadow-2xl backdrop-blur-sm">
+              <Sprout className="size-8 text-emerald-600 dark:text-emerald-300" strokeWidth={1.6} aria-hidden="true" />
+              <span className="mt-2 text-[10px] font-black uppercase tracking-[0.16em] text-foreground">Crop</span>
+              <span className="text-[10px] font-semibold uppercase tracking-[0.16em] text-muted-foreground">improvement</span>
             </div>
 
-            <div className="grid content-start gap-3 sm:grid-cols-2 lg:grid-cols-1">
-              <div className="rounded-2xl border border-border bg-background/60 p-5">
-                <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-                  Evidence in hand
-                </p>
-                <p className="mt-2 text-sm font-medium leading-relaxed text-foreground">
-                  {active.evidence}
-                </p>
+            {dataOrbit.map((item, index) => (
+              <span
+                key={item.label}
+                className={`absolute z-10 rounded-full border px-3 py-1.5 text-[11px] font-semibold shadow-sm backdrop-blur-sm ${item.position} ${item.tone} ${index === 2 ? "animate-pulse" : ""}`}
+              >
+                {item.label}
+              </span>
+            ))}
+
+            <div className="absolute left-1/2 top-8 flex -translate-x-1/2 items-center gap-1.5" aria-hidden="true">
+              {["bg-emerald-400", "bg-sky-400", "bg-violet-400", "bg-orange-400"].map((tone, index) => (
+                <span key={tone} className={`rounded-full ${tone} ${index === 1 ? "size-2.5" : "size-1.5"}`} />
+              ))}
+            </div>
+            <p className="absolute inset-x-8 bottom-12 text-center text-xs font-medium uppercase tracking-[0.16em] text-muted-foreground">
+              Data circles the question. The crop stays at the center.
+            </p>
+          </div>
+
+          <div className="flex flex-col">
+            <div className="grid grid-cols-2 gap-3" role="tablist" aria-label="Crop improvement pathway">
+              {stages.map((stage) => {
+                const Icon = stage.icon;
+                const selected = stage.id === active.id;
+                return (
+                  <button
+                    key={stage.id}
+                    type="button"
+                    role="tab"
+                    aria-selected={selected}
+                    aria-controls="crop-improvement-panel"
+                    onClick={() => setActiveId(stage.id)}
+                    className={`relative rounded-2xl border p-4 text-left transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50 ${
+                      selected ? `${stage.activeClass} -translate-y-0.5 shadow-lg` : "border-border bg-card hover:border-muted-foreground/50"
+                    }`}
+                  >
+                    <span className="flex items-center justify-between gap-3">
+                      <span className={`flex size-9 items-center justify-center rounded-xl ${stage.tone}`}>
+                        <Icon className="size-4" strokeWidth={1.8} aria-hidden="true" />
+                      </span>
+                      <span className="text-xs font-black tabular-nums text-muted-foreground/50">{stage.number}</span>
+                    </span>
+                    <span className="mt-3 block text-sm font-bold text-foreground">{stage.label}</span>
+                    <span className="mt-1 block text-xs text-muted-foreground">{stage.cue}</span>
+                    {selected && <span className={`absolute inset-x-4 bottom-0 h-0.5 rounded-full ${stage.glowClass}`} />}
+                  </button>
+                );
+              })}
+            </div>
+
+            <div id="crop-improvement-panel" role="tabpanel" aria-live="polite" className="relative mt-4 flex flex-1 flex-col justify-between overflow-hidden rounded-[2rem] border border-border bg-card p-6 sm:p-8">
+              <div className={`absolute inset-y-0 left-0 w-1 ${active.glowClass}`} />
+              <div className="flex items-start justify-between gap-4">
+                <div>
+                  <p className="text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">{active.cue}</p>
+                  <h3 className="mt-2 text-2xl font-bold text-foreground">{active.label}</h3>
+                </div>
+                <span className={`flex size-12 items-center justify-center rounded-2xl ${active.tone}`}>
+                  <ActiveIcon className="size-5" strokeWidth={1.7} aria-hidden="true" />
+                </span>
               </div>
-              <div className="rounded-2xl border border-border bg-background/60 p-5">
-                <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-                  What changes
-                </p>
-                <p className="mt-2 text-sm leading-relaxed text-foreground/85">{active.outcome}</p>
+
+              <div className="my-7 grid gap-5 sm:grid-cols-2">
+                <div>
+                  <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-muted-foreground">Data carried forward</p>
+                  <p className="mt-2 font-semibold text-foreground">{active.evidence}</p>
+                </div>
+                <div>
+                  <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-muted-foreground">Crop value</p>
+                  <p className="mt-2 font-semibold text-foreground">{active.translation}</p>
+                </div>
               </div>
+
+              <Link href={active.href} className="inline-flex items-center gap-2 text-sm font-semibold text-primary transition-all hover:gap-3">
+                {active.linkLabel} <span aria-hidden="true">→</span>
+              </Link>
             </div>
           </div>
         </div>
