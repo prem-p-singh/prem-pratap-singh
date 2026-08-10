@@ -3,6 +3,7 @@
 import { useMemo, useState } from "react";
 import Link from "next/link";
 import type { BlogPostMeta } from "@/lib/mdx";
+import { formatContentDate } from "@/lib/date";
 
 interface BlogSearchListProps {
   posts: BlogPostMeta[];
@@ -70,10 +71,11 @@ export default function BlogSearchList({ posts }: BlogSearchListProps) {
         <>
         <div className="space-y-4">
           {visible.map((post) => {
-            const formattedDate = new Date(post.date).toLocaleDateString(
-              "en-US",
-              { year: "numeric", month: "short", day: "numeric" }
-            );
+            const formattedDate = formatContentDate(post.date, {
+              year: "numeric",
+              month: "short",
+              day: "numeric",
+            });
 
             return (
               <Link

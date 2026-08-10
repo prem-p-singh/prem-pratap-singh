@@ -1,5 +1,4 @@
 import Link from "next/link";
-import Image from "next/image";
 import { personal, researchInterests } from "@/data/personal";
 import { projects } from "@/data/projects";
 import { publications, bookChapters } from "@/data/publications";
@@ -11,6 +10,7 @@ import ExperienceTimeline from "@/components/ExperienceTimeline";
 import EducationTimelineNew from "@/components/EducationTimelineNew";
 import HeroClient from "@/components/HeroClient";
 import { ShinyCard } from "@/components/ui/shiny-card";
+import { formatContentDate } from "@/lib/date";
 
 export default function Home() {
   const latestPosts = getAllPosts().slice(0, 3);
@@ -257,7 +257,7 @@ export default function Home() {
                     </p>
                     <div className="flex items-center justify-between text-xs text-muted-foreground">
                       <time dateTime={post.date}>
-                        {new Date(post.date).toLocaleDateString("en-US", {
+                        {formatContentDate(post.date, {
                           year: "numeric",
                           month: "short",
                           day: "numeric",

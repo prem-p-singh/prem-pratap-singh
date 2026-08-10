@@ -24,7 +24,7 @@ export default function FloatingNavWrapper() {
   return (
     <>
       {/* Desktop: Dock-style floating pill nav with moving border */}
-      <header className="fixed top-4 inset-x-0 z-[5001] hidden sm:flex justify-center px-4">
+      <header className="fixed top-4 inset-x-0 z-[5001] hidden lg:flex justify-center px-4">
         <div
           className="relative bg-transparent p-[1px] overflow-hidden"
           style={{ borderRadius: "1rem" }}
@@ -86,7 +86,7 @@ export default function FloatingNavWrapper() {
       </header>
 
       {/* Mobile: Minimal top bar with brand + hamburger */}
-      <header className="fixed top-0 inset-x-0 z-[5001] sm:hidden px-4 bg-[var(--background)]/80 backdrop-blur-md border-b border-[var(--border)]/50">
+      <header className="fixed top-0 inset-x-0 z-[5001] lg:hidden px-4 bg-[var(--background)]/80 backdrop-blur-md border-b border-[var(--border)]/50">
         <div className="flex items-center justify-between h-14">
           <Link
             href="/"
@@ -118,7 +118,7 @@ export default function FloatingNavWrapper() {
 
       {/* Mobile menu overlay */}
       {mobileOpen && (
-        <div className="sm:hidden fixed inset-0 z-[5000] bg-[var(--background)]/95 backdrop-blur-md pt-20">
+        <div className="lg:hidden fixed inset-0 z-[5000] bg-[var(--background)]/95 backdrop-blur-md pt-20">
           <nav className="flex flex-col items-center gap-6 py-8">
             {navItems.map((item) => (
               <Link

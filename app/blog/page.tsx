@@ -3,6 +3,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { getAllPosts } from "@/lib/mdx";
 import BlogSearchList from "@/components/blog/BlogSearchList";
+import { formatContentDate } from "@/lib/date";
 
 export const metadata: Metadata = {
   title: "Blog",
@@ -67,13 +68,6 @@ export default function BlogPage() {
   const researchJournal = posts.filter(p => researchJournalSlugs.has(p.slug));
   const deepDives = posts.filter(p => deepDiveSlugs.has(p.slug));
   const sensing = posts.filter(p => sensingSlugs.has(p.slug));
-  const otherPosts = posts.filter(
-    p =>
-      !researchJournalSlugs.has(p.slug) &&
-      !deepDiveSlugs.has(p.slug) &&
-      !sensingSlugs.has(p.slug)
-  );
-
   const featured = posts[0];
 
   return (
@@ -131,7 +125,7 @@ export default function BlogPage() {
                 )}
                 <div className="flex items-center gap-2 text-sm text-muted-foreground">
                   <time dateTime={featured.date}>
-                    {new Date(featured.date).toLocaleDateString("en-US", {
+                    {formatContentDate(featured.date, {
                       year: "numeric",
                       month: "short",
                       day: "numeric",
@@ -176,7 +170,7 @@ export default function BlogPage() {
 
             <div className="grid sm:grid-cols-1 lg:grid-cols-3 gap-4">
               {deepDives.map((post) => {
-                const formattedDate = new Date(post.date).toLocaleDateString("en-US", {
+                const formattedDate = formatContentDate(post.date, {
                   year: "numeric",
                   month: "short",
                   day: "numeric",
@@ -251,7 +245,7 @@ export default function BlogPage() {
 
             <div className="grid sm:grid-cols-1 lg:grid-cols-2 gap-4">
               {sensing.map((post) => {
-                const formattedDate = new Date(post.date).toLocaleDateString("en-US", {
+                const formattedDate = formatContentDate(post.date, {
                   year: "numeric",
                   month: "short",
                   day: "numeric",
@@ -327,9 +321,8 @@ export default function BlogPage() {
             <div className="bg-card rounded-2xl border border-border p-6 sm:p-8">
               <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3">
                 {researchJournal.map((post, index) => {
-                  const d = new Date(post.date);
-                  const month = d.toLocaleDateString("en-US", { month: "short" });
-                  const day = d.toLocaleDateString("en-US", { day: "numeric" });
+                  const month = formatContentDate(post.date, { month: "short" });
+                  const day = formatContentDate(post.date, { day: "numeric" });
                   const tileColor = journalTileColors[index % journalTileColors.length];
                   return (
                     <Link

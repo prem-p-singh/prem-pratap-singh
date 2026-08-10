@@ -153,6 +153,7 @@ export default function HeroClient() {
                   src="/images/profile.jpg"
                   alt={personal.name}
                   fill
+                  sizes="(max-width: 640px) 18rem, (max-width: 1024px) 20rem, 24rem"
                   className="object-cover"
                   priority
                 />

@@ -70,7 +70,9 @@ export function Takeaway({ children }: { children: ReactNode }) {
       <svg className="w-4 h-4 mt-0.5 flex-shrink-0 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
         <path strokeLinecap="round" strokeLinejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
       </svg>
-      <p className="text-sm text-foreground/85 leading-relaxed">{children}</p>
+      <div className="text-sm text-foreground/85 leading-relaxed [&>p]:m-0">
+        {children}
+      </div>
     </div>
   );
 }

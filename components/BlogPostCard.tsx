@@ -1,12 +1,13 @@
 import Link from "next/link";
 import type { BlogPostMeta } from "@/lib/mdx";
+import { formatContentDate } from "@/lib/date";
 
 interface BlogPostCardProps {
   post: BlogPostMeta;
 }
 
 export default function BlogPostCard({ post }: BlogPostCardProps) {
-  const formattedDate = new Date(post.date).toLocaleDateString("en-US", {
+  const formattedDate = formatContentDate(post.date, {
     year: "numeric",
     month: "short",
     day: "numeric",

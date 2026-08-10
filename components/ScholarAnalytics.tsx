@@ -47,7 +47,7 @@ export default function ScholarAnalytics() {
   return (
     <div>
       {/* Tab switcher */}
-      <div className="flex gap-2 mb-8">
+      <div className="grid grid-cols-2 gap-2 mb-8 sm:flex sm:flex-wrap">
         <button
           onClick={() => setActiveTab("scholar")}
           className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
@@ -296,7 +296,7 @@ function CitationBarGraph({ data }: { data: { year: number; count: number }[] })
     <div className="w-full overflow-x-auto">
       <svg
         viewBox={`0 0 ${width} ${height}`}
-        className="w-full h-auto min-w-[400px]"
+        className="w-full h-auto min-w-[320px]"
         onMouseLeave={() => setHovered(null)}
       >
         {/* Gradient definition for bars */}

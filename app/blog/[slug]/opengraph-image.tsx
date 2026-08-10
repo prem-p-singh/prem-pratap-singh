@@ -1,5 +1,6 @@
 import { ImageResponse } from "next/og";
 import { getPostBySlug } from "@/lib/mdx";
+import { formatContentDate } from "@/lib/date";
 
 export const alt = "Blog post by Prem Pratap Singh";
 export const size = { width: 1200, height: 630 };
@@ -12,7 +13,7 @@ export default async function OGImage({ params }: { params: Promise<{ slug: stri
   const title = post?.title || "Blog Post";
   const tags = post?.tags?.slice(0, 3) || [];
   const date = post
-    ? new Date(post.date).toLocaleDateString("en-US", {
+    ? formatContentDate(post.date, {
         year: "numeric",
         month: "long",
         day: "numeric",

@@ -38,7 +38,7 @@ export default function MethodsPage() {
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           {posts.length > 0 ? (
             <div className="grid sm:grid-cols-1 lg:grid-cols-2 gap-6">
-              {posts.map((post) => (
+              {posts.map((post, index) => (
                 <Link
                   key={post.slug}
                   href={`/methods/${post.slug}`}
@@ -50,6 +50,7 @@ export default function MethodsPage() {
                         src={post.image}
                         alt={post.title}
                         fill
+                        priority={index === 0}
                         sizes="(max-width: 1024px) 100vw, 50vw"
                         className="object-contain p-3 group-hover:scale-[1.02] transition-transform duration-500"
                       />

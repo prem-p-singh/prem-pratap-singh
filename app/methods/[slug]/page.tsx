@@ -13,6 +13,7 @@ import {
   CropGrowthExplorer,
   VineyardCaseFile,
 } from "@/components/methods/MediationExplorer";
+import { formatContentDate } from "@/lib/date";
 
 const REPO = "https://github.com/prem-p-singh/prem-pratap-singh/tree/main";
 
@@ -47,7 +48,7 @@ export default async function MethodPage({ params }: Props) {
   if (!post) notFound();
 
   const components = useMDXComponents({});
-  const formattedDate = new Date(post.date).toLocaleDateString("en-US", {
+  const formattedDate = formatContentDate(post.date, {
     year: "numeric",
     month: "long",
     day: "numeric",

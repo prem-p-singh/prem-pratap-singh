@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import Image from "next/image";
 import { getAllDataPosts } from "@/lib/data";
+import { formatContentDate } from "@/lib/date";
 
 export const metadata: Metadata = {
   title: "Open Data, Decoded",
@@ -38,8 +39,8 @@ export default function DataPage() {
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           {posts.length > 0 ? (
             <div className="grid sm:grid-cols-1 lg:grid-cols-2 gap-6">
-              {posts.map((post) => {
-                const formattedDate = new Date(post.date).toLocaleDateString("en-US", {
+              {posts.map((post, index) => {
+                const formattedDate = formatContentDate(post.date, {
                   year: "numeric",
                   month: "short",
                   day: "numeric",
@@ -56,6 +57,7 @@ export default function DataPage() {
                           src={post.image}
                           alt={post.title}
                           fill
+                          priority={index === 0}
                           sizes="(max-width: 1024px) 100vw, 50vw"
                           className="object-contain p-3 group-hover:scale-[1.02] transition-transform duration-500"
                         />

@@ -13,6 +13,7 @@ import ClapButton from "@/components/blog/ClapButton";
 import ShareButtons from "@/components/blog/ShareButtons";
 import CommentSection from "@/components/blog/CommentSection";
 import TldrCallout from "@/components/blog/TldrCallout";
+import { formatContentDate } from "@/lib/date";
 
 interface Props {
   params: Promise<{ slug: string }>;
@@ -76,7 +77,7 @@ export default async function BlogPostPage({ params }: Props) {
   const prevPost = currentIndex < allPosts.length - 1 ? allPosts[currentIndex + 1] : null;
   const nextPost = currentIndex > 0 ? allPosts[currentIndex - 1] : null;
 
-  const formattedDate = new Date(post.date).toLocaleDateString("en-US", {
+  const formattedDate = formatContentDate(post.date, {
     year: "numeric",
     month: "long",
     day: "numeric",
