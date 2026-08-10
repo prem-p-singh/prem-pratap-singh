@@ -11,6 +11,7 @@ import "katex/dist/katex.min.css";
 import { KeyStats, MythReality, Takeaway, Methods } from "@/components/data/DataBlocks";
 import PathogenTable from "@/components/data/PathogenTable";
 import { formatContentDate } from "@/lib/date";
+import DataGuess from "@/components/data/DataGuess";
 
 const REPO = "https://github.com/prem-p-singh/prem-pratap-singh/tree/main";
 
@@ -134,7 +135,15 @@ export default async function DataReportPage({ params }: Props) {
           ">
             <MDXRemote
               source={post.content}
-              components={{ ...components, KeyStats, MythReality, Takeaway, Methods, PathogenTable }}
+              components={{
+                ...components,
+                KeyStats,
+                MythReality,
+                Takeaway,
+                Methods,
+                PathogenTable,
+                DataGuess,
+              }}
               options={{ mdxOptions: { remarkPlugins: [remarkMath, remarkGfm], rehypePlugins: [rehypeKatex] } }}
             />
           </div>
