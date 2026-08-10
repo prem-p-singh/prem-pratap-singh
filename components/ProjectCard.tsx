@@ -1,6 +1,12 @@
 export interface Project {
   title: string;
   description: string;
+  /** The plain-language question that starts the case file. */
+  question?: string;
+  /** Short outcome shown before the full case file is revealed. */
+  resultStat?: string;
+  /** Broad research area used as a compact visual label. */
+  category?: string;
   impact?: string;
   /** Transferable capabilities, written for a non-specialist reader. */
   skills?: string[];

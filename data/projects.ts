@@ -5,6 +5,9 @@ import type { Project } from "@/components/ProjectCard";
 export const projects: Project[] = [
   {
     title: "What Red Blotch Virus Costs a Vineyard",
+    category: "Vineyard systems",
+    question: "Why does red blotch become more damaging in hot seasons?",
+    resultStat: "2.6×",
     description:
       "A multi-year study of 327 vine samples across two growing seasons and four ripening stages, funded by state and federal agriculture agencies, measuring how Grapevine Red Blotch Virus changes grape chemistry and the wine made from it.",
     impact:
@@ -28,6 +31,9 @@ export const projects: Project[] = [
   },
   {
     title: "Early Detection Test for Infected Vines",
+    category: "Diagnostics",
+    question: "Can infection be measured before symptoms become visible?",
+    resultStat: "Before symptoms",
     description:
       "Built and validated laboratory tests that measure how much virus is present in a vine, then ran them across more than ten vineyard blocks to follow infection through the season.",
     impact:
@@ -49,6 +55,9 @@ export const projects: Project[] = [
   },
   {
     title: "Food-Safe Coating Against a Cancer-Causing Mold Toxin",
+    category: "Food safety",
+    question: "Can a food-safe plant treatment suppress aflatoxin without synthetic preservatives?",
+    resultStat: ">90%",
     description:
       "Designed a plant-oil treatment wrapped inside tiny food-safe particles that stops a mold responsible for contaminating stored grain and nuts with aflatoxin, a known human carcinogen.",
     impact:
@@ -78,6 +87,9 @@ export const projects: Project[] = [
   },
   {
     title: "Chemical Signatures of Early Infection",
+    category: "Multi-omics",
+    question: "Can infection be found in chemical signals before it becomes visible?",
+    resultStat: "Early markers",
     description:
       "Combined several different laboratory measurements taken from the same grape samples to find the chemical fingerprints that appear once a vine becomes infected.",
     impact:
@@ -93,6 +105,9 @@ export const projects: Project[] = [
   },
   {
     title: "Long-Lasting Protection for Stored Food",
+    category: "Formulation",
+    question: "Can a plant-based coating protect stored food for much longer?",
+    resultStat: "60+ days",
     description:
       "Developed a low-cost, plant-based protective coating that releases its active ingredient gradually rather than all at once, and tested how well it held up over time.",
     impact:
@@ -118,6 +133,9 @@ export const projects: Project[] = [
   },
   {
     title: "Working Out How the Treatment Kills the Mold",
+    category: "Mechanism",
+    question: "Where does the antifungal treatment strike the mold?",
+    resultStat: "Two routes",
     description:
       "Traced exactly how the treatment acts on the mold, by following what happens to its outer surface, its energy production, and which of its genes switch on or off during exposure.",
     impact:
