@@ -3,6 +3,7 @@
 import { useState } from "react";
 import {
   ChartNoAxesCombined,
+  ChevronRight,
   Code2,
   Database,
   Dna,
@@ -14,102 +15,126 @@ import {
 } from "lucide-react";
 import { skills } from "@/data/personal";
 
-const DEFAULT_VISIBLE = 8;
+const DEFAULT_VISIBLE = 10;
 
-const visualDomains: Array<{ icon: LucideIcon; tone: string; active: string }> = [
-  { icon: ScanSearch, tone: "bg-sky-500/15 text-sky-700 dark:text-sky-300", active: "border-sky-400/60 bg-sky-400/[0.08]" },
-  { icon: Dna, tone: "bg-violet-500/15 text-violet-700 dark:text-violet-300", active: "border-violet-400/60 bg-violet-400/[0.08]" },
-  { icon: Database, tone: "bg-indigo-500/15 text-indigo-700 dark:text-indigo-300", active: "border-indigo-400/60 bg-indigo-400/[0.08]" },
-  { icon: Code2, tone: "bg-cyan-500/15 text-cyan-700 dark:text-cyan-300", active: "border-cyan-400/60 bg-cyan-400/[0.08]" },
-  { icon: ChartNoAxesCombined, tone: "bg-blue-500/15 text-blue-700 dark:text-blue-300", active: "border-blue-400/60 bg-blue-400/[0.08]" },
-  { icon: FlaskConical, tone: "bg-amber-500/15 text-amber-700 dark:text-amber-300", active: "border-amber-400/60 bg-amber-400/[0.08]" },
-  { icon: Sprout, tone: "bg-emerald-500/15 text-emerald-700 dark:text-emerald-300", active: "border-emerald-400/60 bg-emerald-400/[0.08]" },
-  { icon: FileCheck2, tone: "bg-rose-500/15 text-rose-700 dark:text-rose-300", active: "border-rose-400/60 bg-rose-400/[0.08]" },
+const domainVisuals: Array<{
+  icon: LucideIcon;
+  text: string;
+  surface: string;
+  active: string;
+  bar: string;
+}> = [
+  { icon: ScanSearch, text: "text-sky-500", surface: "bg-sky-500/15", active: "border-l-sky-500 bg-sky-500/[0.08] text-foreground", bar: "bg-sky-500" },
+  { icon: Dna, text: "text-violet-500", surface: "bg-violet-500/15", active: "border-l-violet-500 bg-violet-500/[0.08] text-foreground", bar: "bg-violet-500" },
+  { icon: Database, text: "text-indigo-500", surface: "bg-indigo-500/15", active: "border-l-indigo-500 bg-indigo-500/[0.08] text-foreground", bar: "bg-indigo-500" },
+  { icon: Code2, text: "text-cyan-500", surface: "bg-cyan-500/15", active: "border-l-cyan-500 bg-cyan-500/[0.08] text-foreground", bar: "bg-cyan-500" },
+  { icon: ChartNoAxesCombined, text: "text-blue-500", surface: "bg-blue-500/15", active: "border-l-blue-500 bg-blue-500/[0.08] text-foreground", bar: "bg-blue-500" },
+  { icon: FlaskConical, text: "text-amber-500", surface: "bg-amber-500/15", active: "border-l-amber-500 bg-amber-500/[0.08] text-foreground", bar: "bg-amber-500" },
+  { icon: Sprout, text: "text-emerald-500", surface: "bg-emerald-500/15", active: "border-l-emerald-500 bg-emerald-500/[0.08] text-foreground", bar: "bg-emerald-500" },
+  { icon: FileCheck2, text: "text-rose-500", surface: "bg-rose-500/15", active: "border-l-rose-500 bg-rose-500/[0.08] text-foreground", bar: "bg-rose-500" },
 ];
 
 export default function SkillsMatrix() {
   const [active, setActive] = useState(6);
   const [showAll, setShowAll] = useState(false);
   const domain = skills[active];
-  const visual = visualDomains[active];
   const visible = showAll ? domain.items : domain.items.slice(0, DEFAULT_VISIBLE);
-  const cells = [...skills.slice(0, 4), null, ...skills.slice(4)];
+  const activeVisual = domainVisuals[active];
+  const ActiveIcon = activeVisual.icon;
 
   return (
-    <div className="overflow-hidden rounded-[2rem] border border-border bg-card p-5 sm:p-7">
-      <div className="grid grid-cols-2 gap-3 sm:grid-cols-3" role="tablist" aria-label="Crop improvement capability domains">
-        {cells.map((skill, cellIndex) => {
-          if (!skill) {
-            return (
-              <div key="crop-center" className="relative flex min-h-32 flex-col items-center justify-center overflow-hidden rounded-2xl border border-emerald-400/35 bg-gradient-to-br from-emerald-500/15 via-card to-violet-500/10 p-4 text-center">
-                <span className="absolute -right-7 -top-7 size-24 rounded-full border border-emerald-400/20" />
-                <Sprout className="size-7 text-emerald-600 dark:text-emerald-300" strokeWidth={1.6} aria-hidden="true" />
-                <span className="mt-2 text-xs font-black uppercase tracking-[0.15em] text-foreground">Crop improvement</span>
-                <span className="mt-1 text-[10px] text-muted-foreground">field → molecule → model</span>
-              </div>
-            );
-          }
+    <div className="overflow-hidden border-y border-border bg-card lg:grid lg:grid-cols-[0.72fr_1.28fr]">
+      <div className="border-b border-border lg:border-b-0 lg:border-r">
+        <div className="flex items-center justify-between border-b border-border px-5 py-4 sm:px-6">
+          <p className="text-sm font-semibold text-foreground">Capability index</p>
+          <span className="font-mono text-[11px] text-muted-foreground">08 domains</span>
+        </div>
 
-          const skillIndex = cellIndex < 4 ? cellIndex : cellIndex - 1;
-          const itemVisual = visualDomains[skillIndex];
-          const Icon = itemVisual.icon;
-          const selected = skillIndex === active;
-          return (
-            <button
-              key={skill.category}
-              type="button"
-              role="tab"
-              aria-selected={selected}
-              aria-controls="skill-domain-panel"
-              title={skill.category}
-              onClick={() => {
-                setActive(skillIndex);
-                setShowAll(false);
-              }}
-              className={`min-h-32 rounded-2xl border p-4 text-left transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50 ${
-                selected ? `${itemVisual.active} -translate-y-0.5 shadow-lg` : "border-border bg-background/45 hover:border-muted-foreground/40"
-              }`}
-            >
-              <span className="flex items-start justify-between gap-3">
-                <span className={`flex size-10 items-center justify-center rounded-xl ${itemVisual.tone}`}>
-                  <Icon className="size-4.5" strokeWidth={1.7} aria-hidden="true" />
+        <div role="tablist" aria-label="Research capability domains">
+          {skills.map((skill, index) => {
+            const visual = domainVisuals[index];
+            const Icon = visual.icon;
+            const selected = index === active;
+            return (
+              <button
+                key={skill.category}
+                type="button"
+                role="tab"
+                aria-selected={selected}
+                aria-controls="skill-domain-panel"
+                title={skill.category}
+                onClick={() => {
+                  setActive(index);
+                  setShowAll(false);
+                }}
+                className={`group flex w-full items-center gap-3 border-b border-l-2 border-b-border px-5 py-3.5 text-left transition-colors last:border-b-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-sky-500/45 sm:px-6 ${
+                  selected ? visual.active : "border-l-transparent text-muted-foreground hover:bg-muted/25 hover:text-foreground"
+                }`}
+              >
+                <span
+                  className={`flex size-12 shrink-0 items-center justify-center rounded-full border ${
+                    selected
+                      ? `border-transparent ${visual.surface} ${visual.text}`
+                      : `border-border ${visual.text}`
+                  }`}
+                >
+                  <Icon className="size-6" strokeWidth={1.65} aria-hidden="true" />
                 </span>
-                <span className="text-[10px] font-bold tabular-nums text-muted-foreground/60">{skill.items.length}</span>
-              </span>
-              <span className="mt-4 block text-sm font-bold text-foreground">{skill.short ?? skill.category}</span>
-            </button>
-          );
-        })}
+                <span className="min-w-0 flex-1 truncate text-sm font-medium">
+                  {skill.short ?? skill.category}
+                </span>
+                <span className="font-mono text-[10px] text-muted-foreground">{skill.items.length}</span>
+                <ChevronRight
+                  className={`size-3.5 transition-transform ${selected ? `translate-x-0.5 ${visual.text}` : "text-muted-foreground/45"}`}
+                  aria-hidden="true"
+                />
+              </button>
+            );
+          })}
+        </div>
       </div>
 
-      <div id="skill-domain-panel" role="tabpanel" aria-live="polite" className="mt-4 rounded-2xl border border-border bg-background/55 p-5">
-        <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-          <div className="flex items-center gap-3">
-            <span className={`flex size-10 items-center justify-center rounded-xl ${visual.tone}`}>
-              {(() => {
-                const ActiveIcon = visual.icon;
-                return <ActiveIcon className="size-4.5" strokeWidth={1.7} aria-hidden="true" />;
-              })()}
-            </span>
-            <div>
-              <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-muted-foreground">Active capability</p>
-              <p className="mt-1 text-sm font-bold text-foreground">{domain.category}</p>
+      <div
+        id="skill-domain-panel"
+        role="tabpanel"
+        aria-live="polite"
+        className="p-5 sm:p-7 lg:p-9"
+      >
+        <div className={`mb-7 h-1 w-14 rounded-full ${activeVisual.bar}`} aria-hidden="true" />
+        <div className="flex items-start justify-between gap-5">
+          <div className="max-w-2xl">
+            <div className="flex items-center gap-2 text-xs text-muted-foreground">
+              <ActiveIcon className={`size-6 ${activeVisual.text}`} strokeWidth={1.65} aria-hidden="true" />
+              <span>Selected domain</span>
             </div>
+            <h3 className="mt-3 text-2xl font-semibold leading-tight text-foreground sm:text-3xl">
+              {domain.category}
+            </h3>
           </div>
-          <span className="text-xs font-semibold text-muted-foreground">{domain.items.length} verified skills</span>
+          <div className="shrink-0 text-right">
+            <p className={`font-mono text-2xl font-medium ${activeVisual.text}`}>{domain.items.length}</p>
+            <p className="text-[11px] text-muted-foreground">verified skills</p>
+          </div>
         </div>
 
-        <div className="mt-4 flex flex-wrap gap-2">
-          {visible.map((item) => (
-            <span key={item} className="rounded-full border border-border bg-card px-3 py-1.5 text-xs font-medium text-foreground/80">
-              {item}
-            </span>
+        <ol className="mt-7 grid border-t border-border sm:grid-cols-2 sm:gap-x-8">
+          {visible.map((item, index) => (
+            <li key={item} className="flex gap-3 border-b border-border py-3 text-sm leading-snug text-foreground/85">
+              <span className={`mt-0.5 font-mono text-[10px] ${activeVisual.text}`}>
+                {String(index + 1).padStart(2, "0")}
+              </span>
+              <span>{item}</span>
+            </li>
           ))}
-        </div>
+        </ol>
 
         {domain.items.length > DEFAULT_VISIBLE && (
-          <button type="button" onClick={() => setShowAll((value) => !value)} className="mt-4 text-xs font-semibold text-primary hover:underline">
-            {showAll ? "Show essentials" : `Show all ${domain.items.length}`}
+          <button
+            type="button"
+            onClick={() => setShowAll((value) => !value)}
+            className="mt-5 text-sm font-semibold text-foreground underline decoration-border underline-offset-4 hover:decoration-foreground"
+          >
+            {showAll ? "Show the essential methods" : `Show all ${domain.items.length} skills`}
           </button>
         )}
       </div>

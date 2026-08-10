@@ -67,9 +67,9 @@ img[alt="Vercel Logo"] {
   --color-section-bg: var(--section-bg);
   --color-surface: var(--surface);
   --color-elevated: var(--elevated);
-  --font-sans: var(--font-plex-sans);
-  --font-serif: var(--font-plex-sans);
-  --font-mono: var(--font-plex-mono);
+  --font-sans: var(--font-urbanist);
+  --font-serif: var(--font-urbanist);
+  --font-mono: var(--font-urbanist);
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════
@@ -83,13 +83,13 @@ html {
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: var(--font-sans), "Helvetica Neue", Arial, sans-serif;
+  font-family: var(--font-sans), "Avenir Next", "Helvetica Neue", Arial, sans-serif;
   line-height: 1.6;
 }
 
 /* One consistent professional typeface across body copy and headings. */
 h1, h2, h3 {
-  font-family: var(--font-sans), "Helvetica Neue", Arial, sans-serif;
+  font-family: var(--font-sans), "Avenir Next", "Helvetica Neue", Arial, sans-serif;
   letter-spacing: -0.024em;
   text-wrap: balance;
 }
