@@ -1,7 +1,8 @@
 ---
 title: "Is It the Heat, or the Virus?"
 date: "2026-08-04"
-description: "Hot summers make virus damage worse in wine grapes. But is the heat hurting the vine, or is it feeding the virus? I used a method that splits the blame between two causes, then tried the same method on sixty years of farming data."
+description: "A statistical detective story: follow the clues from a California vineyard, make your own call, then send the same method on a 63-year trip through global farming data."
+image: "/methods/causal-mediation/proportion_mediated.png"
 method: "Causal mediation"
 origin: "Grapevine Red Blotch Virus transcriptomics, UC Davis"
 paperUrl: "https://github.com/prem-p-singh/GRBV-Transcriptomics-Analysis"
@@ -10,18 +11,18 @@ reappliedTo: "FAOSTAT world crop production, 1961-2023"
 codePath: "data-interpretations/methods-causal-mediation"
 tags: ["causal mediation", "statistical modeling", "R", "FAOSTAT"]
 keyStats:
-  - value: "62%"
-    label: "Blame on the virus"
-    note: "Of the heat damage went through the virus"
-  - value: "97%"
-    label: "Sugarcane"
-    note: "Grew by taking more land, not better yields"
-  - value: "0%"
-    label: "Wheat"
-    note: "Grew on less land than in 1961"
+  - value: "61.8%"
+    label: "MBF1c pathway"
+    note: "Temperature-associated response carried through viral titer"
+  - value: "39"
+    label: "Mediating genes"
+    note: "Significant in a screen of 2,000 variable genes"
+  - value: "97.2%"
+    label: "Sugarcane land route"
+    note: "Modeled production trend carried through harvested area"
   - value: "2,000"
-    label: "Repeat runs"
-    note: "To check how solid each number is"
+    label: "Bootstrap runs"
+    note: "Used to test how much each estimate moves"
 toolkit:
   - "R"
   - "Causal mediation"
@@ -31,89 +32,89 @@ toolkit:
   - "FAOSTAT bulk data"
 ---
 
-A hot summer makes red blotch virus much worse for wine grapes. Everyone in the field knows this.
+This story starts like a mystery in a California vineyard.
 
-Nobody could say why.
+Three clues keep appearing together: **hotter seasons**, **more virus**, and **changes in how the vine's genes respond**. That leaves two possible routes. Temperature may act directly on the vine, or it may first change viral titer and let the virus carry part of the response.
 
-## The problem
+The trouble is that both routes can be active at the same time.
 
-There are two suspects, and they point to opposite solutions.
+<VineyardCaseFile />
 
-**Suspect one: the heat feeds the virus.** Warm weather lets the virus multiply, and the extra virus damages the vine. If this is right, you go after the virus.
+## The statistical detective
 
-**Suspect two: the heat hurts the vine directly.** The virus is present but not really involved. If this is right, you go after the heat, with shade, irrigation, or different sites.
+Causal mediation is a route-splitter. Instead of asking only whether temperature and gene expression move together, it separates the modeled association into two paths:
 
-You cannot tell these apart by measuring temperature, virus levels and vine damage one at a time. All three go up together in a hot year, no matter which suspect is guilty.
+1. **The indirect route:** temperature → viral titer → gene response.
+2. **The direct route:** temperature → gene response without going through measured viral titer.
 
-## How I worked it out
+First, I tested whether seasonal temperature predicted viral titer. Then I tested whether viral titer predicted each gene's expression after accounting for temperature. Multiplying those two links gives the indirect effect; the remainder is the direct effect.
 
-The method is a blame-splitter. It asks how much of the heat damage travels *through* the virus, and how much goes straight to the vine.
+<details>
+  <summary><strong>Open the model's engine room</strong></summary>
 
-It works in two steps:
+  For each outcome, the analysis fits a mediator model, `M ~ X`, and an outcome model, `Y ~ X + M`. The indirect effect is the product of the two path coefficients, $ab$. The direct effect is $c'$, and the reported proportion is $ab / (ab + c')$.
 
-1. **Does heat actually raise the virus level?** If hot years do not mean more virus, suspect one is already dead.
-2. **Does the virus level explain the vine's damage, once you have already accounted for the heat?** If it does, the virus is genuinely carrying some of the harm.
+  Because a product of coefficients can have an uneven sampling distribution, I repeated the calculation on 2,000 bootstrap resamples to estimate uncertainty.
+</details>
 
-Multiply those two steps together and you get the share of the damage running through the virus. Whatever is left is the heat acting alone.
+## What the vineyard evidence says
 
-I also needed to know how solid that number was. So I re-ran the entire calculation 2,000 times, each time on a slightly reshuffled version of the data, and looked at how much the answer moved. If it stays put across 2,000 runs, it is probably real.
+The screen covered the 2,000 most variable genes. **Thirty-nine showed significant mediation** at joint BH-FDR below 0.05.
 
-## The answer
+The strongest result was **MBF1c**, a co-activator involved in the heat-shock response. For this gene, **61.8% of the modeled temperature-associated expression response travelled through viral titer**. The joint p-value was 4.8 × 10⁻¹¹.
 
-**About 62% of the heat damage travelled through the virus.**
+That is a sharper conclusion than “heat makes the virus worse.” It identifies a particular molecular response and shows how strongly the viral route contributes after the direct temperature route is included.
 
-Out of all the genes I tested, 39 showed this pattern clearly. The strongest was a gene the vine uses to switch on its own heat protection.
+<Takeaway>
+The 61.8% belongs to the MBF1c result. It does not mean that the virus explains 61.8% of every heat effect in a vineyard. The analysis supplies a strong experimental lead, not a finished biological mechanism.
+</Takeaway>
 
-That flips the story. The virus is not a bystander in a hot year. It is carrying most of the harm, and it does it by jamming the vine's heat defences. The vine is not losing because the summer is too hot. It is losing because the infection stops it from coping with a hot summer.
+## Then the method went on a road trip
 
-That said, this is one statistical result in one system. It points the wet-lab work in a clear direction, and it is not settled until that work is done.
+A useful method should survive outside the problem that inspired it. So I pointed the same route-splitter at something completely different: **63 years of global crop production**.
 
-## Now try it on farming
+The world produces far more food than it did in 1961. Did that growth travel mainly through **more harvested land**, or through the remaining pathway, which includes getting more output from each field?
 
-A method that only works on the data it was built for is not worth much. So I pointed the same blame-splitter at something completely unrelated.
-
-The world grows far more food than it did in 1961. There are two ways that could have happened: **we farm more land**, or **we get more from each field**. The difference matters, because new farmland usually comes out of forest and habitat.
-
-Same shape of question, different suspects:
-
-| | Grapevine | Farming |
+| Role in the model | Grapevine study | Farming re-application |
 |---|---|---|
-| The cause | Hot season | Passing years |
-| The go-between | Virus level | Amount of farmland |
-| The result | Damage to the vine | Food produced |
+| Starting variable | Seasonal temperature | Year |
+| Possible go-between | Viral titer | Harvested area |
+| Measured outcome | Gene expression | Crop production |
 
-![Dot plot showing the share of production growth that came from more farmland, for six crops](/methods/causal-mediation/proportion_mediated.png)
+<CropGrowthExplorer />
 
-<Takeaway>
-Sugarcane grew almost entirely by taking more land, at 97%. Rice barely used extra land at all, at 13%. Maize sits between them at 73%.
-</Takeaway>
+## The crop scoreboard
 
-Rice is the standout. Production has roughly quadrupled since 1961 on only a little more land, which is the Green Revolution showing up in plain arithmetic.
+Five crops gave a clean 0-100% route split. Sugarcane was the most land-driven at **97.2%**, followed by maize at **72.8%**. Rice sat at the other end: only **12.5%** of its modeled production trend travelled through harvested area.
 
-## Where it goes wrong
-
-Four crops came back with a share above 100% or below zero. Neither is possible for a share.
-
-My first guess was that years and farmland move together too closely for the method to separate them. **That guess was wrong.** Sugarcane's two measures track each other almost perfectly and its answer is fine. Tomato's track each other just as closely and its answer is not. So I went and looked at what the numbers were actually doing.
-
-![Scatter plot of farmland growth against production growth since 1961](/methods/causal-mediation/growth_regimes.png)
+![Dot plot showing the modeled share of production growth that travelled through harvested area for five crops](/methods/causal-mediation/proportion_mediated.png)
 
 <Takeaway>
-Wheat, potato and barley grow more food today on less land than in 1961. The share goes negative because farmland moved the opposite way to production.
+Rice production reached 3.73 times its 1961 level while harvested area reached 1.46 times its starting level. In this model, most of rice's trend remained on the non-land pathway.
 </Takeaway>
 
-Three real situations sit behind those odd numbers:
+## When the percentage refuses to behave
 
-- **Less land, more food.** Wheat, potato, barley. The best outcome on the chart.
-- **Both mattered.** Sugarcane, maize, cassava, banana, rice. Here the share means what it looks like.
-- **Land grew faster than food.** Soybean and tomato, where farmland expanded so fast the yield side turns negative.
+The other five crops returned a mediated share above 100% or below zero. That looks impossible only if the answer is forced into a pie chart.
 
-I report these instead of dropping them because an impossible share is useful information. It is the method saying the single summary number no longer fits, and the right response is to show what the underlying numbers are doing.
+My first guess was that year and farmland simply moved together too closely for the model to separate them. **That guess did not survive the data.** Year and harvested area are similarly correlated for sugarcane and tomato, yet sugarcane gives an interpretable split and tomato does not.
 
-## What this does not prove
+![Scatter plot comparing harvested-area growth with production growth since 1961](/methods/causal-mediation/growth_regimes.png)
 
-Nobody assigned the years, so the farming version splits up a trend rather than proving cause. It also assumes nothing unmeasured is pushing both farmland and food output, and that plainly fails here, since fertiliser, irrigation and breeding all changed over the same period. World totals hide a lot too, because a crop growing on one continent and shrinking on another shows up as a single blended number.
+The odd values are diagnostics for different growth patterns:
 
-The grapevine version stands on firmer ground, since the temperature there varied across a planned sampling design rather than drifting along with history.
+- **The land pathway exceeded the total trend:** soybean and tomato. Their remaining direct pathway points in the opposite direction, so the land share rises above 100%.
+- **The fitted land pathway opposed the total trend:** wheat. Its endpoint area is slightly above 1961, but its fitted area trend runs against the production trend.
+- **More output ended on less land:** potato and barley. Their 2023 harvested area was below the 1961 level while production was higher.
 
-What I take from both is the same thing. This method tells you how blame divides between two causes, but only after you have decided, on other grounds, which one comes first. It will never work that ordering out for you. For the farming question, the thing I would check next is whether the pattern still holds once you split the world totals by region.
+<Takeaway>
+An out-of-range answer is not a result to hide. It is the model warning that one tidy percentage cannot describe two pathways moving in different directions.
+</Takeaway>
+
+## The honest ending
+
+The farming analysis decomposes observational trends; it does not prove that changing harvested area caused the production change. Year was not assigned like an experimental treatment, and unmeasured forces such as breeding, fertiliser, irrigation, policy, and trade changed at the same time. World totals also blend regional stories that may point in different directions.
+
+The grapevine application stands on firmer design ground because temperature varied within a planned sampling design. Even there, mediation depends on assumptions about the order of events and unmeasured confounding.
+
+That is the method's real lesson: it can show how a modeled effect divides between routes, but it cannot choose the causal story by itself. The next farming test would split the world totals by region and ask whether the same patterns remain.

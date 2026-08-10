@@ -9,6 +9,10 @@ import remarkGfm from "remark-gfm";
 import rehypeKatex from "rehype-katex";
 import "katex/dist/katex.min.css";
 import { KeyStats, Takeaway, Methods } from "@/components/data/DataBlocks";
+import {
+  CropGrowthExplorer,
+  VineyardCaseFile,
+} from "@/components/methods/MediationExplorer";
 
 const REPO = "https://github.com/prem-p-singh/prem-pratap-singh/tree/main";
 
@@ -138,7 +142,14 @@ export default async function MethodPage({ params }: Props) {
           ">
             <MDXRemote
               source={post.content}
-              components={{ ...components, KeyStats, Takeaway, Methods }}
+              components={{
+                ...components,
+                KeyStats,
+                Takeaway,
+                Methods,
+                VineyardCaseFile,
+                CropGrowthExplorer,
+              }}
               options={{ mdxOptions: { remarkPlugins: [remarkMath, remarkGfm], rehypePlugins: [rehypeKatex] } }}
             />
           </div>
