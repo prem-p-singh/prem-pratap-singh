@@ -11,6 +11,7 @@ import EducationTimelineNew from "@/components/EducationTimelineNew";
 import HeroClient from "@/components/HeroClient";
 import { ShinyCard } from "@/components/ui/shiny-card";
 import { formatContentDate } from "@/lib/date";
+import ResearchPathway from "@/components/ResearchPathway";
 
 export default function Home() {
   const latestPosts = getAllPosts().slice(0, 3);
@@ -24,6 +25,8 @@ export default function Home() {
     <>
       {/* Hero Section */}
       <HeroClient />
+
+      <ResearchPathway />
 
       {/* About Section */}
       <section id="about" className="py-20">
