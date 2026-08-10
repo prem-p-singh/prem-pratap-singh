@@ -77,14 +77,14 @@ export default function Home() {
       <section id="projects" className="py-20">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="mb-12 max-w-3xl">
-            <p className="text-xs font-semibold uppercase tracking-[0.22em] text-muted-foreground">
-              Case files
+            <p className="text-sm font-semibold text-muted-foreground">
+              Selected work
             </p>
-            <h2 className="mt-3 text-4xl font-bold tracking-tight text-foreground sm:text-5xl">
-              Every project starts with a crop problem
+            <h2 className="mt-3 text-4xl font-semibold tracking-tight text-foreground sm:text-5xl">
+              Research projects
             </h2>
             <p className="mt-4 max-w-2xl text-base leading-relaxed text-muted-foreground">
-              Follow each problem through its data route to a decision-ready result.
+              Field studies, diagnostic methods, and mechanism work across crop and food systems.
             </p>
           </div>
 
