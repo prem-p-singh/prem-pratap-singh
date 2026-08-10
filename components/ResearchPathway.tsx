@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useState } from "react";
 import {
+  ArrowRight,
   ChartNoAxesCombined,
   Dna,
   Sprout,
@@ -22,76 +23,59 @@ type Stage = {
   href: string;
   linkLabel: string;
   icon: LucideIcon;
-  tone: string;
-  activeClass: string;
-  glowClass: string;
 };
 
 const stages: Stage[] = [
   {
     id: "crop",
     number: "01",
-    label: "Crop question",
-    cue: "Phenotype first",
-    evidence: "327 vine samples · two seasons",
-    translation: "Define the disease response and crop trait worth improving.",
+    label: "Start in the field",
+    cue: "Observe before measuring",
+    evidence: "327 vines followed across two growing seasons",
+    translation: "Define the plant response and the trait worth improving.",
     href: "/#experience",
-    linkLabel: "Field program",
+    linkLabel: "See the field program",
     icon: Sprout,
-    tone: "bg-emerald-500/15 text-emerald-700 dark:text-emerald-300",
-    activeClass: "border-emerald-400/60 bg-emerald-400/[0.08]",
-    glowClass: "bg-emerald-400",
   },
   {
     id: "signal",
     number: "02",
-    label: "Molecular signal",
-    cue: "Measure what the eye misses",
-    evidence: "dPCR · RNA-seq · metabolomics",
-    translation: "Expose infection and host response before symptoms tell the whole story.",
+    label: "Measure the signal",
+    cue: "See what symptoms miss",
+    evidence: "dPCR, RNA sequencing, and metabolite profiles",
+    translation: "Find infection and stress responses before the eye can.",
     href: "/#skills",
-    linkLabel: "Capability map",
+    linkLabel: "See the laboratory toolkit",
     icon: Dna,
-    tone: "bg-violet-500/15 text-violet-700 dark:text-violet-300",
-    activeClass: "border-violet-400/60 bg-violet-400/[0.08]",
-    glowClass: "bg-violet-400",
   },
   {
     id: "intelligence",
     number: "03",
-    label: "Data intelligence",
-    cue: "Connect every layer",
-    evidence: "Multi-omics · causal models · machine learning",
-    translation: "Rank mechanisms and candidate markers for experimental validation.",
+    label: "Make sense of it",
+    cue: "Let biology guide the model",
+    evidence: "Multi-omics, causal analysis, and machine learning",
+    translation: "Separate strong biological signals from statistical noise.",
     href: "/methods/causal-mediation",
-    linkLabel: "Methods lab",
+    linkLabel: "Visit the methods lab",
     icon: ChartNoAxesCombined,
-    tone: "bg-sky-500/15 text-sky-700 dark:text-sky-300",
-    activeClass: "border-sky-400/60 bg-sky-400/[0.08]",
-    glowClass: "bg-sky-400",
   },
   {
     id: "improvement",
     number: "04",
-    label: "Crop improvement",
-    cue: "Return evidence to the plant",
-    evidence: "Earlier detection · trait leads · validated assays",
-    translation: "Move the strongest evidence toward selection and disease-resilient crops.",
+    label: "Return to the crop",
+    cue: "Evidence should change a decision",
+    evidence: "Earlier detection, validated assays, and candidate traits",
+    translation: "Move useful evidence toward healthier, more resilient crops.",
     href: "/#projects",
-    linkLabel: "Research outcomes",
+    linkLabel: "See the research outcomes",
     icon: Target,
-    tone: "bg-amber-500/15 text-amber-700 dark:text-amber-300",
-    activeClass: "border-amber-400/60 bg-amber-400/[0.08]",
-    glowClass: "bg-amber-400",
   },
 ];
 
-const dataOrbit = [
-  { label: "Field phenotype", position: "left-4 top-12 sm:left-8", tone: "border-emerald-400/40 bg-emerald-400/10 text-emerald-700 dark:text-emerald-300" },
-  { label: "dPCR", position: "right-5 top-16 sm:right-10", tone: "border-sky-400/40 bg-sky-400/10 text-sky-700 dark:text-sky-300" },
-  { label: "RNA-seq", position: "right-3 bottom-28 sm:right-8", tone: "border-violet-400/40 bg-violet-400/10 text-violet-700 dark:text-violet-300" },
-  { label: "Multi-omics", position: "left-4 bottom-20 sm:left-10", tone: "border-orange-400/40 bg-orange-400/10 text-orange-700 dark:text-orange-300" },
-  { label: "Trait leads", position: "bottom-5 left-1/2 -translate-x-1/2", tone: "border-amber-400/40 bg-amber-400/10 text-amber-700 dark:text-amber-300" },
+const fieldNotes = [
+  { label: "Field", value: "327 vines · two seasons", icon: Sprout },
+  { label: "Bench", value: "dPCR · RNA-seq · metabolites", icon: Dna },
+  { label: "Analysis", value: "Mechanisms · markers · trait leads", icon: ChartNoAxesCombined },
 ];
 
 export default function ResearchPathway() {
@@ -100,60 +84,54 @@ export default function ResearchPathway() {
   const ActiveIcon = active.icon;
 
   return (
-    <section className="relative overflow-hidden py-20" aria-labelledby="research-pathway-title">
-      <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-border to-transparent" />
+    <section className="relative py-20" aria-labelledby="research-pathway-title">
       <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
-        <div className="grid gap-4 lg:grid-cols-[1fr_auto] lg:items-end">
-          <div>
-            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
-              Crop improvement system
-            </p>
-            <h2 id="research-pathway-title" className="mt-3 max-w-4xl text-3xl font-bold text-foreground sm:text-5xl">
-              I start with the crop. <span className="text-primary">I move with data.</span>
-            </h2>
-          </div>
-          <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-            <span className="size-2 rounded-full bg-emerald-400" /> Field-grounded
-            <span className="ml-2 size-2 rounded-full bg-violet-400" /> Data-driven
-          </div>
+        <div className="max-w-4xl">
+          <p className="text-sm font-semibold text-muted-foreground">How I work</p>
+          <h2
+            id="research-pathway-title"
+            className="mt-3 text-4xl font-semibold leading-[1.05] text-foreground sm:text-5xl lg:text-6xl"
+          >
+            Crop improvement is the destination. Data is how I get there.
+          </h2>
         </div>
 
-        <div className="mt-10 grid gap-6 lg:grid-cols-[0.92fr_1.08fr]">
-          <div className="relative min-h-[430px] overflow-hidden rounded-[2rem] border border-border bg-card">
-            <div className="absolute inset-0 bg-dot-grid opacity-15" />
-            <div className="absolute left-1/2 top-1/2 size-72 -translate-x-1/2 -translate-y-1/2 rounded-full border border-emerald-400/20" />
-            <div className="absolute left-1/2 top-1/2 size-52 -translate-x-1/2 -translate-y-1/2 rounded-full border border-violet-400/20" />
-            <div className="absolute left-1/2 top-1/2 size-32 -translate-x-1/2 -translate-y-1/2 rounded-full bg-gradient-to-br from-emerald-500/15 to-violet-500/15 blur-xl" />
-
-            <div className="absolute left-1/2 top-1/2 z-10 flex size-32 -translate-x-1/2 -translate-y-1/2 flex-col items-center justify-center rounded-full border border-emerald-400/40 bg-background/90 text-center shadow-2xl backdrop-blur-sm">
-              <Sprout className="size-8 text-emerald-600 dark:text-emerald-300" strokeWidth={1.6} aria-hidden="true" />
-              <span className="mt-2 text-[10px] font-black uppercase tracking-[0.16em] text-foreground">Crop</span>
-              <span className="text-[10px] font-semibold uppercase tracking-[0.16em] text-muted-foreground">improvement</span>
+        <div className="mt-12 overflow-hidden rounded-2xl border border-border bg-card lg:grid lg:grid-cols-[0.82fr_1.18fr]">
+          <aside className="border-b border-border bg-section-bg p-7 sm:p-9 lg:border-b-0 lg:border-r">
+            <div className="flex items-center justify-between gap-4 border-b border-foreground/15 pb-4 text-xs text-muted-foreground">
+              <span>Field note 04</span>
+              <span>Davis, California</span>
             </div>
 
-            {dataOrbit.map((item, index) => (
-              <span
-                key={item.label}
-                className={`absolute z-10 rounded-full border px-3 py-1.5 text-[11px] font-semibold shadow-sm backdrop-blur-sm ${item.position} ${item.tone} ${index === 2 ? "animate-pulse" : ""}`}
-              >
-                {item.label}
-              </span>
-            ))}
+            <blockquote className="mt-10 font-sans text-3xl font-medium leading-tight text-foreground sm:text-4xl">
+              “I do not begin with a model. I begin with what changed in the plant.”
+            </blockquote>
 
-            <div className="absolute left-1/2 top-8 flex -translate-x-1/2 items-center gap-1.5" aria-hidden="true">
-              {["bg-emerald-400", "bg-sky-400", "bg-violet-400", "bg-orange-400"].map((tone, index) => (
-                <span key={tone} className={`rounded-full ${tone} ${index === 1 ? "size-2.5" : "size-1.5"}`} />
-              ))}
+            <div className="relative mt-12 space-y-6 before:absolute before:bottom-5 before:left-[17px] before:top-5 before:w-px before:bg-foreground/15">
+              {fieldNotes.map((note) => {
+                const Icon = note.icon;
+                return (
+                  <div key={note.label} className="relative flex items-center gap-4">
+                    <span className="z-10 flex size-9 shrink-0 items-center justify-center rounded-full border border-foreground/20 bg-section-bg text-foreground">
+                      <Icon className="size-4" strokeWidth={1.6} aria-hidden="true" />
+                    </span>
+                    <div>
+                      <p className="text-xs font-semibold text-muted-foreground">{note.label}</p>
+                      <p className="mt-0.5 text-sm font-medium text-foreground">{note.value}</p>
+                    </div>
+                  </div>
+                );
+              })}
             </div>
-            <p className="absolute inset-x-8 bottom-12 text-center text-xs font-medium uppercase tracking-[0.16em] text-muted-foreground">
-              Data circles the question. The crop stays at the center.
+
+            <p className="mt-12 border-t border-foreground/15 pt-4 font-sans text-sm italic text-muted-foreground">
+              Prem Pratap Singh · field → bench → evidence
             </p>
-          </div>
+          </aside>
 
-          <div className="flex flex-col">
-            <div className="grid grid-cols-2 gap-3" role="tablist" aria-label="Crop improvement pathway">
+          <div>
+            <div className="grid grid-cols-2 border-b border-border sm:grid-cols-4" role="tablist" aria-label="Research pathway">
               {stages.map((stage) => {
-                const Icon = stage.icon;
                 const selected = stage.id === active.id;
                 return (
                   <button
@@ -161,51 +139,54 @@ export default function ResearchPathway() {
                     type="button"
                     role="tab"
                     aria-selected={selected}
-                    aria-controls="crop-improvement-panel"
+                    aria-controls="research-pathway-panel"
                     onClick={() => setActiveId(stage.id)}
-                    className={`relative rounded-2xl border p-4 text-left transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50 ${
-                      selected ? `${stage.activeClass} -translate-y-0.5 shadow-lg` : "border-border bg-card hover:border-muted-foreground/50"
+                    className={`border-b-2 px-4 py-4 text-left transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-foreground/40 sm:border-r sm:last:border-r-0 ${
+                      selected
+                        ? "border-b-foreground bg-muted/45 text-foreground"
+                        : "border-b-transparent text-muted-foreground hover:bg-muted/25 hover:text-foreground"
                     }`}
                   >
-                    <span className="flex items-center justify-between gap-3">
-                      <span className={`flex size-9 items-center justify-center rounded-xl ${stage.tone}`}>
-                        <Icon className="size-4" strokeWidth={1.8} aria-hidden="true" />
-                      </span>
-                      <span className="text-xs font-black tabular-nums text-muted-foreground/50">{stage.number}</span>
-                    </span>
-                    <span className="mt-3 block text-sm font-bold text-foreground">{stage.label}</span>
-                    <span className="mt-1 block text-xs text-muted-foreground">{stage.cue}</span>
-                    {selected && <span className={`absolute inset-x-4 bottom-0 h-0.5 rounded-full ${stage.glowClass}`} />}
+                    <span className="block font-mono text-[10px]">{stage.number}</span>
+                    <span className="mt-1 block text-xs font-semibold leading-tight">{stage.label}</span>
                   </button>
                 );
               })}
             </div>
 
-            <div id="crop-improvement-panel" role="tabpanel" aria-live="polite" className="relative mt-4 flex flex-1 flex-col justify-between overflow-hidden rounded-[2rem] border border-border bg-card p-6 sm:p-8">
-              <div className={`absolute inset-y-0 left-0 w-1 ${active.glowClass}`} />
-              <div className="flex items-start justify-between gap-4">
+            <div
+              id="research-pathway-panel"
+              role="tabpanel"
+              aria-live="polite"
+              className="flex min-h-[440px] flex-col p-7 sm:p-10"
+            >
+              <div className="flex items-start justify-between gap-5">
                 <div>
-                  <p className="text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">{active.cue}</p>
-                  <h3 className="mt-2 text-2xl font-bold text-foreground">{active.label}</h3>
+                  <p className="font-mono text-xs text-muted-foreground">Step {active.number}</p>
+                  <h3 className="mt-3 text-3xl font-semibold text-foreground sm:text-4xl">{active.label}</h3>
+                  <p className="mt-2 text-base text-muted-foreground">{active.cue}</p>
                 </div>
-                <span className={`flex size-12 items-center justify-center rounded-2xl ${active.tone}`}>
-                  <ActiveIcon className="size-5" strokeWidth={1.7} aria-hidden="true" />
+                <span className="flex size-12 shrink-0 items-center justify-center rounded-full border border-border text-foreground">
+                  <ActiveIcon className="size-5" strokeWidth={1.6} aria-hidden="true" />
                 </span>
               </div>
 
-              <div className="my-7 grid gap-5 sm:grid-cols-2">
-                <div>
-                  <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-muted-foreground">Data carried forward</p>
-                  <p className="mt-2 font-semibold text-foreground">{active.evidence}</p>
+              <div className="my-10 grid border-y border-border sm:grid-cols-2 sm:divide-x sm:divide-border">
+                <div className="py-6 sm:pr-8">
+                  <p className="text-xs font-semibold text-muted-foreground">Evidence carried forward</p>
+                  <p className="mt-3 text-lg font-medium leading-snug text-foreground">{active.evidence}</p>
                 </div>
-                <div>
-                  <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-muted-foreground">Crop value</p>
-                  <p className="mt-2 font-semibold text-foreground">{active.translation}</p>
+                <div className="border-t border-border py-6 sm:border-t-0 sm:pl-8">
+                  <p className="text-xs font-semibold text-muted-foreground">What it changes</p>
+                  <p className="mt-3 text-lg font-medium leading-snug text-foreground">{active.translation}</p>
                 </div>
               </div>
 
-              <Link href={active.href} className="inline-flex items-center gap-2 text-sm font-semibold text-primary transition-all hover:gap-3">
-                {active.linkLabel} <span aria-hidden="true">→</span>
+              <Link
+                href={active.href}
+                className="mt-auto inline-flex items-center gap-2 text-sm font-semibold text-foreground underline decoration-border underline-offset-4 transition-colors hover:decoration-foreground"
+              >
+                {active.linkLabel} <ArrowRight className="size-4" aria-hidden="true" />
               </Link>
             </div>
           </div>

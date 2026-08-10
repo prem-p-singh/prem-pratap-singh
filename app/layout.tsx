@@ -1,19 +1,23 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { IBM_Plex_Mono, IBM_Plex_Sans } from "next/font/google";
 import "./globals.css";
 import FloatingNavWrapper from "@/components/FloatingNavWrapper";
 import Footer from "@/components/Footer";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const plexSans = IBM_Plex_Sans({
+  variable: "--font-plex-sans",
   subsets: ["latin"],
+  weight: "variable",
+  style: ["normal", "italic"],
+  display: "swap",
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const plexMono = IBM_Plex_Mono({
+  variable: "--font-plex-mono",
   subsets: ["latin"],
+  weight: ["400", "500", "600"],
+  display: "swap",
 });
-
 
 const siteUrl = "https://www.prempsingh.com";
 
@@ -198,7 +202,7 @@ export default function RootLayout({
         <link rel="alternate" type="application/rss+xml" title="Prem Pratap Singh's Blog" href="/feed.xml" />
       </head>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen flex flex-col`}
+        className={`${plexSans.variable} ${plexMono.variable} antialiased min-h-screen flex flex-col`}
         suppressHydrationWarning
       >
         {/* Subtle gradient background */}
