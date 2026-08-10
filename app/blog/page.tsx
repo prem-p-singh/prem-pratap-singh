@@ -106,7 +106,28 @@ export default function BlogPage() {
                     className="object-cover group-hover:scale-[1.03] transition-transform duration-500"
                   />
                 ) : (
-                  <div className="w-full h-full bg-gradient-to-br from-primary/15 via-card to-accent/15" />
+                  <div className="relative flex h-full min-h-[280px] overflow-hidden bg-gradient-to-br from-emerald-500/15 via-card to-violet-500/15 p-7 sm:p-10">
+                    <div className="absolute -right-16 -top-20 size-56 rounded-full border border-emerald-500/20" />
+                    <div className="absolute -bottom-24 -left-16 size-64 rounded-full border border-violet-500/20" />
+                    <div className="relative z-10 flex w-full flex-col justify-between">
+                      <div className="flex items-center justify-between text-[11px] font-semibold uppercase tracking-[0.18em] text-muted-foreground">
+                        <span>Research field note</span>
+                        <span>Latest dispatch</span>
+                      </div>
+                      <div>
+                        <p className="max-w-sm text-3xl font-bold leading-tight text-foreground sm:text-4xl">
+                          A live notebook for plant disease ideas
+                        </p>
+                        <div className="mt-6 flex flex-wrap gap-2">
+                          {["Vineyard", "Multi-omics", "Disease signals"].map((label) => (
+                            <span key={label} className="rounded-full border border-border bg-background/70 px-3 py-1.5 text-xs font-medium text-foreground backdrop-blur-sm">
+                              {label}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 )}
               </div>
 
@@ -357,7 +378,7 @@ export default function BlogPage() {
         </section>
       )}
 
-      {/* All Posts (with client-side search) */}
+      {/* Interactive research radar and full reading list */}
       <section className="py-16">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           {posts.length > 0 ? (
