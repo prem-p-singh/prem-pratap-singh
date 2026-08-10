@@ -75,7 +75,7 @@ const personJsonLd = {
   jobTitle: "Plant Pathologist and Molecular Biologist",
   description:
     "Plant pathologist and molecular biologist with end-to-end NGS, multi-omics, and assay-development capability on commercial crop systems. Postdoctoral Scholar at UC Davis. Open to Scientist / Scientist II roles in ag-bio R&D and life-science tools.",
-  image: `${siteUrl}/images/profile.jpg`,
+  image: `${siteUrl}/images/headshot-1.jpg`,
   url: siteUrl,
   email: "ppssingh@ucdavis.edu",
   worksFor: {

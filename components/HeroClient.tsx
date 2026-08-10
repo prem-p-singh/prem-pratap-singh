@@ -100,7 +100,7 @@ export default function HeroClient() {
               <div className="absolute inset-0 rounded-full bg-gradient-to-br from-emerald-500/15 via-violet-500/10 to-sky-500/15 blur-3xl" />
               <div className="relative size-full overflow-hidden rounded-full border-2 border-border shadow-2xl">
                 <Image
-                  src="/images/profile.jpg"
+                  src="/images/headshot-1.jpg"
                   alt={personal.name}
                   fill
                   sizes="(max-width: 640px) 18rem, (max-width: 1024px) 20rem, 24rem"
@@ -108,13 +108,13 @@ export default function HeroClient() {
                   priority
                 />
               </div>
-              <span className="absolute -left-3 top-12 rounded-full border border-border bg-background/90 px-3 py-1.5 text-xs font-bold text-foreground shadow-lg backdrop-blur-sm sm:-left-10">
+              <span className="absolute -left-3 top-12 rounded-full border border-border bg-background/90 px-[0.975rem] py-[0.4875rem] text-[0.975rem] font-bold leading-none text-foreground shadow-lg backdrop-blur-sm sm:-left-10">
                 FIELD
               </span>
-              <span className="absolute -right-2 top-1/2 rounded-full border border-border bg-background/90 px-3 py-1.5 text-xs font-bold text-foreground shadow-lg backdrop-blur-sm sm:-right-12">
+              <span className="absolute -right-2 top-1/2 rounded-full border border-border bg-background/90 px-[0.975rem] py-[0.4875rem] text-[0.975rem] font-bold leading-none text-foreground shadow-lg backdrop-blur-sm sm:-right-12">
                 BENCH
               </span>
-              <span className="absolute bottom-8 left-5 rounded-full border border-border bg-background/90 px-3 py-1.5 text-xs font-bold text-foreground shadow-lg backdrop-blur-sm sm:left-0">
+              <span className="absolute bottom-8 left-5 rounded-full border border-border bg-background/90 px-[0.975rem] py-[0.4875rem] text-[0.975rem] font-bold leading-none text-foreground shadow-lg backdrop-blur-sm sm:left-0">
                 CODE
               </span>
             </div>

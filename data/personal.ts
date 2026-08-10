@@ -22,7 +22,7 @@ Doctoral training at Banaras Hindu University focused on mycotoxin control throu
     researchgate: "https://www.researchgate.net/profile/Prem-Singh-12",
     scopus: "https://www.scopus.com/authid/detail.uri?authorId=57199272095",
   },
-  avatar: "/images/profile.jpg",
+  avatar: "/images/headshot-1.jpg",
 };
 
 export const researchInterests = [

@@ -166,7 +166,7 @@ export default async function BlogPostPage({ params }: Props) {
             <div className="flex items-center gap-4 text-sm text-muted-foreground">
               <div className="flex items-center gap-2">
                 <Image
-                  src="/images/profile.jpg"
+                  src="/images/headshot-1.jpg"
                   alt="Prem Pratap Singh"
                   width={40}
                   height={40}
