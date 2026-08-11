@@ -85,13 +85,17 @@ html {
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: var(--font-sans), "Avenir Next", "Helvetica Neue", Arial, sans-serif;
+  /* Reference --font-urbanist directly. The @theme inline block above feeds the
+     Tailwind font utilities, but it does not publish --font-sans as a custom
+     property, so var(--font-sans) here resolves to Tailwind's default stack and
+     the page silently renders in the system font. */
+  font-family: var(--font-urbanist), "Avenir Next", "Helvetica Neue", Arial, sans-serif;
   line-height: 1.6;
 }
 
 /* One consistent professional typeface across body copy and headings. */
 h1, h2, h3 {
-  font-family: var(--font-sans), "Avenir Next", "Helvetica Neue", Arial, sans-serif;
+  font-family: var(--font-urbanist), "Avenir Next", "Helvetica Neue", Arial, sans-serif;
   letter-spacing: -0.024em;
   text-wrap: balance;
 }
