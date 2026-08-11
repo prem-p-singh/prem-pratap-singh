@@ -156,7 +156,7 @@ export default function VisualGallery() {
 
   return (
     <>
-      <section className="py-12 sm:py-14" aria-labelledby="visual-gallery-title">
+      <section className="py-6 sm:py-8" aria-labelledby="visual-gallery-title">
         <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
             <div>

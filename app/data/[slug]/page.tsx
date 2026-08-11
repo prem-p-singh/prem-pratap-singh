@@ -54,7 +54,7 @@ export default async function DataReportPage({ params }: Props) {
 
   return (
     <article className="pt-16">
-      <section className="py-12 bg-gradient-to-b from-muted to-background">
+      <section className="bg-gradient-to-b from-muted to-background pt-12">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
           <Link
             href="/data"
@@ -81,7 +81,7 @@ export default async function DataReportPage({ params }: Props) {
       </section>
 
       {/* Provenance card */}
-      <section className="py-8">
+      <section className="pt-8">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="rounded-xl border border-border bg-card p-5 grid sm:grid-cols-2 gap-4 text-sm">
             {post.dataset && (

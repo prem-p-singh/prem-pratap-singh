@@ -40,7 +40,7 @@ export default function Home() {
       <WorkExperience />
       <CareerMap />
 
-      <section id="publications" className="py-14 sm:py-16">
+      <section id="publications" className="py-6 sm:py-8">
         <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
           <div className="mb-12 flex flex-wrap items-end justify-between gap-4">
             <div>
@@ -77,7 +77,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section id="projects" className="py-14 sm:py-16">
+      <section id="projects" className="py-6 sm:py-8">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="mb-12 max-w-3xl">
             <p className="text-sm font-semibold text-muted-foreground">
@@ -96,7 +96,7 @@ export default function Home() {
       </section>
 
       {latestPosts.length > 0 && (
-        <section id="blog" className="py-14 sm:py-16">
+        <section id="blog" className="py-6 sm:py-8">
           <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
             <div className="mb-12 flex flex-wrap items-end justify-between gap-4">
               <div>
@@ -170,7 +170,7 @@ export default function Home() {
         </section>
       )}
 
-      <section id="contact" className="py-14 sm:py-16">
+      <section id="contact" className="py-6 sm:py-8">
         <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
           <div className="relative overflow-hidden rounded-[2.5rem] border border-border bg-card p-6 sm:p-10 lg:p-12">
             <div className="pointer-events-none absolute -right-24 -top-24 size-72 rounded-full border border-emerald-400/15 bg-emerald-400/[0.04]" />

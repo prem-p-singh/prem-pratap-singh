@@ -117,7 +117,7 @@ export default async function BlogPostPage({ params }: Props) {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(articleJsonLd) }}
       />
       {/* Hero */}
-      <section className="bg-gradient-to-b from-muted to-background py-12 sm:py-14">
+      <section className="bg-gradient-to-b from-muted to-background pb-6 pt-12 sm:pb-8 sm:pt-14">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Back Link */}
           <Link
@@ -186,7 +186,7 @@ export default async function BlogPostPage({ params }: Props) {
       </section>
 
       {/* Content */}
-      <section className="py-8 sm:py-10">
+      <section className="pb-8 pt-6 sm:pb-10 sm:pt-8">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="prose prose-lg prose-invert max-w-none text-left
             prose-headings:font-bold prose-headings:tracking-tight prose-headings:text-left

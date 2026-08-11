@@ -78,7 +78,7 @@ export default function JourneyChapters() {
   const active = chapters[activeIndex] ?? chapters[0];
 
   return (
-    <section className="py-12 sm:py-14" aria-labelledby="journey-chapters-title">
+    <section className="py-6 sm:py-8" aria-labelledby="journey-chapters-title">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
           <div>

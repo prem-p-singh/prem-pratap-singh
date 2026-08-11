@@ -17,7 +17,7 @@ const workingSequence = [
 
 export default function ResearchSnapshot() {
   return (
-    <section id="about" className="py-14 sm:py-16" aria-labelledby="research-snapshot-title">
+    <section id="about" className="py-6 sm:py-8" aria-labelledby="research-snapshot-title">
       <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
         <div className="grid gap-5 lg:grid-cols-[1fr_0.55fr] lg:items-end">
           <div>
