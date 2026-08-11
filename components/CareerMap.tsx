@@ -43,11 +43,11 @@ const stops: CareerStop[] = [
     outcome: "Biological foundation",
     icon: BookOpen,
     height: "h-32",
-    tone: "border-emerald-400/40 bg-emerald-400/15 text-emerald-400",
+    tone: "border-emerald-600/55 bg-emerald-500/15 text-emerald-700 dark:border-emerald-300/45 dark:bg-emerald-400/15 dark:text-emerald-300",
     bar: "from-emerald-500/40 via-emerald-500/20 to-emerald-500/[0.06]",
-    border: "border-emerald-400/60",
-    activeBorder: "border-emerald-400",
-    accent: "bg-emerald-400",
+    border: "border-emerald-600/70 dark:border-emerald-400/60",
+    activeBorder: "border-emerald-600 dark:border-emerald-400",
+    accent: "bg-emerald-600 dark:bg-emerald-400",
   },
   {
     id: "msc",
@@ -60,11 +60,11 @@ const stops: CareerStop[] = [
     outcome: "Gold medal · first paper",
     icon: Award,
     height: "h-40",
-    tone: "border-amber-400/40 bg-amber-400/15 text-amber-400",
+    tone: "border-amber-600/55 bg-amber-500/15 text-amber-700 dark:border-amber-300/45 dark:bg-amber-400/15 dark:text-amber-300",
     bar: "from-amber-500/40 via-amber-500/20 to-amber-500/[0.06]",
-    border: "border-amber-400/60",
-    activeBorder: "border-amber-400",
-    accent: "bg-amber-400",
+    border: "border-amber-600/70 dark:border-amber-400/60",
+    activeBorder: "border-amber-600 dark:border-amber-400",
+    accent: "bg-amber-600 dark:bg-amber-400",
   },
   {
     id: "phd",
@@ -77,11 +77,11 @@ const stops: CareerStop[] = [
     outcome: "85% less mold · toxin eliminated",
     icon: Microscope,
     height: "h-48",
-    tone: "border-orange-400/40 bg-orange-400/15 text-orange-400",
+    tone: "border-orange-600/55 bg-orange-500/15 text-orange-700 dark:border-orange-300/45 dark:bg-orange-400/15 dark:text-orange-300",
     bar: "from-orange-500/40 via-orange-500/20 to-orange-500/[0.06]",
-    border: "border-orange-400/60",
-    activeBorder: "border-orange-400",
-    accent: "bg-orange-400",
+    border: "border-orange-600/70 dark:border-orange-400/60",
+    activeBorder: "border-orange-600 dark:border-orange-400",
+    accent: "bg-orange-600 dark:bg-orange-400",
   },
   {
     id: "postdoc",
@@ -94,11 +94,11 @@ const stops: CareerStop[] = [
     outcome: "300+ samples · 1.3B+ reads",
     icon: Database,
     height: "h-56",
-    tone: "border-violet-400/40 bg-violet-400/15 text-violet-400",
+    tone: "border-violet-600/55 bg-violet-500/15 text-violet-700 dark:border-violet-300/45 dark:bg-violet-400/15 dark:text-violet-300",
     bar: "from-violet-500/40 via-violet-500/20 to-violet-500/[0.06]",
-    border: "border-violet-400/60",
-    activeBorder: "border-violet-400",
-    accent: "bg-violet-400",
+    border: "border-violet-600/70 dark:border-violet-400/60",
+    activeBorder: "border-violet-600 dark:border-violet-400",
+    accent: "bg-violet-600 dark:bg-violet-400",
   },
   {
     id: "ai",
@@ -111,11 +111,11 @@ const stops: CareerStop[] = [
     outcome: "Scientific AI evaluation",
     icon: Bot,
     height: "h-64",
-    tone: "border-sky-400/40 bg-sky-400/15 text-sky-400",
+    tone: "border-sky-600/55 bg-sky-500/15 text-sky-700 dark:border-sky-300/45 dark:bg-sky-400/15 dark:text-sky-300",
     bar: "from-sky-500/40 via-sky-500/20 to-sky-500/[0.06]",
-    border: "border-sky-400/60",
-    activeBorder: "border-sky-400",
-    accent: "bg-sky-400",
+    border: "border-sky-600/70 dark:border-sky-400/60",
+    activeBorder: "border-sky-600 dark:border-sky-400",
+    accent: "bg-sky-600 dark:bg-sky-400",
   },
 ];
 
@@ -136,16 +136,16 @@ export default function CareerMap() {
           </div>
           <div className="grid grid-cols-[auto_minmax(0,1fr)] gap-x-5 border-y border-border py-5">
             <div className="row-span-2 flex flex-col items-center py-1" aria-hidden="true">
-              <span className="size-3 rounded-full bg-emerald-400" />
-              <span className="min-h-12 w-px flex-1 bg-gradient-to-b from-emerald-400 via-violet-400 to-sky-400" />
-              <span className="size-3 rounded-full border-2 border-sky-400 bg-card" />
+              <span className="size-3 rounded-full bg-emerald-600 dark:bg-emerald-400" />
+              <span className="min-h-12 w-px flex-1 bg-gradient-to-b from-emerald-600 via-violet-600 to-sky-600 dark:from-emerald-400 dark:via-violet-400 dark:to-sky-400" />
+              <span className="size-3 rounded-full border-2 border-sky-600 bg-card dark:border-sky-400" />
             </div>
             <div className="pb-5">
-              <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-emerald-400">Start with</p>
+              <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-emerald-700 dark:text-emerald-300">Start with</p>
               <p className="mt-1 text-lg font-semibold text-foreground">A crop question in the field</p>
             </div>
             <div className="border-t border-border pt-5">
-              <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-sky-400">Return with</p>
+              <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-sky-700 dark:text-sky-300">Return with</p>
               <p className="mt-1 text-lg font-semibold text-foreground">Evidence that can guide selection</p>
             </div>
             <p className="col-span-2 mt-5 border-t border-border pt-4 text-xs leading-relaxed text-muted-foreground">
@@ -171,8 +171,8 @@ export default function CareerMap() {
                   selected ? `${stop.activeBorder} bg-card` : "border-border bg-background hover:bg-card"
                 }`}
               >
-                <span className={`relative z-10 flex size-11 items-center justify-center rounded-2xl border bg-card ${stop.tone}`}>
-                  <Icon className="size-5" strokeWidth={1.8} aria-hidden="true" />
+                <span className={`relative z-10 flex size-[3.6rem] items-center justify-center rounded-2xl border bg-card ${stop.tone}`}>
+                  <Icon className="size-[1.625rem]" strokeWidth={2.1} aria-hidden="true" />
                 </span>
                 <span className="min-w-0">
                   <span className="flex flex-wrap items-center gap-x-2 gap-y-0.5 text-[10px] font-semibold uppercase tracking-[0.14em] text-muted-foreground">
@@ -228,8 +228,8 @@ export default function CareerMap() {
                         selected ? `${stop.activeBorder} -translate-y-1` : "border-border group-hover:-translate-y-0.5 group-hover:border-muted-foreground/60"
                       }`}>
                         <span className="absolute left-4 top-4 text-[10px] font-semibold tabular-nums text-foreground/50">0{index + 1}</span>
-                        <span className={`flex size-12 items-center justify-center rounded-2xl border ${stop.tone}`}>
-                          <Icon className="size-6" strokeWidth={1.8} aria-hidden="true" />
+                        <span className={`flex size-[3.9rem] items-center justify-center rounded-2xl border ${stop.tone}`}>
+                          <Icon className="size-[1.95rem]" strokeWidth={2.1} aria-hidden="true" />
                         </span>
                         <span className="mt-auto w-full pb-4 text-center">
                           <span className="block text-[10px] font-semibold uppercase tracking-[0.16em] text-muted-foreground">{stop.stage}</span>
@@ -269,17 +269,17 @@ export default function CareerMap() {
           </div>
           <div className="grid sm:grid-cols-3">
             <div className="p-6 sm:border-r sm:border-border sm:p-8">
-              <Sprout className="size-6 text-emerald-400" strokeWidth={1.8} aria-hidden="true" />
+              <Sprout className="size-[1.95rem] text-emerald-700 dark:text-emerald-300" strokeWidth={2.1} aria-hidden="true" />
               <p className="mt-3 text-[10px] font-semibold uppercase tracking-[0.18em] text-muted-foreground">Crop focus</p>
               <p className="mt-2 text-lg font-semibold leading-snug text-foreground">{active.cropFocus}</p>
             </div>
             <div className="border-t border-border p-6 sm:border-r sm:border-t-0 sm:p-8">
-              <Database className="size-6 text-violet-400" strokeWidth={1.8} aria-hidden="true" />
+              <Database className="size-[1.95rem] text-violet-700 dark:text-violet-300" strokeWidth={2.1} aria-hidden="true" />
               <p className="mt-3 text-[10px] font-semibold uppercase tracking-[0.18em] text-muted-foreground">Data added</p>
               <p className="mt-2 text-lg font-semibold leading-snug text-foreground">{active.dataLayer}</p>
             </div>
             <div className="border-t border-border p-6 sm:border-t-0 sm:p-8">
-              <Target className="size-6 text-amber-400" strokeWidth={1.8} aria-hidden="true" />
+              <Target className="size-[1.95rem] text-amber-700 dark:text-amber-300" strokeWidth={2.1} aria-hidden="true" />
               <p className="mt-3 text-[10px] font-semibold uppercase tracking-[0.18em] text-muted-foreground">Result</p>
               <p className="mt-2 text-lg font-semibold leading-snug text-foreground">{active.outcome}</p>
             </div>
