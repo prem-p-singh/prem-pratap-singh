@@ -61,7 +61,7 @@ export default function Home() {
           <div className="mt-16">
             <div className="mb-8 flex flex-wrap items-end justify-between gap-3">
               <div>
-                <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-muted-foreground">
+                <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
                   The evidence shelf
                 </p>
                 <h3 className="mt-2 text-2xl font-bold text-foreground">

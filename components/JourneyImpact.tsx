@@ -57,7 +57,7 @@ export default function JourneyImpact() {
           <p className="text-xs text-muted-foreground mt-1">{s.l}</p>
         </div>
       ))}
-      <p className="col-span-2 sm:col-span-4 text-center text-[11px] text-muted-foreground/70 mt-2">
+      <p className="col-span-2 sm:col-span-4 text-center text-xs text-muted-foreground/70 mt-2">
         Citations and indices update automatically from OpenAlex.
       </p>
     </div>

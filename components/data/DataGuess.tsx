@@ -22,7 +22,7 @@ export default function DataGuess({
   return (
     <section className="not-prose my-8 overflow-hidden rounded-3xl border border-border bg-card shadow-sm">
       <div className="border-b border-border bg-gradient-to-r from-sky-400/[0.10] via-card to-emerald-400/[0.10] p-5 sm:p-6">
-        <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-sky-700 dark:text-sky-300">
+        <p className="text-xs font-semibold uppercase tracking-[0.18em] text-sky-700 dark:text-sky-300">
           Guess before the graph
         </p>
         <h2 className="mt-2 text-xl font-bold leading-snug text-foreground sm:text-2xl">

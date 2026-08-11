@@ -43,7 +43,7 @@ export default function FloatingNavWrapper() {
             </span>
             <span className="leading-snug">
               <span className="block text-sm font-semibold">Prem P. Singh</span>
-              <span className="block text-[11px] font-medium text-muted-foreground">Plant scientist · Data scientist</span>
+              <span className="block text-xs font-medium text-muted-foreground">Plant scientist · Data scientist</span>
             </span>
           </Link>
 
@@ -115,7 +115,7 @@ export default function FloatingNavWrapper() {
             <span className="flex size-9 items-center justify-center rounded-xl border border-emerald-400/35 bg-emerald-400/10 text-sm font-bold text-emerald-500 dark:text-emerald-300">PS</span>
             <span>
               <span className="block text-sm font-semibold leading-tight">Prem P. Singh</span>
-              <span className="block text-[10px] font-medium leading-snug text-muted-foreground">Plant scientist · Data scientist</span>
+              <span className="block text-xs font-medium leading-snug text-muted-foreground">Plant scientist · Data scientist</span>
             </span>
           </Link>
           <div className="flex items-center gap-1">
@@ -137,7 +137,7 @@ export default function FloatingNavWrapper() {
       {mobileOpen && (
         <div id="mobile-navigation" className="fixed inset-0 z-[5000] bg-background/95 px-4 pb-6 pt-20 backdrop-blur-xl lg:hidden">
           <nav aria-label="Mobile navigation" className="mx-auto flex h-full max-w-lg flex-col overflow-y-auto rounded-3xl border border-border bg-card p-5">
-            <p className="px-2 text-[10px] font-semibold uppercase tracking-[0.2em] text-muted-foreground">Navigate</p>
+            <p className="px-2 text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">Navigate</p>
             <div className="mt-3 grid grid-cols-2 gap-1">
               {primaryItems.map((item) => (
                 <Link
@@ -152,7 +152,7 @@ export default function FloatingNavWrapper() {
             </div>
 
             <div className="mt-6 border-t border-border pt-5">
-              <p className="px-2 text-[10px] font-semibold uppercase tracking-[0.2em] text-muted-foreground">Explore more</p>
+              <p className="px-2 text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">Explore more</p>
               <div className="mt-3 space-y-1">
                 {exploreItems.map((item) => (
                   <Link

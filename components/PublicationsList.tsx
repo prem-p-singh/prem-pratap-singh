@@ -120,7 +120,7 @@ export default function PublicationsList({ publications }: { publications: Publi
                   {publication.methods && publication.methods.length > 0 && (
                     <div className="mt-3 flex flex-wrap gap-1.5">
                       {publication.methods.map((method) => (
-                        <span key={method} className="rounded-full border border-border bg-background px-2 py-1 text-[10px] font-medium text-foreground/75">
+                        <span key={method} className="rounded-full border border-border bg-background px-2 py-1 text-xs font-medium text-foreground/75">
                           {method}
                         </span>
                       ))}

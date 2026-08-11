@@ -58,7 +58,7 @@ export default function MethodsPage() {
                   </div>
                   <div className="flex flex-col flex-grow p-6">
                     {post.method && (
-                      <span className="inline-flex self-start px-2 py-0.5 mb-2 text-[11px] font-semibold uppercase tracking-wider rounded-md bg-primary/10 text-primary">
+                      <span className="inline-flex self-start px-2 py-0.5 mb-2 text-xs font-semibold uppercase tracking-wider rounded-md bg-primary/10 text-primary">
                         {post.method}
                       </span>
                     )}
@@ -68,12 +68,12 @@ export default function MethodsPage() {
                     {(post.origin || post.reappliedTo) && (
                       <div className="mt-4 grid grid-cols-[1fr_auto_1fr] items-center gap-3 border-t border-border pt-4">
                         <div className="min-w-0">
-                          <p className="text-[10px] font-semibold uppercase tracking-wider text-emerald-400">Built in</p>
+                          <p className="text-xs font-semibold uppercase tracking-wider text-emerald-400">Built in</p>
                           <p className="mt-1 truncate text-xs font-medium text-foreground">{post.origin || "Original study"}</p>
                         </div>
                         <ArrowRight className="size-4 text-muted-foreground/50" aria-hidden="true" />
                         <div className="min-w-0">
-                          <p className="text-[10px] font-semibold uppercase tracking-wider text-sky-400">Re-tested on</p>
+                          <p className="text-xs font-semibold uppercase tracking-wider text-sky-400">Re-tested on</p>
                           <p className="mt-1 truncate text-xs font-medium text-foreground">{post.reappliedTo || "Public data"}</p>
                         </div>
                       </div>

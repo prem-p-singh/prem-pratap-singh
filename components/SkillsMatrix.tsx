@@ -47,7 +47,7 @@ export default function SkillsMatrix() {
       <div className="border-b border-border lg:border-b-0 lg:border-r">
         <div className="flex items-center justify-between border-b border-border px-5 py-4 sm:px-6">
           <p className="text-sm font-semibold text-foreground">Capability index</p>
-          <span className="font-mono text-[11px] text-muted-foreground">08 domains</span>
+          <span className="font-mono text-xs text-muted-foreground">08 domains</span>
         </div>
 
         <div role="tablist" aria-label="Research capability domains">
@@ -83,7 +83,7 @@ export default function SkillsMatrix() {
                 <span className="min-w-0 flex-1 truncate text-sm font-medium">
                   {skill.short ?? skill.category}
                 </span>
-                <span className="font-mono text-[10px] text-muted-foreground">{skill.items.length}</span>
+                <span className="font-mono text-xs text-muted-foreground">{skill.items.length}</span>
                 <ChevronRight
                   className={`size-3.5 transition-transform ${selected ? `translate-x-0.5 ${visual.text}` : "text-muted-foreground/45"}`}
                   aria-hidden="true"
@@ -113,14 +113,14 @@ export default function SkillsMatrix() {
           </div>
           <div className="shrink-0 text-right">
             <p className={`font-mono text-2xl font-medium ${activeVisual.text}`}>{domain.items.length}</p>
-            <p className="text-[11px] text-muted-foreground">verified skills</p>
+            <p className="text-xs text-muted-foreground">verified skills</p>
           </div>
         </div>
 
         <ol className="mt-7 grid border-t border-border sm:grid-cols-2 sm:gap-x-8">
           {visible.map((item, index) => (
             <li key={item} className="flex gap-3 border-b border-border py-3 text-sm leading-snug text-foreground/85">
-              <span className={`mt-0.5 font-mono text-[10px] ${activeVisual.text}`}>
+              <span className={`font-mono text-xs ${activeVisual.text}`}>
                 {String(index + 1).padStart(2, "0")}
               </span>
               <span>{item}</span>

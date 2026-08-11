@@ -44,7 +44,7 @@ export function VineyardCaseFile() {
   return (
     <section className="not-prose my-10 overflow-hidden rounded-3xl border border-border bg-card shadow-sm">
       <div className="border-b border-border bg-gradient-to-r from-orange-500/[0.10] via-card to-violet-500/[0.10] px-5 py-6 sm:px-7">
-        <div className="flex flex-wrap items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.18em] text-muted-foreground">
+        <div className="flex flex-wrap items-center gap-2 text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">
           <span className="rounded-full bg-orange-500/15 px-2.5 py-1 text-orange-600 dark:text-orange-300">
             Case file 01
           </span>
@@ -292,7 +292,7 @@ export function CropGrowthExplorer() {
   return (
     <section className="not-prose my-10 overflow-hidden rounded-3xl border border-border bg-card shadow-sm">
       <div className="border-b border-border bg-gradient-to-r from-emerald-500/[0.10] via-card to-sky-500/[0.10] px-5 py-6 sm:px-7">
-        <div className="flex flex-wrap items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.18em] text-muted-foreground">
+        <div className="flex flex-wrap items-center gap-2 text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">
           <span className="rounded-full bg-emerald-500/15 px-2.5 py-1 text-emerald-600 dark:text-emerald-300">
             Case file 02
           </span>
@@ -349,7 +349,7 @@ export function CropGrowthExplorer() {
 
       <div className="p-5 sm:p-7">
         <label className="block sm:hidden">
-          <span className="text-[10px] font-semibold uppercase tracking-[0.16em] text-muted-foreground">Explore a crop</span>
+          <span className="text-xs font-semibold uppercase tracking-[0.16em] text-muted-foreground">Explore a crop</span>
           <select
             value={selected.name}
             onChange={(event) => setSelectedName(event.target.value)}
@@ -430,7 +430,7 @@ export function CropGrowthExplorer() {
                 </div>
 
                 <div className="mt-7 overflow-hidden rounded-full bg-muted" aria-label={`${selected.name}: ${landShare.toFixed(1)} percent land pathway and ${yieldShare.toFixed(1)} percent direct pathway`}>
-                  <div className="flex h-10 w-full text-[11px] font-semibold">
+                  <div className="flex h-10 w-full text-xs font-semibold">
                     <div
                       className="flex items-center justify-center bg-emerald-500 text-white"
                       style={{ width: `${landShare}%` }}

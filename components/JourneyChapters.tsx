@@ -133,7 +133,7 @@ export default function JourneyChapters() {
                       : "border-transparent bg-card/50 hover:border-border hover:bg-card"
                   }`}
                 >
-                  <span className={`relative z-10 flex size-6 shrink-0 items-center justify-center rounded-full text-[10px] font-bold ${chapter.numberClass}`}>
+                  <span className={`relative z-10 flex size-6 shrink-0 items-center justify-center rounded-full text-xs font-bold ${chapter.numberClass}`}>
                     {index + 1}
                   </span>
                   <span>

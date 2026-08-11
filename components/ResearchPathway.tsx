@@ -187,7 +187,7 @@ export default function ResearchPathway() {
                         : "border-b-transparent text-muted-foreground hover:bg-muted/25 hover:text-foreground"
                     }`}
                   >
-                    <span className={`block text-[11px] font-semibold tabular-nums ${stage.numberClass}`}>{stage.number}</span>
+                    <span className={`block text-xs font-semibold tabular-nums ${stage.numberClass}`}>{stage.number}</span>
                     <span className="mt-1 block text-xs font-semibold leading-tight">{stage.label}</span>
                   </button>
                 );

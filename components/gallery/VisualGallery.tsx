@@ -223,7 +223,7 @@ export default function VisualGallery() {
                   </span>
                 </span>
                 <span className="block border-t border-border p-4">
-                  <span className="text-[11px] font-semibold uppercase tracking-[0.16em] text-muted-foreground">
+                  <span className="text-xs font-semibold uppercase tracking-[0.16em] text-muted-foreground">
                     {item.category}
                   </span>
                   <span className="mt-1.5 block font-semibold leading-snug text-foreground group-hover:text-primary">

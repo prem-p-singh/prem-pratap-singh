@@ -42,7 +42,7 @@ export default function ResearchSnapshot() {
                 key={item.label}
                 className={`flex items-center gap-3 border-b border-t-2 border-b-border px-4 py-4 last:border-b-0 sm:[&:nth-child(3)]:border-b-0 sm:[&:nth-child(4)]:border-b-0 lg:border-b-0 lg:border-r lg:last:border-r-0 ${item.rule}`}
               >
-                <span className={`font-mono text-[10px] ${item.tone}`}>0{index + 1}</span>
+                <span className={`font-mono text-xs ${item.tone}`}>0{index + 1}</span>
                 <Icon className={`size-6 ${item.tone}`} strokeWidth={1.6} aria-hidden="true" />
                 <span className="text-sm font-medium text-foreground">{item.label}</span>
                 {index < workingSequence.length - 1 && (

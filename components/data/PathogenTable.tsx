@@ -101,7 +101,7 @@ export default function PathogenTable() {
                     {r.disease}
                   </span>
                   <span
-                    className={`inline-block mt-1.5 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide rounded ${
+                    className={`inline-block mt-1.5 px-2 py-0.5 text-xs font-semibold uppercase tracking-wide rounded ${
                       GROUP_STYLE[r.group] ?? "bg-muted text-muted-foreground"
                     }`}
                   >

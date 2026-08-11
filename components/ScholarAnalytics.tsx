@@ -58,7 +58,7 @@ export default function ScholarAnalytics() {
     <div className="min-w-0 overflow-hidden rounded-[2rem] border border-border bg-card">
       <div className="flex flex-col gap-5 border-b border-border p-5 sm:p-7 lg:flex-row lg:items-center lg:justify-between">
         <div>
-          <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-emerald-600 dark:text-emerald-300">
+          <p className="text-xs font-semibold uppercase tracking-[0.22em] text-emerald-600 dark:text-emerald-300">
             Citation signals
           </p>
           <h3 className="mt-2 text-2xl font-bold tracking-tight text-foreground">
@@ -83,7 +83,7 @@ export default function ScholarAnalytics() {
             >
               {label}
               {tab === "openalex" && (
-                <span className="ml-1.5 hidden rounded-full bg-emerald-400/15 px-1.5 py-0.5 text-[9px] text-emerald-600 dark:text-emerald-300 sm:inline">
+                <span className="ml-1.5 hidden rounded-full bg-emerald-400/15 px-1.5 py-0.5 text-xs text-emerald-600 dark:text-emerald-300 sm:inline">
                   LIVE
                 </span>
               )}
@@ -126,7 +126,7 @@ export default function ScholarAnalytics() {
                       style={{ width: `${recentCitationShare}%` }}
                     />
                   </div>
-                  <p className="mt-2 text-[11px] leading-relaxed text-muted-foreground">
+                  <p className="mt-2 text-xs leading-relaxed text-muted-foreground">
                     Most citations arrived in the recent research window.
                   </p>
                 </div>
@@ -152,7 +152,7 @@ export default function ScholarAnalytics() {
             </div>
 
             <div className="min-w-0 rounded-3xl border border-border bg-background/60 p-5 sm:p-8">
-              <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-muted-foreground">
+              <p className="text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">
                 Research network
               </p>
               <div className="mt-8 grid items-center gap-3 sm:grid-cols-[1fr_auto_1fr_auto_1fr]">
@@ -245,7 +245,7 @@ function CitationPanel({ data }: { data: { year: number; count: number }[] }) {
     <div className="min-w-0 overflow-hidden rounded-3xl border border-border bg-background/60 p-4 sm:p-7">
       <div className="flex items-center justify-between gap-4">
         <div>
-          <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-muted-foreground">
+          <p className="text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">
             Momentum
           </p>
           <p className="mt-1 text-lg font-bold text-foreground">Citations by year</p>
@@ -265,7 +265,7 @@ function MetricTile({ label, value }: { label: string; value: string }) {
   return (
     <div className="rounded-2xl border border-border bg-card/70 p-4">
       <p className="text-2xl font-black tracking-tight text-foreground">{value}</p>
-      <p className="mt-1 text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">{label}</p>
+      <p className="mt-1 text-xs font-semibold uppercase tracking-wider text-muted-foreground">{label}</p>
     </div>
   );
 }
@@ -274,7 +274,7 @@ function FlowMetric({ label, value }: { label: string; value: string }) {
   return (
     <div className="rounded-2xl border border-border bg-card p-4 text-center">
       <p className="text-2xl font-black text-foreground">{value}</p>
-      <p className="mt-1 text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">{label}</p>
+      <p className="mt-1 text-xs font-semibold uppercase tracking-wider text-muted-foreground">{label}</p>
     </div>
   );
 }
@@ -336,7 +336,7 @@ function CitationBarGraph({ data }: { data: { year: number; count: number }[] })
               y={yScale(tick) + 4}
               textAnchor="end"
               className="fill-[var(--muted-foreground)]"
-              fontSize={11}
+              fontSize={12}
             >
               {tick}
             </text>
@@ -402,7 +402,7 @@ function CitationBarGraph({ data }: { data: { year: number; count: number }[] })
                 y={height - 6}
                 textAnchor="middle"
                 className="fill-[var(--muted-foreground)]"
-                fontSize={11}
+                fontSize={12}
               >
                 {d.year}
               </text>

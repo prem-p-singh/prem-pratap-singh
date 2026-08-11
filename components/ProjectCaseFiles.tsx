@@ -58,7 +58,7 @@ export default function ProjectCaseFiles({ projects }: { projects: Project[] }) 
               </div>
 
               <div className="col-span-2 col-start-2 row-start-2 md:col-span-1 md:col-start-3 md:row-start-1">
-                <p className="text-[11px] font-semibold text-muted-foreground">Methods</p>
+                <p className="text-xs font-semibold text-muted-foreground">Methods</p>
                 <p className="mt-1 text-sm leading-snug text-foreground/80">{methods}</p>
               </div>
 
@@ -66,7 +66,7 @@ export default function ProjectCaseFiles({ projects }: { projects: Project[] }) 
                 <p className={`text-2xl font-semibold leading-none ${tone.text}`}>
                   {project.resultStat || "Evidence"}
                 </p>
-                <p className="mt-1 text-[11px] text-muted-foreground">outcome</p>
+                <p className="mt-1 text-xs text-muted-foreground">outcome</p>
               </div>
 
               <ChevronDown
