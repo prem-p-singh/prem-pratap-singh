@@ -40,7 +40,7 @@ const roleDetails: Record<
 
 export default function WorkExperience() {
   return (
-    <section id="experience" className="scroll-mt-24 py-20" aria-labelledby="work-experience-title">
+    <section id="experience" className="scroll-mt-24 py-14 sm:py-16" aria-labelledby="work-experience-title">
       <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
         <div className="grid gap-5 border-b border-border pb-9 lg:grid-cols-[minmax(0,1fr)_22rem] lg:items-end">
           <div>

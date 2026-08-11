@@ -63,7 +63,7 @@ export default function BlogPage() {
       </section>
 
       {featured && (
-        <section className="pb-16">
+        <section className="pb-12 sm:pb-14">
           <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
             <Link
               href={`/blog/${featured.slug}`}
@@ -108,7 +108,7 @@ export default function BlogPage() {
       )}
 
       {library.length > 0 && (
-        <section className="border-t border-border py-16">
+        <section className="border-t border-border py-12 sm:py-14">
           <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
             <BlogSearchList posts={library} />
           </div>

@@ -124,7 +124,7 @@ export default function ResearchPathway() {
   const ActiveIcon = active.icon;
 
   return (
-    <section className="relative py-20" aria-labelledby="research-pathway-title">
+    <section className="relative py-14 sm:py-16" aria-labelledby="research-pathway-title">
       <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
         <div className="max-w-4xl">
           <p className="text-sm font-semibold text-muted-foreground">How I work</p>

@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 export default function GalleryPage() {
   return (
     <div className="min-h-screen pt-16">
-      <section className="bg-gradient-to-b from-muted to-background py-20">
+      <section className="bg-gradient-to-b from-muted to-background py-14 sm:py-16">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <p className="mb-4 text-sm font-bold uppercase tracking-wide text-foreground">
             Charts · maps · mechanisms · research illustrations

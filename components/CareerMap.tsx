@@ -124,7 +124,7 @@ export default function CareerMap() {
   const active = stops.find((stop) => stop.id === activeId) ?? stops[0];
 
   return (
-    <section id="career-progression" className="scroll-mt-24 py-20" aria-labelledby="career-map-title">
+    <section id="career-progression" className="scroll-mt-24 py-14 sm:py-16" aria-labelledby="career-map-title">
       <span id="education" className="scroll-mt-24" aria-hidden="true" />
       <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
         <div className="grid gap-10 lg:grid-cols-[1.08fr_0.72fr] lg:items-end lg:gap-16">

@@ -15,7 +15,7 @@ export default function JourneyPage() {
   return (
     <div className="pt-16 min-h-screen">
       {/* Header */}
-      <section className="py-20 bg-gradient-to-b from-muted to-background">
+      <section className="bg-gradient-to-b from-muted to-background py-14 sm:py-16">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <p className="text-sm font-bold text-foreground mb-4 tracking-wide uppercase">
             Curiosity · Method · Evidence · Impact
@@ -31,7 +31,7 @@ export default function JourneyPage() {
 
       <JourneyChapters />
 
-      <section className="py-16 border-y border-border">
+      <section className="border-y border-border py-12 sm:py-14">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="max-w-2xl mx-auto text-center">
             <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
@@ -46,7 +46,7 @@ export default function JourneyPage() {
       </section>
 
       {/* Gratitude */}
-      <section className="py-16">
+      <section className="py-12 sm:py-14">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
           <ShinyCard className="p-8 sm:p-10" duration={6000}>
             <blockquote className="text-center">

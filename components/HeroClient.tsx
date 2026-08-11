@@ -14,9 +14,9 @@ const socialLinks: Array<{ label: string; href: string; icon: LucideIcon }> = [
 
 export default function HeroClient() {
   return (
-    <section className="relative flex min-h-screen items-center overflow-hidden pt-16">
+    <section className="relative flex items-center overflow-hidden pt-16">
       <div className="absolute inset-0 bg-dot-grid opacity-20" />
-      <div className="relative mx-auto max-w-6xl px-4 py-20 sm:px-6 lg:px-8">
+      <div className="relative mx-auto max-w-6xl px-4 py-14 sm:px-6 sm:py-16 lg:px-8">
         <div className="grid items-center gap-14 lg:grid-cols-2">
           <div className="order-2 lg:order-2">
             <p className="text-sm font-semibold text-emerald-700 dark:text-emerald-300">

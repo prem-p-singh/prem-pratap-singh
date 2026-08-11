@@ -18,7 +18,7 @@ export default function DataPage() {
   return (
     <div className="pt-16 min-h-screen">
       {/* Hero */}
-      <section className="pt-16 pb-10 bg-gradient-to-b from-muted to-background">
+      <section className="bg-gradient-to-b from-muted to-background pb-8 pt-14 sm:pb-10 sm:pt-16">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="max-w-3xl">
             <p className="text-sm font-semibold uppercase tracking-wider text-primary mb-3">
@@ -34,7 +34,7 @@ export default function DataPage() {
         </div>
       </section>
 
-      <section className="py-16">
+      <section className="py-12 sm:py-14">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           {posts.length > 0 ? (
             <div className="grid sm:grid-cols-1 lg:grid-cols-2 gap-6">
