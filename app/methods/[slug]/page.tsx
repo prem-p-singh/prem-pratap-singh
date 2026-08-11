@@ -56,7 +56,7 @@ export default async function MethodPage({ params }: Props) {
 
   return (
     <article className="pt-16">
-      <section className="py-12 bg-gradient-to-b from-muted to-background">
+      <section className="pt-12 bg-gradient-to-b from-muted to-background">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
           <Link
             href="/methods"
