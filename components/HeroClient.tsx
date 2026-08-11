@@ -108,13 +108,13 @@ export default function HeroClient() {
                   priority
                 />
               </div>
-              <span className="absolute -left-3 top-12 rounded-full border border-border bg-background/90 px-[0.975rem] py-[0.4875rem] text-[0.975rem] font-bold leading-none text-foreground shadow-lg backdrop-blur-sm sm:-left-10">
+              <span className="absolute -left-3 top-12 rounded-full border border-border bg-background/90 px-4 py-2 text-base font-bold leading-none text-foreground shadow-lg backdrop-blur-sm sm:-left-10">
                 FIELD
               </span>
-              <span className="absolute -right-2 top-1/2 rounded-full border border-border bg-background/90 px-[0.975rem] py-[0.4875rem] text-[0.975rem] font-bold leading-none text-foreground shadow-lg backdrop-blur-sm sm:-right-12">
+              <span className="absolute -right-2 top-1/2 rounded-full border border-border bg-background/90 px-4 py-2 text-base font-bold leading-none text-foreground shadow-lg backdrop-blur-sm sm:-right-12">
                 BENCH
               </span>
-              <span className="absolute bottom-8 left-5 rounded-full border border-border bg-background/90 px-[0.975rem] py-[0.4875rem] text-[0.975rem] font-bold leading-none text-foreground shadow-lg backdrop-blur-sm sm:left-0">
+              <span className="absolute bottom-8 left-5 rounded-full border border-border bg-background/90 px-4 py-2 text-base font-bold leading-none text-foreground shadow-lg backdrop-blur-sm sm:left-0">
                 CODE
               </span>
             </div>
