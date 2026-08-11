@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { Github, GraduationCap, Linkedin, Mail, type LucideIcon } from "lucide-react";
-import { personal } from "@/data/personal";
+import { personal } from "@/profile/personal";
 import { MovingBorderButton } from "@/components/ui/moving-border";
 
 const socialLinks: Array<{ label: string; href: string; icon: LucideIcon }> = [

@@ -1,7 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import pathogens from "@/data/pathogenGenomes.json";
+import pathogens from "@/profile/pathogenGenomes.json";
 
 type Row = (typeof pathogens)[number];
 type SortKey = "assemblies" | "pctWell" | "pathogen";

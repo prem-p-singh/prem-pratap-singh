@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
-import { workExperience } from "@/data/experience";
+import { workExperience } from "@/profile/experience";
 
 const roleDetails: Record<
   string,

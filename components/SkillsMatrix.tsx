@@ -13,7 +13,7 @@ import {
   Sprout,
   type LucideIcon,
 } from "lucide-react";
-import { skills } from "@/data/personal";
+import { skills } from "@/profile/personal";
 
 const DEFAULT_VISIBLE = 10;
 

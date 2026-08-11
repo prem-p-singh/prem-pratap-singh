@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { BookOpen, ExternalLink, Network, TrendingUp } from "lucide-react";
-import { googleScholar, scopus } from "@/data/analytics";
+import { googleScholar, scopus } from "@/profile/analytics";
 
 type Tab = "scholar" | "scopus" | "openalex";
 

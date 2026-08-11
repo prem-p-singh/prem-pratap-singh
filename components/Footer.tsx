@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { personal } from "@/data/personal";
+import { personal } from "@/profile/personal";
 
 function GitHubIcon() {
   return (

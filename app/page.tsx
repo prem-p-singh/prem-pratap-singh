@@ -11,9 +11,9 @@ import {
   Linkedin,
   Mail,
 } from "lucide-react";
-import { personal } from "@/data/personal";
-import { projects } from "@/data/projects";
-import { publications, bookChapters } from "@/data/publications";
+import { personal } from "@/profile/personal";
+import { projects } from "@/profile/projects";
+import { publications, bookChapters } from "@/profile/publications";
 import PublicationsList from "@/components/PublicationsList";
 import ScholarAnalytics from "@/components/ScholarAnalytics";
 import { getAllPosts } from "@/lib/mdx";
