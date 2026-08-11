@@ -130,7 +130,7 @@ export default function CareerMap() {
         <div className="grid gap-10 lg:grid-cols-[1.08fr_0.72fr] lg:items-end lg:gap-16">
           <div>
             <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">My research throughline</p>
-            <h2 id="career-map-title" className="mt-4 max-w-3xl text-4xl font-bold leading-[1.06] text-foreground sm:text-5xl lg:text-6xl">
+            <h2 id="career-map-title" className="mt-4 max-w-3xl text-3xl font-bold leading-[1.06] text-foreground sm:text-4xl lg:text-5xl">
               I start with the crop. <span className="text-muted-foreground">Data helps decide what comes next.</span>
             </h2>
           </div>

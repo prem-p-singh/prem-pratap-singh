@@ -24,7 +24,7 @@ export default function ResearchSnapshot() {
             <p className="text-sm font-semibold text-muted-foreground">Capabilities</p>
             <h2
               id="research-snapshot-title"
-              className="mt-3 max-w-3xl text-4xl font-semibold leading-[1.08] text-foreground sm:text-5xl"
+              className="mt-3 max-w-3xl text-3xl font-semibold leading-[1.08] text-foreground sm:text-4xl lg:text-5xl"
             >
               I work across the field, bench, and data.
             </h2>

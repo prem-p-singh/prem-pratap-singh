@@ -47,7 +47,7 @@ export default function Home() {
               <p className="text-xs font-semibold uppercase tracking-[0.22em] text-muted-foreground">
                 Evidence beyond the lab
               </p>
-              <h2 className="mt-3 text-4xl font-bold tracking-tight text-foreground sm:text-5xl">
+              <h2 className="mt-3 text-3xl font-bold tracking-tight text-foreground sm:text-4xl lg:text-5xl">
                 Work that keeps moving through the literature
               </h2>
             </div>
@@ -83,7 +83,7 @@ export default function Home() {
             <p className="text-sm font-semibold text-muted-foreground">
               Selected work
             </p>
-            <h2 className="mt-3 text-4xl font-semibold tracking-tight text-foreground sm:text-5xl">
+            <h2 className="mt-3 text-3xl font-semibold tracking-tight text-foreground sm:text-4xl lg:text-5xl">
               Research projects
             </h2>
             <p className="mt-4 max-w-2xl text-base leading-relaxed text-muted-foreground">
@@ -103,7 +103,7 @@ export default function Home() {
                 <p className="text-xs font-semibold uppercase tracking-[0.22em] text-muted-foreground">
                   Field notes
                 </p>
-                <h2 className="mt-3 text-4xl font-bold tracking-tight text-foreground sm:text-5xl">
+                <h2 className="mt-3 text-3xl font-bold tracking-tight text-foreground sm:text-4xl lg:text-5xl">
                   Ideas moving between crop and data
                 </h2>
               </div>
@@ -181,7 +181,7 @@ export default function Home() {
                 <p className="text-xs font-semibold uppercase tracking-[0.22em] text-emerald-600 dark:text-emerald-300">
                   Where the work can grow next
                 </p>
-                <h2 className="mt-4 text-4xl font-bold tracking-tight text-foreground sm:text-5xl">
+                <h2 className="mt-4 text-3xl font-bold tracking-tight text-foreground sm:text-4xl lg:text-5xl">
                   Better crop decisions, built on stronger biological data.
                 </h2>
 

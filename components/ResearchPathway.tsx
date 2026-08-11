@@ -130,7 +130,7 @@ export default function ResearchPathway() {
           <p className="text-sm font-semibold text-muted-foreground">How I work</p>
           <h2
             id="research-pathway-title"
-            className="mt-3 text-4xl font-semibold leading-[1.05] text-foreground sm:text-5xl lg:text-6xl"
+            className="mt-3 text-3xl font-semibold leading-[1.05] text-foreground sm:text-4xl lg:text-5xl"
           >
             Crop improvement is the destination. Data is how I get there.
           </h2>
