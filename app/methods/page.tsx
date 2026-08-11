@@ -7,7 +7,7 @@ import { getAllMethodPosts } from "@/lib/methods";
 export const metadata: Metadata = {
   title: "Methods That Travel",
   description:
-    "Statistical models built for my own research, then re-applied to public data to show the method holds outside the study it was written for. Problem, method, answer, and the code behind each one.",
+    "Interactive statistical methods tested across crop research and public data.",
   alternates: { canonical: "/methods" },
 };
 
@@ -20,13 +20,13 @@ export default function MethodsPage() {
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="max-w-3xl">
             <p className="text-sm font-semibold uppercase tracking-wider text-primary mb-3">
-              Methods That Travel
+              Methods
             </p>
             <h1 className="text-4xl sm:text-5xl font-bold text-foreground mb-4">
-              Methods built for one problem, tested on another
+              Methods, made visible.
             </h1>
             <p className="text-lg text-muted-foreground leading-relaxed">
-              Statistical ideas shown as interactive, reusable visual experiments.
+              One model · two datasets · interactive results
             </p>
           </div>
         </div>
@@ -66,15 +66,15 @@ export default function MethodsPage() {
                       {post.title}
                     </h2>
                     {(post.origin || post.reappliedTo) && (
-                      <div className="mt-4 grid grid-cols-[1fr_auto_1fr] items-center gap-2 border-t border-border pt-4">
-                        <div className="rounded-xl bg-muted/50 p-3">
-                          <p className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">Built for</p>
-                          <p className="mt-1 line-clamp-2 text-xs font-medium text-foreground">{post.origin || "Original study"}</p>
+                      <div className="mt-4 grid grid-cols-[1fr_auto_1fr] items-center gap-3 border-t border-border pt-4">
+                        <div className="min-w-0">
+                          <p className="text-[10px] font-semibold uppercase tracking-wider text-emerald-400">Built in</p>
+                          <p className="mt-1 truncate text-xs font-medium text-foreground">{post.origin || "Original study"}</p>
                         </div>
                         <ArrowRight className="size-4 text-muted-foreground/50" aria-hidden="true" />
-                        <div className="rounded-xl bg-primary/10 p-3">
-                          <p className="text-[10px] font-semibold uppercase tracking-wider text-primary">Tested on</p>
-                          <p className="mt-1 line-clamp-2 text-xs font-medium text-foreground">{post.reappliedTo || "Public data"}</p>
+                        <div className="min-w-0">
+                          <p className="text-[10px] font-semibold uppercase tracking-wider text-sky-400">Re-tested on</p>
+                          <p className="mt-1 truncate text-xs font-medium text-foreground">{post.reappliedTo || "Public data"}</p>
                         </div>
                       </div>
                     )}

@@ -7,37 +7,33 @@ type Suspect = "heat" | "virus" | "both";
 const suspectOptions: Array<{
   id: Suspect;
   label: string;
-  short: string;
 }> = [
   {
     id: "heat",
-    label: "Heat acts directly",
-    short: "The summer stresses the vine; the virus is mostly a bystander.",
+    label: "Heat → vine",
   },
   {
     id: "virus",
-    label: "The virus carries it",
-    short: "Heat raises viral titer, which then changes the vine's response.",
+    label: "Heat → virus → vine",
   },
   {
     id: "both",
-    label: "Both routes matter",
-    short: "Part of the effect travels through the virus and part stays direct.",
+    label: "Both routes",
   },
 ];
 
 const suspectResponses: Record<Suspect, { title: string; body: string }> = {
   heat: {
     title: "Plausible, but incomplete",
-    body: "A direct route remains, but the strongest mediator showed that viral titer carried most of the temperature-associated response.",
+    body: "The direct route remains, but viral titer carried the larger share.",
   },
   virus: {
-    title: "Close, but not the whole path",
-    body: "Viral titer carried 61.8% of the temperature association for MBF1c. The remainder stayed on the direct route.",
+    title: "Close—not the whole path",
+    body: "Virus carried 61.8%; the rest stayed direct.",
   },
   both: {
     title: "Best-supported answer",
-    body: "For MBF1c, 61.8% of the temperature association travelled through viral titer, while 38.2% remained on the direct route.",
+    body: "MBF1c split 61.8% through virus and 38.2% direct.",
   },
 };
 
@@ -55,11 +51,10 @@ export function VineyardCaseFile() {
           Vineyard mystery
         </div>
         <h2 className="mt-3 text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
-          Pick the most likely suspect
+          Which route fits?
         </h2>
         <p className="mt-2 max-w-2xl text-sm leading-relaxed text-muted-foreground sm:text-base">
-          Hot seasons, viral titer, and gene response all move together. Which
-          route would you investigate first?
+          Heat · virus · gene response
         </p>
       </div>
 
@@ -91,9 +86,6 @@ export function VineyardCaseFile() {
                   </span>
                   <span className="font-semibold text-foreground">{option.label}</span>
                 </span>
-                <span className="mt-2 block pl-10 text-sm leading-relaxed text-muted-foreground">
-                  {option.short}
-                </span>
               </button>
             );
           })}
@@ -116,8 +108,7 @@ export function VineyardCaseFile() {
                 </span>
               </div>
               <p className="mt-5 max-w-sm text-sm leading-relaxed text-muted-foreground">
-                Choose a hypothesis to reveal how the effect divided between the
-                two routes.
+                Choose a route to reveal the split.
               </p>
             </div>
           ) : (
@@ -170,8 +161,7 @@ export function VineyardCaseFile() {
                 </div>
               </div>
               <p className="mt-4 text-xs leading-relaxed text-muted-foreground">
-                The 61.8% result is for the strongest mediator, MBF1c. It is not
-                a claim that 61.8% of every heat effect in the vineyard comes from the virus.
+                61.8% describes MBF1c—not every vineyard heat response.
               </p>
             </div>
           )}
@@ -312,15 +302,13 @@ export function CropGrowthExplorer() {
           More farmland or better harvests?
         </h2>
         <p className="mt-2 max-w-2xl text-sm leading-relaxed text-muted-foreground sm:text-base">
-          The same model now asks what drove 63 years of global crop production.
-          Make a guess, then explore every crop.
+          63 years · 10 crops · one route split
         </p>
       </div>
 
       <div className="border-b border-border p-5 sm:p-7">
         <p className="text-sm font-semibold text-foreground">
-          Quick guess: among the crops with a clean route split, which one relied
-          most on expanding land?
+          Which crop was most land-driven?
         </p>
         <div className="mt-3 flex flex-wrap gap-2" role="group" aria-label="Guess the most land-driven crop">
           {guessOptions.map((option) => (
@@ -352,11 +340,9 @@ export function CropGrowthExplorer() {
             aria-live="polite"
           >
             <span className="font-semibold">
-              {guess === "Sugarcane" ? "Good call." : "The surprise is sugarcane."}
+              {guess === "Sugarcane" ? "Correct." : "Sugarcane."}
             </span>{" "}
-            Its modeled land pathway was 97.2%. Rice was only 12.5%, while wheat
-            produced a negative mediated share because its fitted land pathway
-            moved against the total trend.
+            97.2% of its modeled trend ran through harvested area.
           </div>
         )}
       </div>
@@ -464,10 +450,8 @@ export function CropGrowthExplorer() {
                   {selected.mediated > 0 ? "+" : ""}{selected.mediated.toFixed(1)}%
                 </p>
                 <p className="mt-3 max-w-xl text-sm leading-relaxed text-muted-foreground">
-                  This is not a percentage to interpret literally. It is a diagnostic:
-                  the two modeled pathways point in opposing directions or one pathway
-                  exceeds the total. The underlying growth pattern is more useful than
-                  forcing the result into a pie chart.
+                  The pathways oppose each other or one exceeds the total. Read this as
+                  a warning—not a pie-chart share.
                 </p>
               </div>
             )}
@@ -475,9 +459,7 @@ export function CropGrowthExplorer() {
         </div>
 
         <p className="mt-5 text-xs leading-relaxed text-muted-foreground">
-          These are decompositions of observational global trends, not experiments.
-          The explorer reports the model&apos;s behavior; it does not prove that land change
-          caused production change.
+          Modeled global trends—not causal proof.
         </p>
       </div>
     </section>

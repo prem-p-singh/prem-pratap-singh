@@ -1,7 +1,7 @@
 ---
 title: "Is It the Heat, or the Virus?"
 date: "2026-08-04"
-description: "A statistical detective story: follow the clues from a California vineyard, make your own call, then send the same method on a 63-year trip through global farming data."
+description: "Split one biological signal into direct and virus-mediated routes, then test the same model on 63 years of crop data."
 image: "/methods/causal-mediation/proportion_mediated.png"
 method: "Causal mediation"
 origin: "Grapevine Red Blotch Virus transcriptomics, UC Davis"
@@ -12,17 +12,17 @@ codePath: "data-interpretations/methods-causal-mediation"
 tags: ["causal mediation", "statistical modeling", "R", "FAOSTAT"]
 keyStats:
   - value: "61.8%"
-    label: "MBF1c pathway"
-    note: "Temperature-associated response carried through viral titer"
+    label: "Via virus"
+    note: "MBF1c response"
   - value: "39"
-    label: "Mediating genes"
-    note: "Significant in a screen of 2,000 variable genes"
+    label: "Genes"
+    note: "Significant mediators"
   - value: "97.2%"
-    label: "Sugarcane land route"
-    note: "Modeled production trend carried through harvested area"
+    label: "Via land"
+    note: "Sugarcane trend"
   - value: "2,000"
-    label: "Bootstrap runs"
-    note: "Used to test how much each estimate moves"
+    label: "Bootstraps"
+    note: "Uncertainty test"
 toolkit:
   - "R"
   - "Causal mediation"
@@ -32,48 +32,33 @@ toolkit:
   - "FAOSTAT bulk data"
 ---
 
-This story starts like a mystery in a California vineyard.
-
-Three clues keep appearing together: **hotter seasons**, **more virus**, and **changes in how the vine's genes respond**. That leaves two possible routes. Temperature may act directly on the vine, or it may first change viral titer and let the virus carry part of the response.
-
-The trouble is that both routes can be active at the same time.
-
 <VineyardCaseFile />
 
-## The statistical detective
+## Two routes, one response
 
-Causal mediation is a route-splitter. Instead of asking only whether temperature and gene expression move together, it separates the modeled association into two paths:
-
-1. **The indirect route:** temperature → viral titer → gene response.
-2. **The direct route:** temperature → gene response without going through measured viral titer.
-
-First, I tested whether seasonal temperature predicted viral titer. Then I tested whether viral titer predicted each gene's expression after accounting for temperature. Multiplying those two links gives the indirect effect; the remainder is the direct effect.
+| Route | Model path |
+|---|---|
+| **Through the virus** | Heat → viral titer → gene response |
+| **Direct** | Heat → gene response |
 
 <details>
-  <summary><strong>Open the model's engine room</strong></summary>
+  <summary><strong>How the split is calculated</strong></summary>
 
-  For each outcome, the analysis fits a mediator model, `M ~ X`, and an outcome model, `Y ~ X + M`. The indirect effect is the product of the two path coefficients, $ab$. The direct effect is $c'$, and the reported proportion is $ab / (ab + c')$.
+  The analysis fits `M ~ X` and `Y ~ X + M`. The indirect effect is $ab$; the direct effect is $c'$. Their ratio gives the mediated share.
 
-  Because a product of coefficients can have an uneven sampling distribution, I repeated the calculation on 2,000 bootstrap resamples to estimate uncertainty.
+  I used 2,000 bootstrap resamples to estimate uncertainty.
 </details>
 
-## What the vineyard evidence says
+## Vineyard result
 
-The screen covered the 2,000 most variable genes. **Thirty-nine showed significant mediation** at joint BH-FDR below 0.05.
-
-The strongest result was **MBF1c**, a co-activator involved in the heat-shock response. For this gene, **61.8% of the modeled temperature-associated expression response travelled through viral titer**. The joint p-value was 4.8 × 10⁻¹¹.
-
-That is a sharper conclusion than “heat makes the virus worse.” It identifies a particular molecular response and shows how strongly the viral route contributes after the direct temperature route is included.
+- **MBF1c:** 61.8% through virus · 38.2% direct
+- **Gene screen:** 39 mediators / 2,000 genes
 
 <Takeaway>
-The 61.8% belongs to the MBF1c result. It does not mean that the virus explains 61.8% of every heat effect in a vineyard. The analysis supplies a strong experimental lead, not a finished biological mechanism.
+61.8% describes MBF1c—not every heat response in the vineyard.
 </Takeaway>
 
-## Then the method went on a road trip
-
-A useful method should survive outside the problem that inspired it. So I pointed the same route-splitter at something completely different: **63 years of global crop production**.
-
-The world produces far more food than it did in 1961. Did that growth travel mainly through **more harvested land**, or through the remaining pathway, which includes getting more output from each field?
+## Same method, new scale
 
 | Role in the model | Grapevine study | Farming re-application |
 |---|---|---|
@@ -83,38 +68,30 @@ The world produces far more food than it did in 1961. Did that growth travel mai
 
 <CropGrowthExplorer />
 
-## The crop scoreboard
-
-Five crops gave a clean 0-100% route split. Sugarcane was the most land-driven at **97.2%**, followed by maize at **72.8%**. Rice sat at the other end: only **12.5%** of its modeled production trend travelled through harvested area.
+## Crop comparison
 
 ![Dot plot showing the modeled share of production growth that travelled through harvested area for five crops](/methods/causal-mediation/proportion_mediated.png)
 
 <Takeaway>
-Rice production reached 3.73 times its 1961 level while harvested area reached 1.46 times its starting level. In this model, most of rice's trend remained on the non-land pathway.
+Sugarcane was land-driven (97.2%). Rice was not (12.5%).
 </Takeaway>
 
-## When the percentage refuses to behave
-
-The other five crops returned a mediated share above 100% or below zero. That looks impossible only if the answer is forced into a pie chart.
-
-My first guess was that year and farmland simply moved together too closely for the model to separate them. **That guess did not survive the data.** Year and harvested area are similarly correlated for sugarcane and tomato, yet sugarcane gives an interpretable split and tomato does not.
+## When the split breaks
 
 ![Scatter plot comparing harvested-area growth with production growth since 1961](/methods/causal-mediation/growth_regimes.png)
 
-The odd values are diagnostics for different growth patterns:
-
-- **The land pathway exceeded the total trend:** soybean and tomato. Their remaining direct pathway points in the opposite direction, so the land share rises above 100%.
-- **The fitted land pathway opposed the total trend:** wheat. Its endpoint area is slightly above 1961, but its fitted area trend runs against the production trend.
-- **More output ended on less land:** potato and barley. Their 2023 harvested area was below the 1961 level while production was higher.
+| Signal | Crops |
+|---|---|
+| Land route exceeds total | Soybean · Tomato |
+| Land route opposes trend | Wheat |
+| More output, less land | Potato · Barley |
 
 <Takeaway>
-An out-of-range answer is not a result to hide. It is the model warning that one tidy percentage cannot describe two pathways moving in different directions.
+Values outside 0–100% are warnings, not tidy shares.
 </Takeaway>
 
-## The honest ending
+<details>
+  <summary><strong>Limits of the comparison</strong></summary>
 
-The farming analysis decomposes observational trends; it does not prove that changing harvested area caused the production change. Year was not assigned like an experimental treatment, and unmeasured forces such as breeding, fertiliser, irrigation, policy, and trade changed at the same time. World totals also blend regional stories that may point in different directions.
-
-The grapevine application stands on firmer design ground because temperature varied within a planned sampling design. Even there, mediation depends on assumptions about the order of events and unmeasured confounding.
-
-That is the method's real lesson: it can show how a modeled effect divides between routes, but it cannot choose the causal story by itself. The next farming test would split the world totals by region and ask whether the same patterns remain.
+  The crop analysis separates observational trends; it does not prove that land change caused production change. Breeding, irrigation, policy, trade, and region also changed over time. Mediation shows how a modeled effect divides—it cannot choose the causal story by itself.
+</details>
