@@ -23,6 +23,11 @@ type Stage = {
   href: string;
   linkLabel: string;
   icon: LucideIcon;
+  selectedClass: string;
+  numberClass: string;
+  accentClass: string;
+  iconClass: string;
+  linkClass: string;
 };
 
 const stages: Stage[] = [
@@ -36,6 +41,11 @@ const stages: Stage[] = [
     href: "/#experience",
     linkLabel: "See the field program",
     icon: Sprout,
+    selectedClass: "border-b-emerald-500 bg-emerald-500/10 text-emerald-800 dark:text-emerald-200",
+    numberClass: "text-emerald-700 dark:text-emerald-300",
+    accentClass: "bg-emerald-500",
+    iconClass: "border-emerald-500/35 bg-emerald-500/10 text-emerald-700 dark:text-emerald-300",
+    linkClass: "text-emerald-700 decoration-emerald-500/40 hover:decoration-emerald-500 dark:text-emerald-300",
   },
   {
     id: "signal",
@@ -47,6 +57,11 @@ const stages: Stage[] = [
     href: "/#skills",
     linkLabel: "See the laboratory toolkit",
     icon: Dna,
+    selectedClass: "border-b-violet-500 bg-violet-500/10 text-violet-800 dark:text-violet-200",
+    numberClass: "text-violet-700 dark:text-violet-300",
+    accentClass: "bg-violet-500",
+    iconClass: "border-violet-500/35 bg-violet-500/10 text-violet-700 dark:text-violet-300",
+    linkClass: "text-violet-700 decoration-violet-500/40 hover:decoration-violet-500 dark:text-violet-300",
   },
   {
     id: "intelligence",
@@ -58,6 +73,11 @@ const stages: Stage[] = [
     href: "/methods/causal-mediation",
     linkLabel: "Visit the methods lab",
     icon: ChartNoAxesCombined,
+    selectedClass: "border-b-sky-500 bg-sky-500/10 text-sky-800 dark:text-sky-200",
+    numberClass: "text-sky-700 dark:text-sky-300",
+    accentClass: "bg-sky-500",
+    iconClass: "border-sky-500/35 bg-sky-500/10 text-sky-700 dark:text-sky-300",
+    linkClass: "text-sky-700 decoration-sky-500/40 hover:decoration-sky-500 dark:text-sky-300",
   },
   {
     id: "improvement",
@@ -69,13 +89,33 @@ const stages: Stage[] = [
     href: "/#projects",
     linkLabel: "See the research outcomes",
     icon: Target,
+    selectedClass: "border-b-amber-500 bg-amber-500/10 text-amber-800 dark:text-amber-200",
+    numberClass: "text-amber-700 dark:text-amber-300",
+    accentClass: "bg-amber-500",
+    iconClass: "border-amber-500/35 bg-amber-500/10 text-amber-700 dark:text-amber-300",
+    linkClass: "text-amber-700 decoration-amber-500/40 hover:decoration-amber-500 dark:text-amber-300",
   },
 ];
 
 const fieldNotes = [
-  { label: "Field", value: "327 vines · two seasons", icon: Sprout },
-  { label: "Bench", value: "dPCR · RNA-seq · metabolites", icon: Dna },
-  { label: "Analysis", value: "Mechanisms · markers · trait leads", icon: ChartNoAxesCombined },
+  {
+    label: "Field",
+    value: "327 vines · two seasons",
+    icon: Sprout,
+    tone: "border-emerald-500/35 bg-emerald-500/10 text-emerald-700 dark:text-emerald-300",
+  },
+  {
+    label: "Bench",
+    value: "dPCR · RNA-seq · metabolites",
+    icon: Dna,
+    tone: "border-violet-500/35 bg-violet-500/10 text-violet-700 dark:text-violet-300",
+  },
+  {
+    label: "Analysis",
+    value: "Mechanisms · markers · trait leads",
+    icon: ChartNoAxesCombined,
+    tone: "border-sky-500/35 bg-sky-500/10 text-sky-700 dark:text-sky-300",
+  },
 ];
 
 export default function ResearchPathway() {
@@ -107,12 +147,12 @@ export default function ResearchPathway() {
               “I do not begin with a model. I begin with what changed in the plant.”
             </blockquote>
 
-            <div className="relative mt-12 space-y-6 before:absolute before:bottom-5 before:left-[17px] before:top-5 before:w-px before:bg-foreground/15">
+            <div className="relative mt-12 space-y-6 before:absolute before:bottom-5 before:left-[17px] before:top-5 before:w-px before:bg-gradient-to-b before:from-emerald-500/45 before:via-violet-500/45 before:to-sky-500/45">
               {fieldNotes.map((note) => {
                 const Icon = note.icon;
                 return (
                   <div key={note.label} className="relative flex items-center gap-4">
-                    <span className="z-10 flex size-9 shrink-0 items-center justify-center rounded-full border border-foreground/20 bg-section-bg text-foreground">
+                    <span className={`z-10 flex size-9 shrink-0 items-center justify-center rounded-full border ${note.tone}`}>
                       <Icon className="size-4" strokeWidth={1.6} aria-hidden="true" />
                     </span>
                     <div>
@@ -143,11 +183,11 @@ export default function ResearchPathway() {
                     onClick={() => setActiveId(stage.id)}
                     className={`border-b-2 px-4 py-4 text-left transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-foreground/40 sm:border-r sm:last:border-r-0 ${
                       selected
-                        ? "border-b-foreground bg-muted/45 text-foreground"
+                        ? stage.selectedClass
                         : "border-b-transparent text-muted-foreground hover:bg-muted/25 hover:text-foreground"
                     }`}
                   >
-                    <span className="block font-mono text-[10px]">{stage.number}</span>
+                    <span className={`block text-[11px] font-semibold tabular-nums ${stage.numberClass}`}>{stage.number}</span>
                     <span className="mt-1 block text-xs font-semibold leading-tight">{stage.label}</span>
                   </button>
                 );
@@ -158,15 +198,16 @@ export default function ResearchPathway() {
               id="research-pathway-panel"
               role="tabpanel"
               aria-live="polite"
-              className="flex min-h-[440px] flex-col p-7 sm:p-10"
+              className="relative flex min-h-[440px] flex-col overflow-hidden p-7 sm:p-10"
             >
+              <span className={`absolute inset-x-0 top-0 h-0.5 ${active.accentClass}`} aria-hidden="true" />
               <div className="flex items-start justify-between gap-5">
                 <div>
-                  <p className="font-mono text-xs text-muted-foreground">Step {active.number}</p>
+                  <p className={`text-xs font-semibold tabular-nums ${active.numberClass}`}>Step {active.number}</p>
                   <h3 className="mt-3 text-3xl font-semibold text-foreground sm:text-4xl">{active.label}</h3>
                   <p className="mt-2 text-base text-muted-foreground">{active.cue}</p>
                 </div>
-                <span className="flex size-12 shrink-0 items-center justify-center rounded-full border border-border text-foreground">
+                <span className={`flex size-12 shrink-0 items-center justify-center rounded-full border ${active.iconClass}`}>
                   <ActiveIcon className="size-5" strokeWidth={1.6} aria-hidden="true" />
                 </span>
               </div>
@@ -184,7 +225,7 @@ export default function ResearchPathway() {
 
               <Link
                 href={active.href}
-                className="mt-auto inline-flex items-center gap-2 text-sm font-semibold text-foreground underline decoration-border underline-offset-4 transition-colors hover:decoration-foreground"
+                className={`mt-auto inline-flex items-center gap-2 text-sm font-semibold underline underline-offset-4 transition-colors ${active.linkClass}`}
               >
                 {active.linkLabel} <ArrowRight className="size-4" aria-hidden="true" />
               </Link>

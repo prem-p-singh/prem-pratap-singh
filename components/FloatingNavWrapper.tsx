@@ -16,7 +16,7 @@ const primaryItems = [
 
 const exploreItems = [
   { name: "Skills", detail: "Methods I use", link: "/#skills" },
-  { name: "Experience", detail: "Career progression", link: "/#experience" },
+  { name: "Experience", detail: "Roles and research", link: "/#experience" },
   { name: "Methods", detail: "Technical explainers", link: "/methods" },
   { name: "Gallery", detail: "Field and laboratory", link: "/gallery" },
 ];
@@ -38,13 +38,12 @@ export default function FloatingNavWrapper() {
             className="group flex shrink-0 items-center gap-3 rounded-xl px-2 py-2 text-foreground"
             aria-label="Prem P. Singh, home"
           >
-            <span className="relative flex size-9 items-center justify-center rounded-xl border border-emerald-400/35 bg-emerald-400/10 text-sm font-bold tracking-tight text-emerald-400">
+            <span className="flex size-9 items-center justify-center rounded-xl border border-emerald-400/35 bg-emerald-400/10 text-sm font-bold tracking-tight text-emerald-500 dark:text-emerald-300">
               PS
-              <span className="absolute -right-1 -top-1 size-2.5 rounded-full border-2 border-card bg-emerald-400" aria-hidden="true" />
             </span>
-            <span className="leading-tight">
+            <span className="leading-snug">
               <span className="block text-sm font-semibold">Prem P. Singh</span>
-              <span className="block text-[10px] font-medium uppercase tracking-[0.14em] text-muted-foreground">Crop biology + data</span>
+              <span className="block text-[11px] font-medium text-muted-foreground">Plant scientist · Data scientist</span>
             </span>
           </Link>
 
@@ -113,10 +112,10 @@ export default function FloatingNavWrapper() {
       <header className="fixed inset-x-0 top-0 z-[5001] border-b border-border/70 bg-background/90 px-4 backdrop-blur-xl lg:hidden">
         <div className="flex h-16 items-center justify-between">
           <Link href="/" onClick={closeMobileMenu} className="flex items-center gap-3 text-foreground">
-            <span className="flex size-9 items-center justify-center rounded-xl border border-emerald-400/35 bg-emerald-400/10 text-sm font-bold text-emerald-400">PS</span>
+            <span className="flex size-9 items-center justify-center rounded-xl border border-emerald-400/35 bg-emerald-400/10 text-sm font-bold text-emerald-500 dark:text-emerald-300">PS</span>
             <span>
               <span className="block text-sm font-semibold leading-tight">Prem P. Singh</span>
-              <span className="block text-[9px] uppercase tracking-[0.14em] text-muted-foreground">Crop biology + data</span>
+              <span className="block text-[10px] font-medium leading-snug text-muted-foreground">Plant scientist · Data scientist</span>
             </span>
           </Link>
           <div className="flex items-center gap-1">

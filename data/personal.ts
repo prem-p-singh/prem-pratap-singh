@@ -2,6 +2,9 @@ export const personal = {
   name: "Prem Pratap Singh",
   title: "Postdoctoral Scholar & Plant Scientist · Viticulture & Enology, UC Davis",
   subtitle: "Molecular Diagnostics & Multi-Omics Scientist · Ag-Bio R&D · Genomics Tools",
+  heroRole: "Plant Scientist · Data Scientist · Molecular Diagnostics",
+  heroBio:
+    "I study crop disease from the field sample to the final model. My work brings molecular diagnostics, multi-omics, and reproducible data analysis together to find signals that can improve crop decisions.",
   tagline: "Molecular biology that closes the loop on plant disease, from sample to inference, on commercial crop systems.",
   openTo: "Open to Scientist / Scientist II roles in ag-bio R&D, molecular diagnostics, NGS workflows, and trait discovery.",
   bio: `Plant pathologist and data scientist at the University of California, Davis, leading both the laboratory and computational sides of a CDFA- and USDA-funded program on Grapevine Red Blotch Virus. Current work continues a project initiated by the late Dr. Anita Oberholster, carried out under the mentorship of Dr. David E. Block and co-conducted with Dr. Mysore R. Sudarshana (USDA-ARS, UC Davis), running from vineyard sampling through more than 300 sequencing libraries to the biological markers that link infection to plant breeding.

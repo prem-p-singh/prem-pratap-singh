@@ -17,11 +17,11 @@ const siteUrl = "https://www.prempsingh.com";
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    default: "Prem Pratap Singh, Ph.D. | Plant Pathology · Molecular Biology · Multi-Omics",
+    default: "Prem Pratap Singh, Ph.D. | Plant Scientist · Data Scientist",
     template: "%s | Prem Pratap Singh",
   },
-  description: "Plant pathologist and molecular biologist with end-to-end NGS, multi-omics, and assay-development capability on commercial crop systems. Open to Scientist / Scientist II roles in ag-bio R&D and life-science tools.",
-  keywords: ["Plant Science", "Grapevine Virology", "GRBV", "Postharvest Biology", "Food Safety", "Multi-omics", "Bioinformatics", "UC Davis", "Postdoctoral Scholar", "RNA-seq", "Plant Pathology"],
+  description: "Plant scientist and data scientist combining field biology, molecular diagnostics, multi-omics, and reproducible analysis to improve crop decisions.",
+  keywords: ["Plant Science", "Data Science", "Grapevine Virology", "GRBV", "Postharvest Biology", "Food Safety", "Multi-omics", "Bioinformatics", "Machine Learning", "UC Davis", "Postdoctoral Scholar", "RNA-seq", "Plant Pathology"],
   authors: [{ name: "Prem Pratap Singh", url: siteUrl }],
   creator: "Prem Pratap Singh",
   publisher: "Prem Pratap Singh",
@@ -30,8 +30,8 @@ export const metadata: Metadata = {
     locale: "en_US",
     url: siteUrl,
     siteName: "Prem Pratap Singh",
-    title: "Prem Pratap Singh, Ph.D. | Plant Pathology · Molecular Biology · Multi-Omics",
-    description: "Plant pathologist and molecular biologist with end-to-end NGS, multi-omics, and assay-development capability on commercial crop systems. Open to Scientist / Scientist II roles in ag-bio R&D and life-science tools.",
+    title: "Prem Pratap Singh, Ph.D. | Plant Scientist · Data Scientist",
+    description: "Plant scientist and data scientist combining field biology, molecular diagnostics, multi-omics, and reproducible analysis to improve crop decisions.",
     images: [
       {
         url: "/og-image.png",
@@ -43,8 +43,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Prem Pratap Singh, Ph.D. | Plant Pathology · Molecular Biology · Multi-Omics",
-    description: "Plant pathologist and molecular biologist with end-to-end NGS, multi-omics, and assay-development capability on commercial crop systems. Open to Scientist / Scientist II roles in ag-bio R&D and life-science tools.",
+    title: "Prem Pratap Singh, Ph.D. | Plant Scientist · Data Scientist",
+    description: "Plant scientist and data scientist combining field biology, molecular diagnostics, multi-omics, and reproducible analysis to improve crop decisions.",
     images: ["/og-image.png"],
   },
   robots: {
@@ -72,9 +72,9 @@ const personJsonLd = {
   name: "Prem Pratap Singh",
   givenName: "Prem Pratap",
   familyName: "Singh",
-  jobTitle: "Plant Pathologist and Molecular Biologist",
+  jobTitle: "Plant Scientist and Data Scientist",
   description:
-    "Plant pathologist and molecular biologist with end-to-end NGS, multi-omics, and assay-development capability on commercial crop systems. Postdoctoral Scholar at UC Davis. Open to Scientist / Scientist II roles in ag-bio R&D and life-science tools.",
+    "Plant scientist and data scientist at UC Davis combining field biology, molecular diagnostics, multi-omics, and reproducible analysis on commercial crop systems.",
   image: `${siteUrl}/images/headshot-1.jpg`,
   url: siteUrl,
   email: "ppssingh@ucdavis.edu",
@@ -119,6 +119,8 @@ const personJsonLd = {
     "Assay Development",
     "Trait Discovery",
     "Bioinformatics",
+    "Data Science",
+    "Machine Learning",
     "Grapevine Virology",
     "Nano-encapsulation",
     "Food Safety",
@@ -136,7 +138,7 @@ const websiteJsonLd = {
   "@type": "WebSite",
   name: "Prem Pratap Singh",
   description:
-    "Portfolio and research blog of Prem Pratap Singh, Ph.D. Plant pathologist and molecular biologist with NGS, multi-omics, and assay-development capability on commercial crop systems.",
+    "Portfolio and research blog of Prem Pratap Singh, Ph.D., a plant scientist and data scientist working across crop biology, molecular diagnostics, and multi-omics.",
   url: siteUrl,
   author: {
     "@type": "Person",
@@ -159,15 +161,23 @@ const profilePageJsonLd = {
     url: siteUrl,
   },
   dateCreated: "2024-01-01T00:00:00+00:00",
-  dateModified: "2026-03-06T00:00:00+00:00",
+  dateModified: "2026-08-11T00:00:00+00:00",
 };
 
 const themeScript = `
 (function(){
-  try {
-    if(localStorage.getItem('theme')==='light')
-      document.documentElement.classList.add('light')
-  } catch(e){}
+  var saved = null;
+  try { saved = localStorage.getItem('theme'); } catch(e) {}
+
+  var hour = new Date().getHours();
+  var isNight = hour < 7 || hour >= 19;
+  var devicePrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+  var theme = saved === 'light' || saved === 'dark'
+    ? saved
+    : (devicePrefersDark || isNight ? 'dark' : 'light');
+
+  document.documentElement.classList.toggle('light', theme === 'light');
+  document.documentElement.style.colorScheme = theme;
 })()
 `;
 

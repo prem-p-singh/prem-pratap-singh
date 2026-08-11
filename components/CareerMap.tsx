@@ -5,6 +5,7 @@ import {
   Award,
   Bot,
   BookOpen,
+  ChevronRight,
   Database,
   Microscope,
   Sprout,
@@ -123,7 +124,7 @@ export default function CareerMap() {
   const active = stops.find((stop) => stop.id === activeId) ?? stops[0];
 
   return (
-    <section id="experience" className="py-20" aria-labelledby="career-map-title">
+    <section id="career-progression" className="scroll-mt-24 py-20" aria-labelledby="career-map-title">
       <span id="education" className="scroll-mt-24" aria-hidden="true" />
       <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
         <div className="grid gap-10 lg:grid-cols-[1.08fr_0.72fr] lg:items-end lg:gap-16">
@@ -153,7 +154,41 @@ export default function CareerMap() {
           </div>
         </div>
 
-        <div className="mt-12 overflow-x-auto pb-3">
+        <div className="relative mt-8 grid gap-2 lg:hidden" role="tablist" aria-label="Career growth in data depth">
+          <span className="pointer-events-none absolute bottom-8 left-[1.65rem] top-8 w-px bg-border" aria-hidden="true" />
+          {stops.map((stop, index) => {
+            const Icon = stop.icon;
+            const selected = stop.id === active.id;
+            return (
+              <button
+                key={stop.id}
+                type="button"
+                role="tab"
+                aria-selected={selected}
+                aria-controls="career-growth-panel"
+                onClick={() => setActiveId(stop.id)}
+                className={`relative grid grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-3 rounded-2xl border p-3 text-left transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground ${
+                  selected ? `${stop.activeBorder} bg-card` : "border-border bg-background hover:bg-card"
+                }`}
+              >
+                <span className={`relative z-10 flex size-11 items-center justify-center rounded-2xl border bg-card ${stop.tone}`}>
+                  <Icon className="size-5" strokeWidth={1.8} aria-hidden="true" />
+                </span>
+                <span className="min-w-0">
+                  <span className="flex flex-wrap items-center gap-x-2 gap-y-0.5 text-[10px] font-semibold uppercase tracking-[0.14em] text-muted-foreground">
+                    <span>0{index + 1}</span>
+                    <span>{stop.period}</span>
+                    <span className={selected ? "text-foreground" : ""}>{stop.stage}</span>
+                  </span>
+                  <span className="mt-1 block text-base font-bold leading-tight text-foreground">{stop.title}</span>
+                </span>
+                <ChevronRight className={`size-5 text-muted-foreground transition-transform ${selected ? "rotate-90 text-foreground" : ""}`} aria-hidden="true" />
+              </button>
+            );
+          })}
+        </div>
+
+        <div className="mt-12 hidden overflow-x-auto pb-3 lg:block">
           <div className="min-w-[900px] overflow-hidden rounded-[2rem] border border-border bg-card">
             <div className="flex items-end justify-between gap-8 border-b border-border px-8 py-5">
               <div>
@@ -180,7 +215,6 @@ export default function CareerMap() {
                   return (
                     <button
                       key={stop.id}
-                      id={`career-growth-tab-${stop.id}`}
                       type="button"
                       role="tab"
                       aria-selected={selected}
@@ -219,7 +253,7 @@ export default function CareerMap() {
         <div
           id="career-growth-panel"
           role="tabpanel"
-          aria-labelledby={`career-growth-tab-${active.id}`}
+          aria-label={`${active.title} details`}
           aria-live="polite"
           className={`mt-5 overflow-hidden rounded-[2rem] border bg-card ${active.border}`}
         >

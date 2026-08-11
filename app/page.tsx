@@ -23,6 +23,8 @@ import ResearchPathway from "@/components/ResearchPathway";
 import ProjectCaseFiles from "@/components/ProjectCaseFiles";
 import ResearchSnapshot from "@/components/ResearchSnapshot";
 import CareerMap from "@/components/CareerMap";
+import WorkExperience from "@/components/WorkExperience";
+import NewsletterSignup from "@/components/NewsletterSignup";
 
 export default function Home() {
   const latestPosts = getAllPosts().slice(0, 3);
@@ -35,6 +37,7 @@ export default function Home() {
       <HeroClient />
       <ResearchPathway />
       <ResearchSnapshot />
+      <WorkExperience />
       <CareerMap />
 
       <section id="publications" className="py-20">
@@ -237,34 +240,7 @@ export default function Home() {
                   )}
                 </div>
 
-                <div className="rounded-3xl border border-border bg-background/55 p-5">
-                  <div className="mb-4">
-                    <p className="font-bold text-foreground">Occasional field notes</p>
-                    <p className="mt-1 text-xs text-muted-foreground">New research, no noise.</p>
-                  </div>
-                  <form
-                    action="https://buttondown.com/api/emails/newsletter-subscribe"
-                    method="post"
-                    target="_blank"
-                    className="flex flex-col gap-2 sm:flex-row"
-                  >
-                    <label htmlFor="newsletter-email" className="sr-only">Email address</label>
-                    <input
-                      id="newsletter-email"
-                      type="email"
-                      name="email"
-                      placeholder="your@email.com"
-                      required
-                      className="min-w-0 flex-1 rounded-xl border border-border bg-card px-4 py-2.5 text-sm text-foreground placeholder:text-muted-foreground focus:border-foreground focus:outline-none"
-                    />
-                    <button
-                      type="submit"
-                      className="rounded-xl bg-foreground px-5 py-2.5 text-sm font-semibold text-background transition-opacity hover:opacity-85"
-                    >
-                      Subscribe
-                    </button>
-                  </form>
-                </div>
+                <NewsletterSignup />
               </div>
             </div>
           </div>

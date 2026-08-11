@@ -348,7 +348,20 @@ export function CropGrowthExplorer() {
       </div>
 
       <div className="p-5 sm:p-7">
-        <div className="flex gap-2 overflow-x-auto pb-3" role="tablist" aria-label="Explore crops">
+        <label className="block sm:hidden">
+          <span className="text-[10px] font-semibold uppercase tracking-[0.16em] text-muted-foreground">Explore a crop</span>
+          <select
+            value={selected.name}
+            onChange={(event) => setSelectedName(event.target.value)}
+            className="mt-2 w-full rounded-xl border border-border bg-background px-4 py-3 text-sm font-semibold text-foreground focus:outline-none focus:ring-2 focus:ring-primary/50"
+          >
+            {crops.map((crop) => (
+              <option key={crop.name} value={crop.name}>{crop.name}</option>
+            ))}
+          </select>
+        </label>
+
+        <div className="hidden gap-2 overflow-x-auto pb-3 sm:flex" role="tablist" aria-label="Explore crops">
           {crops.map((crop) => (
             <button
               key={crop.name}

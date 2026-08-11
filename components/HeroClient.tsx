@@ -19,17 +19,17 @@ export default function HeroClient() {
       <div className="relative mx-auto max-w-6xl px-4 py-20 sm:px-6 lg:px-8">
         <div className="grid items-center gap-14 lg:grid-cols-2">
           <div className="order-2 lg:order-2">
-            <p className="text-sm font-bold uppercase tracking-wide text-foreground">
-              Mechanism · Measurement · Decision
+            <p className="text-sm font-semibold text-emerald-700 dark:text-emerald-300">
+              Crop biology, measured carefully
             </p>
             <h1 className="mt-3 text-4xl font-bold leading-tight text-foreground sm:text-5xl lg:text-6xl">
               {personal.name}
             </h1>
-            <p className="mt-4 text-base font-semibold text-foreground/85 sm:text-lg">
-              Plant scientist · molecular diagnostics · multi-omics
+            <p className="mt-4 text-lg font-semibold leading-snug text-foreground sm:text-xl">
+              {personal.heroRole}
             </p>
-            <p className="mt-5 max-w-lg text-lg text-muted-foreground">
-              From vineyard samples to validated, decision-ready evidence.
+            <p className="mt-5 max-w-xl text-base leading-7 text-muted-foreground sm:text-lg sm:leading-8">
+              {personal.heroBio}
             </p>
 
             <div className="mt-6 flex flex-wrap gap-2">

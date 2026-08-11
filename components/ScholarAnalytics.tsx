@@ -55,7 +55,7 @@ export default function ScholarAnalytics() {
         : openAlex?.profileUrl;
 
   return (
-    <div className="overflow-hidden rounded-[2rem] border border-border bg-card">
+    <div className="min-w-0 overflow-hidden rounded-[2rem] border border-border bg-card">
       <div className="flex flex-col gap-5 border-b border-border p-5 sm:p-7 lg:flex-row lg:items-center lg:justify-between">
         <div>
           <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-emerald-600 dark:text-emerald-300">
@@ -92,11 +92,11 @@ export default function ScholarAnalytics() {
         </div>
       </div>
 
-      <div className="p-5 sm:p-7">
+      <div className="min-w-0 p-4 sm:p-7">
         {activeTab === "scholar" && (
-          <div className="grid gap-5 lg:grid-cols-[0.78fr_1.22fr]">
-            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-1">
-              <div className="relative overflow-hidden rounded-3xl border border-emerald-400/30 bg-emerald-400/[0.09] p-6">
+          <div className="grid min-w-0 gap-5 lg:grid-cols-[0.78fr_1.22fr]">
+            <div className="grid min-w-0 gap-4 sm:grid-cols-2 lg:grid-cols-1">
+              <div className="relative min-w-0 overflow-hidden rounded-3xl border border-emerald-400/30 bg-emerald-400/[0.09] p-5 sm:p-6">
                 <span className="absolute -right-8 -top-8 size-32 rounded-full border border-emerald-400/20" />
                 <TrendingUp className="size-5 text-emerald-600 dark:text-emerald-300" aria-hidden="true" />
                 <p className="mt-8 text-5xl font-black tracking-[-0.06em] text-foreground sm:text-6xl">
@@ -105,7 +105,7 @@ export default function ScholarAnalytics() {
                 <p className="mt-2 text-sm font-semibold text-muted-foreground">citations and counting</p>
               </div>
 
-              <div className="rounded-3xl border border-border bg-background/60 p-5">
+              <div className="min-w-0 rounded-3xl border border-border bg-background/60 p-4 sm:p-5">
                 <div className="grid grid-cols-2 gap-3">
                   <MetricTile label="h-index" value={googleScholar.metrics.hIndex.toString()} />
                   <MetricTile label="i10-index" value={googleScholar.metrics.i10Index.toString()} />
@@ -138,8 +138,8 @@ export default function ScholarAnalytics() {
         )}
 
         {activeTab === "scopus" && (
-          <div className="grid gap-5 lg:grid-cols-[0.8fr_1.2fr]">
-            <div className="relative overflow-hidden rounded-3xl border border-violet-400/30 bg-violet-400/[0.09] p-6">
+          <div className="grid min-w-0 gap-5 lg:grid-cols-[0.8fr_1.2fr]">
+            <div className="relative min-w-0 overflow-hidden rounded-3xl border border-violet-400/30 bg-violet-400/[0.09] p-5 sm:p-6">
               <Network className="size-5 text-violet-600 dark:text-violet-300" aria-hidden="true" />
               <p className="mt-10 text-5xl font-black tracking-[-0.06em] text-foreground sm:text-6xl">
                 {scopus.metrics.citations.toLocaleString()}
@@ -151,7 +151,7 @@ export default function ScholarAnalytics() {
               </div>
             </div>
 
-            <div className="rounded-3xl border border-border bg-background/60 p-6 sm:p-8">
+            <div className="min-w-0 rounded-3xl border border-border bg-background/60 p-5 sm:p-8">
               <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-muted-foreground">
                 Research network
               </p>
@@ -189,8 +189,8 @@ export default function ScholarAnalytics() {
             )}
 
             {openAlex && (
-              <div className="grid gap-5 lg:grid-cols-[0.78fr_1.22fr]">
-                <div className="rounded-3xl border border-sky-400/30 bg-sky-400/[0.09] p-6">
+              <div className="grid min-w-0 gap-5 lg:grid-cols-[0.78fr_1.22fr]">
+                <div className="min-w-0 rounded-3xl border border-sky-400/30 bg-sky-400/[0.09] p-5 sm:p-6">
                   <BookOpen className="size-5 text-sky-600 dark:text-sky-300" aria-hidden="true" />
                   <p className="mt-8 text-5xl font-black tracking-[-0.06em] text-foreground sm:text-6xl">
                     {openAlex.citations.toLocaleString()}
@@ -242,7 +242,7 @@ export default function ScholarAnalytics() {
 
 function CitationPanel({ data }: { data: { year: number; count: number }[] }) {
   return (
-    <div className="rounded-3xl border border-border bg-background/60 p-5 sm:p-7">
+    <div className="min-w-0 overflow-hidden rounded-3xl border border-border bg-background/60 p-4 sm:p-7">
       <div className="flex items-center justify-between gap-4">
         <div>
           <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-muted-foreground">
@@ -301,10 +301,10 @@ function CitationBarGraph({ data }: { data: { year: number; count: number }[] })
   const yScale = (v: number) => padding.top + chartH - (v / yMax) * chartH;
 
   return (
-    <div className="w-full overflow-x-auto">
+    <div className="w-full min-w-0 max-w-full overflow-x-auto overscroll-x-contain">
       <svg
         viewBox={`0 0 ${width} ${height}`}
-        className="w-full h-auto min-w-[320px]"
+        className="h-auto w-full min-w-[280px]"
         onMouseLeave={() => setHovered(null)}
       >
         {/* Gradient definition for bars */}
