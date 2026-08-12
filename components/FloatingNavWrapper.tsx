@@ -7,17 +7,17 @@ import ThemeToggle from "@/components/ThemeToggle";
 
 const primaryItems = [
   { name: "About", link: "/#about" },
+  { name: "Experience", link: "/#experience" },
   { name: "Research", link: "/#publications" },
   { name: "Projects", link: "/#projects" },
-  { name: "Writing", link: "/blog" },
+  { name: "Methods", link: "/methods" },
   { name: "Data", link: "/data" },
+  { name: "Blog", link: "/blog" },
   { name: "Journey", link: "/journey" },
 ];
 
 const exploreItems = [
   { name: "Skills", detail: "Methods I use", link: "/#skills" },
-  { name: "Experience", detail: "Roles and research", link: "/#experience" },
-  { name: "Methods", detail: "Technical explainers", link: "/methods" },
   { name: "Gallery", detail: "Field and laboratory", link: "/gallery" },
 ];
 
@@ -28,7 +28,7 @@ export default function FloatingNavWrapper() {
 
   return (
     <>
-      <header className="fixed inset-x-0 top-4 z-[5001] hidden px-4 lg:block">
+      <header className="fixed inset-x-0 top-4 z-[5001] hidden px-4 xl:block">
         <nav
           aria-label="Primary navigation"
           className="mx-auto flex max-w-7xl items-center gap-3 rounded-2xl border border-border bg-card/90 px-3 py-2 shadow-[0_18px_60px_-32px_rgba(0,0,0,0.75)] backdrop-blur-xl"
@@ -109,7 +109,7 @@ export default function FloatingNavWrapper() {
         </nav>
       </header>
 
-      <header className="fixed inset-x-0 top-0 z-[5001] border-b border-border/70 bg-background/90 px-4 backdrop-blur-xl lg:hidden">
+      <header className="fixed inset-x-0 top-0 z-[5001] border-b border-border/70 bg-background/90 px-4 backdrop-blur-xl xl:hidden">
         <div className="flex h-16 items-center justify-between">
           <Link href="/" onClick={closeMobileMenu} className="flex items-center gap-3 text-foreground">
             <span className="flex size-9 items-center justify-center rounded-xl border border-emerald-400/35 bg-emerald-400/10 text-sm font-bold text-emerald-500 dark:text-emerald-300">PS</span>
@@ -135,7 +135,7 @@ export default function FloatingNavWrapper() {
       </header>
 
       {mobileOpen && (
-        <div id="mobile-navigation" className="fixed inset-0 z-[5000] bg-background/95 px-4 pb-6 pt-20 backdrop-blur-xl lg:hidden">
+        <div id="mobile-navigation" className="fixed inset-0 z-[5000] bg-background/95 px-4 pb-6 pt-20 backdrop-blur-xl xl:hidden">
           <nav aria-label="Mobile navigation" className="mx-auto flex h-full max-w-lg flex-col overflow-y-auto rounded-3xl border border-border bg-card p-5">
             <p className="px-2 text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">Navigate</p>
             <div className="mt-3 grid grid-cols-2 gap-1">
