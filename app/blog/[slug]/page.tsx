@@ -155,6 +155,13 @@ export default async function BlogPostPage({ params }: Props) {
             {post.title}
           </h1>
 
+          {post.visualSummary && (
+            <VisualSummary
+              src={post.visualSummary}
+              alt={`Illustrated visual summary of ${post.title}`}
+            />
+          )}
+
           {/* Description */}
           {post.description && (
             <p className="text-xl text-muted-foreground leading-relaxed mb-8">
@@ -205,12 +212,6 @@ export default async function BlogPostPage({ params }: Props) {
           ">
             {post.tldr && post.tldr.length > 0 && (
               <TldrCallout items={post.tldr} />
-            )}
-            {post.visualSummary && (
-              <VisualSummary
-                src={post.visualSummary}
-                alt={`Illustrated visual summary of ${post.title}`}
-              />
             )}
             <MDXRemote
               source={post.content}

@@ -11,6 +11,11 @@ function extractCoverImage(content: string): string | undefined {
   return match ? match[1].trim() : undefined;
 }
 
+/** Remove a promoted lead visual from the body so it is not rendered twice. */
+function removeFirstMarkdownImage(content: string): string {
+  return content.replace(/!\[[^\]]*\]\([^)]+\)\s*/, "");
+}
+
 export interface BlogPost {
   slug: string;
   title: string;
@@ -54,6 +59,7 @@ export function getAllPosts(): BlogPostMeta[] {
       const hasGeneratedSummary = fs.existsSync(
         path.join(process.cwd(), "public", generatedSummary)
       );
+      const bodyImage = extractCoverImage(content);
 
       return {
         slug,
@@ -63,8 +69,9 @@ export function getAllPosts(): BlogPostMeta[] {
         tags: data.tags || [],
         tldr: Array.isArray(data.tldr) ? data.tldr : undefined,
         readingTime: stats.text,
-        image: data.image || extractCoverImage(content),
-        visualSummary: data.visualSummary || (hasGeneratedSummary ? generatedSummary : undefined),
+        image: data.image || data.visualSummary || extractCoverImage(content),
+        visualSummary:
+          data.visualSummary || (hasGeneratedSummary ? generatedSummary : bodyImage),
       };
     })
     .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
@@ -90,6 +97,9 @@ export function getPostBySlug(slug: string): BlogPost | null {
   const hasGeneratedSummary = fs.existsSync(
     path.join(process.cwd(), "public", generatedSummary)
   );
+  const bodyImage = extractCoverImage(content);
+  const visualSummary =
+    data.visualSummary || (hasGeneratedSummary ? generatedSummary : bodyImage);
 
   return {
     slug,
@@ -99,9 +109,9 @@ export function getPostBySlug(slug: string): BlogPost | null {
     tags: data.tags || [],
     tldr: Array.isArray(data.tldr) ? data.tldr : undefined,
     readingTime: stats.text,
-    image: data.image || extractCoverImage(content),
-    visualSummary: data.visualSummary || (hasGeneratedSummary ? generatedSummary : undefined),
-    content,
+    image: data.image || data.visualSummary || extractCoverImage(content),
+    visualSummary,
+    content: visualSummary === bodyImage ? removeFirstMarkdownImage(content) : content,
   };
 }
 

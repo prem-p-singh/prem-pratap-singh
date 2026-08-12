@@ -70,6 +70,13 @@ export default async function DataReportPage({ params }: Props) {
           <h1 className="text-3xl sm:text-4xl font-bold text-foreground mb-4 leading-tight">
             {post.title}
           </h1>
+          {post.visualSummary && (
+            <VisualSummary
+              src={post.visualSummary}
+              alt={`Illustrated visual summary of ${post.title}`}
+              label="Report at a glance"
+            />
+          )}
           {post.description && (
             <p className="text-lg text-muted-foreground leading-relaxed mb-6">
               {post.description}
@@ -109,14 +116,6 @@ export default async function DataReportPage({ params }: Props) {
               options={{ mdxOptions: { remarkPlugins: [remarkMath, remarkGfm], rehypePlugins: [rehypeKatex] } }}
             />
           </div>
-
-          {post.visualSummary && (
-            <VisualSummary
-              src={post.visualSummary}
-              alt={`Illustrated visual summary of ${post.title}`}
-              label="Report at a glance"
-            />
-          )}
 
           {post.methods && post.methods.length > 0 && (
             <Methods items={post.methods}>{post.methodsNote}</Methods>

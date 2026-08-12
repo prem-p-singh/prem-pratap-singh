@@ -13,31 +13,15 @@ const videos = [
   },
 ];
 
-export function MethodResources() {
+export function MethodVisualSummary() {
   return (
-    <section className="not-prose my-12" aria-labelledby="method-resources-title">
-      <div className="mb-5 flex flex-wrap items-end justify-between gap-2">
-        <div>
-          <p className="text-xs font-semibold uppercase tracking-[0.18em] text-primary">
-            Visual guide
-          </p>
-          <h2
-            id="method-resources-title"
-            className="mt-2 text-2xl font-bold tracking-tight text-foreground"
-          >
-            See the signal split
-          </h2>
-        </div>
-        <p className="text-sm text-muted-foreground">One graphic · two short videos</p>
-      </div>
-
-      <figure className="overflow-hidden rounded-2xl border border-border bg-card shadow-sm">
+    <figure className="my-8 overflow-hidden rounded-2xl border border-border bg-card shadow-sm">
         <a
           href="/methods/causal-mediation/causal-mediation-visual-guide.png"
           target="_blank"
           rel="noopener noreferrer"
           aria-label="Open the causal mediation visual guide at full size"
-          className="block bg-[#fff8ef]"
+          className="block bg-white"
         >
           <Image
             src="/methods/causal-mediation/causal-mediation-visual-guide.png"
@@ -52,8 +36,27 @@ export function MethodResources() {
           <span>One-page visual summary</span>
           <span className="font-medium text-foreground">Open full size ↗</span>
         </figcaption>
-      </figure>
+    </figure>
+  );
+}
 
+export function MethodVideos() {
+  return (
+    <section className="not-prose my-12" aria-labelledby="method-videos-title">
+      <div className="mb-5 flex flex-wrap items-end justify-between gap-2">
+        <div>
+          <p className="text-xs font-semibold uppercase tracking-[0.18em] text-primary">
+            Watch the method
+          </p>
+          <h2
+            id="method-videos-title"
+            className="mt-2 text-2xl font-bold tracking-tight text-foreground"
+          >
+            See the signal split
+          </h2>
+        </div>
+        <p className="text-sm text-muted-foreground">Two short videos</p>
+      </div>
       <div className="mt-4 grid gap-4 sm:grid-cols-2">
         {videos.map((video) => (
           <figure

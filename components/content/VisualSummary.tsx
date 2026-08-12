@@ -12,7 +12,7 @@ export default function VisualSummary({
   label = "Visual summary",
 }: VisualSummaryProps) {
   return (
-    <figure className="not-prose my-10 overflow-hidden rounded-2xl border border-border bg-card shadow-sm">
+    <figure className="not-prose my-6 overflow-hidden rounded-2xl border border-border bg-card shadow-sm sm:my-8">
       <a
         href={src}
         target="_blank"

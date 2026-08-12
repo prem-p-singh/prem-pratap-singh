@@ -13,7 +13,10 @@ import {
   CropGrowthExplorer,
   VineyardCaseFile,
 } from "@/components/methods/MediationExplorer";
-import { MethodResources } from "@/components/methods/MethodResources";
+import {
+  MethodVideos,
+  MethodVisualSummary,
+} from "@/components/methods/MethodResources";
 import { formatContentDate } from "@/lib/date";
 
 const REPO = "https://github.com/prem-p-singh/prem-pratap-singh/tree/main";
@@ -81,6 +84,7 @@ export default async function MethodPage({ params }: Props) {
           <h1 className="text-3xl sm:text-4xl font-bold text-foreground mb-4 leading-tight">
             {post.title}
           </h1>
+          {slug === "causal-mediation" && <MethodVisualSummary />}
           {post.description && (
             <p className="text-lg text-muted-foreground leading-relaxed mb-6">
               {post.description}
@@ -114,7 +118,7 @@ export default async function MethodPage({ params }: Props) {
                 Methods,
                 VineyardCaseFile,
                 CropGrowthExplorer,
-                MethodResources,
+                MethodVideos,
               }}
               options={{ mdxOptions: { remarkPlugins: [remarkMath, remarkGfm], rehypePlugins: [rehypeKatex] } }}
             />
