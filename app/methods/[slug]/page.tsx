@@ -13,6 +13,7 @@ import {
   CropGrowthExplorer,
   VineyardCaseFile,
 } from "@/components/methods/MediationExplorer";
+import { MethodResources } from "@/components/methods/MethodResources";
 import { formatContentDate } from "@/lib/date";
 
 const REPO = "https://github.com/prem-p-singh/prem-pratap-singh/tree/main";
@@ -113,6 +114,7 @@ export default async function MethodPage({ params }: Props) {
                 Methods,
                 VineyardCaseFile,
                 CropGrowthExplorer,
+                MethodResources,
               }}
               options={{ mdxOptions: { remarkPlugins: [remarkMath, remarkGfm], rehypePlugins: [rehypeKatex] } }}
             />
