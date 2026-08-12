@@ -84,7 +84,6 @@ export default async function MethodPage({ params }: Props) {
           <h1 className="text-3xl sm:text-4xl font-bold text-foreground mb-4 leading-tight">
             {post.title}
           </h1>
-          {slug === "causal-mediation" && <MethodVisualSummary />}
           {post.description && (
             <p className="text-lg text-muted-foreground leading-relaxed mb-6">
               {post.description}
@@ -93,6 +92,7 @@ export default async function MethodPage({ params }: Props) {
           <p className="text-sm text-muted-foreground">
             {formattedDate} · {post.readingTime}
           </p>
+          {slug === "causal-mediation" && <MethodVisualSummary />}
         </div>
       </section>
 
