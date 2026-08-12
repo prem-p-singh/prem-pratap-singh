@@ -20,6 +20,7 @@ export interface BlogPost {
   tldr?: string[];
   readingTime: string;
   image?: string;
+  visualSummary?: string;
   content: string;
 }
 
@@ -32,6 +33,7 @@ export interface BlogPostMeta {
   tldr?: string[];
   readingTime: string;
   image?: string;
+  visualSummary?: string;
 }
 
 export function getAllPosts(): BlogPostMeta[] {
@@ -48,6 +50,10 @@ export function getAllPosts(): BlogPostMeta[] {
       const fileContents = fs.readFileSync(fullPath, "utf8");
       const { data, content } = matter(fileContents);
       const stats = readingTime(content);
+      const generatedSummary = `/blog/${slug}/visual-summary.jpg`;
+      const hasGeneratedSummary = fs.existsSync(
+        path.join(process.cwd(), "public", generatedSummary)
+      );
 
       return {
         slug,
@@ -58,6 +64,7 @@ export function getAllPosts(): BlogPostMeta[] {
         tldr: Array.isArray(data.tldr) ? data.tldr : undefined,
         readingTime: stats.text,
         image: data.image || extractCoverImage(content),
+        visualSummary: data.visualSummary || (hasGeneratedSummary ? generatedSummary : undefined),
       };
     })
     .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
@@ -79,6 +86,10 @@ export function getPostBySlug(slug: string): BlogPost | null {
   const fileContents = fs.readFileSync(fullPath, "utf8");
   const { data, content } = matter(fileContents);
   const stats = readingTime(content);
+  const generatedSummary = `/blog/${slug}/visual-summary.jpg`;
+  const hasGeneratedSummary = fs.existsSync(
+    path.join(process.cwd(), "public", generatedSummary)
+  );
 
   return {
     slug,
@@ -89,6 +100,7 @@ export function getPostBySlug(slug: string): BlogPost | null {
     tldr: Array.isArray(data.tldr) ? data.tldr : undefined,
     readingTime: stats.text,
     image: data.image || extractCoverImage(content),
+    visualSummary: data.visualSummary || (hasGeneratedSummary ? generatedSummary : undefined),
     content,
   };
 }

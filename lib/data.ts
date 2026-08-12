@@ -25,6 +25,7 @@ export interface DataPost {
   tags: string[];
   readingTime: string;
   image?: string;
+  visualSummary?: string;
   dataset?: string;
   source?: string;
   sourceUrl?: string;
@@ -42,6 +43,10 @@ export type DataPostMeta = Omit<DataPost, "content">;
 
 function toMeta(slug: string, raw: string): DataPost {
   const { data, content } = matter(raw);
+  const generatedSummary = `/data/${slug}/visual-summary.jpg`;
+  const hasGeneratedSummary = fs.existsSync(
+    path.join(process.cwd(), "public", generatedSummary)
+  );
   return {
     slug,
     title: data.title || slug,
@@ -50,6 +55,7 @@ function toMeta(slug: string, raw: string): DataPost {
     tags: data.tags || [],
     readingTime: readingTime(content).text,
     image: data.image || extractCoverImage(content),
+    visualSummary: data.visualSummary || (hasGeneratedSummary ? generatedSummary : undefined),
     dataset: data.dataset,
     source: data.source,
     sourceUrl: data.sourceUrl,

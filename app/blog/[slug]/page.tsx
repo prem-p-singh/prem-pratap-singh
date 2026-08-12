@@ -13,6 +13,7 @@ import ClapButton from "@/components/blog/ClapButton";
 import ShareButtons from "@/components/blog/ShareButtons";
 import CommentSection from "@/components/blog/CommentSection";
 import TldrCallout from "@/components/blog/TldrCallout";
+import VisualSummary from "@/components/content/VisualSummary";
 import { formatContentDate } from "@/lib/date";
 
 interface Props {
@@ -204,6 +205,12 @@ export default async function BlogPostPage({ params }: Props) {
           ">
             {post.tldr && post.tldr.length > 0 && (
               <TldrCallout items={post.tldr} />
+            )}
+            {post.visualSummary && (
+              <VisualSummary
+                src={post.visualSummary}
+                alt={`Illustrated visual summary of ${post.title}`}
+              />
             )}
             <MDXRemote
               source={post.content}

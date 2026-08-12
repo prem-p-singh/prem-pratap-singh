@@ -12,6 +12,7 @@ import { KeyStats, MythReality, Takeaway, Methods } from "@/components/data/Data
 import PathogenTable from "@/components/data/PathogenTable";
 import { formatContentDate } from "@/lib/date";
 import DataGuess from "@/components/data/DataGuess";
+import VisualSummary from "@/components/content/VisualSummary";
 
 const REPO = "https://github.com/prem-p-singh/prem-pratap-singh/tree/main";
 
@@ -108,6 +109,14 @@ export default async function DataReportPage({ params }: Props) {
               options={{ mdxOptions: { remarkPlugins: [remarkMath, remarkGfm], rehypePlugins: [rehypeKatex] } }}
             />
           </div>
+
+          {post.visualSummary && (
+            <VisualSummary
+              src={post.visualSummary}
+              alt={`Illustrated visual summary of ${post.title}`}
+              label="Report at a glance"
+            />
+          )}
 
           {post.methods && post.methods.length > 0 && (
             <Methods items={post.methods}>{post.methodsNote}</Methods>
