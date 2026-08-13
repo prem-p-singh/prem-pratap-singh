@@ -47,17 +47,13 @@ $$
 
 This produces a comparable rate per million records instead of a leaderboard dominated by database size.
 
-![Bar chart of effort-corrected Xylella records by country](/data/xylella-fastidiosa-spread/effort_corrected.png)
-
-<Takeaway>
-The United States fell from first in raw records to seventh after correction. Italy and Brazil moved upward, matching their known epidemics more closely.
-</Takeaway>
+<SurveillanceRankingChart />
 
 ## The validation step
 
 A normalized index can still miss an outbreak, so it needs an external check. I compared the first public record in each European country with documented plant-health reports.
 
-![Timeline comparing documented outbreaks with the first public record](/data/xylella-fastidiosa-spread/validation_timeline.png)
+<OutbreakReadinessChart />
 
 Italy appeared in the same year. Portugal's 2019 outbreak never appeared in the occurrence data. That absence is the limit of the method: correction makes comparisons fairer, but it cannot turn incomplete surveillance into proof of absence.
 

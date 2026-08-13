@@ -50,6 +50,7 @@ function toMeta(slug: string, raw: string): DataPost {
   const hasGeneratedSummary = fs.existsSync(
     path.join(process.cwd(), "public", generatedSummary)
   );
+  const visualSummary = data.visualSummary || (hasGeneratedSummary ? generatedSummary : undefined);
   return {
     slug,
     title: data.title || slug,
@@ -57,8 +58,8 @@ function toMeta(slug: string, raw: string): DataPost {
     description: data.description || "",
     tags: data.tags || [],
     readingTime: readingTime(content).text,
-    image: data.image || extractCoverImage(content),
-    visualSummary: data.visualSummary || (hasGeneratedSummary ? generatedSummary : undefined),
+    image: visualSummary || data.image || extractCoverImage(content),
+    visualSummary,
     dataset: data.dataset,
     source: data.source,
     sourceUrl: data.sourceUrl,

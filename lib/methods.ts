@@ -41,6 +41,7 @@ function toMeta(slug: string, raw: string): MethodPost {
   const { data, content } = matter(raw);
   const generatedSummary = `/methods/${slug}/visual-summary.jpg`;
   const hasGeneratedSummary = fs.existsSync(path.join(process.cwd(), "public", generatedSummary));
+  const visualSummary = data.visualSummary || (hasGeneratedSummary ? generatedSummary : undefined);
   return {
     slug,
     title: data.title || slug,
@@ -48,8 +49,8 @@ function toMeta(slug: string, raw: string): MethodPost {
     description: data.description || "",
     tags: data.tags || [],
     readingTime: readingTime(content).text,
-    image: data.image || extractCoverImage(content),
-    visualSummary: data.visualSummary || (hasGeneratedSummary ? generatedSummary : undefined),
+    image: visualSummary || data.image || extractCoverImage(content),
+    visualSummary,
     method: data.method,
     origin: data.origin,
     paperUrl: data.paperUrl,

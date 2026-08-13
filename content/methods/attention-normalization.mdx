@@ -47,25 +47,21 @@ $$
 \text{papers per million tonnes} = \frac{\text{AI disease papers}}{\text{production tonnes}} \times 10^6
 $$
 
-![Bar chart comparing AI plant-disease papers per million tonnes produced](/data/ai-attention-vs-crop-importance/papers_per_tonne.png)
-
-<Takeaway>
-Tomato received 11.5 times more AI plant-disease research per tonne than maize. Sugarcane sat at the bottom despite being the world's largest crop by mass.
-</Takeaway>
+<AttentionIntensityChart />
 
 ## Check the denominator visually
 
 A scatter plot keeps both original quantities visible. If research attention scaled with crop production, the points would rise from left to right.
 
-![Scatter plot comparing crop production with AI plant-disease paper counts](/data/ai-attention-vs-crop-importance/attention_vs_production.png)
+<ResearchOpportunityMatrix />
 
-They do not. The rate exposes a mismatch, but it does not explain it.
+The matrix exposes a mismatch, but it does not explain it.
 
 ## Test whether the field itself is growing
 
 Raw paper counts rise as science publishes more. To separate general publishing growth from adoption of AI, calculate AI papers as a share of all plant-disease papers for each year.
 
-![Line chart of AI's annual share of plant-disease papers](/data/ai-attention-vs-crop-importance/ai_share_over_time.png)
+<AIAdoptionTrend />
 
 ## Use this when
 

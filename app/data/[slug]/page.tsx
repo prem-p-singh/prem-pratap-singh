@@ -13,6 +13,15 @@ import PathogenTable from "@/components/data/PathogenTable";
 import { formatContentDate } from "@/lib/date";
 import DataGuess from "@/components/data/DataGuess";
 import VisualSummary from "@/components/content/VisualSummary";
+import {
+  AIAdoptionTrend,
+  AttentionIntensityChart,
+  GrowthStrategyMatrix,
+  LandContributionChart,
+  OutbreakReadinessChart,
+  ResearchOpportunityMatrix,
+  SurveillanceRankingChart,
+} from "@/components/charts/IndustryEvidenceCharts";
 
 const REPO = "https://github.com/prem-p-singh/prem-pratap-singh/tree/main";
 
@@ -139,6 +148,13 @@ export default async function DataReportPage({ params }: Props) {
                 Methods,
                 PathogenTable,
                 DataGuess,
+                AIAdoptionTrend,
+                AttentionIntensityChart,
+                GrowthStrategyMatrix,
+                LandContributionChart,
+                OutbreakReadinessChart,
+                ResearchOpportunityMatrix,
+                SurveillanceRankingChart,
               }}
               options={{ mdxOptions: { remarkPlugins: [remarkMath, remarkGfm], rehypePlugins: [rehypeKatex] } }}
             />

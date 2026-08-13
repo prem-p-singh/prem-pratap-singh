@@ -18,6 +18,15 @@ import {
   MethodVisualSummary,
 } from "@/components/methods/MethodResources";
 import VisualSummary from "@/components/content/VisualSummary";
+import {
+  AIAdoptionTrend,
+  AttentionIntensityChart,
+  GrowthStrategyMatrix,
+  LandContributionChart,
+  OutbreakReadinessChart,
+  ResearchOpportunityMatrix,
+  SurveillanceRankingChart,
+} from "@/components/charts/IndustryEvidenceCharts";
 import { formatContentDate } from "@/lib/date";
 
 const REPO = "https://github.com/prem-p-singh/prem-pratap-singh/tree/main";
@@ -138,6 +147,13 @@ export default async function MethodPage({ params }: Props) {
                 VineyardCaseFile,
                 CropGrowthExplorer,
                 MethodVideos,
+                AIAdoptionTrend,
+                AttentionIntensityChart,
+                GrowthStrategyMatrix,
+                LandContributionChart,
+                OutbreakReadinessChart,
+                ResearchOpportunityMatrix,
+                SurveillanceRankingChart,
               }}
               options={{ mdxOptions: { remarkPlugins: [remarkMath, remarkGfm], rehypePlugins: [rehypeKatex] } }}
             />
