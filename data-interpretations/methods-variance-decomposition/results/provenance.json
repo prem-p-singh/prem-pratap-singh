@@ -1,0 +1,28 @@
+{
+  "source_file": "Production_Crops_Livestock_E_All_Data_(Normalized).csv",
+  "source": "FAOSTAT Production: Crops and livestock products",
+  "element": "Yield",
+  "unit": "kg/ha",
+  "years": [
+    1961,
+    2023
+  ],
+  "balanced_panel": {
+    "rows": 305676,
+    "countries": 166,
+    "crops": 151
+  },
+  "within_crop": {
+    "crops_analysed": 63,
+    "min_countries_per_crop": 30,
+    "median_country_share": 0.6913485783693758,
+    "median_year_share": 0.05598063537214848,
+    "median_residual_share": 0.23906430154303981
+  },
+  "pooled": {
+    "Country": 0.15925373836686257,
+    "Crop": 0.7387755203466063,
+    "Year": 0.013163619501072655,
+    "Residual": 0.08880712178545846
+  }
+}

@@ -21,11 +21,13 @@ import VisualSummary from "@/components/content/VisualSummary";
 import {
   AIAdoptionTrend,
   AttentionIntensityChart,
+  CropVarianceRanking,
   GrowthStrategyMatrix,
   LandContributionChart,
   OutbreakReadinessChart,
   ResearchOpportunityMatrix,
   SurveillanceRankingChart,
+  YieldVarianceSplit,
 } from "@/components/charts/IndustryEvidenceCharts";
 import { formatContentDate } from "@/lib/date";
 
@@ -154,6 +156,8 @@ export default async function MethodPage({ params }: Props) {
                 OutbreakReadinessChart,
                 ResearchOpportunityMatrix,
                 SurveillanceRankingChart,
+                YieldVarianceSplit,
+                CropVarianceRanking,
               }}
               options={{ mdxOptions: { remarkPlugins: [remarkMath, remarkGfm], rehypePlugins: [rehypeKatex] } }}
             />

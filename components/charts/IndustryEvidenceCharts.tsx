@@ -525,3 +525,148 @@ export function GrowthStrategyMatrix() {
     </EvidenceFrame>
   );
 }
+
+/* ------------------------------------------------------------------ *
+ * Variance decomposition of world crop yields.
+ * Figures from data-interpretations/methods-variance-decomposition.
+ * ------------------------------------------------------------------ */
+
+const pooledSplit = [
+  ["Crop", 73.9, "bg-biology"],
+  ["Country", 15.9, "bg-field"],
+  ["Residual", 8.9, "bg-muted-foreground"],
+  ["Year", 1.3, "bg-decision"],
+] as const;
+
+const withinSplit = [
+  ["Country", 69.1, "bg-field"],
+  ["Residual", 23.9, "bg-muted-foreground"],
+  ["Year", 5.6, "bg-decision"],
+] as const;
+
+type VarianceRows = readonly (readonly [string, number, string])[];
+
+function VarianceBar({ rows }: { rows: VarianceRows }) {
+  return (
+    <div className="flex h-8 overflow-hidden rounded-lg">
+      {rows.map(([label, value, tone]) => (
+        <span
+          key={label}
+          className={`${tone} grid place-items-center text-xs font-semibold text-background`}
+          style={{ width: `${value}%` }}
+          title={`${label} ${value}%`}
+        >
+          {value >= 12 ? `${value}%` : ""}
+        </span>
+      ))}
+    </div>
+  );
+}
+
+function VarianceLegend({ rows }: { rows: VarianceRows }) {
+  return (
+    <div className="mt-3 flex flex-wrap gap-x-5 gap-y-1.5">
+      {rows.map(([label, value, tone]) => (
+        <span key={label} className="flex items-center gap-2 text-sm text-muted-foreground">
+          <span className={`${tone} size-2.5 rounded-full`} aria-hidden="true" />
+          {label} <span className="tabular-nums text-foreground/85">{value}%</span>
+        </span>
+      ))}
+    </div>
+  );
+}
+
+export function YieldVarianceSplit() {
+
+  return (
+    <EvidenceFrame
+      eyebrow="Where yield variation lives"
+      title="The pooled answer is mostly a units artefact"
+      takeaway="Compared across all crops, crop identity looks dominant. That is largely because sugarcane is measured in tens of thousands of kg per hectare and wheat in thousands. Remove crop identity and the picture changes."
+      source="Source: FAOSTAT crop yields, 166 countries, 151 crops, 1961 to 2023. Balanced panel of 305,676 country-crop-year observations. Shares are eta-squared on log yield. The second bar sums to 98.6% rather than 100% because each figure is a median taken across 63 separate decompositions, and medians need not add up."
+      details={
+        <EvidenceTable
+          headers={["Model", "Country", "Crop", "Year", "Residual"]}
+          rows={[
+            ["All crops pooled", "15.9%", "73.9%", "1.3%", "8.9%"],
+            ["Within crop (median of 63)", "69.1%", "removed", "5.6%", "23.9%"],
+          ]}
+        />
+      }
+    >
+      <div className="space-y-6">
+        <div>
+          <p className="mb-2 text-sm font-semibold text-foreground">All crops in one model</p>
+          <VarianceBar rows={pooledSplit} />
+          <VarianceLegend rows={pooledSplit} />
+        </div>
+        <div>
+          <p className="mb-2 text-sm font-semibold text-foreground">
+            Within a single crop, median across 63 crops
+          </p>
+          <VarianceBar rows={withinSplit} />
+          <VarianceLegend rows={withinSplit} />
+        </div>
+      </div>
+    </EvidenceFrame>
+  );
+}
+
+const cropVariance = [
+  ["Tea leaves", 25.7, 57.9, 16.4, 46],
+  ["Soya beans", 63.1, 15.0, 21.9, 43],
+  ["Wheat", 69.6, 14.1, 16.3, 84],
+  ["Maize (corn)", 69.1, 12.3, 18.6, 126],
+  ["Potatoes", 70.8, 11.9, 17.3, 110],
+  ["Rice", 71.6, 8.8, 19.5, 98],
+  ["Barley", 77.3, 8.3, 14.5, 67],
+  ["Sorghum", 80.0, 3.0, 16.9, 74],
+  ["Taro", 85.6, 0.8, 13.6, 39],
+] as const;
+
+export function CropVarianceRanking() {
+  return (
+    <EvidenceFrame
+      eyebrow="Same method, one crop at a time"
+      title="For most crops, place explains far more than year"
+      takeaway="Tea is the exception that proves the method works: its yield variation is dominated by a steady climb over six decades rather than by which country grew it."
+      source="Source: FAOSTAT crop yields, 1961 to 2023, crops observed in at least 30 countries across every year. Bars show eta-squared on log yield within each crop."
+      details={
+        <EvidenceTable
+          headers={["Crop", "Country", "Year", "Residual", "Countries"]}
+          rows={cropVariance.map(([crop, country, year, residual, n]) => [
+            crop,
+            `${country.toFixed(1)}%`,
+            `${year.toFixed(1)}%`,
+            `${residual.toFixed(1)}%`,
+            n,
+          ])}
+        />
+      }
+    >
+      <div className="space-y-3" aria-label="Share of yield variance from country and from year, by crop">
+        {cropVariance.map(([crop, country, year]) => (
+          <div
+            key={crop}
+            className="grid grid-cols-[6rem_1fr_3rem] items-center gap-3 sm:grid-cols-[8rem_1fr_3.5rem]"
+          >
+            <span className="text-sm font-semibold text-foreground">{crop}</span>
+            <div className="flex h-3 overflow-hidden rounded-full bg-muted">
+              <span className="bg-field" style={{ width: `${country}%` }} />
+              <span className="bg-decision" style={{ width: `${year}%` }} />
+            </div>
+            <span className="text-right text-sm tabular-nums text-muted-foreground">
+              {year.toFixed(1)}%
+            </span>
+          </div>
+        ))}
+        <p className="pt-1 text-xs text-muted-foreground">
+          <span className="mr-1 inline-block size-2.5 rounded-full bg-field align-middle" aria-hidden="true" />
+          Country
+          <span className="ml-4 mr-1 inline-block size-2.5 rounded-full bg-decision align-middle" aria-hidden="true" />
+          Year. Trailing figure is the year share.
+        </p>
+      </div>
+    </EvidenceFrame>
+  );
+}

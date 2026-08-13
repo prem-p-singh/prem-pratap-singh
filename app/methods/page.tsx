@@ -11,6 +11,13 @@ export const metadata: Metadata = {
   alternates: { canonical: "/methods" },
 };
 
+/** Reads the count off the content folder so the intro cannot go stale. */
+function methodCount(n: number): string {
+  const words = ["No", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine"];
+  const word = words[n] ?? String(n);
+  return `${word} ${n === 1 ? "way" : "ways"}`;
+}
+
 export default function MethodsPage() {
   const posts = getAllMethodPosts();
 
@@ -26,7 +33,8 @@ export default function MethodsPage() {
               Methods, made visible.
             </h1>
             <p className="text-lg text-muted-foreground leading-relaxed">
-              Three ways to turn biological and public data into a decision you can inspect.
+              {methodCount(posts.length)} to turn biological and public data into a decision you
+              can inspect.
             </p>
           </div>
         </div>
