@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { personal } from "@/profile/personal";
+import { primaryNavigation } from "@/profile/navigation";
 
 function GitHubIcon() {
   return (
@@ -57,15 +58,6 @@ function MailIcon() {
   );
 }
 
-const navLinks = [
-  { label: "Experience", href: "/#experience" },
-  { label: "Projects", href: "/#projects" },
-  { label: "Publications", href: "/#publications" },
-  { label: "Blog", href: "/blog" },
-  { label: "Gallery", href: "/gallery" },
-  { label: "Contact", href: "/#contact" },
-];
-
 const socialItems = [
   { name: "GitHub", href: personal.social.github, icon: <GitHubIcon /> },
   { name: "LinkedIn", href: personal.social.linkedin, icon: <LinkedInIcon /> },
@@ -94,13 +86,13 @@ export default function Footer() {
             </p>
           </div>
           <nav className="flex flex-wrap items-center gap-x-6 gap-y-2">
-            {navLinks.map((link) => (
+            {primaryNavigation.map((link) => (
               <Link
-                key={link.label}
-                href={link.href}
+                key={link.name}
+                href={link.link}
                 className="text-sm text-[var(--muted-foreground)] hover:text-[var(--foreground)] transition-colors"
               >
-                {link.label}
+                {link.name}
               </Link>
             ))}
           </nav>
@@ -111,9 +103,10 @@ export default function Footer() {
 
         {/* Row 2: Copyright (left), Social icons (right) */}
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-          <p className="text-sm text-[var(--muted-foreground)]">
-            &copy; {currentYear} {personal.name}. All rights reserved.
-          </p>
+          <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-sm text-[var(--muted-foreground)]">
+            <p>&copy; {currentYear} {personal.name}. All rights reserved.</p>
+            <Link href="/privacy" className="hover:text-[var(--foreground)] transition-colors">Privacy</Link>
+          </div>
           <div className="flex items-center gap-4">
             {socialItems.map((social) => (
               <a

@@ -4,22 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { ChevronDown, Menu, X } from "lucide-react";
 import ThemeToggle from "@/components/ThemeToggle";
-
-const primaryItems = [
-  { name: "About", link: "/#about" },
-  { name: "Experience", link: "/#experience" },
-  { name: "Research", link: "/#publications" },
-  { name: "Projects", link: "/#projects" },
-  { name: "Methods", link: "/methods" },
-  { name: "Data", link: "/data" },
-  { name: "Blog", link: "/blog" },
-  { name: "Journey", link: "/journey" },
-];
-
-const exploreItems = [
-  { name: "Skills", detail: "Methods I use", link: "/#skills" },
-  { name: "Gallery", detail: "Field and laboratory", link: "/gallery" },
-];
+import { exploreNavigation, primaryNavigation } from "@/profile/navigation";
 
 export default function FloatingNavWrapper() {
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -50,7 +35,7 @@ export default function FloatingNavWrapper() {
           <span className="h-8 w-px shrink-0 bg-border" aria-hidden="true" />
 
           <div className="flex min-w-0 flex-1 items-center justify-center gap-0.5">
-            {primaryItems.map((item) => (
+            {primaryNavigation.map((item) => (
               <Link
                 key={item.name}
                 href={item.link}
@@ -71,7 +56,7 @@ export default function FloatingNavWrapper() {
               </button>
               <div className="invisible absolute left-1/2 top-full z-20 w-64 -translate-x-1/2 pt-3 opacity-0 transition-[opacity,visibility] group-hover:visible group-hover:opacity-100 group-focus-within:visible group-focus-within:opacity-100">
                 <div className="rounded-2xl border border-border bg-card p-2 shadow-2xl" role="menu">
-                  {exploreItems.map((item) => (
+                  {exploreNavigation.map((item) => (
                     <Link
                       key={item.name}
                       href={item.link}
@@ -139,7 +124,7 @@ export default function FloatingNavWrapper() {
           <nav aria-label="Mobile navigation" className="mx-auto flex h-full max-w-lg flex-col overflow-y-auto rounded-3xl border border-border bg-card p-5">
             <p className="px-2 text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">Navigate</p>
             <div className="mt-3 grid grid-cols-2 gap-1">
-              {primaryItems.map((item) => (
+              {primaryNavigation.map((item) => (
                 <Link
                   key={item.name}
                   href={item.link}
@@ -154,7 +139,7 @@ export default function FloatingNavWrapper() {
             <div className="mt-6 border-t border-border pt-5">
               <p className="px-2 text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">Explore more</p>
               <div className="mt-3 space-y-1">
-                {exploreItems.map((item) => (
+                {exploreNavigation.map((item) => (
                   <Link
                     key={item.name}
                     href={item.link}

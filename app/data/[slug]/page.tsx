@@ -52,9 +52,36 @@ export default async function DataReportPage({ params }: Props) {
     month: "long",
     day: "numeric",
   });
+  const reportUrl = `https://www.prempsingh.com/data/${slug}`;
+  const datasetJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Dataset",
+    name: post.dataset || post.title,
+    description: post.description,
+    url: reportUrl,
+    creator: {
+      "@type": "Person",
+      name: "Prem Pratap Singh",
+      url: "https://www.prempsingh.com",
+    },
+    dateModified: post.date,
+    isBasedOn: post.sourceLinks?.map((source) => source.url) || (post.sourceUrl ? [post.sourceUrl] : undefined),
+    license: post.license,
+  };
+  const breadcrumbJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: "https://www.prempsingh.com" },
+      { "@type": "ListItem", position: 2, name: "Data", item: "https://www.prempsingh.com/data" },
+      { "@type": "ListItem", position: 3, name: post.title, item: reportUrl },
+    ],
+  };
 
   return (
     <article className="pt-16">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(datasetJsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }} />
       <section className="bg-gradient-to-b from-muted to-background pt-12">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
           <Link
@@ -137,14 +164,36 @@ export default async function DataReportPage({ params }: Props) {
             )}
             <div>
               <p className="mb-1 text-xs font-semibold uppercase tracking-wider text-muted-foreground">Source</p>
-              {post.sourceUrl ? (
-                <a href={post.sourceUrl} target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">
-                  {post.source || post.sourceUrl}
-                </a>
+              {post.sourceLinks && post.sourceLinks.length > 0 ? (
+                <ul className="space-y-1">
+                  {post.sourceLinks.map((source) => (
+                    <li key={source.url}>
+                      <a href={source.url} target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">
+                        {source.label}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              ) : post.sourceUrl ? (
+                  <a href={post.sourceUrl} target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">
+                    {post.source || post.sourceUrl}
+                  </a>
               ) : (
                 <p className="text-foreground">{post.source}</p>
               )}
             </div>
+            {post.accessDate && (
+              <div>
+                <p className="mb-1 text-xs font-semibold uppercase tracking-wider text-muted-foreground">Data accessed</p>
+                <p className="text-foreground">{post.accessDate}</p>
+              </div>
+            )}
+            {post.license && (
+              <div>
+                <p className="mb-1 text-xs font-semibold uppercase tracking-wider text-muted-foreground">Data terms</p>
+                <p className="text-foreground">{post.license}</p>
+              </div>
+            )}
             {typeof post.records === "number" && (
               <div>
                 <p className="mb-1 text-xs font-semibold uppercase tracking-wider text-muted-foreground">Records analyzed</p>

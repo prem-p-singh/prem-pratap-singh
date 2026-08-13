@@ -26,7 +26,7 @@ export default function MethodsPage() {
               Methods, made visible.
             </h1>
             <p className="text-lg text-muted-foreground leading-relaxed">
-              One model · two datasets · interactive results
+              Three ways to turn biological and public data into a decision you can inspect.
             </p>
           </div>
         </div>
@@ -35,7 +35,7 @@ export default function MethodsPage() {
       <section className="py-6 sm:py-8">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           {posts.length > 0 ? (
-            <div className="grid sm:grid-cols-1 lg:grid-cols-2 gap-6">
+            <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
               {posts.map((post, index) => (
                 <Link
                   key={post.slug}
@@ -49,7 +49,7 @@ export default function MethodsPage() {
                         alt={post.title}
                         fill
                         priority={index === 0}
-                        sizes="(max-width: 1024px) 100vw, 50vw"
+                        sizes="(max-width: 768px) 100vw, (max-width: 1280px) 50vw, 33vw"
                         className="object-contain p-3 group-hover:scale-[1.02] transition-transform duration-500"
                       />
                     ) : (

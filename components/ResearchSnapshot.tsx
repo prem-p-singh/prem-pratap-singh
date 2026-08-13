@@ -1,4 +1,3 @@
-import { ArrowRight, BarChart3, Dna, Sprout, Target } from "lucide-react";
 import SkillsMatrix from "@/components/SkillsMatrix";
 
 const evidence = [
@@ -6,13 +5,6 @@ const evidence = [
   { value: "1.3B+", label: "reads processed", tone: "text-violet-500", rule: "border-t-violet-500" },
   { value: "37", label: "research articles", tone: "text-sky-500", rule: "border-t-sky-500" },
   { value: "21", label: "book chapters", tone: "text-amber-500", rule: "border-t-amber-500" },
-];
-
-const workingSequence = [
-  { label: "Observe the crop", icon: Sprout, tone: "text-emerald-500", rule: "border-t-emerald-500" },
-  { label: "Measure the biology", icon: Dna, tone: "text-violet-500", rule: "border-t-violet-500" },
-  { label: "Integrate the data", icon: BarChart3, tone: "text-sky-500", rule: "border-t-sky-500" },
-  { label: "Inform selection", icon: Target, tone: "text-amber-500", rule: "border-t-amber-500" },
 ];
 
 export default function ResearchSnapshot() {
@@ -30,31 +22,8 @@ export default function ResearchSnapshot() {
             </h2>
           </div>
           <p className="max-w-md text-sm leading-relaxed text-muted-foreground lg:justify-self-end">
-            Select a domain to see the methods I use in practice.
+            Eight connected capability areas support the path from crop observation to a useful decision.
           </p>
-        </div>
-
-        <div className="mt-10 grid border-y border-border sm:grid-cols-2 lg:grid-cols-4" aria-label="Working sequence">
-          {workingSequence.map((item, index) => {
-            const Icon = item.icon;
-            return (
-              <div
-                key={item.label}
-                className={`flex items-center gap-3 border-b border-t-2 border-b-border px-4 py-4 last:border-b-0 sm:[&:nth-child(3)]:border-b-0 sm:[&:nth-child(4)]:border-b-0 lg:border-b-0 lg:border-r lg:last:border-r-0 ${item.rule}`}
-              >
-                <span className={`font-mono text-xs ${item.tone}`}>0{index + 1}</span>
-                <Icon className={`size-6 ${item.tone}`} strokeWidth={1.6} aria-hidden="true" />
-                <span className="text-sm font-medium text-foreground">{item.label}</span>
-                {index < workingSequence.length - 1 && (
-                  <ArrowRight className="ml-auto hidden size-3.5 text-muted-foreground/45 lg:block" aria-hidden="true" />
-                )}
-              </div>
-            );
-          })}
-        </div>
-
-        <div id="skills" className="mt-8">
-          <SkillsMatrix />
         </div>
 
         <div className="mt-8 grid grid-cols-2 border-y border-border lg:grid-cols-4">
@@ -70,6 +39,22 @@ export default function ResearchSnapshot() {
             </div>
           ))}
         </div>
+
+        <details id="skills" className="group scroll-mt-24 border-b border-border">
+          <summary className="flex cursor-pointer list-none items-center justify-between gap-5 py-5 marker:content-none">
+            <span>
+              <span className="block text-sm font-semibold text-foreground">Explore the capability index</span>
+              <span className="mt-1 block text-xs text-muted-foreground">Diagnostics, molecular biology, computation, omics, and research practice</span>
+            </span>
+            <span className="flex shrink-0 items-center gap-2 text-xs font-semibold text-muted-foreground">
+              08 domains
+              <span className="text-lg transition-transform group-open:rotate-45" aria-hidden="true">+</span>
+            </span>
+          </summary>
+          <div className="pb-10 pt-3">
+            <SkillsMatrix />
+          </div>
+        </details>
       </div>
     </section>
   );

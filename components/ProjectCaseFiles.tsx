@@ -13,12 +13,22 @@ const tones = [
   { dot: "bg-rose-500", text: "text-rose-500", wash: "bg-rose-500/[0.035]" },
 ];
 
-export default function ProjectCaseFiles({ projects }: { projects: Project[] }) {
+export default function ProjectCaseFiles({
+  projects,
+  initialVisible = projects.length,
+}: {
+  projects: Project[];
+  initialVisible?: number;
+}) {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
+  const [showAll, setShowAll] = useState(false);
+  const visibleProjects = showAll ? projects : projects.slice(0, initialVisible);
+  const hiddenCount = Math.max(0, projects.length - initialVisible);
 
   return (
-    <div className="border-t border-border">
-      {projects.map((project, index) => {
+    <div>
+      <div className="border-t border-border">
+      {visibleProjects.map((project, index) => {
         const open = openIndex === index;
         const tone = tones[index % tones.length];
         const panelId = `project-case-${index}`;
@@ -138,6 +148,24 @@ export default function ProjectCaseFiles({ projects }: { projects: Project[] }) 
           </article>
         );
       })}
+      </div>
+
+      {hiddenCount > 0 && (
+        <div className="mt-6 flex justify-center">
+          <button
+            type="button"
+            onClick={() => {
+              setShowAll((value) => !value);
+              if (showAll && openIndex !== null && openIndex >= initialVisible) {
+                setOpenIndex(null);
+              }
+            }}
+            className="btn-outline"
+          >
+            {showAll ? "Show selected projects" : `View ${hiddenCount} more projects`}
+          </button>
+        </div>
+      )}
     </div>
   );
 }

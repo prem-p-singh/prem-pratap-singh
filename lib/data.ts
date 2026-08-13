@@ -29,6 +29,9 @@ export interface DataPost {
   dataset?: string;
   source?: string;
   sourceUrl?: string;
+  sourceLinks?: Array<{ label: string; url: string }>;
+  accessDate?: string;
+  license?: string;
   codePath?: string;
   records?: number;
   /** Scannable headline numbers rendered above the article body. */
@@ -59,6 +62,9 @@ function toMeta(slug: string, raw: string): DataPost {
     dataset: data.dataset,
     source: data.source,
     sourceUrl: data.sourceUrl,
+    sourceLinks: Array.isArray(data.sourceLinks) ? data.sourceLinks : undefined,
+    accessDate: data.accessDate,
+    license: data.license,
     codePath: data.codePath,
     records: typeof data.records === "number" ? data.records : undefined,
     keyStats: Array.isArray(data.keyStats) ? data.keyStats : undefined,

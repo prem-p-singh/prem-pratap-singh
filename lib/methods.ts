@@ -19,6 +19,7 @@ export interface MethodPost {
   tags: string[];
   readingTime: string;
   image?: string;
+  visualSummary?: string;
   /** The statistical technique this case study is built on. */
   method?: string;
   /** Where the method was originally developed (paper or project). */
@@ -38,6 +39,8 @@ export type MethodPostMeta = Omit<MethodPost, "content">;
 
 function toMeta(slug: string, raw: string): MethodPost {
   const { data, content } = matter(raw);
+  const generatedSummary = `/methods/${slug}/visual-summary.jpg`;
+  const hasGeneratedSummary = fs.existsSync(path.join(process.cwd(), "public", generatedSummary));
   return {
     slug,
     title: data.title || slug,
@@ -46,6 +49,7 @@ function toMeta(slug: string, raw: string): MethodPost {
     tags: data.tags || [],
     readingTime: readingTime(content).text,
     image: data.image || extractCoverImage(content),
+    visualSummary: data.visualSummary || (hasGeneratedSummary ? generatedSummary : undefined),
     method: data.method,
     origin: data.origin,
     paperUrl: data.paperUrl,

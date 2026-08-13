@@ -1,0 +1,78 @@
+---
+title: "Count Research Relative to the Crop"
+date: "2026-08-11"
+description: "Compare AI plant-disease research with crop production so publication volume is interpreted against agricultural scale rather than as an isolated count."
+image: "/data/ai-attention-vs-crop-importance/papers_per_tonne.png"
+visualSummary: "/data/ai-attention-vs-crop-importance/visual-summary.jpg"
+method: "Exposure normalization"
+origin: "OpenAlex AI plant-disease publications"
+paperUrl: "https://docs.openalex.org/how-to-use-the-api/api-overview"
+paperLabel: "OpenAlex API documentation"
+reappliedTo: "FAOSTAT world crop production, 2023"
+codePath: "data-interpretations/ai-attention-vs-crop-importance"
+tags: ["normalization", "OpenAlex", "FAOSTAT", "research trends"]
+keyStats:
+  - value: "170,605"
+    label: "Records"
+    note: "Publication records screened"
+  - value: "2,848"
+    label: "Tomato papers"
+    note: "More than any staple crop"
+  - value: "11.5×"
+    label: "Attention gap"
+    note: "Tomato versus maize per tonne"
+  - value: "1 in 7"
+    label: "AI share"
+    note: "Plant-disease papers in 2025"
+toolkit:
+  - "Python"
+  - "OpenAlex API"
+  - "FAOSTAT bulk data"
+  - "Keyword validation"
+  - "Rate normalization"
+  - "Sensitivity checks"
+---
+
+## The question behind the count
+
+Publication totals answer which crops receive the most papers. They do not answer whether that attention is large relative to how much of the crop the world grows.
+
+The comparison needs a denominator.
+
+## Build a rate
+
+Match each crop's AI plant-disease paper count to its 2023 global production, then calculate:
+
+$$
+\text{papers per million tonnes} = \frac{\text{AI disease papers}}{\text{production tonnes}} \times 10^6
+$$
+
+![Bar chart comparing AI plant-disease papers per million tonnes produced](/data/ai-attention-vs-crop-importance/papers_per_tonne.png)
+
+<Takeaway>
+Tomato received 11.5 times more AI plant-disease research per tonne than maize. Sugarcane sat at the bottom despite being the world's largest crop by mass.
+</Takeaway>
+
+## Check the denominator visually
+
+A scatter plot keeps both original quantities visible. If research attention scaled with crop production, the points would rise from left to right.
+
+![Scatter plot comparing crop production with AI plant-disease paper counts](/data/ai-attention-vs-crop-importance/attention_vs_production.png)
+
+They do not. The rate exposes a mismatch, but it does not explain it.
+
+## Test whether the field itself is growing
+
+Raw paper counts rise as science publishes more. To separate general publishing growth from adoption of AI, calculate AI papers as a share of all plant-disease papers for each year.
+
+![Line chart of AI's annual share of plant-disease papers](/data/ai-attention-vs-crop-importance/ai_share_over_time.png)
+
+## Use this when
+
+- groups have different population, area, production, or exposure;
+- raw totals would reward size alone;
+- the denominator has a defensible connection to the question.
+
+## Read the result carefully
+
+Production tonnage is only one denominator. Crop value, disease burden, nutrition, research feasibility, and dataset availability can change what a fair comparison means. The normalized rate identifies an imbalance; it does not assign motive or prove neglect.

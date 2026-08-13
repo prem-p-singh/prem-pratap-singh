@@ -5,11 +5,15 @@ const videos = [
     title: "Method overview",
     duration: "1:16",
     src: "/methods/causal-mediation/causal-mediation-overview.mp4",
+    description:
+      "A visual introduction to causal mediation. One response is separated into a direct path and an indirect path that travels through a mediator, using the vineyard heat-virus-gene question and the crop land-production comparison.",
   },
   {
     title: "Splitting a trend",
     duration: "1:23",
     src: "/methods/causal-mediation/how-causal-mediation-splits-a-trend.mp4",
+    description:
+      "A step-by-step visual explanation of the signal split, the roles of the starting variable, mediator, and response, and why bootstrap uncertainty and causal caution are necessary when interpreting the result.",
   },
 ];
 
@@ -17,14 +21,14 @@ export function MethodVisualSummary() {
   return (
     <figure className="my-8 overflow-hidden rounded-2xl border border-border bg-card shadow-sm">
         <a
-          href="/methods/causal-mediation/causal-mediation-visual-guide.png"
+          href="/methods/causal-mediation/causal-mediation-visual-guide.jpg"
           target="_blank"
           rel="noopener noreferrer"
           aria-label="Open the causal mediation visual guide at full size"
           className="block bg-white"
         >
           <Image
-            src="/methods/causal-mediation/causal-mediation-visual-guide.png"
+            src="/methods/causal-mediation/causal-mediation-visual-guide.jpg"
             alt="Illustrated guide showing how causal mediation separates a response into direct and mediator-driven paths"
             width={2752}
             height={1536}
@@ -66,7 +70,7 @@ export function MethodVideos() {
             <video
               controls
               playsInline
-              preload="metadata"
+              preload="none"
               aria-label={video.title}
               className="mx-auto aspect-[9/16] w-full max-w-72 rounded-xl bg-black object-contain"
             >
@@ -77,6 +81,10 @@ export function MethodVideos() {
               <span className="font-semibold text-foreground">{video.title}</span>
               <span className="tabular-nums text-muted-foreground">{video.duration}</span>
             </figcaption>
+            <details className="mt-3 border-t border-border px-1 pt-3 text-sm">
+              <summary className="cursor-pointer font-semibold text-foreground">Text alternative</summary>
+              <p className="mt-2 leading-relaxed text-muted-foreground">{video.description}</p>
+            </details>
           </figure>
         ))}
       </div>

@@ -9,9 +9,7 @@ import remarkMath from "remark-math";
 import remarkGfm from "remark-gfm";
 import rehypeKatex from "rehype-katex";
 import "katex/dist/katex.min.css";
-import ClapButton from "@/components/blog/ClapButton";
 import ShareButtons from "@/components/blog/ShareButtons";
-import CommentSection from "@/components/blog/CommentSection";
 import TldrCallout from "@/components/blog/TldrCallout";
 import VisualSummary from "@/components/content/VisualSummary";
 import { formatContentDate } from "@/lib/date";
@@ -105,10 +103,24 @@ export default async function BlogPostPage({ params }: Props) {
     },
     url: `https://www.prempsingh.com/blog/${slug}`,
     keywords: post.tags,
+    image: post.visualSummary
+      ? `https://www.prempsingh.com${post.visualSummary}`
+      : post.image
+        ? `https://www.prempsingh.com${post.image}`
+        : undefined,
     mainEntityOfPage: {
       "@type": "WebPage",
       "@id": `https://www.prempsingh.com/blog/${slug}`,
     },
+  };
+  const breadcrumbJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: "https://www.prempsingh.com" },
+      { "@type": "ListItem", position: 2, name: "Blog", item: "https://www.prempsingh.com/blog" },
+      { "@type": "ListItem", position: 3, name: post.title, item: `https://www.prempsingh.com/blog/${slug}` },
+    ],
   };
 
   return (
@@ -116,6 +128,10 @@ export default async function BlogPostPage({ params }: Props) {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(articleJsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
       />
       {/* Hero */}
       <section className="bg-gradient-to-b from-muted to-background pb-6 pt-12 sm:pb-8 sm:pt-14">
@@ -163,7 +179,7 @@ export default async function BlogPostPage({ params }: Props) {
           )}
 
           {/* Meta & Actions */}
-          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 pt-6 border-t border-border">
+          <div className="flex flex-col gap-4 border-t border-border pt-6 sm:flex-row sm:items-center sm:justify-between">
             <div className="flex items-center gap-4 text-sm text-muted-foreground">
               <div className="flex items-center gap-2">
                 <Image
@@ -179,9 +195,7 @@ export default async function BlogPostPage({ params }: Props) {
                 </div>
               </div>
             </div>
-            <div className="flex items-center gap-3">
-              <ClapButton slug={slug} />
-            </div>
+            <ShareButtons title={post.title} slug={slug} description={post.description} />
           </div>
 
           {post.visualSummary && (
@@ -223,19 +237,6 @@ export default async function BlogPostPage({ params }: Props) {
                 },
               }}
             />
-          </div>
-
-          {/* Post Footer Actions */}
-          <div className="mt-16 pt-8 border-t border-border">
-            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
-              <div className="flex items-center gap-4">
-                <ClapButton slug={slug} />
-                <span className="text-sm text-muted-foreground">
-                  Did you find this helpful?
-                </span>
-              </div>
-              <ShareButtons title={post.title} slug={slug} description={post.description} />
-            </div>
           </div>
 
           {/* Post Navigation */}
@@ -302,8 +303,6 @@ export default async function BlogPostPage({ params }: Props) {
             </div>
           )}
 
-          {/* Comments Section */}
-          <CommentSection slug={slug} />
         </div>
       </section>
     </article>

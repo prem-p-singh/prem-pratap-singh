@@ -15,19 +15,17 @@ import { personal } from "@/profile/personal";
 import { projects } from "@/profile/projects";
 import { publications, bookChapters } from "@/profile/publications";
 import PublicationsList from "@/components/PublicationsList";
-import ScholarAnalytics from "@/components/ScholarAnalytics";
 import { getAllPosts } from "@/lib/mdx";
 import HeroClient from "@/components/HeroClient";
 import { formatContentDate } from "@/lib/date";
 import ResearchPathway from "@/components/ResearchPathway";
 import ProjectCaseFiles from "@/components/ProjectCaseFiles";
 import ResearchSnapshot from "@/components/ResearchSnapshot";
-import CareerMap from "@/components/CareerMap";
 import WorkExperience from "@/components/WorkExperience";
 import NewsletterSignup from "@/components/NewsletterSignup";
 
 export default function Home() {
-  const latestPosts = getAllPosts().slice(0, 3);
+  const latestPosts = getAllPosts().slice(0, 2);
   const publishedJournalCount = publications.filter(
     (publication) => publication.venue !== "In Preparation"
   ).length;
@@ -38,48 +36,49 @@ export default function Home() {
       <ResearchPathway />
       <ResearchSnapshot />
       <WorkExperience />
-      <CareerMap />
 
-      <section id="publications" className="py-6 sm:py-8">
+      <section id="research" className="scroll-mt-24 py-6 sm:py-8">
         <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
-          <div className="mb-12 flex flex-wrap items-end justify-between gap-4">
+          <div className="flex flex-wrap items-end justify-between gap-5 border-y border-border py-8 sm:py-10">
             <div>
               <p className="text-xs font-semibold uppercase tracking-[0.22em] text-muted-foreground">
-                Evidence beyond the lab
+                Published research
               </p>
-              <h2 className="mt-3 text-3xl font-bold tracking-tight text-foreground sm:text-4xl lg:text-5xl">
-                Work that keeps moving through the literature
+              <h2 className="mt-3 max-w-2xl text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
+                Evidence that has passed peer review.
               </h2>
+              <p className="mt-3 max-w-2xl text-sm leading-relaxed text-muted-foreground sm:text-base">
+                Journal articles and book chapters spanning plant disease, diagnostics, multi-omics, and food safety.
+              </p>
             </div>
-            <span className="rounded-full border border-border bg-card px-4 py-2 text-sm font-semibold text-foreground">
-              {publishedJournalCount + bookChapters.length} published works
-            </span>
-          </div>
-
-          <ScholarAnalytics />
-
-          <div className="mt-16">
-            <div className="mb-8 flex flex-wrap items-end justify-between gap-3">
-              <div>
-                <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
-                  The evidence shelf
-                </p>
-                <h3 className="mt-2 text-2xl font-bold text-foreground">
-                  Browse by signal, method, or year
-                </h3>
-              </div>
-              <span className="text-sm text-muted-foreground">
-                Open a card for the scientific detail.
+            <div className="flex items-center gap-3">
+              <span className="text-4xl font-black tabular-nums text-foreground sm:text-5xl">
+                {publishedJournalCount + bookChapters.length}
+              </span>
+              <span className="max-w-24 text-sm font-semibold leading-tight text-muted-foreground">
+                published works
               </span>
             </div>
-            <PublicationsList publications={[...publications, ...bookChapters]} />
           </div>
+
+          <details className="group border-b border-border">
+            <summary className="flex cursor-pointer list-none items-center justify-between gap-4 py-5 text-sm font-semibold text-foreground marker:content-none">
+              <span>Browse the publication archive</span>
+              <span className="flex items-center gap-2 text-muted-foreground">
+                Filter by format and method
+                <span className="text-lg transition-transform group-open:rotate-45" aria-hidden="true">+</span>
+              </span>
+            </summary>
+            <div className="pb-10 pt-3">
+              <PublicationsList publications={[...publications, ...bookChapters]} />
+            </div>
+          </details>
         </div>
       </section>
 
       <section id="projects" className="py-6 sm:py-8">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="mb-12 max-w-3xl">
+          <div className="mb-8 max-w-3xl">
             <p className="text-sm font-semibold text-muted-foreground">
               Selected work
             </p>
@@ -91,7 +90,7 @@ export default function Home() {
             </p>
           </div>
 
-          <ProjectCaseFiles projects={projects} />
+          <ProjectCaseFiles projects={projects} initialVisible={3} />
         </div>
       </section>
 
@@ -115,7 +114,7 @@ export default function Home() {
               </Link>
             </div>
 
-            <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+            <div className="grid gap-5 md:grid-cols-2">
               {latestPosts.map((post, index) => (
                 <Link
                   key={post.slug}
@@ -128,7 +127,7 @@ export default function Home() {
                         src={post.image}
                         alt={post.title}
                         fill
-                        sizes="(max-width: 768px) 100vw, 33vw"
+                        sizes="(max-width: 768px) 100vw, 50vw"
                         className="object-cover transition-transform duration-500 group-hover:scale-105"
                       />
                     ) : (

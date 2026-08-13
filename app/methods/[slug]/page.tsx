@@ -17,6 +17,7 @@ import {
   MethodVideos,
   MethodVisualSummary,
 } from "@/components/methods/MethodResources";
+import VisualSummary from "@/components/content/VisualSummary";
 import { formatContentDate } from "@/lib/date";
 
 const REPO = "https://github.com/prem-p-singh/prem-pratap-singh/tree/main";
@@ -57,9 +58,20 @@ export default async function MethodPage({ params }: Props) {
     month: "long",
     day: "numeric",
   });
+  const methodUrl = `https://www.prempsingh.com/methods/${slug}`;
+  const breadcrumbJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: "https://www.prempsingh.com" },
+      { "@type": "ListItem", position: 2, name: "Methods", item: "https://www.prempsingh.com/methods" },
+      { "@type": "ListItem", position: 3, name: post.title, item: methodUrl },
+    ],
+  };
 
   return (
     <article className="pt-16">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }} />
       <section className="pt-12 bg-gradient-to-b from-muted to-background">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
           <Link
@@ -93,6 +105,13 @@ export default async function MethodPage({ params }: Props) {
             {formattedDate} · {post.readingTime}
           </p>
           {slug === "causal-mediation" && <MethodVisualSummary />}
+          {slug !== "causal-mediation" && post.visualSummary && (
+            <VisualSummary
+              src={post.visualSummary}
+              alt={`Illustrated visual summary of ${post.title}`}
+              label="Method at a glance"
+            />
+          )}
         </div>
       </section>
 
