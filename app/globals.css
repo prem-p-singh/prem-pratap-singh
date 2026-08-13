@@ -445,6 +445,13 @@ h1, h2, h3 {
   z-index: 1;
 }
 
+/* The shared panel treatment adds a fixed top-right corner accent. The
+   navigation already has a travelling perimeter highlight, so keeping both
+   reads as an accidental partial border. */
+.nav-moving-border + nav::after {
+  content: none;
+}
+
 .paper-button,
 .btn-primary,
 .btn-outline {
