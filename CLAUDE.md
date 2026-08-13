@@ -16,7 +16,7 @@ behind that claim, not as a separate publication venue.
 | `/` | Portfolio: hero, research pathway, snapshot, experience, career map, publications, projects, latest posts, contact | n/a |
 | `/blog` | Research notes, semi-automated, grouped into curated sets | 22 |
 | `/data` | "Open Data, Decoded", public datasets read honestly | 3 |
-| `/methods` | "Methods That Travel", my own models re-applied to public data | 3 |
+| `/methods` | "Methods That Travel", my own models re-applied to public data | 4 |
 | `/journey` | Career infographic | n/a |
 | `/gallery` | Field and laboratory images | n/a |
 | `/privacy` | Privacy notice | n/a |
@@ -74,10 +74,25 @@ If you find an `@/data/...` import anywhere, it is stale.
 | `components/methods/MediationExplorer.tsx` | **VineyardCaseFile** and **CropGrowthExplorer** |
 | `components/methods/MethodResources.tsx` | **MethodVisualSummary** and **MethodVideos** |
 | `components/content/VisualSummary.tsx` | VisualSummary (used by all three slug pages) |
+| `components/charts/IndustryEvidenceCharts.tsx` | **nine** chart components, listed below |
 
 Two of those files export a pair of differently-named components, and neither
 filename announces either name. Grep the exports rather than guessing from the
 path.
+
+The chart file is the largest of them and its name undersells it. It holds every
+inline SVG and bar chart used across `/data` and `/methods`, currently
+AttentionIntensityChart, ResearchOpportunityMatrix, AIAdoptionTrend,
+SurveillanceRankingChart, OutbreakReadinessChart, LandContributionChart,
+GrowthStrategyMatrix, YieldVarianceSplit and CropVarianceRanking. Two unexported
+helpers, `EvidenceFrame` and `EvidenceTable`, give them a shared frame with an
+eyebrow, a takeaway, a source line, and a collapsible table of the underlying
+numbers. Add new charts here rather than starting a parallel file, or the frame
+gets duplicated.
+
+Charts are hand-built SVG and flexbox, with no charting library. Colours come
+from the semantic tokens, so a chart written with `bg-field` and `bg-decision`
+follows the theme into dark mode without extra work.
 
 ## Theme and type
 
@@ -147,10 +162,18 @@ Current projects:
 | `ai-attention-vs-crop-importance` | OpenAlex + FAOSTAT | fetch_openalex.py, analyze.py, figures.R |
 | `pathogen-genome-observatory` | NCBI Datasets | fetch_ncbi.py, analyze.py, figures.R |
 | `methods-causal-mediation` | re-applied model | mediation.R |
+| `methods-variance-decomposition` | FAOSTAT (reuses the OpenAlex project's raw file) | analyze.py |
 
-More `/methods` pieces exist than analysis folders. `attention-normalization`
-and `effort-normalization` point their `codePath` at the OpenAlex and GBIF
-projects rather than carrying their own.
+A `/methods` piece does not always own a folder. `attention-normalization` and
+`effort-normalization` point their `codePath` at the OpenAlex and GBIF projects
+rather than carrying their own.
+
+`methods-variance-decomposition` has its own folder but no fetch step: it reads
+the FAOSTAT bulk CSV already sitting in `ai-attention-vs-crop-importance`.
+Reuse that file rather than fetching a second copy, and note that both the
+source `.zip` and the extracted `Production_Crops_Livestock_E_*.csv` are
+gitignored. The CSV is 520MB, so a fresh clone has the analysis scripts but not
+the input, and the fetch step in the OpenAlex project has to run first.
 
 ## Charts
 
