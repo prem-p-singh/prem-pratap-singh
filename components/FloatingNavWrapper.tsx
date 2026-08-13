@@ -8,25 +8,21 @@ import { exploreNavigation, primaryNavigation } from "@/profile/navigation";
 
 export default function FloatingNavWrapper() {
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [exploreHovered, setExploreHovered] = useState(false);
-  const [explorePinned, setExplorePinned] = useState(false);
+  const [exploreOpen, setExploreOpen] = useState(false);
   const exploreMenuRef = useRef<HTMLDivElement>(null);
   const exploreButtonRef = useRef<HTMLButtonElement>(null);
-  const exploreOpen = exploreHovered || explorePinned;
 
   const closeMobileMenu = () => setMobileOpen(false);
 
   useEffect(() => {
     const closeOnOutsideClick = (event: PointerEvent) => {
       if (exploreMenuRef.current?.contains(event.target as Node)) return;
-      setExploreHovered(false);
-      setExplorePinned(false);
+      setExploreOpen(false);
     };
 
     const closeOnEscape = (event: KeyboardEvent) => {
       if (event.key !== "Escape") return;
-      setExploreHovered(false);
-      setExplorePinned(false);
+      setExploreOpen(false);
       exploreButtonRef.current?.focus();
     };
 
@@ -73,29 +69,11 @@ export default function FloatingNavWrapper() {
               </Link>
             ))}
 
-            <div
-              ref={exploreMenuRef}
-              className="relative"
-              onMouseEnter={() => setExploreHovered(true)}
-              onMouseLeave={() => setExploreHovered(false)}
-              onBlur={(event) => {
-                if (!event.currentTarget.contains(event.relatedTarget)) {
-                  setExploreHovered(false);
-                  setExplorePinned(false);
-                }
-              }}
-            >
+            <div ref={exploreMenuRef} className="relative">
               <button
                 ref={exploreButtonRef}
                 type="button"
-                onClick={() => {
-                  if (explorePinned) {
-                    setExploreHovered(false);
-                    setExplorePinned(false);
-                  } else {
-                    setExplorePinned(true);
-                  }
-                }}
+                onClick={() => setExploreOpen((open) => !open)}
                 className={`flex items-center gap-1 rounded-lg px-2.5 py-2 text-sm font-medium transition-colors ${
                   exploreOpen
                     ? "bg-field-wash text-field"
@@ -108,30 +86,24 @@ export default function FloatingNavWrapper() {
                 Explore
                 <ChevronDown className={`size-3.5 transition-transform ${exploreOpen ? "rotate-180" : ""}`} aria-hidden="true" />
               </button>
-              <div
-                id="desktop-explore-menu"
-                className={`absolute left-1/2 top-full z-20 w-64 -translate-x-1/2 pt-3 transition-[opacity,visibility] ${
-                  exploreOpen ? "visible opacity-100" : "pointer-events-none invisible opacity-0"
-                }`}
-              >
-                <div className="paper-panel bg-card p-2 shadow-2xl" role="menu" aria-label="Explore more">
-                  {exploreNavigation.map((item) => (
-                    <Link
-                      key={item.name}
-                      href={item.link}
-                      role="menuitem"
-                      onClick={() => {
-                        setExploreHovered(false);
-                        setExplorePinned(false);
-                      }}
-                      className="block rounded-xl px-3 py-2.5 transition-colors hover:bg-field-wash focus:bg-field-wash focus:outline-none"
-                    >
-                      <span className="block text-sm font-semibold text-foreground">{item.name}</span>
-                      <span className="mt-0.5 block text-xs text-muted-foreground">{item.detail}</span>
-                    </Link>
-                  ))}
+              {exploreOpen && (
+                <div id="desktop-explore-menu" className="absolute left-1/2 top-full z-20 w-64 -translate-x-1/2 pt-3">
+                  <div className="paper-panel bg-card p-2 shadow-2xl" role="menu" aria-label="Explore more">
+                    {exploreNavigation.map((item) => (
+                      <Link
+                        key={item.name}
+                        href={item.link}
+                        role="menuitem"
+                        onClick={() => setExploreOpen(false)}
+                        className="block rounded-xl px-3 py-2.5 transition-colors hover:bg-field-wash focus:bg-field-wash focus:outline-none"
+                      >
+                        <span className="block text-sm font-semibold text-foreground">{item.name}</span>
+                        <span className="mt-0.5 block text-xs text-muted-foreground">{item.detail}</span>
+                      </Link>
+                    ))}
+                  </div>
                 </div>
-              </div>
+              )}
             </div>
           </div>
 
