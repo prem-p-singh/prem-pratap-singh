@@ -1,7 +1,7 @@
 # prempsingh.com
 
 Personal site and public-data portfolio for Prem Pratap Singh, Ph.D.
-Next.js 16 App Router, MDX content, Tailwind, deployed on Vercel.
+Next.js 16 App Router, MDX content, Tailwind v4, deployed on Vercel.
 
 ## Purpose
 
@@ -16,14 +16,16 @@ behind that claim, not as a separate publication venue.
 | `/` | Portfolio: hero, research pathway, snapshot, experience, career map, publications, projects, latest posts, contact | n/a |
 | `/blog` | Research notes, semi-automated, grouped into curated sets | 22 |
 | `/data` | "Open Data, Decoded", public datasets read honestly | 3 |
-| `/methods` | "Methods That Travel", my own models re-applied to public data | 1 |
+| `/methods` | "Methods That Travel", my own models re-applied to public data | 3 |
 | `/journey` | Career infographic | n/a |
 | `/gallery` | Field and laboratory images | n/a |
+| `/privacy` | Privacy notice | n/a |
 
-Navigation lives in `components/FloatingNavWrapper.tsx`. It has two tiers:
-`primaryItems` (About, Research, Projects, Writing, Data, Journey) in the main
-bar, and `exploreItems` (Skills, Experience, Methods, Gallery) in the Explore
-dropdown. Adding a section means editing one of those two arrays, plus
+Navigation lives in `profile/navigation.ts`, not in the nav component.
+It exports `primaryNavigation` (About, Experience, Research, Methods, Data,
+Blog) for the main bar and `exploreNavigation` (Projects, Skills, Journey,
+Gallery) for the dropdown. `components/FloatingNavWrapper.tsx` only renders
+them. Adding a section means editing one of those two arrays plus
 `app/sitemap.ts`.
 
 ## Content model
@@ -32,13 +34,22 @@ Each MDX section has a reader in `lib/`, a listing page, and a `[slug]` page.
 
 | Reader | Directory | Notable frontmatter |
 |:---|:---|:---|
-| `lib/mdx.ts` | `content/blog/` | title, date, description, tags, image |
-| `lib/data.ts` | `content/data/` | dataset, source, sourceUrl, codePath, records, keyStats, methods, methodsNote |
-| `lib/methods.ts` | `content/methods/` | method, origin, paperUrl, paperLabel, reappliedTo, codePath, keyStats, toolkit |
+| `lib/mdx.ts` | `content/blog/` | title, date, description, tags, image, visualSummary |
+| `lib/data.ts` | `content/data/` | dataset, source, sourceUrl, codePath, records, keyStats, methods, methodsNote, visualSummary, sourceLinks, accessDate, license |
+| `lib/methods.ts` | `content/methods/` | method, origin, paperUrl, paperLabel, reappliedTo, codePath, keyStats, toolkit, visualSummary |
 
 `KeyStat` is defined once in `lib/data.ts` and imported by `lib/methods.ts`.
-Cover images are auto-extracted from the first markdown image in the body, so a
-piece does not need an explicit `image` field.
+
+### Visual summaries
+
+All three readers look for `public/<section>/<slug>/visual-summary.jpg` on disk
+and use it automatically when the frontmatter does not name one. No wiring is
+needed beyond dropping the file in the right folder.
+
+Blog posts go one step further: when the summary falls back to the first image
+in the body, `removeFirstMarkdownImage()` strips that image from the content so
+it is not rendered twice. Changing that fallback without keeping the strip in
+step produces a duplicated lead image.
 
 CV facts (name, roles, publications, skills) live in `profile/` and are imported
 as `@/profile/...`. That folder was called `data/` until August 2026, which
@@ -61,9 +72,47 @@ If you find an `@/data/...` import anywhere, it is stale.
 | `components/data/DataGuess.tsx` | DataGuess (reader guesses before seeing the answer) |
 | `components/data/PathogenTable.tsx` | PathogenTable (searchable) |
 | `components/methods/MediationExplorer.tsx` | **VineyardCaseFile** and **CropGrowthExplorer** |
+| `components/methods/MethodResources.tsx` | **MethodVisualSummary** and **MethodVideos** |
+| `components/content/VisualSummary.tsx` | VisualSummary (used by all three slug pages) |
 
-Note the last row: one file, two differently-named exports. The filename does
-not announce either of them.
+Two of those files export a pair of differently-named components, and neither
+filename announces either name. Grep the exports rather than guessing from the
+path.
+
+## Theme and type
+
+`app/globals.css` holds a field-notebook colour system. `:root` is **dark by
+default**; a `.light` class overrides it. Alongside the usual background and
+foreground tokens there are four semantic families, each with a base, `-strong`,
+`-foreground` and `-wash` variant:
+
+| Family | Stands for |
+|:---|:---|
+| `field` | crop and observation |
+| `biology` | bench and mechanism |
+| `data` | computation and evidence |
+| `decision` | translation and outcomes |
+
+`danger` exists as a fifth, smaller family.
+
+**The Tailwind text tokens are redefined**, so the class names do not mean what
+they normally do. Every body tier sits 2px above stock while keeping its old
+line box, and display sizes are untouched:
+
+```
+text-xs    14px      text-base  18px
+text-sm    16px      text-lg    20px
+```
+
+So `text-xs` is the 14px floor, not 12px. Nothing on the site renders below it.
+Adding an arbitrary size such as `text-[11px]` reintroduces the small-text
+problem this scale exists to prevent.
+
+Headings run 30 / 36 / 48 for sections and 36 / 48 / 60 for the page title, one
+step apart at every breakpoint. Keep that gap when adding a section.
+
+Homepage scroll chapters come from `components/GuidedSectionScroll.tsx` plus the
+`.guided-scroll-section` class and the `--guided-scroll-offset` variable.
 
 ## Analysis pipeline (`data-interpretations/`)
 
@@ -85,6 +134,10 @@ Current projects:
 | `ai-attention-vs-crop-importance` | OpenAlex + FAOSTAT | fetch_openalex.py, analyze.py, figures.R |
 | `pathogen-genome-observatory` | NCBI Datasets | fetch_ncbi.py, analyze.py, figures.R |
 | `methods-causal-mediation` | re-applied model | mediation.R |
+
+More `/methods` pieces exist than analysis folders. `attention-normalization`
+and `effort-normalization` point their `codePath` at the OpenAlex and GBIF
+projects rather than carrying their own.
 
 ## Charts
 
@@ -109,7 +162,7 @@ published manually through a GitHub Action.
 - Guards: source-quality filter, claim check, novelty check, 700 to 750 word
   ceiling, DOI validation through **Crossref**.
 - `voice_profile.md` is injected into the generation prompt. The humanizer step
-  is now punctuation only, since the voice profile does the heavier work.
+  is punctuation only, since the voice profile does the heavier work.
 
 Workflows: `.github/workflows/daily-blog-draft.yml` (named "Biweekly Blog
 Draft") and `publish-draft.yml`. `social-post.yml.disabled` is parked.
@@ -127,6 +180,10 @@ actionable, next-generation), no Claude co-author lines in commits.
 
 ## Gotchas
 
+- `var(--font-sans)` does not resolve in hand-written CSS. Tailwind v4's
+  `@theme inline` feeds the utility classes without publishing the variable, so
+  the base rules reference `var(--font-urbanist)` directly. Point them back at
+  `--font-sans` and every page silently falls back to the visitor's system font.
 - The publish workflow must pick drafts by **filename timestamp**, not mtime.
   `actions/checkout` resets every file's mtime, so `ls -t` returns the wrong draft.
 - A blocked publish must `sys.exit(1)`. Returning 0 gives a green CI run on a
@@ -142,11 +199,14 @@ actionable, next-generation), no Claude co-author lines in commits.
 
 ## Branches
 
-`main` is the deploy branch. Work happens on `codex/*` branches. Two backup
-snapshots exist from the August 2026 redesign passes:
-`codex/backup-methods-before-engaging-redesign-20260809` and
-`codex/backup-before-site-engagement-pass-20260809`. Both are already merged
-into `main`, so they are recoverable history rather than pending work.
+`main` is the deploy branch. Work happens on `codex/*` branches.
+
+Backup snapshots from the August 2026 redesign and colour-theme passes:
+`codex/backup-methods-before-engaging-redesign-20260809`,
+`codex/backup-before-site-engagement-pass-20260809` and
+`codex/backup-before-color-theme-20260812`. All are merged into `main`, so they
+are recoverable history rather than pending work. The last one and
+`codex/color-theme` exist only on this machine; they have never been pushed.
 
 ## Commands
 
