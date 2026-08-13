@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { ChevronDown, Menu, X } from "lucide-react";
 import ThemeToggle from "@/components/ThemeToggle";
@@ -8,8 +8,36 @@ import { exploreNavigation, primaryNavigation } from "@/profile/navigation";
 
 export default function FloatingNavWrapper() {
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [exploreHovered, setExploreHovered] = useState(false);
+  const [explorePinned, setExplorePinned] = useState(false);
+  const exploreMenuRef = useRef<HTMLDivElement>(null);
+  const exploreButtonRef = useRef<HTMLButtonElement>(null);
+  const exploreOpen = exploreHovered || explorePinned;
 
   const closeMobileMenu = () => setMobileOpen(false);
+
+  useEffect(() => {
+    const closeOnOutsideClick = (event: PointerEvent) => {
+      if (exploreMenuRef.current?.contains(event.target as Node)) return;
+      setExploreHovered(false);
+      setExplorePinned(false);
+    };
+
+    const closeOnEscape = (event: KeyboardEvent) => {
+      if (event.key !== "Escape") return;
+      setExploreHovered(false);
+      setExplorePinned(false);
+      exploreButtonRef.current?.focus();
+    };
+
+    document.addEventListener("pointerdown", closeOnOutsideClick);
+    document.addEventListener("keydown", closeOnEscape);
+
+    return () => {
+      document.removeEventListener("pointerdown", closeOnOutsideClick);
+      document.removeEventListener("keydown", closeOnEscape);
+    };
+  }, []);
 
   return (
     <>
@@ -45,22 +73,57 @@ export default function FloatingNavWrapper() {
               </Link>
             ))}
 
-            <div className="group relative">
+            <div
+              ref={exploreMenuRef}
+              className="relative"
+              onMouseEnter={() => setExploreHovered(true)}
+              onMouseLeave={() => setExploreHovered(false)}
+              onBlur={(event) => {
+                if (!event.currentTarget.contains(event.relatedTarget)) {
+                  setExploreHovered(false);
+                  setExplorePinned(false);
+                }
+              }}
+            >
               <button
+                ref={exploreButtonRef}
                 type="button"
-                className="flex items-center gap-1 rounded-lg px-2.5 py-2 text-sm font-medium text-muted-foreground transition-colors group-hover:bg-field-wash group-hover:text-field group-focus-within:bg-field-wash group-focus-within:text-field"
+                onClick={() => {
+                  if (explorePinned) {
+                    setExploreHovered(false);
+                    setExplorePinned(false);
+                  } else {
+                    setExplorePinned(true);
+                  }
+                }}
+                className={`flex items-center gap-1 rounded-lg px-2.5 py-2 text-sm font-medium transition-colors ${
+                  exploreOpen
+                    ? "bg-field-wash text-field"
+                    : "text-muted-foreground hover:bg-field-wash hover:text-field"
+                }`}
                 aria-haspopup="menu"
+                aria-expanded={exploreOpen}
+                aria-controls="desktop-explore-menu"
               >
                 Explore
-                <ChevronDown className="size-3.5 transition-transform group-hover:rotate-180 group-focus-within:rotate-180" aria-hidden="true" />
+                <ChevronDown className={`size-3.5 transition-transform ${exploreOpen ? "rotate-180" : ""}`} aria-hidden="true" />
               </button>
-              <div className="invisible absolute left-1/2 top-full z-20 w-64 -translate-x-1/2 pt-3 opacity-0 transition-[opacity,visibility] group-hover:visible group-hover:opacity-100 group-focus-within:visible group-focus-within:opacity-100">
-                <div className="paper-panel bg-card p-2 shadow-2xl" role="menu">
+              <div
+                id="desktop-explore-menu"
+                className={`absolute left-1/2 top-full z-20 w-64 -translate-x-1/2 pt-3 transition-[opacity,visibility] ${
+                  exploreOpen ? "visible opacity-100" : "pointer-events-none invisible opacity-0"
+                }`}
+              >
+                <div className="paper-panel bg-card p-2 shadow-2xl" role="menu" aria-label="Explore more">
                   {exploreNavigation.map((item) => (
                     <Link
                       key={item.name}
                       href={item.link}
                       role="menuitem"
+                      onClick={() => {
+                        setExploreHovered(false);
+                        setExplorePinned(false);
+                      }}
                       className="block rounded-xl px-3 py-2.5 transition-colors hover:bg-field-wash focus:bg-field-wash focus:outline-none"
                     >
                       <span className="block text-sm font-semibold text-foreground">{item.name}</span>
