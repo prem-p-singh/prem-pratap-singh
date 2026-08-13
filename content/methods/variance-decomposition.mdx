@@ -1,7 +1,8 @@
 ---
 title: "A Bad Year, or a Bad Place?"
 date: "2026-08-13"
-description: "Split yield variation into the part that comes from where a crop grows and the part that comes from when, then check whether the first answer meant anything."
+description: "A pooled model gave a neat but misleading answer. Crop-by-crop analysis showed that place usually matters far more than year."
+visualSummary: "/methods/variance-decomposition/visual-summary.jpg"
 method: "Variance decomposition"
 origin: "Grapevine Red Blotch Virus transcriptomics, UC Davis"
 paperUrl: "https://github.com/prem-p-singh/GRBV-Transcriptomics-Analysis"
@@ -30,16 +31,11 @@ toolkit:
   - "FAOSTAT bulk data"
 ---
 
-## The question behind the split
+## Start with the decision
 
-A grapevine block does badly. Was it the season, the virus, or the block itself?
+A crop performs poorly. Is the problem the season, the location, or something we did not measure?
 
-In the vineyard work I answer that per gene, splitting expression variance across
-season and infection so I can say which genes respond to the pathogen rather than
-to the weather. The arithmetic does not care that the inputs are genes. Any
-measurement with more than one label attached can be divided the same way.
-
-So here the labels are crop, country, and year, and the measurement is yield.
+Variance decomposition shows where variation sits. Here, yield is divided among crop, country, year, and the unexplained remainder.
 
 ## The naive split
 
@@ -47,53 +43,34 @@ Pool every crop into one model and ask how much of the variation each label carr
 
 <YieldVarianceSplit />
 
-## What that actually measured
+## Why the first answer fails
 
-Crop identity looks overwhelming at 73.9%. It is close to meaningless.
+Crop identity appears to explain 73.9%. That number is real, but it is not useful.
 
-Sugarcane yields tens of thousands of kilograms per hectare. Wheat yields a few
-thousand. Putting them in one model and discovering that "crop" explains most of
-the spread is close to discovering that sugarcane is not wheat. The number is
-real and the interpretation is empty.
-
-This is the failure worth knowing about. A variance decomposition will always
-return a tidy set of percentages summing to 100, whether or not the factors mean
-anything comparable.
+Sugarcane and wheat operate on different yield scales. Pooling them mostly proves that they are different crops. A tidy percentage does not guarantee a useful comparison.
 
 ## One crop at a time
 
-Remove crop identity by running the split inside each crop separately. Now the
-question is sharper: for the same crop, does yield depend more on where it is
-grown or on which year it is?
+Run the model separately for each crop. The question becomes actionable: for the same crop, does yield vary more by place or by year?
 
 <CropVarianceRanking />
 
-Across 63 crops the median is 69.1% from country and 5.6% from year. Place beats
-year by roughly twelve to one.
+Across 63 crops, the median split is 69.1% from country and 5.6% from year, about twelve to one.
 
-Tea is the exception, at 57.9% from year. Its yields climbed steadily for six
-decades almost everywhere, so time carries the signal instead of geography.
+Tea is the exception: 57.9% comes from year because yields rose steadily across countries.
 
 ## Use this when
 
-Use it when you have one measurement and several labels, and you need to know
-which label to act on. Variance dominated by country points at agronomy and
-infrastructure. Variance dominated by year points at weather or a technology
-shift. Variance sitting in the residual says the labels you collected are not
-the ones that matter.
+Use variance decomposition when one outcome has several labels and you need to know where to investigate:
 
-## Read the result carefully
+- **Country dominates:** look at agronomy, infrastructure, climate, and policy.
+- **Year dominates:** look at weather, breeding, or technology shifts.
+- **Residual dominates:** the important factor may not have been measured.
 
-The year share here is not a weather signal. Across a 63-year panel it mostly
-captures the long climb in yields from breeding and inputs, not the difference
-between a good and a bad season. Separating trend from shock needs a different
-model.
+## Keep the limits visible
 
-The panel is balanced on purpose, keeping only country and crop pairs recorded in
-every year from 1961 to 2023. That makes the factors comparable, and it also
-drops countries and crops with gaps in reporting, which are unlikely to be a
-random selection.
+Year is not the same as weather. Across 63 years, it also captures breeding and better inputs. Separating long-term trend from annual shock needs another model.
 
-Nothing here is causal. Country is a label standing in for soil, climate,
-irrigation, cultivars, and policy at once. The split says where the variation
-sits, not what to do about it.
+The balanced panel keeps only country-crop pairs reported every year from 1961 to 2023. That improves comparability but excludes incomplete reporters.
+
+This is not causal. Country bundles soil, climate, irrigation, cultivars, and policy. The split locates variation; it does not identify its cause.
