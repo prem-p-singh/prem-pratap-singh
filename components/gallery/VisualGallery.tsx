@@ -6,7 +6,7 @@ import { useEffect, useMemo, useState } from "react";
 
 type GalleryCategory = "All" | "Research illustrations" | "Data stories" | "Methods";
 
-type GalleryItem = {
+export type GalleryItem = {
   id: string;
   title: string;
   category: Exclude<GalleryCategory, "All">;
@@ -18,52 +18,7 @@ type GalleryItem = {
 
 const categories: GalleryCategory[] = ["All", "Research illustrations", "Data stories", "Methods"];
 
-const galleryItems: GalleryItem[] = [
-  {
-    id: "lipid-vines",
-    title: "From lipid signaling to 3D vines",
-    category: "Research illustrations",
-    src: "/blog/from-lipid-signaling-to-3d-vines-new-clues-for-smarter-plant-disease-research/lipid-to-3d-vines.jpg",
-    alt: "Research illustration connecting lipid signaling with three-dimensional grapevine analysis",
-    sourceHref: "/blog/from-lipid-signaling-to-3d-vines-new-clues-for-smarter-plant-disease-research",
-    sourceLabel: "Read the research note",
-  },
-  {
-    id: "disease-signals",
-    title: "Building better plant disease signals",
-    category: "Research illustrations",
-    src: "/blog/from-orchard-lesions-to-airborne-spores-building-better-plant-disease-signals/disease-signals-infographic.jpg",
-    alt: "Infographic about connecting orchard lesions, airborne spores, and plant disease signals",
-    sourceHref: "/blog/from-orchard-lesions-to-airborne-spores-building-better-plant-disease-signals",
-    sourceLabel: "Read the research note",
-  },
-  {
-    id: "point-clouds",
-    title: "From point clouds to pathogens",
-    category: "Research illustrations",
-    src: "/blog/from-point-clouds-to-pathogens-what-new-plant-research-suggests-for-smarter-grapevine-dise/point-clouds-to-pathogens.jpg",
-    alt: "Research illustration connecting point-cloud measurements with pathogen questions",
-    sourceHref: "/blog/from-point-clouds-to-pathogens-what-new-plant-research-suggests-for-smarter-grapevine-dise",
-    sourceLabel: "Read the research note",
-  },
-  {
-    id: "precision-scales",
-    title: "Plant protection across scales",
-    category: "Research illustrations",
-    src: "/blog/from-xylem-recovery-to-genome-mining-connecting-plant-disease-biology-across-scales/precision-plant-protection-scales.jpg",
-    alt: "Illustration of precision plant protection across biological scales",
-    sourceHref: "/blog/from-xylem-recovery-to-genome-mining-connecting-plant-disease-biology-across-scales",
-    sourceLabel: "Read the research note",
-  },
-  {
-    id: "rna-virulence",
-    title: "Cross-kingdom RNA virulence",
-    category: "Research illustrations",
-    src: "/blog/pathogen-rnas-are-crossing-kingdoms-and-plant-disease-research-needs-to-catch-up/rna-virulence.jpg",
-    alt: "Illustration of RNA signals moving between a pathogen and plant host",
-    sourceHref: "/blog/pathogen-rnas-are-crossing-kingdoms-and-plant-disease-research-needs-to-catch-up",
-    sourceLabel: "Read the research note",
-  },
+const supportingGalleryItems: GalleryItem[] = [
   {
     id: "xylella-map",
     title: "Global records of Xylella fastidiosa",
@@ -129,13 +84,25 @@ const galleryItems: GalleryItem[] = [
   },
 ];
 
-export default function VisualGallery() {
+interface VisualGalleryProps {
+  presentationItems: GalleryItem[];
+}
+
+export default function VisualGallery({ presentationItems }: VisualGalleryProps) {
   const [activeCategory, setActiveCategory] = useState<GalleryCategory>("All");
   const [selected, setSelected] = useState<GalleryItem | null>(null);
+  const galleryItems = useMemo(() => {
+    const seenImages = new Set<string>();
+    return [...presentationItems, ...supportingGalleryItems].filter((item) => {
+      if (seenImages.has(item.src)) return false;
+      seenImages.add(item.src);
+      return true;
+    });
+  }, [presentationItems]);
 
   const visibleItems = useMemo(
     () => galleryItems.filter((item) => activeCategory === "All" || item.category === activeCategory),
-    [activeCategory],
+    [activeCategory, galleryItems],
   );
 
   useEffect(() => {

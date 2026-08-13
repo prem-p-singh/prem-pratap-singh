@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
-import VisualGallery from "@/components/gallery/VisualGallery";
+import VisualGallery, { type GalleryItem } from "@/components/gallery/VisualGallery";
+import { getAllPosts } from "@/lib/mdx";
+import { getAllMethodPosts } from "@/lib/methods";
 
 export const metadata: Metadata = {
   title: "Gallery",
@@ -10,6 +12,30 @@ export const metadata: Metadata = {
 };
 
 export default function GalleryPage() {
+  const blogPresentations: GalleryItem[] = getAllPosts()
+    .filter((post) => post.visualSummary)
+    .map((post) => ({
+      id: `blog-${post.slug}`,
+      title: post.title,
+      category: "Research illustrations",
+      src: post.visualSummary!,
+      alt: `Illustrated presentation for ${post.title}`,
+      sourceHref: `/blog/${post.slug}`,
+      sourceLabel: "Read the blog",
+    }));
+
+  const methodPresentations: GalleryItem[] = getAllMethodPosts()
+    .filter((post) => post.visualSummary)
+    .map((post) => ({
+      id: `method-${post.slug}`,
+      title: post.title,
+      category: "Methods",
+      src: post.visualSummary!,
+      alt: `Visual presentation for ${post.title}`,
+      sourceHref: `/methods/${post.slug}`,
+      sourceLabel: "Open the method report",
+    }));
+
   return (
     <div className="min-h-screen pt-16">
       <section className="bg-gradient-to-b from-muted to-background pb-6 pt-14 sm:pb-8 sm:pt-16">
@@ -19,11 +45,11 @@ export default function GalleryPage() {
           </p>
           <h1 className="section-title mb-4">The Visual Lab</h1>
           <p className="max-w-2xl text-lg leading-relaxed text-muted-foreground">
-            Twelve visual entry points into the work—from global pathogen maps to causal pathways and the molecular conversations between plants and microbes.
+            A presentation wall for every blog and method visual, alongside the charts and maps that support the underlying evidence.
           </p>
         </div>
       </section>
-      <VisualGallery />
+      <VisualGallery presentationItems={[...blogPresentations, ...methodPresentations]} />
     </div>
   );
 }
