@@ -114,6 +114,19 @@ step apart at every breakpoint. Keep that gap when adding a section.
 Homepage scroll chapters come from `components/GuidedSectionScroll.tsx` plus the
 `.guided-scroll-section` class and the `--guided-scroll-offset` variable.
 
+### Shared surface treatment
+
+`.paper-panel`, `.paper-button`, `.paper-control`, `.btn-primary` and
+`.btn-outline` share one rule set in `globals.css`: border, card background,
+inset highlight, and a top-right corner accent drawn with `::after` in the
+`field` colour. `.paper-panel` is used in about twenty files, so a change there
+is a change to most surfaces on the site.
+
+The corner accent is why any element that also carries its own perimeter effect
+has to opt out. The navigation does exactly that through
+`.nav-moving-border + nav::after { content: none }`, because a travelling
+highlight plus a fixed corner reads as an accidental partial border.
+
 ## Analysis pipeline (`data-interpretations/`)
 
 A monorepo, one folder per piece. Python fetches and computes, R draws.
@@ -177,6 +190,12 @@ sprinkled through. Full profile in `blog_automation/voice_profile.md`.
 House style, applies to commits and site copy alike: no em dashes, no
 rule-of-three padding, no buzzwords (leverage, cutting-edge, robust,
 actionable, next-generation), no Claude co-author lines in commits.
+
+Do not stage invented artifacts. Quotation marks, a record number, a date, or a
+signature all assert that a real record exists behind the words. A statement of
+approach can be displayed in a notebook-styled panel, but the moment it is
+punctuated as a quotation it is claiming to be something it is not. The field
+note on the homepage was a blockquote until August 2026 for this reason.
 
 ## Gotchas
 
