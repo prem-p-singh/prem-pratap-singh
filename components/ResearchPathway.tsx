@@ -143,9 +143,9 @@ export default function ResearchPathway() {
               <span>Davis, California</span>
             </div>
 
-            <blockquote className="mt-10 font-sans text-3xl font-medium leading-tight text-foreground sm:text-4xl">
-              “I do not begin with a model. I begin with what changed in the plant.”
-            </blockquote>
+            <p className="mt-10 font-sans text-3xl font-medium leading-tight text-foreground sm:text-4xl">
+              I do not begin with a model. I begin with what changed in the plant.
+            </p>
 
             <div className="relative mt-12 space-y-6 before:absolute before:bottom-5 before:left-[17px] before:top-5 before:w-px before:bg-gradient-to-b before:from-field/45 before:via-biology/45 before:to-data/45">
               {fieldNotes.map((note) => {
