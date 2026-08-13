@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { ChevronDown, Menu, X } from "lucide-react";
 import ThemeToggle from "@/components/ThemeToggle";
+import { MovingBorder } from "@/components/ui/moving-border";
 import { exploreNavigation, primaryNavigation } from "@/profile/navigation";
 
 export default function FloatingNavWrapper() {
@@ -38,10 +39,17 @@ export default function FloatingNavWrapper() {
   return (
     <>
       <header className="fixed inset-x-0 top-4 z-[5001] hidden px-4 xl:block">
-        <nav
-          aria-label="Primary navigation"
-          className="paper-panel paper-nav-shine mx-auto flex max-w-7xl items-center gap-3 !overflow-visible bg-card/95 px-3 py-2 backdrop-blur-xl"
-        >
+        <div className="relative mx-auto max-w-7xl p-px">
+          <div className="nav-moving-border" aria-hidden="true">
+            <MovingBorder duration={3000} rx="24" ry="24">
+              <div className="h-20 w-20 bg-[radial-gradient(var(--field)_38%,transparent_65%)] opacity-80" />
+            </MovingBorder>
+          </div>
+
+          <nav
+            aria-label="Primary navigation"
+            className="paper-panel flex items-center gap-3 !overflow-visible bg-card/95 px-3 py-2 backdrop-blur-xl"
+          >
           <Link
             href="/"
             className="group flex shrink-0 items-center gap-3 rounded-xl px-2 py-2 text-foreground"
@@ -126,7 +134,8 @@ export default function FloatingNavWrapper() {
             </Link>
             <ThemeToggle />
           </div>
-        </nav>
+          </nav>
+        </div>
       </header>
 
       <header className="fixed inset-x-0 top-0 z-[5001] border-b border-border/70 bg-background/90 px-4 backdrop-blur-xl xl:hidden">
