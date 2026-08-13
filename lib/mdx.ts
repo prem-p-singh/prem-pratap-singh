@@ -60,6 +60,8 @@ export function getAllPosts(): BlogPostMeta[] {
         path.join(process.cwd(), "public", generatedSummary)
       );
       const bodyImage = extractCoverImage(content);
+      const visualSummary =
+        data.visualSummary || (hasGeneratedSummary ? generatedSummary : bodyImage);
 
       return {
         slug,
@@ -69,9 +71,8 @@ export function getAllPosts(): BlogPostMeta[] {
         tags: data.tags || [],
         tldr: Array.isArray(data.tldr) ? data.tldr : undefined,
         readingTime: stats.text,
-        image: data.image || data.visualSummary || extractCoverImage(content),
-        visualSummary:
-          data.visualSummary || (hasGeneratedSummary ? generatedSummary : bodyImage),
+        image: data.image || visualSummary,
+        visualSummary,
       };
     })
     .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
@@ -109,7 +110,7 @@ export function getPostBySlug(slug: string): BlogPost | null {
     tags: data.tags || [],
     tldr: Array.isArray(data.tldr) ? data.tldr : undefined,
     readingTime: stats.text,
-    image: data.image || data.visualSummary || extractCoverImage(content),
+    image: data.image || visualSummary,
     visualSummary,
     content: visualSummary === bodyImage ? removeFirstMarkdownImage(content) : content,
   };

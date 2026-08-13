@@ -56,7 +56,7 @@ function shouldKeepNativeScroll(target: EventTarget | null, direction: 1 | -1) {
 
 function updateSectionHash(section: HTMLElement) {
   const url = new URL(window.location.href);
-  url.hash = section.id && section.id !== "intro" ? section.id : "";
+  url.hash = section.id && section.id !== "about" ? section.id : "";
   window.history.replaceState(window.history.state, "", `${url.pathname}${url.search}${url.hash}`);
 }
 

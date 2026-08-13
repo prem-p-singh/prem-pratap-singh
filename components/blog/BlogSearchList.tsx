@@ -140,9 +140,9 @@ export default function BlogSearchList({ posts }: BlogSearchListProps) {
                 className="paper-panel group overflow-hidden bg-card transition-all hover:-translate-y-0.5 hover:border-field/60"
               >
                 <div className="relative aspect-[16/10] overflow-hidden bg-muted">
-                  {post.image ? (
+                  {post.visualSummary || post.image ? (
                     <Image
-                      src={post.image}
+                      src={post.visualSummary || post.image!}
                       alt={post.title}
                       fill
                       sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"

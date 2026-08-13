@@ -14,7 +14,7 @@ const socialLinks: Array<{ label: string; href: string; icon: LucideIcon }> = [
 
 export default function HeroClient() {
   return (
-    <section id="intro" data-guided-scroll-section className="guided-scroll-section relative flex items-center overflow-hidden pt-16">
+    <section id="about" data-guided-scroll-section className="guided-scroll-section relative flex items-center overflow-hidden pt-16">
       <div className="absolute inset-0 bg-dot-grid opacity-20" />
       <div className="relative mx-auto max-w-6xl px-4 pb-6 pt-10 sm:px-6 sm:pb-8 sm:pt-12 lg:px-8">
         <div className="grid items-center gap-14 lg:grid-cols-2">
@@ -52,7 +52,7 @@ export default function HeroClient() {
             <div className="mt-9 flex flex-wrap gap-4">
               <MovingBorderButton
                 as="a"
-                href="#about"
+                href="#capabilities"
                 borderRadius="1.25rem"
                 containerClassName="h-[3.25rem] w-auto"
                 className="px-6 font-medium"

@@ -70,9 +70,9 @@ export default function BlogPage() {
               className="paper-panel group grid overflow-hidden bg-card transition-all hover:border-field/60 lg:grid-cols-2"
             >
               <div className="relative min-h-[300px] overflow-hidden bg-muted">
-                {featured.image ? (
+                {featured.visualSummary || featured.image ? (
                   <Image
-                    src={featured.image}
+                    src={featured.visualSummary || featured.image!}
                     alt={featured.title}
                     fill
                     priority

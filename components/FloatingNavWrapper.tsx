@@ -40,7 +40,7 @@ export default function FloatingNavWrapper() {
       <header className="fixed inset-x-0 top-4 z-[5001] hidden px-4 xl:block">
         <nav
           aria-label="Primary navigation"
-          className="paper-panel mx-auto flex max-w-7xl items-center gap-3 !overflow-visible bg-card/95 px-3 py-2 backdrop-blur-xl"
+          className="paper-panel paper-nav-shine mx-auto flex max-w-7xl items-center gap-3 !overflow-visible bg-card/95 px-3 py-2 backdrop-blur-xl"
         >
           <Link
             href="/"

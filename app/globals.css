@@ -435,7 +435,8 @@ h1, h2, h3 {
 
 .paper-button::before,
 .btn-primary::before,
-.btn-outline::before {
+.btn-outline::before,
+.paper-nav-shine::before {
   content: "";
   position: absolute;
   z-index: 2;
@@ -454,6 +455,11 @@ h1, h2, h3 {
   -webkit-mask-composite: xor;
   mask-composite: exclude;
   animation: paper-button-shine 5.5s linear infinite;
+}
+
+/* The wider navigation frame uses the same travelling seam at a calmer pace. */
+.paper-nav-shine::before {
+  animation-duration: 8s;
 }
 
 @keyframes paper-button-shine {
@@ -522,7 +528,8 @@ h1, h2, h3 {
 @media (prefers-reduced-motion: reduce) {
   .paper-button::before,
   .btn-primary::before,
-  .btn-outline::before {
+  .btn-outline::before,
+  .paper-nav-shine::before {
     animation: none;
     background: none;
   }

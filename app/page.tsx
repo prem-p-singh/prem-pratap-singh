@@ -124,9 +124,9 @@ export default function Home() {
                   className="group overflow-hidden rounded-2xl border border-border bg-card transition-all hover:-translate-y-1 hover:border-primary/40 hover:shadow-xl hover:shadow-primary/5"
                 >
                   <div className="relative aspect-[16/10] overflow-hidden bg-muted">
-                    {post.image ? (
+                    {post.visualSummary || post.image ? (
                       <Image
-                        src={post.image}
+                        src={post.visualSummary || post.image!}
                         alt={post.title}
                         fill
                         sizes="(max-width: 768px) 100vw, 50vw"
