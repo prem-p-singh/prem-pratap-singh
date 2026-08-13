@@ -138,8 +138,7 @@ export default function ResearchPathway() {
 
         <div className="paper-panel mt-12 overflow-hidden bg-card lg:grid lg:grid-cols-[0.82fr_1.18fr]">
           <aside className="border-b border-border bg-section-bg p-7 sm:p-9 lg:border-b-0 lg:border-r">
-            <div className="flex items-center justify-between gap-4 border-b border-foreground/15 pb-4 text-xs text-muted-foreground">
-              <span>Field note 04</span>
+            <div className="flex items-center gap-4 border-b border-foreground/15 pb-4 text-xs text-muted-foreground">
               <span>Davis, California</span>
             </div>
 
@@ -165,10 +164,7 @@ export default function ResearchPathway() {
             </div>
 
             <div className="mt-12 border-t border-foreground/15 pt-4">
-              <p className="text-xs font-semibold uppercase tracking-[0.16em] text-muted-foreground">
-                Prem Pratap Singh
-              </p>
-              <div className="mt-3 flex items-center" aria-label="Research route: field, bench, evidence">
+              <div className="flex items-center" aria-label="Research route: field, bench, evidence">
                 <span className="font-sans text-sm font-semibold text-field">Field</span>
                 <span className="mx-3 flex min-w-6 flex-1 items-center" aria-hidden="true">
                   <span className="h-px flex-1 bg-gradient-to-r from-field/70 to-biology/70" />
