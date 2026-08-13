@@ -534,13 +534,13 @@ export function GrowthStrategyMatrix() {
 const pooledSplit = [
   ["Crop", 73.9, "bg-biology"],
   ["Country", 15.9, "bg-field"],
-  ["Residual", 8.9, "bg-muted-foreground"],
+  ["Unexplained", 8.9, "bg-muted-foreground"],
   ["Year", 1.3, "bg-decision"],
 ] as const;
 
 const withinSplit = [
   ["Country", 69.1, "bg-field"],
-  ["Residual", 23.9, "bg-muted-foreground"],
+  ["Unexplained", 23.9, "bg-muted-foreground"],
   ["Year", 5.6, "bg-decision"],
 ] as const;
 
@@ -580,29 +580,29 @@ export function YieldVarianceSplit() {
 
   return (
     <EvidenceFrame
-      eyebrow="Where yield variation lives"
-      title="The pooled answer is mostly a units artefact"
-      takeaway="Compared across all crops, crop identity looks dominant. That is largely because sugarcane is measured in tens of thousands of kg per hectare and wheat in thousands. Remove crop identity and the picture changes."
-      source="Source: FAOSTAT crop yields, 166 countries, 151 crops, 1961 to 2023. Balanced panel of 305,676 country-crop-year observations. Shares are eta-squared on log yield. The second bar sums to 98.6% rather than 100% because each figure is a median taken across 63 separate decompositions, and medians need not add up."
+      eyebrow="Where yield differences come from"
+      title="Mixing all crops gives the wrong picture"
+      takeaway="Crop type looks most important only because crops have very different yield levels. When each crop is studied separately, country becomes the largest source of difference."
+      source="Source: FAOSTAT crop yields, 1961 to 2023. The data include 305,676 complete country-crop-year records. The second bar totals 98.6% because it combines the middle result from 63 separate crop tests."
       details={
         <EvidenceTable
-          headers={["Model", "Country", "Crop", "Year", "Residual"]}
+          headers={["Test", "Country", "Crop", "Year", "Unexplained"]}
           rows={[
-            ["All crops pooled", "15.9%", "73.9%", "1.3%", "8.9%"],
-            ["Within crop (median of 63)", "69.1%", "removed", "5.6%", "23.9%"],
+            ["All crops together", "15.9%", "73.9%", "1.3%", "8.9%"],
+            ["Each crop separately", "69.1%", "not included", "5.6%", "23.9%"],
           ]}
         />
       }
     >
       <div className="space-y-6">
         <div>
-          <p className="mb-2 text-sm font-semibold text-foreground">All crops in one model</p>
+          <p className="mb-2 text-sm font-semibold text-foreground">All crops together</p>
           <VarianceBar rows={pooledSplit} />
           <VarianceLegend rows={pooledSplit} />
         </div>
         <div>
           <p className="mb-2 text-sm font-semibold text-foreground">
-            Within a single crop, median across 63 crops
+            Each crop tested separately
           </p>
           <VarianceBar rows={withinSplit} />
           <VarianceLegend rows={withinSplit} />
@@ -627,13 +627,13 @@ const cropVariance = [
 export function CropVarianceRanking() {
   return (
     <EvidenceFrame
-      eyebrow="Same method, one crop at a time"
+      eyebrow="One crop at a time"
       title="For most crops, place explains far more than year"
-      takeaway="Tea is the exception that proves the method works: its yield variation is dominated by a steady climb over six decades rather than by which country grew it."
-      source="Source: FAOSTAT crop yields, 1961 to 2023, crops observed in at least 30 countries across every year. Bars show eta-squared on log yield within each crop."
+      takeaway="Tea is the main exception. Its yields rose steadily over 63 years, so year matters more than country."
+      source="Source: FAOSTAT crop yields, 1961 to 2023. Each crop has complete records from at least 30 countries."
       details={
         <EvidenceTable
-          headers={["Crop", "Country", "Year", "Residual", "Countries"]}
+          headers={["Crop", "Country share", "Year share", "Unexplained", "Countries"]}
           rows={cropVariance.map(([crop, country, year, residual, n]) => [
             crop,
             `${country.toFixed(1)}%`,
@@ -664,7 +664,7 @@ export function CropVarianceRanking() {
           <span className="mr-1 inline-block size-2.5 rounded-full bg-field align-middle" aria-hidden="true" />
           Country
           <span className="ml-4 mr-1 inline-block size-2.5 rounded-full bg-decision align-middle" aria-hidden="true" />
-          Year. Trailing figure is the year share.
+          Year. The number on the right is the year share.
         </p>
       </div>
     </EvidenceFrame>

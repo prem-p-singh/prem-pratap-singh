@@ -1,76 +1,76 @@
 ---
 title: "A Bad Year, or a Bad Place?"
 date: "2026-08-13"
-description: "A pooled model gave a neat but misleading answer. Crop-by-crop analysis showed that place usually matters far more than year."
+description: "One model gave the wrong picture. Looking at each crop separately showed that place usually matters much more than year."
 visualSummary: "/methods/variance-decomposition/visual-summary.jpg"
-method: "Variance decomposition"
-origin: "Grapevine Red Blotch Virus transcriptomics, UC Davis"
+method: "Variance breakdown"
+origin: "Grapevine Red Blotch Virus gene data, UC Davis"
 paperUrl: "https://github.com/prem-p-singh/GRBV-Transcriptomics-Analysis"
-paperLabel: "GRBV analysis repository (manuscript in preparation)"
-reappliedTo: "FAOSTAT world crop yields, 1961-2023"
+paperLabel: "GRBV analysis code (study in progress)"
+reappliedTo: "World crop yield data, 1961-2023 (FAOSTAT)"
 codePath: "data-interpretations/methods-variance-decomposition"
 tags: ["variance decomposition", "ANOVA", "statistical modeling", "FAOSTAT"]
 keyStats:
   - value: "69.1%"
-    label: "From country"
-    note: "Median within crop"
+    label: "Linked to country"
+    note: "Typical crop"
   - value: "5.6%"
-    label: "From year"
-    note: "Median within crop"
+    label: "Linked to year"
+    note: "Typical crop"
   - value: "305,676"
-    label: "Observations"
-    note: "Balanced panel"
+    label: "Data points"
+    note: "Complete records"
   - value: "63"
     label: "Crops"
-    note: "Analysed separately"
+    note: "Studied one by one"
 toolkit:
   - "Python"
   - "pandas"
-  - "Variance decomposition"
-  - "Balanced panel design"
-  - "FAOSTAT bulk data"
+  - "Variance breakdown"
+  - "Complete time-series comparison"
+  - "FAOSTAT crop data"
 ---
 
-## Start with the decision
+## Start with a simple question
 
-A crop performs poorly. Is the problem the season, the location, or something we did not measure?
+When crop yields differ, is it mainly because of where the crop was grown or when it was grown?
 
-Variance decomposition shows where variation sits. Here, yield is divided among crop, country, year, and the unexplained remainder.
+This method splits the differences into four parts: crop, country, year, and everything left unexplained.
 
-## The naive split
+## First test: mix all crops
 
-Pool every crop into one model and ask how much of the variation each label carries.
+Put every crop into one model and ask what explains the differences.
 
 <YieldVarianceSplit />
 
-## Why the first answer fails
+## Why this answer is misleading
 
-Crop identity appears to explain 73.9%. That number is real, but it is not useful.
+The result says crop type explains 73.9% of the difference. But this is not very useful.
 
-Sugarcane and wheat operate on different yield scales. Pooling them mostly proves that they are different crops. A tidy percentage does not guarantee a useful comparison.
+Sugarcane and wheat have very different yield levels. Mixing them mostly confirms that sugarcane is not wheat.
 
-## One crop at a time
+## Better test: study each crop separately
 
-Run the model separately for each crop. The question becomes actionable: for the same crop, does yield vary more by place or by year?
+Now ask the same question one crop at a time: does place or year matter more?
 
 <CropVarianceRanking />
 
-Across 63 crops, the median split is 69.1% from country and 5.6% from year, about twelve to one.
+Across 63 crops, country explains a typical 69.1% of the difference. Year explains only 5.6%. Place matters about twelve times more.
 
-Tea is the exception: 57.9% comes from year because yields rose steadily across countries.
+Tea is different. Year explains 57.9% because tea yields rose steadily in many countries.
 
-## Use this when
+## When this is useful
 
-Use variance decomposition when one outcome has several labels and you need to know where to investigate:
+Use this method when a result has several possible sources and you need to know where to look next:
 
-- **Country dominates:** look at agronomy, infrastructure, climate, and policy.
-- **Year dominates:** look at weather, breeding, or technology shifts.
-- **Residual dominates:** the important factor may not have been measured.
+- **Country is largest:** check farming methods, climate, irrigation, and local policy.
+- **Year is largest:** check weather, new crop varieties, and changing technology.
+- **The unexplained part is largest:** an important factor may be missing from the data.
 
-## Keep the limits visible
+## What this test cannot tell us
 
-Year is not the same as weather. Across 63 years, it also captures breeding and better inputs. Separating long-term trend from annual shock needs another model.
+Year does not mean weather alone. It also includes long-term changes such as better crop varieties and farming inputs.
 
-The balanced panel keeps only country-crop pairs reported every year from 1961 to 2023. That improves comparability but excludes incomplete reporters.
+The dataset includes only countries and crops with records for every year from 1961 to 2023. This makes comparison easier, but leaves out incomplete records.
 
-This is not causal. Country bundles soil, climate, irrigation, cultivars, and policy. The split locates variation; it does not identify its cause.
+This test does not prove cause. “Country” combines soil, climate, irrigation, crop varieties, and policy. The result shows where differences appear, not exactly what caused them.
