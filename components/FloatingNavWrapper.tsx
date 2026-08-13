@@ -39,10 +39,10 @@ export default function FloatingNavWrapper() {
   return (
     <>
       <header className="fixed inset-x-0 top-4 z-[5001] hidden px-4 xl:block">
-        <div className="relative mx-auto max-w-7xl p-px">
+        <div className="relative mx-auto max-w-7xl">
           <div className="nav-moving-border" aria-hidden="true">
-            <MovingBorder duration={3000} rx="24" ry="24">
-              <div className="h-20 w-20 bg-[radial-gradient(var(--field)_38%,transparent_65%)] opacity-80" />
+            <MovingBorder duration={12000} rx="24" ry="24">
+              <div className="nav-shine-orb" />
             </MovingBorder>
           </div>
 
