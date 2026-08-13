@@ -7,9 +7,9 @@ type Row = (typeof pathogens)[number];
 type SortKey = "assemblies" | "pctWell" | "pathogen";
 
 const GROUP_STYLE: Record<string, string> = {
-  Bacterium: "bg-sky-500/15 text-sky-600 dark:text-sky-400",
-  Fungus: "bg-emerald-500/15 text-emerald-600 dark:text-emerald-400",
-  Oomycete: "bg-amber-500/15 text-amber-600 dark:text-amber-400",
+  Bacterium: "bg-data-wash text-data",
+  Fungus: "bg-field-wash text-field",
+  Oomycete: "bg-decision-wash text-decision",
 };
 
 export default function PathogenTable() {
@@ -111,7 +111,7 @@ export default function PathogenTable() {
                 <td className="px-4 py-3 align-top tabular-nums font-semibold text-foreground">
                   {r.assemblies.toLocaleString()}
                   {r.assemblies === 0 && (
-                    <span className="block text-xs font-normal text-rose-500">none</span>
+                    <span className="block text-xs font-normal text-danger">none</span>
                   )}
                 </td>
                 <td className="px-4 py-3 align-top">

@@ -42,7 +42,7 @@ export default function NewsletterSignup() {
   };
 
   return (
-    <div className="rounded-3xl border border-border bg-background/55 p-5">
+    <div className="paper-panel bg-card p-5">
       <div className="mb-4">
         <p className="font-bold text-foreground">Occasional field notes</p>
         <p className="mt-1 text-xs text-muted-foreground">New research, no noise.</p>
@@ -60,7 +60,7 @@ export default function NewsletterSignup() {
           autoComplete="email"
           required
           disabled={formState === "submitting"}
-          className="min-w-0 flex-1 rounded-xl border border-border bg-card px-4 py-2.5 text-sm text-foreground placeholder:text-muted-foreground focus:border-foreground focus:outline-none disabled:cursor-wait disabled:opacity-65"
+          className="paper-control min-w-0 flex-1 bg-card px-4 py-2.5 text-sm text-foreground placeholder:text-muted-foreground focus:border-field focus:outline-none disabled:cursor-wait disabled:opacity-65"
         />
 
         <div className="absolute -left-[9999px]" aria-hidden="true">
@@ -71,7 +71,7 @@ export default function NewsletterSignup() {
         <button
           type="submit"
           disabled={formState === "submitting"}
-          className="rounded-xl bg-foreground px-5 py-2.5 text-sm font-semibold text-background transition-opacity hover:opacity-85 disabled:cursor-wait disabled:opacity-60"
+          className="paper-button px-5 py-2.5 text-sm font-semibold disabled:cursor-wait disabled:opacity-60"
         >
           {formState === "submitting" ? "Subscribing…" : "Subscribe"}
         </button>
@@ -80,9 +80,9 @@ export default function NewsletterSignup() {
       <p
         className={`mt-3 min-h-5 text-xs ${
           formState === "error"
-            ? "text-rose-600 dark:text-rose-300"
+            ? "text-danger"
             : formState === "success"
-              ? "text-emerald-700 dark:text-emerald-300"
+              ? "text-field"
               : "text-muted-foreground"
         }`}
         role={formState === "error" ? "alert" : "status"}

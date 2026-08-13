@@ -14,12 +14,12 @@ const socialLinks: Array<{ label: string; href: string; icon: LucideIcon }> = [
 
 export default function HeroClient() {
   return (
-    <section className="relative flex items-center overflow-hidden pt-16">
+    <section id="intro" data-guided-scroll-section className="guided-scroll-section relative flex items-center overflow-hidden pt-16">
       <div className="absolute inset-0 bg-dot-grid opacity-20" />
       <div className="relative mx-auto max-w-6xl px-4 pb-6 pt-10 sm:px-6 sm:pb-8 sm:pt-12 lg:px-8">
         <div className="grid items-center gap-14 lg:grid-cols-2">
           <div className="order-2 lg:order-2">
-            <p className="text-sm font-semibold text-emerald-700 dark:text-emerald-300">
+            <p className="text-sm font-semibold text-field">
               Crop biology, measured carefully
             </p>
             <h1 className="mt-3 text-4xl font-bold leading-tight text-foreground sm:text-5xl lg:text-6xl">
@@ -33,15 +33,15 @@ export default function HeroClient() {
             </p>
 
             <div className="mt-6 flex flex-wrap gap-2">
-              {["UC Davis", "Grapevine virology", "Open to Scientist roles"].map((label, index) => (
+              {["UC Davis", "Grapevine virology", "Open to Research Scientist and Data Scientist roles"].map((label, index) => (
                 <span
                   key={label}
                   className={`rounded-full px-3 py-1.5 text-xs font-semibold ${
                     index === 0
-                      ? "bg-emerald-500/15 text-emerald-700 dark:text-emerald-300"
+                      ? "border border-field/20 bg-field-wash text-field"
                       : index === 1
-                        ? "bg-violet-500/15 text-violet-700 dark:text-violet-300"
-                        : "bg-sky-500/15 text-sky-700 dark:text-sky-300"
+                        ? "border border-biology/20 bg-biology-wash text-biology"
+                        : "border border-data/20 bg-data-wash text-data"
                   }`}
                 >
                   {label}
@@ -53,8 +53,8 @@ export default function HeroClient() {
               <MovingBorderButton
                 as="a"
                 href="#about"
-                borderRadius="0.75rem"
-                containerClassName="h-12 w-auto"
+                borderRadius="1.25rem"
+                containerClassName="h-[3.25rem] w-auto"
                 className="px-6 font-medium"
                 duration={3000}
               >
@@ -65,8 +65,8 @@ export default function HeroClient() {
                 href="/cv.pdf"
                 target="_blank"
                 rel="noopener noreferrer"
-                borderRadius="0.75rem"
-                containerClassName="h-12 w-auto"
+                borderRadius="1.25rem"
+                containerClassName="h-[3.25rem] w-auto"
                 className="px-6 font-medium"
                 duration={3000}
               >
@@ -84,7 +84,7 @@ export default function HeroClient() {
                     href={social.href}
                     target={external ? "_blank" : undefined}
                     rel={external ? "noopener noreferrer" : undefined}
-                    className="flex size-10 items-center justify-center rounded-full border border-border bg-muted/50 text-muted-foreground transition-all hover:-translate-y-0.5 hover:border-foreground/40 hover:text-foreground"
+                    className="paper-control flex size-10 items-center justify-center text-muted-foreground hover:text-field"
                     aria-label={social.label}
                     title={social.label}
                   >
@@ -97,8 +97,8 @@ export default function HeroClient() {
 
           <div className="order-1 flex justify-center lg:order-1">
             <div className="relative size-72 sm:size-80 lg:size-96">
-              <div className="absolute inset-0 rounded-full bg-gradient-to-br from-emerald-500/15 via-violet-500/10 to-sky-500/15 blur-3xl" />
-              <div className="relative size-full overflow-hidden rounded-full border-2 border-border shadow-2xl">
+              <div className="absolute inset-0 rounded-full bg-[conic-gradient(from_210deg,var(--field-wash),var(--biology-wash),var(--data-wash),var(--field-wash))] blur-3xl" />
+              <div className="relative size-full overflow-hidden rounded-full border-2 border-field/30 shadow-2xl">
                 <Image
                   src="/images/headshot-1.jpg"
                   alt={personal.name}
@@ -108,13 +108,13 @@ export default function HeroClient() {
                   priority
                 />
               </div>
-              <span className="absolute -left-3 top-12 rounded-full border border-border bg-background/90 px-4 py-2 text-base font-bold leading-none text-foreground shadow-lg backdrop-blur-sm sm:-left-10">
+              <span className="absolute -left-3 top-12 rounded-full border border-field/30 bg-card/90 px-4 py-2 text-base font-bold leading-none text-field shadow-lg backdrop-blur-sm sm:-left-10">
                 FIELD
               </span>
-              <span className="absolute -right-2 top-1/2 rounded-full border border-border bg-background/90 px-4 py-2 text-base font-bold leading-none text-foreground shadow-lg backdrop-blur-sm sm:-right-12">
+              <span className="absolute -right-2 top-1/2 rounded-full border border-biology/30 bg-card/90 px-4 py-2 text-base font-bold leading-none text-biology shadow-lg backdrop-blur-sm sm:-right-12">
                 BENCH
               </span>
-              <span className="absolute bottom-8 left-5 rounded-full border border-border bg-background/90 px-4 py-2 text-base font-bold leading-none text-foreground shadow-lg backdrop-blur-sm sm:left-0">
+              <span className="absolute bottom-8 left-5 rounded-full border border-data/30 bg-card/90 px-4 py-2 text-base font-bold leading-none text-data shadow-lg backdrop-blur-sm sm:left-0">
                 CODE
               </span>
             </div>

@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { ExternalLink } from "lucide-react";
 
 const videos = [
   {
@@ -19,7 +20,7 @@ const videos = [
 
 export function MethodVisualSummary() {
   return (
-    <figure className="my-8 overflow-hidden rounded-2xl border border-border bg-card shadow-sm">
+    <figure className="paper-panel my-8 overflow-hidden bg-card">
         <a
           href="/methods/causal-mediation/causal-mediation-visual-guide.jpg"
           target="_blank"
@@ -38,7 +39,9 @@ export function MethodVisualSummary() {
         </a>
         <figcaption className="flex items-center justify-between gap-4 border-t border-border px-4 py-3 text-sm text-muted-foreground sm:px-5">
           <span>One-page visual summary</span>
-          <span className="font-medium text-foreground">Open full size ↗</span>
+          <span className="inline-flex items-center gap-1.5 font-medium text-foreground">
+            Open full size <ExternalLink className="size-4" strokeWidth={1.7} aria-hidden="true" />
+          </span>
         </figcaption>
     </figure>
   );
@@ -49,7 +52,7 @@ export function MethodVideos() {
     <section className="not-prose my-12" aria-labelledby="method-videos-title">
       <div className="mb-5 flex flex-wrap items-end justify-between gap-2">
         <div>
-          <p className="text-xs font-semibold uppercase tracking-[0.18em] text-primary">
+          <p className="section-kicker">
             Watch the method
           </p>
           <h2
@@ -65,7 +68,7 @@ export function MethodVideos() {
         {videos.map((video) => (
           <figure
             key={video.src}
-            className="rounded-2xl border border-border bg-card p-3 shadow-sm sm:p-4"
+            className="paper-panel bg-card p-3 sm:p-4"
           >
             <video
               controls

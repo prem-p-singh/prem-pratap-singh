@@ -17,7 +17,7 @@ export default function JourneyPage() {
       {/* Header */}
       <section className="bg-gradient-to-b from-muted to-background pb-6 pt-14 sm:pb-8 sm:pt-16">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <p className="text-sm font-bold text-foreground mb-4 tracking-wide uppercase">
+          <p className="section-kicker mb-4">
             Curiosity · Method · Evidence · Impact
           </p>
           <h1 className="text-4xl sm:text-5xl font-bold text-foreground mb-6">
@@ -34,7 +34,7 @@ export default function JourneyPage() {
       <section className="border-y border-border py-6 sm:py-8">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="max-w-2xl mx-auto text-center">
-            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
+            <p className="section-kicker">
               Evidence along the way
             </p>
             <h2 className="mt-3 text-3xl font-bold text-foreground">

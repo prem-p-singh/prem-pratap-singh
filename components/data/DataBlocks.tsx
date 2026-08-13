@@ -12,7 +12,7 @@ export function KeyStats({
       {stats.map((s) => (
         <div
           key={s.label}
-          className="rounded-xl border border-border bg-card p-4 flex flex-col"
+          className="paper-control bg-card p-4 flex flex-col"
         >
           <span className="text-2xl sm:text-3xl font-bold text-foreground leading-none tabular-nums">
             {s.value}
@@ -41,8 +41,8 @@ export function MythReality({
 }) {
   return (
     <div className="not-prose grid md:grid-cols-2 gap-4 my-8">
-      <div className="rounded-xl border border-rose-500/25 bg-rose-500/[0.06] p-5">
-        <p className="text-xs font-semibold uppercase tracking-wider text-rose-500 mb-2 flex items-center gap-1.5">
+      <div className="rounded-xl border border-danger/25 bg-danger-wash p-5">
+        <p className="text-xs font-semibold uppercase tracking-wider text-danger mb-2 flex items-center gap-1.5">
           <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
           </svg>
@@ -50,8 +50,8 @@ export function MythReality({
         </p>
         <p className="text-sm text-foreground/85 leading-relaxed">{myth}</p>
       </div>
-      <div className="rounded-xl border border-emerald-500/25 bg-emerald-500/[0.06] p-5">
-        <p className="text-xs font-semibold uppercase tracking-wider text-emerald-500 mb-2 flex items-center gap-1.5">
+      <div className="rounded-xl border border-field/25 bg-field-wash p-5">
+        <p className="text-xs font-semibold uppercase tracking-wider text-field mb-2 flex items-center gap-1.5">
           <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
           </svg>
@@ -86,7 +86,7 @@ export function Methods({
   children?: ReactNode;
 }) {
   return (
-    <div className="not-prose my-10 rounded-xl border border-border bg-card p-6">
+    <div className="paper-panel not-prose my-10 bg-card p-6">
       <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-3">
         How this was done
       </p>

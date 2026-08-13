@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { ExternalLink } from "lucide-react";
 
 interface VisualSummaryProps {
   src: string;
@@ -12,7 +13,7 @@ export default function VisualSummary({
   label = "Visual summary",
 }: VisualSummaryProps) {
   return (
-    <figure className="not-prose my-6 overflow-hidden rounded-2xl border border-border bg-card shadow-sm sm:my-8">
+    <figure className="paper-panel not-prose my-6 overflow-hidden bg-card sm:my-8">
       <a
         href={src}
         target="_blank"
@@ -31,7 +32,9 @@ export default function VisualSummary({
       </a>
       <figcaption className="flex items-center justify-between gap-4 border-t border-border px-4 py-3 text-sm text-muted-foreground sm:px-5">
         <span>{label}</span>
-        <span className="font-medium text-foreground">Open full size ↗</span>
+        <span className="inline-flex items-center gap-1.5 font-medium text-foreground">
+          Open full size <ExternalLink className="size-4" strokeWidth={1.7} aria-hidden="true" />
+        </span>
       </figcaption>
     </figure>
   );

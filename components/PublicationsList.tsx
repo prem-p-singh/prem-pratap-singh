@@ -37,7 +37,7 @@ export default function PublicationsList({ publications }: { publications: Publi
 
   return (
     <>
-      <div className="mb-7 flex flex-col gap-4 rounded-2xl border border-border bg-card p-4 sm:flex-row sm:items-center sm:justify-between">
+      <div className="paper-panel mb-7 flex flex-col gap-4 bg-card p-4 sm:flex-row sm:items-center sm:justify-between">
         <div className="flex flex-wrap gap-2" role="group" aria-label="Filter publications by type">
           {(["all", "journal", "book"] as FilterType[]).map((type) => {
             const label = type === "all" ? "All" : type === "journal" ? "Articles" : "Chapters";
@@ -81,12 +81,12 @@ export default function PublicationsList({ publications }: { publications: Publi
       {displayed.length > 0 ? (
         <div className="grid gap-4 md:grid-cols-2">
           {displayed.map((publication, index) => (
-            <article key={`${publication.title}-${index}`} className="group relative overflow-hidden rounded-2xl border border-border bg-card p-5 transition-colors hover:border-primary/40">
+            <article key={`${publication.title}-${index}`} className="paper-panel group relative overflow-hidden bg-card p-5 transition-colors hover:border-field/60">
               <div className="flex items-start justify-between gap-4">
                 <span className={`flex size-11 shrink-0 items-center justify-center rounded-xl ${
                   publication.type === "book"
-                    ? "bg-amber-500/15 text-amber-700 dark:text-amber-300"
-                    : "bg-violet-500/15 text-violet-700 dark:text-violet-300"
+                    ? "bg-decision-wash text-decision"
+                    : "bg-data-wash text-data"
                 }`}>
                   <BookOpen className="size-5" strokeWidth={1.7} aria-hidden="true" />
                 </span>

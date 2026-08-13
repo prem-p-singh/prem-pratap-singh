@@ -10,7 +10,7 @@ export default function TldrCallout({ items }: TldrCalloutProps) {
   return (
     <aside
       aria-label="Key takeaways"
-      className="not-prose mb-10 rounded-2xl border border-border bg-muted/30 p-5 sm:p-6"
+      className="paper-panel not-prose mb-10 bg-card p-5 sm:p-6"
     >
       <div className="mb-4 flex items-center gap-2">
         <Lightbulb className="size-4 text-foreground" strokeWidth={1.8} aria-hidden="true" />

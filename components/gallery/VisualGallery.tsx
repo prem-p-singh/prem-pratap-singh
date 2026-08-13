@@ -160,7 +160,7 @@ export default function VisualGallery() {
         <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
             <div>
-              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
+              <p className="section-kicker">
                 Research, seen differently
               </p>
               <h2 id="visual-gallery-title" className="mt-3 text-3xl font-bold text-foreground">
@@ -205,7 +205,7 @@ export default function VisualGallery() {
                 key={item.id}
                 type="button"
                 onClick={() => setSelected(item)}
-                className="group overflow-hidden rounded-2xl border border-border bg-card text-left transition-all hover:-translate-y-1 hover:border-primary/40 hover:shadow-xl hover:shadow-primary/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50"
+                className="paper-panel group overflow-hidden bg-card text-left transition-all hover:-translate-y-0.5 hover:border-field/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-field/50"
               >
                 <span className="relative block aspect-[4/3] overflow-hidden bg-white">
                   <Image

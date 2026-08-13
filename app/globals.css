@@ -10,48 +10,87 @@ img[alt="Vercel Logo"] {
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════
-   Dark-first color system
+   Field-notebook color system
    :root = dark (default), .light = light override
+
+   field = crop and observation · biology = bench and mechanism
+   data = computation and evidence · decision = translation and outcomes
    ═══════════════════════════════════════════════════════════════════════════ */
 
 :root {
   color-scheme: dark;
-  --background: #09090b;
-  --foreground: #fafafa;
-  --muted: #18181b;
-  --muted-foreground: #a1a1aa;
-  --primary: #fafafa;
-  --primary-foreground: #09090b;
-  --accent: #a1a1aa;
-  --accent-muted: rgba(161, 161, 170, 0.1);
-  --border: #27272a;
-  --card: #18181b;
-  --card-foreground: #fafafa;
-  --section-bg: #111113;
-  --surface: #18181b;
-  --elevated: #1c1c20;
-  --glow-primary: rgba(250, 250, 250, 0.06);
-  --glow-accent: rgba(161, 161, 170, 0.06);
+  --background: #111713;
+  --foreground: #f5f0e6;
+  --muted: #202a23;
+  --muted-foreground: #b4b8b1;
+  --primary: #83c69e;
+  --primary-foreground: #111713;
+  --accent: #e69069;
+  --accent-muted: rgba(230, 144, 105, 0.12);
+  --border: #354238;
+  --card: #18211b;
+  --card-foreground: #f5f0e6;
+  --section-bg: #151d18;
+  --surface: #18211b;
+  --elevated: #202a23;
+  --field: #83c69e;
+  --field-strong: #4f9d70;
+  --field-foreground: #111713;
+  --field-wash: rgba(131, 198, 158, 0.12);
+  --biology: #e69069;
+  --biology-strong: #c76f49;
+  --biology-foreground: #111713;
+  --biology-wash: rgba(230, 144, 105, 0.12);
+  --data: #a6b4df;
+  --data-strong: #7789c3;
+  --data-foreground: #111713;
+  --data-wash: rgba(166, 180, 223, 0.12);
+  --decision: #d8b85e;
+  --decision-strong: #b89432;
+  --decision-foreground: #111713;
+  --decision-wash: rgba(216, 184, 94, 0.12);
+  --danger: #f0a0aa;
+  --danger-wash: rgba(240, 160, 170, 0.12);
+  --glow-primary: rgba(131, 198, 158, 0.1);
+  --glow-accent: rgba(230, 144, 105, 0.08);
 }
 
 .light {
   color-scheme: light;
-  --background: #ffffff;
-  --foreground: #09090b;
-  --muted: #f4f4f5;
-  --muted-foreground: #71717a;
-  --primary: #09090b;
+  --background: #fbf8f1;
+  --foreground: #1d2621;
+  --muted: #f1eadf;
+  --muted-foreground: #656b66;
+  --primary: #285f47;
   --primary-foreground: #ffffff;
-  --accent: #71717a;
-  --accent-muted: rgba(113, 113, 122, 0.1);
-  --border: #e4e4e7;
-  --card: #ffffff;
-  --card-foreground: #09090b;
-  --section-bg: #fafafa;
-  --surface: #ffffff;
-  --elevated: #f4f4f5;
-  --glow-primary: rgba(9, 9, 11, 0.04);
-  --glow-accent: rgba(113, 113, 122, 0.04);
+  --accent: #9c482d;
+  --accent-muted: rgba(156, 72, 45, 0.09);
+  --border: #d9d0c1;
+  --card: #fffdf8;
+  --card-foreground: #1d2621;
+  --section-bg: #f5f0e6;
+  --surface: #fffdf8;
+  --elevated: #f1eadf;
+  --field: #285f47;
+  --field-strong: #174a34;
+  --field-foreground: #ffffff;
+  --field-wash: rgba(40, 95, 71, 0.09);
+  --biology: #9c482d;
+  --biology-strong: #7e351f;
+  --biology-foreground: #ffffff;
+  --biology-wash: rgba(156, 72, 45, 0.09);
+  --data: #46567d;
+  --data-strong: #334263;
+  --data-foreground: #ffffff;
+  --data-wash: rgba(70, 86, 125, 0.09);
+  --decision: #7a5b16;
+  --decision-strong: #604509;
+  --decision-foreground: #ffffff;
+  --decision-wash: rgba(122, 91, 22, 0.1);
+  --danger: #a43e4f;
+  --danger-wash: rgba(164, 62, 79, 0.09);
+  --glow-primary: rgba(40, 95, 71, 0.09);
+  --glow-accent: rgba(156, 72, 45, 0.07);
 }
 
 @theme inline {
@@ -69,9 +108,42 @@ img[alt="Vercel Logo"] {
   --color-section-bg: var(--section-bg);
   --color-surface: var(--surface);
   --color-elevated: var(--elevated);
+  --color-field: var(--field);
+  --color-field-strong: var(--field-strong);
+  --color-field-foreground: var(--field-foreground);
+  --color-field-wash: var(--field-wash);
+  --color-biology: var(--biology);
+  --color-biology-strong: var(--biology-strong);
+  --color-biology-foreground: var(--biology-foreground);
+  --color-biology-wash: var(--biology-wash);
+  --color-data: var(--data);
+  --color-data-strong: var(--data-strong);
+  --color-data-foreground: var(--data-foreground);
+  --color-data-wash: var(--data-wash);
+  --color-decision: var(--decision);
+  --color-decision-strong: var(--decision-strong);
+  --color-decision-foreground: var(--decision-foreground);
+  --color-decision-wash: var(--decision-wash);
+  --color-danger: var(--danger);
+  --color-danger-wash: var(--danger-wash);
   --font-sans: var(--font-urbanist);
   --font-serif: var(--font-urbanist);
   --font-mono: var(--font-urbanist);
+
+  /*
+   * Readability scale: every body tier moves up by exactly 2px while retaining
+   * its previous line box. Component padding, gaps, widths, and section spacing
+   * therefore remain unchanged. Display type (xl and above) is intentionally
+   * untouched so the existing hierarchy and layout stay stable.
+   */
+  --text-xs: 0.875rem;
+  --text-xs--line-height: 1rem;
+  --text-sm: 1rem;
+  --text-sm--line-height: 1.25rem;
+  --text-base: 1.125rem;
+  --text-base--line-height: 1.5rem;
+  --text-lg: 1.25rem;
+  --text-lg--line-height: 1.75rem;
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════
@@ -80,6 +152,40 @@ img[alt="Vercel Logo"] {
 
 html {
   scroll-behavior: smooth;
+}
+
+/* Homepage-only guided scrolling. Section padding and content heights remain
+   untouched; these values only define where a chapter settles below the nav. */
+:root {
+  --guided-scroll-offset: 5rem;
+}
+
+.guided-scroll-section {
+  scroll-margin-top: var(--guided-scroll-offset);
+  scroll-snap-align: start;
+  scroll-snap-stop: normal;
+}
+
+@media (max-width: 1023px), (pointer: coarse) {
+  html.guided-scroll-page {
+    scroll-snap-type: y proximity;
+  }
+}
+
+@media (min-width: 1280px) and (pointer: fine) {
+  :root {
+    --guided-scroll-offset: 6.5rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  html.guided-scroll-page {
+    scroll-snap-type: none;
+  }
 }
 
 body {
@@ -142,12 +248,12 @@ h1, h2, h3 {
 
 /* Selection styling */
 ::selection {
-  background: var(--foreground);
-  color: var(--background);
+  background: var(--field);
+  color: var(--field-foreground);
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════
-   Utility classes — monochrome design system
+   Utility classes — field-notebook design system
    ═══════════════════════════════════════════════════════════════════════════ */
 
 /* Card */
@@ -164,7 +270,7 @@ h1, h2, h3 {
 }
 
 .glow-hover:hover {
-  border-color: var(--muted-foreground);
+  border-color: var(--field);
 }
 
 .glow-hover:active {
@@ -180,7 +286,7 @@ h1, h2, h3 {
 
 /* Gradient text */
 .gradient-text {
-  background: linear-gradient(135deg, var(--foreground), var(--muted-foreground));
+  background: linear-gradient(110deg, var(--field), var(--data), var(--biology));
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -259,14 +365,128 @@ h1, h2, h3 {
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════
-   Button styles
+   Field-notebook surfaces
+
+   Panels and actions use one visual grammar: warm paper, a quiet neutral
+   outline, and a short green seam at the upper-right corner. Semantic color
+   stays inside the surface as an icon, label, rule, or selected state.
    ═══════════════════════════════════════════════════════════════════════════ */
 
-.btn-primary {
-  background: var(--foreground);
-  color: var(--background);
+.paper-panel,
+.paper-button,
+.paper-control,
+.btn-primary,
+.btn-outline {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  background: var(--card);
+  color: var(--foreground);
+  box-shadow:
+    inset 0 1px 0 color-mix(in srgb, var(--foreground) 4%, transparent),
+    0 12px 35px -32px color-mix(in srgb, var(--foreground) 30%, transparent);
+}
+
+.paper-panel::after,
+.paper-button::after,
+.paper-control::after,
+.btn-primary::after,
+.btn-outline::after {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  top: -1px;
+  right: -1px;
+  width: 24%;
+  min-width: 3.5rem;
+  height: 42%;
+  min-height: 1.5rem;
+  pointer-events: none;
+  border-top: 1px solid var(--field);
+  border-right: 1px solid var(--field);
+  border-top-right-radius: inherit;
+  opacity: 0.9;
+}
+
+.paper-panel {
+  border-radius: 1.5rem;
+}
+
+.paper-button,
+.btn-primary,
+.btn-outline {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
   padding: 0.75rem 1.5rem;
-  border-radius: 0.5rem;
+  border-radius: 1.25rem;
+  font-weight: 500;
+  transition: border-color 0.2s ease, color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* All true actions share the same restrained travelling perimeter highlight. */
+@property --paper-shine-angle {
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: false;
+}
+
+.paper-button::before,
+.btn-primary::before,
+.btn-outline::before {
+  content: "";
+  position: absolute;
+  z-index: 2;
+  inset: -1px;
+  padding: 1px;
+  pointer-events: none;
+  border-radius: inherit;
+  background: conic-gradient(
+    from var(--paper-shine-angle),
+    transparent 0deg 282deg,
+    color-mix(in srgb, var(--field) 25%, transparent) 306deg,
+    var(--field) 324deg,
+    transparent 350deg 360deg
+  );
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  animation: paper-button-shine 5.5s linear infinite;
+}
+
+@keyframes paper-button-shine {
+  to { --paper-shine-angle: 360deg; }
+}
+
+.paper-control {
+  border-radius: 0.875rem;
+  transition: border-color 0.2s ease, color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.paper-button:hover,
+.paper-control:hover,
+.btn-primary:hover,
+.btn-outline:hover {
+  border-color: color-mix(in srgb, var(--field) 58%, var(--border));
+  color: var(--field);
+  transform: translateY(-1px);
+  box-shadow:
+    inset 0 1px 0 color-mix(in srgb, var(--foreground) 5%, transparent),
+    0 16px 34px -28px color-mix(in srgb, var(--field) 55%, transparent);
+}
+
+.paper-button:focus-visible,
+.paper-control:focus-visible,
+.btn-primary:focus-visible,
+.btn-outline:focus-visible {
+  outline: 2px solid var(--field);
+  outline-offset: 3px;
+}
+
+.btn-primary {
+  padding: 0.75rem 1.5rem;
   font-weight: 500;
   transition: all 0.2s ease;
   position: relative;
@@ -274,36 +494,38 @@ h1, h2, h3 {
 }
 
 .btn-primary:hover {
-  opacity: 0.85;
-  transform: translateY(-2px);
+  opacity: 1;
 }
 
 .btn-primary:active {
-  opacity: 0.75;
+  opacity: 1;
   transform: translateY(1px) scale(0.97);
   transition: all 0.08s ease;
 }
 
 .btn-outline {
-  border: 2px solid var(--border);
-  color: var(--foreground);
   padding: 0.75rem 1.5rem;
-  border-radius: 0.5rem;
   font-weight: 500;
   transition: all 0.2s ease;
-  position: relative;
-  overflow: hidden;
 }
 
 .btn-outline:hover {
-  border-color: var(--muted-foreground);
-  transform: translateY(-2px);
+  transform: translateY(-1px);
 }
 
 .btn-outline:active {
   transform: translateY(1px) scale(0.97);
   border-color: var(--foreground);
   transition: all 0.08s ease;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .paper-button::before,
+  .btn-primary::before,
+  .btn-outline::before {
+    animation: none;
+    background: none;
+  }
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════
@@ -662,8 +884,37 @@ h1, h2, h3 {
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════
-   Section title
+   Section hierarchy
    ═══════════════════════════════════════════════════════════════════════════ */
+
+/*
+ * A single, high-contrast entry point for primary sections. The marker has no
+ * margin or padding of its own, so each section keeps its existing rhythm.
+ * Smaller labels inside cards, charts, and controls intentionally stay quiet.
+ */
+.section-kicker {
+  display: inline-flex;
+  max-width: 100%;
+  align-items: center;
+  gap: 0.625rem;
+  color: var(--field);
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1.25rem;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  text-wrap: balance;
+}
+
+.section-kicker::before {
+  content: '';
+  width: 1.75rem;
+  height: 2px;
+  flex: 0 0 auto;
+  border-radius: 999px;
+  background: var(--field);
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--field) 12%, transparent);
+}
 
 .section-title {
   font-size: 2rem;

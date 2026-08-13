@@ -25,7 +25,7 @@ export default async function OGImage({ params }: { params: Promise<{ slug: stri
     (
       <div
         style={{
-          background: "linear-gradient(135deg, #0a0a0a 0%, #171717 50%, #0a0a0a 100%)",
+          background: "linear-gradient(135deg, #111713 0%, #18211b 52%, #111713 100%)",
           width: "100%",
           height: "100%",
           display: "flex",
@@ -45,7 +45,7 @@ export default async function OGImage({ params }: { params: Promise<{ slug: stri
             width: "400px",
             height: "400px",
             borderRadius: "50%",
-            background: "radial-gradient(circle, rgba(255,255,255,0.04) 0%, transparent 70%)",
+            background: "radial-gradient(circle, rgba(166,180,223,0.16) 0%, transparent 70%)",
           }}
         />
 
@@ -57,8 +57,8 @@ export default async function OGImage({ params }: { params: Promise<{ slug: stri
                 key={tag}
                 style={{
                   fontSize: 14,
-                  color: "#a1a1aa",
-                  border: "1px solid #3f3f46",
+                  color: "#83c69e",
+                  border: "1px solid #354238",
                   borderRadius: "9999px",
                   padding: "6px 16px",
                   letterSpacing: "0.05em",
@@ -76,7 +76,7 @@ export default async function OGImage({ params }: { params: Promise<{ slug: stri
           style={{
             fontSize: title.length > 60 ? 48 : 56,
             fontWeight: 800,
-            color: "#fafafa",
+            color: "#f5f0e6",
             lineHeight: 1.2,
             marginBottom: "32px",
             letterSpacing: "-0.02em",
@@ -97,7 +97,7 @@ export default async function OGImage({ params }: { params: Promise<{ slug: stri
             display: "flex",
             gap: "16px",
             fontSize: 18,
-            color: "#71717a",
+            color: "#b4b8b1",
           }}
         >
           {date && <span>{date}</span>}
@@ -115,7 +115,7 @@ export default async function OGImage({ params }: { params: Promise<{ slug: stri
             display: "flex",
             justifyContent: "space-between",
             alignItems: "center",
-            borderTop: "1px solid #27272a",
+            borderTop: "1px solid #354238",
             paddingTop: "24px",
           }}
         >
@@ -125,20 +125,20 @@ export default async function OGImage({ params }: { params: Promise<{ slug: stri
                 width: "40px",
                 height: "40px",
                 borderRadius: "50%",
-                background: "linear-gradient(135deg, #52525b, #3f3f46)",
+                background: "linear-gradient(135deg, #285f47, #46567d)",
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
-                color: "#fafafa",
+                color: "#f5f0e6",
                 fontSize: 16,
                 fontWeight: 700,
               }}
             >
               PS
             </div>
-            <div style={{ fontSize: 18, color: "#a1a1aa" }}>Prem Pratap Singh</div>
+            <div style={{ fontSize: 18, color: "#b4b8b1" }}>Prem Pratap Singh</div>
           </div>
-          <div style={{ fontSize: 16, color: "#71717a" }}>prempsingh.com/blog</div>
+          <div style={{ fontSize: 16, color: "#b4b8b1" }}>prempsingh.com/blog</div>
         </div>
       </div>
     ),

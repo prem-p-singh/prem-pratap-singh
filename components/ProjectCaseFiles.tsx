@@ -5,12 +5,10 @@ import { ChevronDown, ExternalLink } from "lucide-react";
 import type { Project } from "@/components/ProjectCard";
 
 const tones = [
-  { dot: "bg-violet-500", text: "text-violet-500", wash: "bg-violet-500/[0.035]" },
-  { dot: "bg-emerald-500", text: "text-emerald-500", wash: "bg-emerald-500/[0.035]" },
-  { dot: "bg-orange-500", text: "text-orange-500", wash: "bg-orange-500/[0.035]" },
-  { dot: "bg-sky-500", text: "text-sky-500", wash: "bg-sky-500/[0.035]" },
-  { dot: "bg-amber-500", text: "text-amber-500", wash: "bg-amber-500/[0.035]" },
-  { dot: "bg-rose-500", text: "text-rose-500", wash: "bg-rose-500/[0.035]" },
+  { dot: "bg-biology", text: "text-biology", wash: "bg-biology-wash" },
+  { dot: "bg-field", text: "text-field", wash: "bg-field-wash" },
+  { dot: "bg-data", text: "text-data", wash: "bg-data-wash" },
+  { dot: "bg-decision", text: "text-decision", wash: "bg-decision-wash" },
 ];
 
 export default function ProjectCaseFiles({
@@ -42,7 +40,7 @@ export default function ProjectCaseFiles({
               aria-expanded={open}
               aria-controls={panelId}
               onClick={() => setOpenIndex(open ? null : index)}
-              className={`grid w-full grid-cols-[3rem_minmax(0,1fr)_auto] gap-x-4 gap-y-4 px-1 py-6 text-left transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-sky-500/45 sm:px-4 md:grid-cols-[4rem_minmax(0,1.35fr)_minmax(0,0.75fr)_8rem_auto] md:items-center md:gap-x-6 ${
+              className={`grid w-full grid-cols-[3rem_minmax(0,1fr)_auto] gap-x-4 gap-y-4 px-1 py-6 text-left transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-data/45 sm:px-4 md:grid-cols-[4rem_minmax(0,1.35fr)_minmax(0,0.75fr)_8rem_auto] md:items-center md:gap-x-6 ${
                 open ? tone.wash : "hover:bg-muted/20"
               }`}
             >

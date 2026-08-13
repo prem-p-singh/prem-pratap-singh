@@ -24,18 +24,18 @@ const domainVisuals: Array<{
   active: string;
   bar: string;
 }> = [
-  { icon: ScanSearch, text: "text-sky-500", surface: "bg-sky-500/15", active: "border-l-sky-500 bg-sky-500/[0.08] text-foreground", bar: "bg-sky-500" },
-  { icon: Dna, text: "text-violet-500", surface: "bg-violet-500/15", active: "border-l-violet-500 bg-violet-500/[0.08] text-foreground", bar: "bg-violet-500" },
-  { icon: Database, text: "text-indigo-500", surface: "bg-indigo-500/15", active: "border-l-indigo-500 bg-indigo-500/[0.08] text-foreground", bar: "bg-indigo-500" },
-  { icon: Code2, text: "text-cyan-500", surface: "bg-cyan-500/15", active: "border-l-cyan-500 bg-cyan-500/[0.08] text-foreground", bar: "bg-cyan-500" },
-  { icon: ChartNoAxesCombined, text: "text-blue-500", surface: "bg-blue-500/15", active: "border-l-blue-500 bg-blue-500/[0.08] text-foreground", bar: "bg-blue-500" },
-  { icon: FlaskConical, text: "text-amber-500", surface: "bg-amber-500/15", active: "border-l-amber-500 bg-amber-500/[0.08] text-foreground", bar: "bg-amber-500" },
-  { icon: Sprout, text: "text-emerald-500", surface: "bg-emerald-500/15", active: "border-l-emerald-500 bg-emerald-500/[0.08] text-foreground", bar: "bg-emerald-500" },
-  { icon: FileCheck2, text: "text-rose-500", surface: "bg-rose-500/15", active: "border-l-rose-500 bg-rose-500/[0.08] text-foreground", bar: "bg-rose-500" },
+  { icon: ScanSearch, text: "text-biology", surface: "bg-biology-wash", active: "border-l-biology bg-biology-wash text-foreground", bar: "bg-biology" },
+  { icon: Dna, text: "text-biology", surface: "bg-biology-wash", active: "border-l-biology bg-biology-wash text-foreground", bar: "bg-biology" },
+  { icon: Database, text: "text-data", surface: "bg-data-wash", active: "border-l-data bg-data-wash text-foreground", bar: "bg-data" },
+  { icon: Code2, text: "text-data", surface: "bg-data-wash", active: "border-l-data bg-data-wash text-foreground", bar: "bg-data" },
+  { icon: ChartNoAxesCombined, text: "text-data", surface: "bg-data-wash", active: "border-l-data bg-data-wash text-foreground", bar: "bg-data" },
+  { icon: FlaskConical, text: "text-decision", surface: "bg-decision-wash", active: "border-l-decision bg-decision-wash text-foreground", bar: "bg-decision" },
+  { icon: Sprout, text: "text-field", surface: "bg-field-wash", active: "border-l-field bg-field-wash text-foreground", bar: "bg-field" },
+  { icon: FileCheck2, text: "text-decision", surface: "bg-decision-wash", active: "border-l-decision bg-decision-wash text-foreground", bar: "bg-decision" },
 ];
 
 export default function SkillsMatrix() {
-  const [active, setActive] = useState(6);
+  const [active, setActive] = useState(4);
   const [showAll, setShowAll] = useState(false);
   const domain = skills[active];
   const visible = showAll ? domain.items : domain.items.slice(0, DEFAULT_VISIBLE);
@@ -43,7 +43,7 @@ export default function SkillsMatrix() {
   const ActiveIcon = activeVisual.icon;
 
   return (
-    <div className="overflow-hidden border-y border-border bg-card lg:grid lg:grid-cols-[0.72fr_1.28fr]">
+    <div className="paper-panel overflow-hidden bg-card lg:grid lg:grid-cols-[0.72fr_1.28fr]">
       <div className="border-b border-border lg:border-b-0 lg:border-r">
         <div className="flex items-center justify-between border-b border-border px-5 py-4 sm:px-6">
           <p className="text-sm font-semibold text-foreground">Capability index</p>
@@ -67,7 +67,7 @@ export default function SkillsMatrix() {
                   setActive(index);
                   setShowAll(false);
                 }}
-                className={`group flex w-full items-center gap-3 border-b border-l-2 border-b-border px-5 py-3.5 text-left transition-colors last:border-b-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-sky-500/45 sm:px-6 ${
+                className={`group flex w-full items-center gap-3 border-b border-l-2 border-b-border px-5 py-3.5 text-left transition-colors last:border-b-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-data/45 sm:px-6 ${
                   selected ? visual.active : "border-l-transparent text-muted-foreground hover:bg-muted/25 hover:text-foreground"
                 }`}
               >
@@ -113,7 +113,7 @@ export default function SkillsMatrix() {
           </div>
           <div className="shrink-0 text-right">
             <p className={`font-mono text-2xl font-medium ${activeVisual.text}`}>{domain.items.length}</p>
-            <p className="text-xs text-muted-foreground">verified skills</p>
+            <p className="text-xs text-muted-foreground">core methods</p>
           </div>
         </div>
 

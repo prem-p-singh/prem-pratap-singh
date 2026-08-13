@@ -11,7 +11,7 @@ export default function PrivacyPage() {
   return (
     <main className="min-h-screen pt-16">
       <section className="mx-auto max-w-3xl px-4 py-16 sm:px-6 sm:py-20 lg:px-8">
-        <p className="text-sm font-semibold text-primary">Privacy</p>
+        <p className="section-kicker">Privacy</p>
         <h1 className="mt-3 text-4xl font-bold tracking-tight text-foreground sm:text-5xl">
           A small site with a small data footprint.
         </h1>

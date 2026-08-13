@@ -27,9 +27,9 @@ const chapters: Chapter[] = [
     story: "Botany expanded into plant pathology, microbial genetics, biotechnology, and ecology—and a gold medal.",
     thread: "Understand the whole system first.",
     markers: ["B.Sc. Botany", "M.Sc. Gold Medal", "First paper in 2016"],
-    activeClass: "border-emerald-400/60 bg-emerald-400/[0.08]",
-    numberClass: "bg-emerald-400/15 text-emerald-700 dark:text-emerald-300",
-    lineClass: "bg-emerald-400",
+    activeClass: "border-field/60 bg-field-wash",
+    numberClass: "bg-field-wash text-field",
+    lineClass: "bg-field",
   },
   {
     id: "doctorate",
@@ -40,9 +40,9 @@ const chapters: Chapter[] = [
     story: "A plant-based formulation was tested from antimicrobial assay to molecular simulation.",
     thread: "Bench and computation became one workflow.",
     markers: ["Ph.D. Plant Pathology", "6 first-author papers", "Mentored 5+ researchers"],
-    activeClass: "border-amber-400/60 bg-amber-400/[0.08]",
-    numberClass: "bg-amber-400/15 text-amber-700 dark:text-amber-300",
-    lineClass: "bg-amber-400",
+    activeClass: "border-biology/60 bg-biology-wash",
+    numberClass: "bg-biology-wash text-biology",
+    lineClass: "bg-biology",
   },
   {
     id: "vineyard",
@@ -53,9 +53,9 @@ const chapters: Chapter[] = [
     story: "Commercial vineyards became the laboratory for diagnostics, sequencing, and GRBV modeling.",
     thread: "Observe, measure, model, decide.",
     markers: ["300+ samples", "1.3B+ sequencing reads", "10+ vineyard blocks"],
-    activeClass: "border-violet-400/60 bg-violet-400/[0.08]",
-    numberClass: "bg-violet-400/15 text-violet-700 dark:text-violet-300",
-    lineClass: "bg-violet-400",
+    activeClass: "border-decision/60 bg-decision-wash",
+    numberClass: "bg-decision-wash text-decision",
+    lineClass: "bg-decision",
   },
   {
     id: "reasoning",
@@ -66,9 +66,9 @@ const chapters: Chapter[] = [
     story: "Biological reasoning is checked against published evidence to expose recurring AI failure patterns.",
     thread: "Separate evidence from confidence.",
     markers: ["MOVE Fellow", "Biology-domain evaluation", "Scientific reasoning"],
-    activeClass: "border-sky-400/60 bg-sky-400/[0.08]",
-    numberClass: "bg-sky-400/15 text-sky-700 dark:text-sky-300",
-    lineClass: "bg-sky-400",
+    activeClass: "border-data/60 bg-data-wash",
+    numberClass: "bg-data-wash text-data",
+    lineClass: "bg-data",
   },
 ];
 
@@ -82,8 +82,8 @@ export default function JourneyChapters() {
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
           <div>
-            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
-              Varanasi → Davis → scientific AI
+            <p className="section-kicker">
+              From Varanasi to Davis · now evaluating scientific AI
             </p>
             <h2 id="journey-chapters-title" className="mt-3 text-3xl font-bold text-foreground sm:text-4xl">
               Four chapters, one research habit
@@ -94,21 +94,21 @@ export default function JourneyChapters() {
           </p>
         </div>
 
-        <div className="mt-8 grid grid-cols-[1fr_auto_1fr_auto_1fr] items-center gap-3 rounded-3xl border border-border bg-card p-5 sm:p-6">
+        <div className="paper-panel mt-8 grid grid-cols-[1fr_auto_1fr_auto_1fr] items-center gap-3 bg-card p-5 sm:p-6">
           <div className="text-center">
-            <MapPin className="mx-auto size-6 text-emerald-600 dark:text-emerald-300" strokeWidth={1.7} aria-hidden="true" />
+            <MapPin className="mx-auto size-6 text-field" strokeWidth={1.7} aria-hidden="true" />
             <p className="mt-2 text-sm font-bold text-foreground">Varanasi</p>
             <p className="text-xs text-muted-foreground">2012</p>
           </div>
           <ArrowRight className="size-5 text-muted-foreground/50" aria-hidden="true" />
           <div className="text-center">
-            <MapPin className="mx-auto size-6 text-violet-600 dark:text-violet-300" strokeWidth={1.7} aria-hidden="true" />
+            <MapPin className="mx-auto size-6 text-decision" strokeWidth={1.7} aria-hidden="true" />
             <p className="mt-2 text-sm font-bold text-foreground">Davis</p>
             <p className="text-xs text-muted-foreground">2023</p>
           </div>
           <ArrowRight className="size-5 text-muted-foreground/50" aria-hidden="true" />
           <div className="text-center">
-            <BrainCircuit className="mx-auto size-6 text-sky-600 dark:text-sky-300" strokeWidth={1.7} aria-hidden="true" />
+            <BrainCircuit className="mx-auto size-6 text-data" strokeWidth={1.7} aria-hidden="true" />
             <p className="mt-2 text-sm font-bold text-foreground">Scientific AI</p>
             <p className="text-xs text-muted-foreground">2025</p>
           </div>
@@ -154,7 +154,7 @@ export default function JourneyChapters() {
             id="journey-chapter-panel"
             role="tabpanel"
             aria-live="polite"
-            className="relative overflow-hidden rounded-3xl border border-border bg-card p-6 sm:p-8 lg:p-10"
+            className="paper-panel relative overflow-hidden bg-card p-6 sm:p-8 lg:p-10"
           >
             <div className={`absolute inset-x-0 top-0 h-1 ${active.lineClass}`} />
             <p className="text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">

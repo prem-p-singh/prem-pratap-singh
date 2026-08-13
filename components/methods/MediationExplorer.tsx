@@ -10,11 +10,11 @@ const suspectOptions: Array<{
 }> = [
   {
     id: "heat",
-    label: "Heat → vine",
+    label: "Direct route: heat to vine",
   },
   {
     id: "virus",
-    label: "Heat → virus → vine",
+    label: "Mediated route: heat through virus to vine",
   },
   {
     id: "both",
@@ -42,10 +42,10 @@ export function VineyardCaseFile() {
   const response = suspect ? suspectResponses[suspect] : null;
 
   return (
-    <section className="not-prose my-10 overflow-hidden rounded-3xl border border-border bg-card shadow-sm">
-      <div className="border-b border-border bg-gradient-to-r from-orange-500/[0.10] via-card to-violet-500/[0.10] px-5 py-6 sm:px-7">
+    <section className="paper-panel not-prose my-10 overflow-hidden bg-card">
+      <div className="border-b border-border bg-card px-5 py-6 sm:px-7">
         <div className="flex flex-wrap items-center gap-2 text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">
-          <span className="rounded-full bg-orange-500/15 px-2.5 py-1 text-orange-600 dark:text-orange-300">
+          <span className="rounded-full bg-biology-wash px-2.5 py-1 text-biology">
             Case file 01
           </span>
           Vineyard mystery
@@ -94,16 +94,22 @@ export function VineyardCaseFile() {
         <div className="rounded-2xl border border-border bg-background/70 p-5 sm:p-6">
           {!response ? (
             <div className="flex min-h-72 flex-col items-center justify-center text-center">
-              <div className="flex items-center gap-2 text-sm font-semibold text-foreground">
-                <span className="rounded-full bg-orange-500/15 px-3 py-2 text-orange-600 dark:text-orange-300">
+              <div className="flex w-full max-w-md items-center text-sm font-semibold text-foreground">
+                <span className="rounded-full bg-biology-wash px-3 py-2 text-biology">
                   Heat
                 </span>
-                <span className="text-muted-foreground">→</span>
-                <span className="rounded-full bg-violet-500/15 px-3 py-2 text-violet-600 dark:text-violet-300">
+                <span className="mx-2 flex min-w-5 flex-1 items-center" aria-hidden="true">
+                  <span className="h-px flex-1 bg-biology/35" />
+                  <span className="size-1.5 rounded-full bg-data" />
+                </span>
+                <span className="rounded-full bg-data-wash px-3 py-2 text-data">
                   ?
                 </span>
-                <span className="text-muted-foreground">→</span>
-                <span className="rounded-full bg-emerald-500/15 px-3 py-2 text-emerald-600 dark:text-emerald-300">
+                <span className="mx-2 flex min-w-5 flex-1 items-center" aria-hidden="true">
+                  <span className="h-px flex-1 bg-data/35" />
+                  <span className="size-1.5 rounded-full bg-field" />
+                </span>
+                <span className="rounded-full bg-field-wash px-3 py-2 text-field">
                   Vine response
                 </span>
               </div>
@@ -124,24 +130,24 @@ export function VineyardCaseFile() {
               <div className="mt-6 space-y-5">
                 <div>
                   <div className="mb-2 flex items-center justify-between gap-4 text-xs">
-                    <span className="font-semibold text-violet-600 dark:text-violet-300">
+                    <span className="font-semibold text-data">
                       Through viral titer
                     </span>
                     <span className="tabular-nums text-muted-foreground">61.8%</span>
                   </div>
                   <div className="h-3 overflow-hidden rounded-full bg-muted">
-                    <div className="h-full w-[61.8%] rounded-full bg-violet-500" />
+                    <div className="h-full w-[61.8%] rounded-full bg-data" />
                   </div>
                 </div>
                 <div>
                   <div className="mb-2 flex items-center justify-between gap-4 text-xs">
-                    <span className="font-semibold text-orange-600 dark:text-orange-300">
+                    <span className="font-semibold text-biology">
                       Direct temperature route
                     </span>
                     <span className="tabular-nums text-muted-foreground">38.2%</span>
                   </div>
                   <div className="h-3 overflow-hidden rounded-full bg-muted">
-                    <div className="h-full w-[38.2%] rounded-full bg-orange-500" />
+                    <div className="h-full w-[38.2%] rounded-full bg-biology" />
                   </div>
                 </div>
               </div>
@@ -290,10 +296,10 @@ export function CropGrowthExplorer() {
   const yieldShare = 100 - landShare;
 
   return (
-    <section className="not-prose my-10 overflow-hidden rounded-3xl border border-border bg-card shadow-sm">
-      <div className="border-b border-border bg-gradient-to-r from-emerald-500/[0.10] via-card to-sky-500/[0.10] px-5 py-6 sm:px-7">
+    <section className="paper-panel not-prose my-10 overflow-hidden bg-card">
+      <div className="border-b border-border bg-card px-5 py-6 sm:px-7">
         <div className="flex flex-wrap items-center gap-2 text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">
-          <span className="rounded-full bg-emerald-500/15 px-2.5 py-1 text-emerald-600 dark:text-emerald-300">
+          <span className="rounded-full bg-field-wash px-2.5 py-1 text-field">
             Case file 02
           </span>
           The method goes travelling
@@ -334,8 +340,8 @@ export function CropGrowthExplorer() {
           <div
             className={`mt-4 rounded-xl border p-4 text-sm leading-relaxed ${
               guess === "Sugarcane"
-                ? "border-emerald-500/30 bg-emerald-500/[0.07] text-foreground"
-                : "border-amber-500/30 bg-amber-500/[0.07] text-foreground"
+                ? "border-field/30 bg-field-wash text-foreground"
+                : "border-decision/30 bg-decision-wash text-foreground"
             }`}
             aria-live="polite"
           >
@@ -383,7 +389,7 @@ export function CropGrowthExplorer() {
         <div className="mt-4 grid gap-5 lg:grid-cols-[0.75fr_1.25fr]">
           <div className="rounded-2xl border border-border bg-background/70 p-5">
             <p className="text-xs font-semibold uppercase tracking-[0.16em] text-muted-foreground">
-              1961 → 2023
+              1961–2023
             </p>
             <h3 className="mt-2 text-2xl font-bold text-foreground">{selected.name}</h3>
             <p className="mt-1 text-sm font-semibold text-primary">{selected.verdict}</p>
@@ -432,13 +438,13 @@ export function CropGrowthExplorer() {
                 <div className="mt-7 overflow-hidden rounded-full bg-muted" aria-label={`${selected.name}: ${landShare.toFixed(1)} percent land pathway and ${yieldShare.toFixed(1)} percent direct pathway`}>
                   <div className="flex h-10 w-full text-xs font-semibold">
                     <div
-                      className="flex items-center justify-center bg-emerald-500 text-white"
+                      className="flex items-center justify-center bg-field text-field-foreground"
                       style={{ width: `${landShare}%` }}
                     >
                       {landShare >= 24 ? `${landShare.toFixed(0)}% land` : ""}
                     </div>
                     <div
-                      className="flex items-center justify-center bg-sky-500 text-white"
+                      className="flex items-center justify-center bg-data text-data-foreground"
                       style={{ width: `${yieldShare}%` }}
                     >
                       {yieldShare >= 24 ? `${yieldShare.toFixed(0)}% direct` : ""}
@@ -447,16 +453,16 @@ export function CropGrowthExplorer() {
                 </div>
                 <div className="mt-3 flex flex-wrap gap-x-5 gap-y-2 text-xs text-muted-foreground">
                   <span className="flex items-center gap-2">
-                    <span className="size-2.5 rounded-full bg-emerald-500" /> Through harvested area
+                    <span className="size-2.5 rounded-full bg-field" /> Through harvested area
                   </span>
                   <span className="flex items-center gap-2">
-                    <span className="size-2.5 rounded-full bg-sky-500" /> Remaining direct pathway
+                    <span className="size-2.5 rounded-full bg-data" /> Remaining direct pathway
                   </span>
                 </div>
               </>
             ) : (
               <div className="flex min-h-52 flex-col justify-center">
-                <span className="self-start rounded-full bg-amber-500/15 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-amber-700 dark:text-amber-300">
+                <span className="self-start rounded-full bg-decision-wash px-3 py-1 text-xs font-semibold uppercase tracking-wider text-decision">
                   Outside the 0–100% zone
                 </span>
                 <p className="mt-4 text-4xl font-bold tabular-nums text-foreground">

@@ -13,9 +13,9 @@ export const metadata: Metadata = {
 };
 
 const topicNodes = [
-  { label: "Field", icon: Sprout, tone: "bg-emerald-500/15 text-emerald-700 dark:text-emerald-300" },
-  { label: "Signals", icon: Dna, tone: "bg-violet-500/15 text-violet-700 dark:text-violet-300" },
-  { label: "Models", icon: ScanSearch, tone: "bg-sky-500/15 text-sky-700 dark:text-sky-300" },
+  { label: "Field", icon: Sprout, tone: "bg-field-wash text-field" },
+  { label: "Signals", icon: Dna, tone: "bg-biology-wash text-biology" },
+  { label: "Models", icon: ScanSearch, tone: "bg-data-wash text-data" },
 ];
 
 export default function BlogPage() {
@@ -28,7 +28,7 @@ export default function BlogPage() {
       <section className="bg-gradient-to-b from-muted to-background pb-12 pt-16">
         <div className="mx-auto grid max-w-6xl items-center gap-10 px-4 sm:px-6 lg:grid-cols-[1.1fr_0.9fr] lg:px-8">
           <div>
-            <p className="text-sm font-semibold uppercase tracking-wider text-primary">Research notebook</p>
+            <p className="section-kicker">Research notebook</p>
             <h1 className="mt-3 text-4xl font-bold text-foreground sm:text-5xl">
               See the idea before reading the details
             </h1>
@@ -37,7 +37,7 @@ export default function BlogPage() {
             </p>
           </div>
 
-          <div className="rounded-3xl border border-border bg-card p-5 sm:p-6">
+          <div className="paper-panel bg-card p-5 sm:p-6">
             <div className="grid grid-cols-[1fr_auto_1fr_auto_1fr] items-center gap-2">
               {topicNodes.map((topic, index) => {
                 const Icon = topic.icon;
@@ -67,7 +67,7 @@ export default function BlogPage() {
           <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
             <Link
               href={`/blog/${featured.slug}`}
-              className="group grid overflow-hidden rounded-3xl border border-border bg-card transition-all hover:border-primary/50 hover:shadow-xl hover:shadow-primary/5 lg:grid-cols-2"
+              className="paper-panel group grid overflow-hidden bg-card transition-all hover:border-field/60 lg:grid-cols-2"
             >
               <div className="relative min-h-[300px] overflow-hidden bg-muted">
                 {featured.image ? (
@@ -80,9 +80,9 @@ export default function BlogPage() {
                     className="object-cover transition-transform duration-500 group-hover:scale-[1.03]"
                   />
                 ) : (
-                  <div className="relative flex h-full min-h-[300px] items-center justify-center overflow-hidden bg-gradient-to-br from-emerald-500/20 via-card to-violet-500/20">
-                    <span className="absolute -left-20 -top-20 size-64 rounded-full border border-emerald-500/20" />
-                    <span className="absolute -bottom-28 -right-20 size-72 rounded-full border border-violet-500/20" />
+                  <div className="relative flex h-full min-h-[300px] items-center justify-center overflow-hidden bg-gradient-to-br from-field-wash via-card to-biology-wash">
+                    <span className="absolute -left-20 -top-20 size-64 rounded-full border border-field/20" />
+                    <span className="absolute -bottom-28 -right-20 size-72 rounded-full border border-biology/20" />
                     <BookOpen className="size-20 text-foreground/15" strokeWidth={1.2} aria-hidden="true" />
                   </div>
                 )}

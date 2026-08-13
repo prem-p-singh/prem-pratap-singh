@@ -23,6 +23,7 @@ import ProjectCaseFiles from "@/components/ProjectCaseFiles";
 import ResearchSnapshot from "@/components/ResearchSnapshot";
 import WorkExperience from "@/components/WorkExperience";
 import NewsletterSignup from "@/components/NewsletterSignup";
+import GuidedSectionScroll from "@/components/GuidedSectionScroll";
 
 export default function Home() {
   const latestPosts = getAllPosts().slice(0, 2);
@@ -32,16 +33,17 @@ export default function Home() {
 
   return (
     <>
+      <GuidedSectionScroll />
       <HeroClient />
       <ResearchPathway />
       <ResearchSnapshot />
       <WorkExperience />
 
-      <section id="research" className="scroll-mt-24 py-6 sm:py-8">
+      <section id="research" data-guided-scroll-section className="guided-scroll-section py-6 sm:py-8">
         <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
           <div className="flex flex-wrap items-end justify-between gap-5 border-y border-border py-8 sm:py-10">
             <div>
-              <p className="text-xs font-semibold uppercase tracking-[0.22em] text-muted-foreground">
+              <p className="section-kicker">
                 Published research
               </p>
               <h2 className="mt-3 max-w-2xl text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
@@ -76,10 +78,10 @@ export default function Home() {
         </div>
       </section>
 
-      <section id="projects" className="py-6 sm:py-8">
+      <section id="projects" data-guided-scroll-section className="guided-scroll-section py-6 sm:py-8">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="mb-8 max-w-3xl">
-            <p className="text-sm font-semibold text-muted-foreground">
+            <p className="section-kicker">
               Selected work
             </p>
             <h2 className="mt-3 text-3xl font-semibold tracking-tight text-foreground sm:text-4xl lg:text-5xl">
@@ -95,11 +97,11 @@ export default function Home() {
       </section>
 
       {latestPosts.length > 0 && (
-        <section id="blog" className="py-6 sm:py-8">
+        <section id="blog" data-guided-scroll-section className="guided-scroll-section py-6 sm:py-8">
           <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
             <div className="mb-12 flex flex-wrap items-end justify-between gap-4">
               <div>
-                <p className="text-xs font-semibold uppercase tracking-[0.22em] text-muted-foreground">
+                <p className="section-kicker">
                   Field notes
                 </p>
                 <h2 className="mt-3 text-3xl font-bold tracking-tight text-foreground sm:text-4xl lg:text-5xl">
@@ -134,10 +136,10 @@ export default function Home() {
                       <div
                         className={`relative flex h-full items-end overflow-hidden p-5 ${
                           index === 0
-                            ? "bg-gradient-to-br from-emerald-500/20 to-sky-500/10"
+                            ? "bg-gradient-to-br from-field-wash to-data-wash"
                             : index === 1
-                              ? "bg-gradient-to-br from-violet-500/20 to-rose-500/10"
-                              : "bg-gradient-to-br from-amber-500/20 to-orange-500/10"
+                              ? "bg-gradient-to-br from-biology-wash to-data-wash"
+                              : "bg-gradient-to-br from-decision-wash to-biology-wash"
                         }`}
                       >
                         <span className="absolute -right-8 -top-8 size-36 rounded-full border border-foreground/10" />
@@ -169,15 +171,15 @@ export default function Home() {
         </section>
       )}
 
-      <section id="contact" className="py-6 sm:py-8">
+      <section id="contact" data-guided-scroll-section className="guided-scroll-section py-6 sm:py-8">
         <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
-          <div className="relative overflow-hidden rounded-[2.5rem] border border-border bg-card p-6 sm:p-10 lg:p-12">
-            <div className="pointer-events-none absolute -right-24 -top-24 size-72 rounded-full border border-emerald-400/15 bg-emerald-400/[0.04]" />
-            <div className="pointer-events-none absolute -bottom-32 left-1/3 size-80 rounded-full border border-violet-400/10 bg-violet-400/[0.03]" />
+          <div className="paper-panel relative overflow-hidden bg-card p-6 sm:p-10 lg:p-12">
+            <div className="pointer-events-none absolute -right-24 -top-24 size-72 rounded-full border border-field/15 bg-field-wash" />
+            <div className="pointer-events-none absolute -bottom-32 left-1/3 size-80 rounded-full border border-data/10 bg-data-wash" />
 
             <div className="relative grid gap-10 lg:grid-cols-[1.05fr_0.95fr] lg:gap-16">
               <div>
-                <p className="text-xs font-semibold uppercase tracking-[0.22em] text-emerald-600 dark:text-emerald-300">
+                <p className="section-kicker">
                   Where the work can grow next
                 </p>
                 <h2 className="mt-4 text-3xl font-bold tracking-tight text-foreground sm:text-4xl lg:text-5xl">
@@ -187,7 +189,7 @@ export default function Home() {
                 <div className="mt-9 space-y-3">
                   <Opportunity
                     icon={<BriefcaseBusiness className="size-5" aria-hidden="true" />}
-                    title="Scientist roles"
+                    title="Research Scientist and Data Scientist roles"
                     detail="Ag-biotech · diagnostics · trait discovery"
                     tone="emerald"
                   />
@@ -209,10 +211,10 @@ export default function Home() {
               <div className="flex flex-col gap-4">
                 <a
                   href={`mailto:${personal.email}`}
-                  className="group rounded-3xl border border-emerald-400/30 bg-gradient-to-br from-emerald-400/[0.13] to-sky-400/[0.06] p-6 transition-transform hover:-translate-y-1"
+                  className="paper-panel group bg-card p-6 transition-transform hover:-translate-y-0.5"
                 >
                   <div className="flex items-start justify-between gap-4">
-                    <span className="flex size-12 items-center justify-center rounded-2xl bg-emerald-500 text-white">
+                    <span className="flex size-12 items-center justify-center rounded-xl bg-field-wash text-field">
                       <Mail className="size-5" aria-hidden="true" />
                     </span>
                     <ArrowRight className="size-5 text-muted-foreground transition-transform group-hover:translate-x-1" aria-hidden="true" />
@@ -250,9 +252,9 @@ export default function Home() {
 }
 
 const opportunityTones = {
-  emerald: "bg-emerald-400/10 text-emerald-600 dark:text-emerald-300",
-  violet: "bg-violet-400/10 text-violet-600 dark:text-violet-300",
-  sky: "bg-sky-400/10 text-sky-600 dark:text-sky-300",
+  emerald: "bg-field-wash text-field",
+  violet: "bg-biology-wash text-biology",
+  sky: "bg-data-wash text-data",
 };
 
 function Opportunity({
@@ -267,7 +269,7 @@ function Opportunity({
   tone: keyof typeof opportunityTones;
 }) {
   return (
-    <div className="flex items-center gap-4 rounded-2xl border border-border bg-background/55 p-4">
+    <div className="paper-control flex items-center gap-4 bg-card p-4">
       <span className={`flex size-11 shrink-0 items-center justify-center rounded-xl ${opportunityTones[tone]}`}>
         {icon}
       </span>
@@ -293,7 +295,7 @@ function SocialLink({
       href={href}
       target="_blank"
       rel="noopener noreferrer"
-      className="flex min-h-24 flex-col justify-between rounded-2xl border border-border bg-background/55 p-4 text-muted-foreground transition-colors hover:text-foreground"
+      className="paper-control flex min-h-24 flex-col justify-between bg-card p-4 text-muted-foreground hover:text-field"
     >
       {children}
       <span className="text-xs font-semibold">{label}</span>

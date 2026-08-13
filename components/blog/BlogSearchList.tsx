@@ -21,10 +21,10 @@ const researchTrails: Array<{
   dotClass: string;
 }> = [
   { id: "all", label: "Everything", keywords: [], dotClass: "bg-foreground" },
-  { id: "vineyard", label: "Vineyard", keywords: ["grapevine", "vineyard", "vine ", "grbv"], dotClass: "bg-emerald-500" },
-  { id: "signals", label: "Omics & RNA", keywords: ["omics", "rna", "gene", "genom", "molecular", "mass spectrometry"], dotClass: "bg-violet-500" },
-  { id: "sensing", label: "Sensing & 3D", keywords: ["3d", "sensing", "point cloud", "imaging", "geometry", "biomarker", "detection"], dotClass: "bg-sky-500" },
-  { id: "defense", label: "Disease defense", keywords: ["pathogen", "disease", "defense", "resistance", "fusarium", "xylella", "phytophthora"], dotClass: "bg-amber-500" },
+  { id: "vineyard", label: "Vineyard", keywords: ["grapevine", "vineyard", "vine ", "grbv"], dotClass: "bg-field" },
+  { id: "signals", label: "Omics & RNA", keywords: ["omics", "rna", "gene", "genom", "molecular", "mass spectrometry"], dotClass: "bg-biology" },
+  { id: "sensing", label: "Sensing & 3D", keywords: ["3d", "sensing", "point cloud", "imaging", "geometry", "biomarker", "detection"], dotClass: "bg-data" },
+  { id: "defense", label: "Disease defense", keywords: ["pathogen", "disease", "defense", "resistance", "fusarium", "xylella", "phytophthora"], dotClass: "bg-decision" },
 ];
 
 const DEFAULT_VISIBLE = 6;
@@ -65,16 +65,16 @@ export default function BlogSearchList({ posts }: BlogSearchListProps) {
 
   return (
     <>
-      <div className="mb-8 rounded-3xl border border-border bg-card p-5 sm:p-6">
+      <div className="paper-panel mb-8 bg-card p-5 sm:p-6">
         <div className="flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
           <div>
-            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">Research radar</p>
+            <p className="section-kicker">Research radar</p>
             <h2 className="mt-2 text-2xl font-bold text-foreground sm:text-3xl">Pick a trail</h2>
           </div>
           <button
             type="button"
             onClick={surpriseMe}
-            className="inline-flex items-center justify-center gap-2 rounded-full border border-border bg-background px-5 py-2.5 text-sm font-semibold text-foreground transition-all hover:-translate-y-0.5 hover:border-primary/50 hover:text-primary"
+            className="paper-button px-5 py-2.5 text-sm font-semibold"
           >
             <Shuffle className="size-4" strokeWidth={1.8} aria-hidden="true" />
             Surprise me
@@ -137,7 +137,7 @@ export default function BlogSearchList({ posts }: BlogSearchListProps) {
               <Link
                 key={post.slug}
                 href={`/blog/${post.slug}`}
-                className="group overflow-hidden rounded-2xl border border-border bg-card transition-all hover:-translate-y-1 hover:border-primary/40 hover:shadow-xl hover:shadow-primary/5"
+                className="paper-panel group overflow-hidden bg-card transition-all hover:-translate-y-0.5 hover:border-field/60"
               >
                 <div className="relative aspect-[16/10] overflow-hidden bg-muted">
                   {post.image ? (
@@ -151,12 +151,12 @@ export default function BlogSearchList({ posts }: BlogSearchListProps) {
                   ) : (
                     <div className={`relative flex h-full items-center justify-center overflow-hidden ${
                       index % 4 === 0
-                        ? "bg-gradient-to-br from-emerald-500/20 to-sky-500/10"
+                        ? "bg-gradient-to-br from-field-wash to-data-wash"
                         : index % 4 === 1
-                          ? "bg-gradient-to-br from-violet-500/20 to-rose-500/10"
+                          ? "bg-gradient-to-br from-biology-wash to-data-wash"
                           : index % 4 === 2
-                            ? "bg-gradient-to-br from-amber-500/20 to-orange-500/10"
-                            : "bg-gradient-to-br from-sky-500/20 to-violet-500/10"
+                            ? "bg-gradient-to-br from-decision-wash to-biology-wash"
+                            : "bg-gradient-to-br from-data-wash to-field-wash"
                     }`}>
                       <span className="absolute -right-10 -top-10 size-40 rounded-full border border-foreground/10" />
                       <span className="absolute -bottom-12 -left-8 size-32 rounded-full border border-foreground/10" />

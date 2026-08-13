@@ -7,6 +7,7 @@ type Theme = "light" | "dark";
 const THEME_CHANGE_EVENT = "portfolio-theme-change";
 const DAY_START_HOUR = 7;
 const NIGHT_START_HOUR = 19;
+let sessionTheme: Theme | null = null;
 
 function getStoredTheme(): Theme | null {
   const stored = localStorage.getItem("theme");
@@ -22,7 +23,7 @@ function getAutomaticTheme(): Theme {
 }
 
 function getResolvedTheme(): Theme {
-  return getStoredTheme() ?? getAutomaticTheme();
+  return sessionTheme ?? getStoredTheme() ?? getAutomaticTheme();
 }
 
 function applyTheme(theme: Theme) {
@@ -43,15 +44,18 @@ function subscribeToTheme(onChange: () => void) {
   const colorScheme = window.matchMedia("(prefers-color-scheme: dark)");
 
   const syncTheme = () => {
-    const wasLight = getThemeSnapshot();
     applyTheme(getResolvedTheme());
+    onChange();
+  };
 
-    if (wasLight !== getThemeSnapshot()) onChange();
+  const syncStoredTheme = () => {
+    sessionTheme = null;
+    syncTheme();
   };
 
   syncTheme();
   colorScheme.addEventListener("change", syncTheme);
-  window.addEventListener("storage", syncTheme);
+  window.addEventListener("storage", syncStoredTheme);
   window.addEventListener(THEME_CHANGE_EVENT, syncTheme);
 
   // Recheck local time so the automatic theme changes at the day/night boundary
@@ -60,7 +64,7 @@ function subscribeToTheme(onChange: () => void) {
 
   return () => {
     colorScheme.removeEventListener("change", syncTheme);
-    window.removeEventListener("storage", syncTheme);
+    window.removeEventListener("storage", syncStoredTheme);
     window.removeEventListener(THEME_CHANGE_EVENT, syncTheme);
     window.clearInterval(clock);
   };
@@ -75,7 +79,12 @@ export default function ThemeToggle() {
 
   const toggleTheme = () => {
     const nextTheme: Theme = isLight ? "dark" : "light";
-    localStorage.setItem("theme", nextTheme);
+    sessionTheme = nextTheme;
+    try {
+      localStorage.setItem("theme", nextTheme);
+    } catch {
+      // The visual toggle still works when storage is unavailable.
+    }
     applyTheme(nextTheme);
     window.dispatchEvent(new Event(THEME_CHANGE_EVENT));
   };
@@ -84,7 +93,7 @@ export default function ThemeToggle() {
     <button
       type="button"
       onClick={toggleTheme}
-      className="rounded-md p-2 text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
+      className="rounded-md p-2 text-muted-foreground transition-colors hover:bg-decision-wash hover:text-decision"
       aria-label={isLight ? "Switch to dark mode" : "Switch to light mode"}
       title="Theme follows your device and local time until you choose one"
     >

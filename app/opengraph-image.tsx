@@ -1,7 +1,7 @@
 import { ImageResponse } from "next/og";
 
 export const runtime = "edge";
-export const alt = "Prem Pratap Singh — Postdoctoral Scholar at UC Davis";
+export const alt = "Prem Pratap Singh — plant scientist and data scientist";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -10,7 +10,7 @@ export default async function OGImage() {
     (
       <div
         style={{
-          background: "linear-gradient(135deg, #0a0a0a 0%, #171717 50%, #0a0a0a 100%)",
+          background: "linear-gradient(135deg, #111713 0%, #18211b 52%, #111713 100%)",
           width: "100%",
           height: "100%",
           display: "flex",
@@ -30,7 +30,7 @@ export default async function OGImage() {
             width: "400px",
             height: "400px",
             borderRadius: "50%",
-            background: "radial-gradient(circle, rgba(255,255,255,0.04) 0%, transparent 70%)",
+            background: "radial-gradient(circle, rgba(131,198,158,0.18) 0%, transparent 70%)",
           }}
         />
         <div
@@ -41,7 +41,7 @@ export default async function OGImage() {
             width: "300px",
             height: "300px",
             borderRadius: "50%",
-            background: "radial-gradient(circle, rgba(255,255,255,0.03) 0%, transparent 70%)",
+            background: "radial-gradient(circle, rgba(166,180,223,0.13) 0%, transparent 70%)",
           }}
         />
 
@@ -49,14 +49,14 @@ export default async function OGImage() {
         <div
           style={{
             fontSize: 18,
-            color: "#a1a1aa",
+            color: "#83c69e",
             letterSpacing: "0.15em",
             textTransform: "uppercase",
             marginBottom: "24px",
             fontWeight: 500,
           }}
         >
-          Postdoctoral Scholar at UC Davis
+          Crop biology · molecular evidence · data science
         </div>
 
         {/* Name */}
@@ -64,7 +64,7 @@ export default async function OGImage() {
           style={{
             fontSize: 72,
             fontWeight: 800,
-            color: "#fafafa",
+            color: "#f5f0e6",
             lineHeight: 1.1,
             marginBottom: "24px",
             letterSpacing: "-0.02em",
@@ -77,7 +77,7 @@ export default async function OGImage() {
         <div
           style={{
             fontSize: 24,
-            color: "#a1a1aa",
+            color: "#b4b8b1",
             lineHeight: 1.5,
             maxWidth: "800px",
           }}
@@ -100,7 +100,7 @@ export default async function OGImage() {
           <div
             style={{
               fontSize: 18,
-              color: "#71717a",
+              color: "#b4b8b1",
             }}
           >
             prempsingh.com
@@ -110,7 +110,7 @@ export default async function OGImage() {
               display: "flex",
               gap: "24px",
               fontSize: 16,
-              color: "#71717a",
+              color: "#b4b8b1",
             }}
           >
             <span>25+ Publications</span>

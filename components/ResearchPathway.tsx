@@ -41,11 +41,11 @@ const stages: Stage[] = [
     href: "/#experience",
     linkLabel: "See the field program",
     icon: Sprout,
-    selectedClass: "border-b-emerald-500 bg-emerald-500/10 text-emerald-800 dark:text-emerald-200",
-    numberClass: "text-emerald-700 dark:text-emerald-300",
-    accentClass: "bg-emerald-500",
-    iconClass: "border-emerald-500/35 bg-emerald-500/10 text-emerald-700 dark:text-emerald-300",
-    linkClass: "text-emerald-700 decoration-emerald-500/40 hover:decoration-emerald-500 dark:text-emerald-300",
+    selectedClass: "border-b-field bg-field-wash text-field",
+    numberClass: "text-field",
+    accentClass: "bg-field",
+    iconClass: "border-field/35 bg-field-wash text-field",
+    linkClass: "text-field decoration-field/40 hover:decoration-field",
   },
   {
     id: "signal",
@@ -57,11 +57,11 @@ const stages: Stage[] = [
     href: "/#skills",
     linkLabel: "See the laboratory toolkit",
     icon: Dna,
-    selectedClass: "border-b-violet-500 bg-violet-500/10 text-violet-800 dark:text-violet-200",
-    numberClass: "text-violet-700 dark:text-violet-300",
-    accentClass: "bg-violet-500",
-    iconClass: "border-violet-500/35 bg-violet-500/10 text-violet-700 dark:text-violet-300",
-    linkClass: "text-violet-700 decoration-violet-500/40 hover:decoration-violet-500 dark:text-violet-300",
+    selectedClass: "border-b-biology bg-biology-wash text-biology",
+    numberClass: "text-biology",
+    accentClass: "bg-biology",
+    iconClass: "border-biology/35 bg-biology-wash text-biology",
+    linkClass: "text-biology decoration-biology/40 hover:decoration-biology",
   },
   {
     id: "intelligence",
@@ -73,11 +73,11 @@ const stages: Stage[] = [
     href: "/methods/causal-mediation",
     linkLabel: "Visit the methods lab",
     icon: ChartNoAxesCombined,
-    selectedClass: "border-b-sky-500 bg-sky-500/10 text-sky-800 dark:text-sky-200",
-    numberClass: "text-sky-700 dark:text-sky-300",
-    accentClass: "bg-sky-500",
-    iconClass: "border-sky-500/35 bg-sky-500/10 text-sky-700 dark:text-sky-300",
-    linkClass: "text-sky-700 decoration-sky-500/40 hover:decoration-sky-500 dark:text-sky-300",
+    selectedClass: "border-b-data bg-data-wash text-data",
+    numberClass: "text-data",
+    accentClass: "bg-data",
+    iconClass: "border-data/35 bg-data-wash text-data",
+    linkClass: "text-data decoration-data/40 hover:decoration-data",
   },
   {
     id: "improvement",
@@ -89,11 +89,11 @@ const stages: Stage[] = [
     href: "/#projects",
     linkLabel: "See the research outcomes",
     icon: Target,
-    selectedClass: "border-b-amber-500 bg-amber-500/10 text-amber-800 dark:text-amber-200",
-    numberClass: "text-amber-700 dark:text-amber-300",
-    accentClass: "bg-amber-500",
-    iconClass: "border-amber-500/35 bg-amber-500/10 text-amber-700 dark:text-amber-300",
-    linkClass: "text-amber-700 decoration-amber-500/40 hover:decoration-amber-500 dark:text-amber-300",
+    selectedClass: "border-b-decision bg-decision-wash text-decision",
+    numberClass: "text-decision",
+    accentClass: "bg-decision",
+    iconClass: "border-decision/35 bg-decision-wash text-decision",
+    linkClass: "text-decision decoration-decision/40 hover:decoration-decision",
   },
 ];
 
@@ -102,19 +102,19 @@ const fieldNotes = [
     label: "Field",
     value: "327 vines · two seasons",
     icon: Sprout,
-    tone: "border-emerald-500/35 bg-emerald-500/10 text-emerald-700 dark:text-emerald-300",
+    tone: "border-field/35 bg-field-wash text-field",
   },
   {
     label: "Bench",
     value: "dPCR · RNA-seq · metabolites",
     icon: Dna,
-    tone: "border-violet-500/35 bg-violet-500/10 text-violet-700 dark:text-violet-300",
+    tone: "border-biology/35 bg-biology-wash text-biology",
   },
   {
     label: "Analysis",
     value: "Mechanisms · markers · trait leads",
     icon: ChartNoAxesCombined,
-    tone: "border-sky-500/35 bg-sky-500/10 text-sky-700 dark:text-sky-300",
+    tone: "border-data/35 bg-data-wash text-data",
   },
 ];
 
@@ -124,10 +124,10 @@ export default function ResearchPathway() {
   const ActiveIcon = active.icon;
 
   return (
-    <section className="relative py-6 sm:py-8" aria-labelledby="research-pathway-title">
+    <section id="how-i-work" data-guided-scroll-section className="guided-scroll-section relative py-6 sm:py-8" aria-labelledby="research-pathway-title">
       <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
         <div className="max-w-4xl">
-          <p className="text-sm font-semibold text-muted-foreground">How I work</p>
+          <p className="section-kicker">How I work</p>
           <h2
             id="research-pathway-title"
             className="mt-3 text-3xl font-semibold leading-[1.05] text-foreground sm:text-4xl lg:text-5xl"
@@ -136,7 +136,7 @@ export default function ResearchPathway() {
           </h2>
         </div>
 
-        <div className="mt-12 overflow-hidden rounded-2xl border border-border bg-card lg:grid lg:grid-cols-[0.82fr_1.18fr]">
+        <div className="paper-panel mt-12 overflow-hidden bg-card lg:grid lg:grid-cols-[0.82fr_1.18fr]">
           <aside className="border-b border-border bg-section-bg p-7 sm:p-9 lg:border-b-0 lg:border-r">
             <div className="flex items-center justify-between gap-4 border-b border-foreground/15 pb-4 text-xs text-muted-foreground">
               <span>Field note 04</span>
@@ -147,7 +147,7 @@ export default function ResearchPathway() {
               “I do not begin with a model. I begin with what changed in the plant.”
             </blockquote>
 
-            <div className="relative mt-12 space-y-6 before:absolute before:bottom-5 before:left-[17px] before:top-5 before:w-px before:bg-gradient-to-b before:from-emerald-500/45 before:via-violet-500/45 before:to-sky-500/45">
+            <div className="relative mt-12 space-y-6 before:absolute before:bottom-5 before:left-[17px] before:top-5 before:w-px before:bg-gradient-to-b before:from-field/45 before:via-biology/45 before:to-data/45">
               {fieldNotes.map((note) => {
                 const Icon = note.icon;
                 return (
@@ -164,9 +164,24 @@ export default function ResearchPathway() {
               })}
             </div>
 
-            <p className="mt-12 border-t border-foreground/15 pt-4 font-sans text-sm italic text-muted-foreground">
-              Prem Pratap Singh · field → bench → evidence
-            </p>
+            <div className="mt-12 border-t border-foreground/15 pt-4">
+              <p className="text-xs font-semibold uppercase tracking-[0.16em] text-muted-foreground">
+                Prem Pratap Singh
+              </p>
+              <div className="mt-3 flex items-center" aria-label="Research route: field, bench, evidence">
+                <span className="font-sans text-sm font-semibold text-field">Field</span>
+                <span className="mx-3 flex min-w-6 flex-1 items-center" aria-hidden="true">
+                  <span className="h-px flex-1 bg-gradient-to-r from-field/70 to-biology/70" />
+                  <span className="size-1.5 rounded-full bg-biology" />
+                </span>
+                <span className="font-sans text-sm font-semibold text-biology">Bench</span>
+                <span className="mx-3 flex min-w-6 flex-1 items-center" aria-hidden="true">
+                  <span className="h-px flex-1 bg-gradient-to-r from-biology/70 to-data/70" />
+                  <span className="size-1.5 rounded-full bg-data" />
+                </span>
+                <span className="font-sans text-sm font-semibold text-data">Evidence</span>
+              </div>
+            </div>
           </aside>
 
           <div>

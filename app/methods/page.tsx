@@ -19,7 +19,7 @@ export default function MethodsPage() {
       <section className="bg-gradient-to-b from-muted to-background pb-6 pt-14 sm:pb-8 sm:pt-16">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="max-w-3xl">
-            <p className="text-sm font-semibold uppercase tracking-wider text-primary mb-3">
+            <p className="section-kicker mb-3">
               Methods
             </p>
             <h1 className="text-4xl sm:text-5xl font-bold text-foreground mb-4">
@@ -40,7 +40,7 @@ export default function MethodsPage() {
                 <Link
                   key={post.slug}
                   href={`/methods/${post.slug}`}
-                  className="group flex flex-col bg-card rounded-2xl border border-border hover:border-primary/50 hover:shadow-lg hover:shadow-primary/5 transition-all overflow-hidden"
+                  className="paper-panel group flex flex-col bg-card transition-all overflow-hidden hover:border-field/60"
                 >
                   <div className="relative aspect-[16/9] w-full overflow-hidden bg-muted">
                     {post.image ? (
@@ -68,12 +68,12 @@ export default function MethodsPage() {
                     {(post.origin || post.reappliedTo) && (
                       <div className="mt-4 grid grid-cols-[1fr_auto_1fr] items-center gap-3 border-t border-border pt-4">
                         <div className="min-w-0">
-                          <p className="text-xs font-semibold uppercase tracking-wider text-emerald-400">Built in</p>
+                          <p className="text-xs font-semibold uppercase tracking-wider text-biology">Built in</p>
                           <p className="mt-1 truncate text-xs font-medium text-foreground">{post.origin || "Original study"}</p>
                         </div>
                         <ArrowRight className="size-4 text-muted-foreground/50" aria-hidden="true" />
                         <div className="min-w-0">
-                          <p className="text-xs font-semibold uppercase tracking-wider text-sky-400">Re-tested on</p>
+                          <p className="text-xs font-semibold uppercase tracking-wider text-data">Re-tested on</p>
                           <p className="mt-1 truncate text-xs font-medium text-foreground">{post.reappliedTo || "Public data"}</p>
                         </div>
                       </div>

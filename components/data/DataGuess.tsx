@@ -20,9 +20,9 @@ export default function DataGuess({
   const options = choices.split("|").map((option) => option.trim());
 
   return (
-    <section className="not-prose my-8 overflow-hidden rounded-3xl border border-border bg-card shadow-sm">
-      <div className="border-b border-border bg-gradient-to-r from-sky-400/[0.10] via-card to-emerald-400/[0.10] p-5 sm:p-6">
-        <p className="text-xs font-semibold uppercase tracking-[0.18em] text-sky-700 dark:text-sky-300">
+    <section className="paper-panel not-prose my-8 overflow-hidden bg-card">
+      <div className="border-b border-border bg-card p-5 sm:p-6">
+        <p className="text-xs font-semibold uppercase tracking-[0.18em] text-data">
           Guess before the graph
         </p>
         <h2 className="mt-2 text-xl font-bold leading-snug text-foreground sm:text-2xl">
@@ -43,9 +43,9 @@ export default function DataGuess({
                 onClick={() => setChoice(option)}
                 className={`rounded-xl border px-4 py-3 text-left text-sm font-medium transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground/40 ${
                   isAnswer
-                    ? "border-emerald-400/60 bg-emerald-400/[0.10] text-foreground"
+                    ? "border-field/60 bg-field-wash text-foreground"
                     : selected
-                      ? "border-amber-400/60 bg-amber-400/[0.10] text-foreground"
+                      ? "border-decision/60 bg-decision-wash text-foreground"
                       : "border-border bg-background/60 text-muted-foreground hover:-translate-y-0.5 hover:text-foreground"
                 }`}
               >
@@ -59,8 +59,8 @@ export default function DataGuess({
           <div
             className={`mt-5 rounded-2xl border p-5 ${
               correct
-                ? "border-emerald-400/30 bg-emerald-400/[0.07]"
-                : "border-amber-400/30 bg-amber-400/[0.07]"
+                ? "border-field/30 bg-field-wash"
+                : "border-decision/30 bg-decision-wash"
             }`}
             aria-live="polite"
           >

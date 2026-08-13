@@ -32,20 +32,13 @@ export const metadata: Metadata = {
     siteName: "Prem Pratap Singh",
     title: "Prem Pratap Singh, Ph.D. | Plant Scientist · Data Scientist",
     description: "Plant scientist and data scientist combining field biology, molecular diagnostics, multi-omics, and reproducible analysis to improve crop decisions.",
-    images: [
-      {
-        url: "/og-image.png",
-        width: 1200,
-        height: 630,
-        alt: "Prem Pratap Singh — Postdoctoral Scholar at UC Davis",
-      },
-    ],
+    images: [{ url: "/opengraph-image", width: 1200, height: 630, alt: "Prem Pratap Singh — plant scientist and data scientist" }],
   },
   twitter: {
     card: "summary_large_image",
     title: "Prem Pratap Singh, Ph.D. | Plant Scientist · Data Scientist",
     description: "Plant scientist and data scientist combining field biology, molecular diagnostics, multi-omics, and reproducible analysis to improve crop decisions.",
-    images: ["/og-image.png"],
+    images: ["/opengraph-image"],
   },
   robots: {
     index: true,
@@ -187,7 +180,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en" suppressHydrationWarning data-scroll-behavior="smooth">
       <head>
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
         <script
@@ -208,10 +201,10 @@ export default function RootLayout({
         className={`${urbanist.variable} antialiased min-h-screen flex flex-col`}
         suppressHydrationWarning
       >
-        {/* Subtle gradient background */}
+        {/* A restrained field-to-data wash gives both themes a shared identity. */}
         <div className="fixed inset-0 -z-10 overflow-hidden">
-          <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-[var(--foreground)]/[0.02] rounded-full blur-[120px]" />
-          <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-[var(--foreground)]/[0.015] rounded-full blur-[120px]" />
+          <div className="absolute -right-32 -top-40 size-[38rem] rounded-full bg-field-wash blur-[140px]" />
+          <div className="absolute -bottom-40 -left-32 size-[34rem] rounded-full bg-data-wash blur-[140px]" />
         </div>
         <FloatingNavWrapper />
         <main className="flex-grow relative z-10">

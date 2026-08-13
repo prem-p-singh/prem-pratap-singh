@@ -10,6 +10,7 @@ import {
   Microscope,
   Sprout,
   Target,
+  TrendingUp,
   type LucideIcon,
 } from "lucide-react";
 
@@ -43,11 +44,11 @@ const stops: CareerStop[] = [
     outcome: "Biological foundation",
     icon: BookOpen,
     height: "h-32",
-    tone: "border-emerald-600/55 bg-emerald-500/15 text-emerald-700 dark:border-emerald-300/45 dark:bg-emerald-400/15 dark:text-emerald-300",
-    bar: "from-emerald-500/40 via-emerald-500/20 to-emerald-500/[0.06]",
-    border: "border-emerald-600/70 dark:border-emerald-400/60",
-    activeBorder: "border-emerald-600 dark:border-emerald-400",
-    accent: "bg-emerald-600 dark:bg-emerald-400",
+    tone: "border-field/55 bg-field-wash text-field",
+    bar: "from-field/40 via-field/20 to-field/[0.06]",
+    border: "border-field/70",
+    activeBorder: "border-field",
+    accent: "bg-field",
   },
   {
     id: "msc",
@@ -60,11 +61,11 @@ const stops: CareerStop[] = [
     outcome: "Gold medal · first paper",
     icon: Award,
     height: "h-40",
-    tone: "border-amber-600/55 bg-amber-500/15 text-amber-700 dark:border-amber-300/45 dark:bg-amber-400/15 dark:text-amber-300",
-    bar: "from-amber-500/40 via-amber-500/20 to-amber-500/[0.06]",
-    border: "border-amber-600/70 dark:border-amber-400/60",
-    activeBorder: "border-amber-600 dark:border-amber-400",
-    accent: "bg-amber-600 dark:bg-amber-400",
+    tone: "border-decision/55 bg-decision-wash text-decision",
+    bar: "from-decision/40 via-decision/20 to-decision/[0.06]",
+    border: "border-decision/70",
+    activeBorder: "border-decision",
+    accent: "bg-decision",
   },
   {
     id: "phd",
@@ -77,11 +78,11 @@ const stops: CareerStop[] = [
     outcome: "85% less mold · toxin eliminated",
     icon: Microscope,
     height: "h-48",
-    tone: "border-orange-600/55 bg-orange-500/15 text-orange-700 dark:border-orange-300/45 dark:bg-orange-400/15 dark:text-orange-300",
-    bar: "from-orange-500/40 via-orange-500/20 to-orange-500/[0.06]",
-    border: "border-orange-600/70 dark:border-orange-400/60",
-    activeBorder: "border-orange-600 dark:border-orange-400",
-    accent: "bg-orange-600 dark:bg-orange-400",
+    tone: "border-biology/55 bg-biology-wash text-biology",
+    bar: "from-biology/40 via-biology/20 to-biology/[0.06]",
+    border: "border-biology/70",
+    activeBorder: "border-biology",
+    accent: "bg-biology",
   },
   {
     id: "postdoc",
@@ -94,11 +95,11 @@ const stops: CareerStop[] = [
     outcome: "300+ samples · 1.3B+ reads",
     icon: Database,
     height: "h-56",
-    tone: "border-violet-600/55 bg-violet-500/15 text-violet-700 dark:border-violet-300/45 dark:bg-violet-400/15 dark:text-violet-300",
-    bar: "from-violet-500/40 via-violet-500/20 to-violet-500/[0.06]",
-    border: "border-violet-600/70 dark:border-violet-400/60",
-    activeBorder: "border-violet-600 dark:border-violet-400",
-    accent: "bg-violet-600 dark:bg-violet-400",
+    tone: "border-data/55 bg-data-wash text-data",
+    bar: "from-data/40 via-data/20 to-data/[0.06]",
+    border: "border-data/70",
+    activeBorder: "border-data",
+    accent: "bg-data",
   },
   {
     id: "ai",
@@ -111,11 +112,11 @@ const stops: CareerStop[] = [
     outcome: "Scientific AI evaluation",
     icon: Bot,
     height: "h-64",
-    tone: "border-sky-600/55 bg-sky-500/15 text-sky-700 dark:border-sky-300/45 dark:bg-sky-400/15 dark:text-sky-300",
-    bar: "from-sky-500/40 via-sky-500/20 to-sky-500/[0.06]",
-    border: "border-sky-600/70 dark:border-sky-400/60",
-    activeBorder: "border-sky-600 dark:border-sky-400",
-    accent: "bg-sky-600 dark:bg-sky-400",
+    tone: "border-data/55 bg-data-wash text-data",
+    bar: "from-data/40 via-data/20 to-data/[0.06]",
+    border: "border-data/70",
+    activeBorder: "border-data",
+    accent: "bg-data",
   },
 ];
 
@@ -129,23 +130,23 @@ export default function CareerMap() {
       <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
         <div className="grid gap-10 lg:grid-cols-[1.08fr_0.72fr] lg:items-end lg:gap-16">
           <div>
-            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">My research throughline</p>
+            <p className="section-kicker">My research throughline</p>
             <h2 id="career-map-title" className="mt-4 max-w-3xl text-3xl font-bold leading-[1.06] text-foreground sm:text-4xl lg:text-5xl">
               I start with the crop. <span className="text-muted-foreground">Data helps decide what comes next.</span>
             </h2>
           </div>
           <div className="grid grid-cols-[auto_minmax(0,1fr)] gap-x-5 border-y border-border py-5">
             <div className="row-span-2 flex flex-col items-center py-1" aria-hidden="true">
-              <span className="size-3 rounded-full bg-emerald-600 dark:bg-emerald-400" />
-              <span className="min-h-12 w-px flex-1 bg-gradient-to-b from-emerald-600 via-violet-600 to-sky-600 dark:from-emerald-400 dark:via-violet-400 dark:to-sky-400" />
-              <span className="size-3 rounded-full border-2 border-sky-600 bg-card dark:border-sky-400" />
+              <span className="size-3 rounded-full bg-field" />
+              <span className="min-h-12 w-px flex-1 bg-gradient-to-b from-field via-biology to-data" />
+              <span className="size-3 rounded-full border-2 border-data bg-card" />
             </div>
             <div className="pb-5">
-              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-emerald-700 dark:text-emerald-300">Start with</p>
+              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-field">Start with</p>
               <p className="mt-1 text-lg font-semibold text-foreground">A crop question in the field</p>
             </div>
             <div className="border-t border-border pt-5">
-              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-sky-700 dark:text-sky-300">Return with</p>
+              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-data">Return with</p>
               <p className="mt-1 text-lg font-semibold text-foreground">Evidence that can guide selection</p>
             </div>
             <p className="col-span-2 mt-5 border-t border-border pt-4 text-xs leading-relaxed text-muted-foreground">
@@ -245,7 +246,11 @@ export default function CareerMap() {
 
             <div className="flex items-center justify-between px-9 py-5 text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
               <span>Whole-plant observation</span>
-              <span className="flex items-center gap-3"><span className="h-px w-12 bg-muted-foreground/50" aria-hidden="true" /> Increasing data depth →</span>
+              <span className="flex items-center gap-3">
+                <span className="h-px w-12 bg-muted-foreground/50" aria-hidden="true" />
+                Increasing data depth
+                <TrendingUp className="size-4 text-data" strokeWidth={1.8} aria-hidden="true" />
+              </span>
             </div>
           </div>
         </div>
@@ -269,17 +274,17 @@ export default function CareerMap() {
           </div>
           <div className="grid sm:grid-cols-3">
             <div className="p-6 sm:border-r sm:border-border sm:p-8">
-              <Sprout className="size-[1.95rem] text-emerald-700 dark:text-emerald-300" strokeWidth={2.1} aria-hidden="true" />
+              <Sprout className="size-[1.95rem] text-field" strokeWidth={2.1} aria-hidden="true" />
               <p className="mt-3 text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">Crop focus</p>
               <p className="mt-2 text-lg font-semibold leading-snug text-foreground">{active.cropFocus}</p>
             </div>
             <div className="border-t border-border p-6 sm:border-r sm:border-t-0 sm:p-8">
-              <Database className="size-[1.95rem] text-violet-700 dark:text-violet-300" strokeWidth={2.1} aria-hidden="true" />
+              <Database className="size-[1.95rem] text-data" strokeWidth={2.1} aria-hidden="true" />
               <p className="mt-3 text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">Data added</p>
               <p className="mt-2 text-lg font-semibold leading-snug text-foreground">{active.dataLayer}</p>
             </div>
             <div className="border-t border-border p-6 sm:border-t-0 sm:p-8">
-              <Target className="size-[1.95rem] text-amber-700 dark:text-amber-300" strokeWidth={2.1} aria-hidden="true" />
+              <Target className="size-[1.95rem] text-decision" strokeWidth={2.1} aria-hidden="true" />
               <p className="mt-3 text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">Result</p>
               <p className="mt-2 text-lg font-semibold leading-snug text-foreground">{active.outcome}</p>
             </div>

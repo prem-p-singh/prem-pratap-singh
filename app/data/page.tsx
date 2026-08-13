@@ -21,7 +21,7 @@ export default function DataPage() {
       <section className="bg-gradient-to-b from-muted to-background pb-6 pt-14 sm:pb-8 sm:pt-16">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="max-w-3xl">
-            <p className="text-sm font-semibold uppercase tracking-wider text-primary mb-3">
+            <p className="section-kicker mb-3">
               Open Data, Decoded
             </p>
             <h1 className="text-4xl sm:text-5xl font-bold text-foreground mb-4">
@@ -48,7 +48,7 @@ export default function DataPage() {
                   <Link
                     key={post.slug}
                     href={`/data/${post.slug}`}
-                    className="group flex flex-col bg-card rounded-2xl border border-border hover:border-primary/50 hover:shadow-lg hover:shadow-primary/5 transition-all overflow-hidden"
+                    className="paper-panel group flex flex-col bg-card transition-all overflow-hidden hover:border-field/60"
                   >
                     <div className="relative aspect-[16/9] w-full overflow-hidden bg-muted">
                       {post.image ? (

@@ -16,35 +16,35 @@ const roleDetails: Record<
     summary:
       "I lead the field, laboratory, and computational work for a grapevine-virus program, from vineyard sampling and dPCR through RNA sequencing and biological interpretation.",
     evidence: ["300+ crop samples", "1.3B+ sequencing reads", "Reusable analysis pipelines"],
-    accent: "bg-emerald-500",
-    border: "border-emerald-500/45",
+    accent: "bg-field",
+    border: "border-field/45",
     label: "Field + data",
   },
   "MOVE Fellow, AI Trainer (part-time)": {
     summary:
       "I evaluate scientific reasoning in biology for frontier AI systems and document the failure patterns that matter to accuracy and trust.",
     evidence: ["Biology-domain evaluation", "Reference answers", "Reasoning failure analysis"],
-    accent: "bg-sky-500",
-    border: "border-sky-500/45",
+    accent: "bg-data",
+    border: "border-data/45",
     label: "Scientific AI",
   },
   "Ph.D. Research Scholar": {
     summary:
       "I developed plant-based treatments for food-borne molds by combining formulation chemistry, wet-lab assays, transcriptomics, and computational modeling.",
     evidence: ["85% less mold growth", "Toxin eliminated", "6 first-author papers"],
-    accent: "bg-orange-500",
-    border: "border-orange-500/45",
+    accent: "bg-biology",
+    border: "border-biology/45",
     label: "Mechanism",
   },
 };
 
 export default function WorkExperience() {
   return (
-    <section id="experience" className="scroll-mt-24 py-6 sm:py-8" aria-labelledby="work-experience-title">
+    <section id="experience" data-guided-scroll-section className="guided-scroll-section py-6 sm:py-8" aria-labelledby="work-experience-title">
       <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
         <div className="grid gap-5 border-b border-border pb-9 lg:grid-cols-[minmax(0,1fr)_22rem] lg:items-end">
           <div>
-            <p className="text-sm font-semibold text-muted-foreground">Experience</p>
+            <p className="section-kicker">Experience</p>
             <h2 id="work-experience-title" className="mt-3 text-3xl font-semibold tracking-tight text-foreground sm:text-4xl lg:text-5xl">
               Where I have done the work
             </h2>
