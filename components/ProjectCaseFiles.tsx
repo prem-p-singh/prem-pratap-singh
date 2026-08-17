@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import { ChevronDown, ExternalLink } from "lucide-react";
 import type { Project } from "@/components/ProjectCard";
 
@@ -141,6 +142,26 @@ export default function ProjectCaseFiles({
                     ))}
                   </ul>
                 </div>
+
+                {project.image && (
+                  <figure className="md:col-span-2">
+                    <div className="relative overflow-hidden rounded-xl border border-border bg-white">
+                      <Image
+                        src={project.image}
+                        alt={project.imageCaption || `Figure from ${project.title}`}
+                        width={project.imageWidth ?? 1600}
+                        height={project.imageHeight ?? 1200}
+                        sizes="(max-width: 768px) 100vw, 900px"
+                        className="h-auto w-full"
+                      />
+                    </div>
+                    {project.imageCaption && (
+                      <figcaption className="mt-3 text-xs leading-relaxed text-muted-foreground">
+                        {project.imageCaption}
+                      </figcaption>
+                    )}
+                  </figure>
+                )}
               </div>
             </div>
           </article>

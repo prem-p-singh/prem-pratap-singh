@@ -132,6 +132,44 @@ export const projects: Project[] = [
     links: {},
   },
   {
+    title: "Finding the Best Oil Blend in Ten Experiments",
+    category: "Mathematical modeling",
+    question:
+      "Which mix of three plant oils works best, without testing every combination?",
+    resultStat: "94.7% fit",
+    description:
+      "Mapped the full space of three-oil blends from 10 planned experiments, then fitted a model that predicts any untested blend.",
+    impact:
+      "The winning ratio was 1:4:1, ginger to ajwain to Indian borage. It beat all three oils alone and every other mix, working at 0.6 µl/ml against the target mold.",
+    skills: [
+      "Design of experiments",
+      "Statistical model validation",
+      "Formulation optimization",
+    ],
+    tech: [
+      "Simplex-centroid mixture design",
+      "Special cubic regression",
+      "Design-Expert",
+      "JMP 8.0",
+    ],
+    image: "/projects/mixture-design/simplex-centroid.jpg",
+    imageWidth: 1600,
+    imageHeight: 1490,
+    imageCaption:
+      "The ten design points across the three-oil space (a), modelled response as a contour map (b) and surface (c), and the resulting 1:4:1 formulation (d). Blue marks the lowest inhibitory concentration. From the doctoral thesis, Banaras Hindu University.",
+    papers: [
+      {
+        label: "Int J Food Microbiol 2026",
+        url: "https://doi.org/10.1016/j.ijfoodmicro.2026.111632",
+      },
+      {
+        label: "Food Chem Toxicol 2023",
+        url: "https://doi.org/10.1016/j.fct.2023.114111",
+      },
+    ],
+    links: {},
+  },
+  {
     title: "Working Out How the Treatment Kills the Mold",
     category: "Mechanism",
     question: "Where does the antifungal treatment strike the mold?",

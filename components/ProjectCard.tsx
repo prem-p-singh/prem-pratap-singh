@@ -19,6 +19,11 @@ export interface Project {
     github?: string;
   };
   image?: string;
+  /** Caption shown under `image`. Say what the figure shows, and where it came from. */
+  imageCaption?: string;
+  /** Intrinsic pixel size of `image`. Only the ratio matters; it reserves layout space. */
+  imageWidth?: number;
+  imageHeight?: number;
 }
 
 interface ProjectCardProps {
