@@ -151,7 +151,7 @@ export default function ProjectCaseFiles({
                         alt={project.imageCaption || `Figure from ${project.title}`}
                         width={project.imageWidth ?? 1600}
                         height={project.imageHeight ?? 1200}
-                        sizes="(max-width: 768px) 100vw, 900px"
+                        sizes="(max-width: 768px) 100vw, (max-width: 1280px) 90vw, 1200px"
                         className="h-auto w-full"
                       />
                     </div>

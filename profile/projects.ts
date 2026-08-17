@@ -154,9 +154,9 @@ export const projects: Project[] = [
     ],
     image: "/projects/mixture-design/simplex-centroid.jpg",
     imageWidth: 1600,
-    imageHeight: 1490,
+    imageHeight: 755,
     imageCaption:
-      "The ten design points across the three-oil space (a), modelled response as a contour map (b) and surface (c), and the resulting 1:4:1 formulation (d). Blue marks the lowest inhibitory concentration. From the doctoral thesis, Banaras Hindu University.",
+      "Left: the ten blends tested, placed across the three-oil space. Right: inhibitory concentration modelled over every possible blend, where blue is the lowest dose needed. From the doctoral thesis, Banaras Hindu University.",
     papers: [
       {
         label: "Int J Food Microbiol 2026",
