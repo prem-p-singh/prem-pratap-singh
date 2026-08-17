@@ -143,10 +143,10 @@ export default function ProjectCaseFiles({
                   </ul>
                 </div>
 
+                {/* min-w-0 lets this grid item shrink below the figure's intrinsic
+                    width, so the overflow happens inside the scroller rather than
+                    widening the whole page. */}
                 {project.image && (
-                  {/* min-w-0 lets this grid item shrink below the figure's
-                      intrinsic width, so the overflow happens inside the
-                      scroller rather than widening the whole page. */}
                   <figure className="min-w-0 md:col-span-2">
                     {/* Scrolls sideways on narrow screens. Shrinking a dense figure
                         to phone width makes axis labels unreadable, so it keeps a
