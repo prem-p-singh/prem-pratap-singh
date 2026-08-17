@@ -145,14 +145,17 @@ export default function ProjectCaseFiles({
 
                 {project.image && (
                   <figure className="md:col-span-2">
-                    <div className="relative overflow-hidden rounded-xl border border-border bg-white">
+                    {/* Scrolls sideways on narrow screens. Shrinking a dense figure
+                        to phone width makes axis labels unreadable, so it keeps a
+                        legible minimum and the reader pans instead. */}
+                    <div className="overflow-x-auto rounded-xl border border-border bg-white">
                       <Image
                         src={project.image}
                         alt={project.imageCaption || `Figure from ${project.title}`}
                         width={project.imageWidth ?? 1600}
                         height={project.imageHeight ?? 1200}
-                        sizes="(max-width: 768px) 100vw, (max-width: 1280px) 90vw, 1200px"
-                        className="h-auto w-full"
+                        sizes="(max-width: 768px) 640px, (max-width: 1280px) 90vw, 1200px"
+                        className="h-auto w-full min-w-[640px] max-w-none"
                       />
                     </div>
                     {project.imageCaption && (
