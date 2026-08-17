@@ -6,8 +6,8 @@ import { useEffect, useState } from "react";
 // these because it also indexes preprints and other items, so journal and
 // chapter counts stay static while citations and indices update live.
 const STATIC = {
-  journalArticles: "37",
-  bookChapters: "21",
+  journalArticles: "38",
+  bookChapters: "22",
 };
 
 // Fallback values shown until the live fetch resolves (or if it fails).

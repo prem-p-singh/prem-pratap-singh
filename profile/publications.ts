@@ -381,6 +381,17 @@ export const publications: Publication[] = [
 
   // ── 2017 ───────────────────────────────────────────────────────────────
   {
+    title: "Metabolic engineering: new era in pharmaceuticals",
+    authors: ["P. P. Singh", "A. Kumar", "R. Singh", "Vandana", "P. K. Singh", "K. D. Pandey"],
+    venue: "Global Journal of Pharmacy & Pharmaceutical Sciences, 2(5), 555596",
+    year: 2017,
+    type: "journal",
+    methods: ["Review"],
+    links: {
+      doi: "https://doi.org/10.19080/GJPPS.2017.02.555596",
+    },
+  },
+  {
     title: "Plant growth-promoting rhizobacteria of Curcuma amada (mango ginger)",
     authors: ["A. Kumar", "H. Verma", "A. Yadav", "W. A. Ansari", "P. P. Singh", "S. K. Singh", "P. K. Singh", "et al."],
     venue: "Journal of Pure and Applied Microbiology",
@@ -478,6 +489,14 @@ export const bookChapters: Publication[] = [
     title: "Food and human health: an outlook of the journey of food from hunger satiation to health-promoting agent",
     authors: ["B. Prakash", "P. P. Singh", "A. Kumar", "V. Gupta"],
     venue: "Research and Technological Advances in Food Science, Academic Press (Elsevier), ISBN 9780128243695",
+    year: 2022,
+    type: "book",
+    links: {},
+  },
+  {
+    title: "Omics approaches to unravel the features of rhizospheric microbiome",
+    authors: ["S. K. Singh", "S. S. Jha", "P. P. Singh"],
+    venue: "Re-visiting the Rhizosphere Eco-system for Agricultural Sustainability, Rhizosphere Biology series, Springer Singapore, pp. 391-402",
     year: 2022,
     type: "book",
     links: {},
