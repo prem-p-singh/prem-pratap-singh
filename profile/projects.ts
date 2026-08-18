@@ -190,6 +190,11 @@ export const projects: Project[] = [
       "Amber16 molecular dynamics",
       "MM-PBSA binding free energy",
     ],
+    image: "/projects/drug-discovery/pipeline.jpg",
+    imageWidth: 1600,
+    imageHeight: 1310,
+    imageCaption:
+      "The same four steps told twice. Above, as a lock and key story. Below, what each step is in practice, from building the protein model to measuring how tightly the compound holds.",
     papers: [
       {
         label: "Scientific Reports 2021",
