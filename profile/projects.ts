@@ -170,6 +170,39 @@ export const projects: Project[] = [
     links: {},
   },
   {
+    title: "Finding Where Plant Compounds Attack",
+    category: "Drug discovery",
+    question:
+      "Which proteins do the plant compounds actually bind, and how tightly?",
+    resultStat: "8 targets",
+    description:
+      "Built the 3D protein models from scratch when none existed publicly, then docked the plant compounds into them, ran simulations to check the fit held, and measured binding strength.",
+    impact:
+      "Covered 8 protein targets and found one new antibacterial target that human cells do not carry. The models became the basis for the lab's later computational work.",
+    skills: [
+      "Structure-based drug design",
+      "Target identification",
+      "Simulation and validation",
+    ],
+    tech: [
+      "Homology modelling",
+      "AutoDock 4.2",
+      "Amber16 molecular dynamics",
+      "MM-PBSA binding free energy",
+    ],
+    papers: [
+      {
+        label: "Scientific Reports 2021",
+        url: "https://doi.org/10.1038/s41598-021-86253-8",
+      },
+      {
+        label: "Food Addit Contam 2020",
+        url: "https://doi.org/10.1080/19440049.2020.1775310",
+      },
+    ],
+    links: {},
+  },
+  {
     title: "Working Out How the Treatment Kills the Mold",
     category: "Mechanism",
     question: "Where does the antifungal treatment strike the mold?",
