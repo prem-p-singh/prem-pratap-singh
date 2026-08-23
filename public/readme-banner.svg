@@ -1,0 +1,91 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="620" viewBox="0 0 1600 620" role="img" aria-labelledby="title description">
+  <title id="title">Crop biology and data science</title>
+  <desc id="description">An editorial illustration showing a crop plant connected to molecular measurements, data, models, and decisions.</desc>
+
+  <defs>
+    <pattern id="notebook-dots" width="28" height="28" patternUnits="userSpaceOnUse">
+      <circle cx="2" cy="2" r="1.5" fill="#D9D0C1" opacity="0.45" />
+    </pattern>
+    <linearGradient id="field-wash" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#E9F0E8" />
+      <stop offset="1" stop-color="#F7F2E7" stop-opacity="0" />
+    </linearGradient>
+    <filter id="paper-shadow" x="-10%" y="-10%" width="120%" height="130%">
+      <feDropShadow dx="0" dy="12" stdDeviation="18" flood-color="#465049" flood-opacity="0.11" />
+    </filter>
+  </defs>
+
+  <rect x="24" y="24" width="1552" height="572" rx="38" fill="#FBF8F1" stroke="#D9D0C1" stroke-width="2" filter="url(#paper-shadow)" />
+  <rect x="24" y="24" width="1552" height="572" rx="38" fill="url(#notebook-dots)" />
+  <path d="M24 464 C300 402 410 574 710 516 C1016 458 1180 312 1576 374 L1576 596 L24 596 Z" fill="url(#field-wash)" />
+
+  <g font-family="Avenir Next, Segoe UI, Arial, sans-serif">
+    <line x1="92" y1="96" x2="146" y2="96" stroke="#285F47" stroke-width="5" stroke-linecap="round" />
+    <text x="166" y="106" fill="#285F47" font-size="27" font-weight="700" letter-spacing="5">PREM P. SINGH · RESEARCH PORTFOLIO</text>
+
+    <text x="92" y="232" fill="#1D2621" font-size="78" font-weight="720" letter-spacing="-3">Crop biology</text>
+    <text x="92" y="320" fill="#1D2621" font-size="78" font-weight="720" letter-spacing="-3">
+      <tspan fill="#9C482D">×</tspan>
+      <tspan> data science</tspan>
+    </text>
+
+    <text x="96" y="384" fill="#656B66" font-size="30" font-weight="500">From field samples to decision-ready evidence.</text>
+
+    <g font-size="21" font-weight="700" letter-spacing="2.5">
+      <circle cx="107" cy="474" r="7" fill="#285F47" />
+      <text x="125" y="482" fill="#285F47">FIELD</text>
+      <circle cx="240" cy="474" r="7" fill="#9C482D" />
+      <text x="258" y="482" fill="#9C482D">BENCH</text>
+      <circle cx="385" cy="474" r="7" fill="#46567D" />
+      <text x="403" y="482" fill="#46567D">DATA</text>
+      <circle cx="513" cy="474" r="7" fill="#7A5B16" />
+      <text x="531" y="482" fill="#7A5B16">DECISION</text>
+    </g>
+  </g>
+
+  <g transform="translate(785 70)">
+    <path d="M85 393 C192 282 284 313 359 230 C431 150 535 130 692 198" fill="none" stroke="#D9D0C1" stroke-width="3" stroke-dasharray="8 12" />
+    <path d="M75 422 C210 401 312 411 426 373 C542 335 628 273 742 270" fill="none" stroke="#46567D" stroke-width="5" stroke-linecap="round" opacity="0.55" />
+    <circle cx="211" cy="397" r="8" fill="#9C482D" />
+    <circle cx="426" cy="373" r="8" fill="#46567D" />
+    <circle cx="609" cy="303" r="8" fill="#7A5B16" />
+
+    <!-- plant -->
+    <path d="M164 448 C161 374 164 303 170 236" fill="none" stroke="#285F47" stroke-width="13" stroke-linecap="round" />
+    <path d="M168 310 C131 269 97 257 61 268 C72 310 106 334 166 330" fill="#DDE9DF" stroke="#285F47" stroke-width="6" stroke-linejoin="round" />
+    <path d="M169 262 C206 206 254 189 303 208 C290 262 247 293 172 286" fill="#E8F0E7" stroke="#285F47" stroke-width="6" stroke-linejoin="round" />
+    <path d="M168 371 C199 333 237 323 273 338 C258 378 226 397 171 393" fill="#F0EADD" stroke="#285F47" stroke-width="6" stroke-linejoin="round" />
+    <path d="M165 330 C127 300 101 287 75 277 M173 286 C220 251 254 231 286 216 M172 393 C213 364 239 349 261 341" fill="none" stroke="#285F47" stroke-width="3" stroke-linecap="round" opacity="0.75" />
+    <path d="M165 447 C144 468 130 486 120 511 M165 447 C174 472 181 492 182 515 M165 447 C197 466 215 482 230 506" fill="none" stroke="#806116" stroke-width="5" stroke-linecap="round" />
+    <line x1="78" y1="516" x2="253" y2="516" stroke="#806116" stroke-width="4" stroke-linecap="round" />
+
+    <!-- molecular measurement -->
+    <g transform="translate(302 101)">
+      <circle cx="70" cy="70" r="66" fill="#FFFDF8" stroke="#9C482D" stroke-width="4" />
+      <path d="M42 37 C89 54 50 83 98 103 M98 37 C51 54 90 83 42 103" fill="none" stroke="#9C482D" stroke-width="5" stroke-linecap="round" />
+      <path d="M49 48 L91 48 M48 64 L92 64 M48 80 L92 80 M49 96 L91 96" stroke="#E1AD98" stroke-width="3" />
+      <text x="70" y="164" text-anchor="middle" fill="#9C482D" font-family="Avenir Next, Segoe UI, Arial, sans-serif" font-size="18" font-weight="700" letter-spacing="2">MEASURE</text>
+    </g>
+
+    <!-- data model -->
+    <g transform="translate(505 122)">
+      <circle cx="70" cy="70" r="66" fill="#FFFDF8" stroke="#46567D" stroke-width="4" />
+      <line x1="37" y1="101" x2="105" y2="101" stroke="#46567D" stroke-width="4" stroke-linecap="round" />
+      <rect x="42" y="74" width="12" height="27" rx="3" fill="#AEB8D1" />
+      <rect x="62" y="51" width="12" height="50" rx="3" fill="#7382A7" />
+      <rect x="82" y="34" width="12" height="67" rx="3" fill="#46567D" />
+      <path d="M39 65 C55 61 63 43 76 48 C88 52 89 28 103 29" fill="none" stroke="#9C482D" stroke-width="4" stroke-linecap="round" />
+      <circle cx="103" cy="29" r="5" fill="#9C482D" />
+      <text x="70" y="164" text-anchor="middle" fill="#46567D" font-family="Avenir Next, Segoe UI, Arial, sans-serif" font-size="18" font-weight="700" letter-spacing="2">MODEL</text>
+    </g>
+
+    <!-- decision -->
+    <g transform="translate(650 246)">
+      <circle cx="70" cy="70" r="66" fill="#FFFDF8" stroke="#7A5B16" stroke-width="4" />
+      <circle cx="70" cy="70" r="34" fill="none" stroke="#D3BD82" stroke-width="6" />
+      <circle cx="70" cy="70" r="13" fill="#7A5B16" />
+      <path d="M39 51 L62 74 L105 31" fill="none" stroke="#285F47" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" />
+      <text x="70" y="164" text-anchor="middle" fill="#7A5B16" font-family="Avenir Next, Segoe UI, Arial, sans-serif" font-size="18" font-weight="700" letter-spacing="2">DECIDE</text>
+    </g>
+  </g>
+</svg>

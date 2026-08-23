@@ -1,157 +1,88 @@
 <div align="center">
 
-# prempsingh.com
+<img src="./public/readme-banner.svg" alt="Crop biology and data science — from field samples to decision-ready evidence" width="100%" />
 
-**Plant science in the field. Data science all the way through.**
+<br />
 
-Research portfolio of **Dr. Prem Pratap Singh** — a plant scientist and data scientist turning crop measurements, molecular assays, and multi-omics data into decision-ready evidence.
-
-[![Explore the live site](https://img.shields.io/badge/Explore-prempsingh.com-24664F?style=for-the-badge)](https://www.prempsingh.com)
-[![Walk through the research farm](https://img.shields.io/badge/Interactive-Research_Farm-A54B2A?style=for-the-badge)](https://www.prempsingh.com/explore)
-[![Next.js 16](https://img.shields.io/badge/Next.js-16-1D2721?style=for-the-badge&logo=next.js)](https://nextjs.org)
-[![Deployed on Vercel](https://img.shields.io/badge/Vercel-Live-806116?style=for-the-badge&logo=vercel)](https://www.prempsingh.com)
+[![Live portfolio](https://img.shields.io/badge/Live_portfolio-prempsingh.com-285F47?style=for-the-badge)](https://www.prempsingh.com)
+[![Research farm](https://img.shields.io/badge/Explore-Research_farm-9C482D?style=for-the-badge)](https://www.prempsingh.com/explore)
+[![Methods](https://img.shields.io/badge/Read-Methods-46567D?style=for-the-badge)](https://www.prempsingh.com/methods)
+[![Data stories](https://img.shields.io/badge/Open-Data_stories-7A5B16?style=for-the-badge)](https://www.prempsingh.com/data)
 
 </div>
 
----
+## About
 
-## From crop question to crop decision
+I am **Prem Pratap Singh**, a plant scientist and data scientist at UC Davis. I study crop disease from the first field observation to the final model, connecting molecular diagnostics, multi-omics, and reproducible computation to find evidence that can improve crop decisions.
 
-The biology defines the question. Data science helps connect the evidence.
+<p align="center"><strong>300+ crop samples · 1.3B+ sequencing reads · 38 journal articles · 22 book chapters · 2,300+ citations</strong></p>
 
-```mermaid
-flowchart LR
-    A["Field\nCrop question"] --> B["Bench\nDiagnostics"]
-    B --> C["Data\nRNA-seq + metabolomics"]
-    C --> D["Models\nStatistics + ML"]
-    D --> E["Decision\nMarkers + mechanisms"]
+## How I work
 
-    classDef field fill:#E8F1EB,stroke:#24664F,color:#18382C,stroke-width:2px;
-    classDef biology fill:#F5E7DF,stroke:#A54B2A,color:#5D2B1A,stroke-width:2px;
-    classDef data fill:#E8ECF4,stroke:#465C8B,color:#273A64,stroke-width:2px;
-    classDef decision fill:#F4ECD9,stroke:#806116,color:#59430F,stroke-width:2px;
-    class A field;
-    class B biology;
-    class C,D data;
-    class E decision;
-```
+- **Diagnose the crop.** Field sampling, RT-qPCR, digital PCR, and carefully designed assays establish what changed biologically.
+- **Build the evidence.** RNA-seq and metabolomics move through reusable Python, R, Bash, Snakemake, SLURM, and Linux/HPC workflows.
+- **Make it useful.** Statistics, causal analysis, and machine learning help turn measurements into markers, mechanisms, and decisions.
 
-| Research signal | Scale |
-|---|---:|
-| Published journal articles | **38** |
-| Book chapters | **22** |
-| Google Scholar citations | **2,300+** |
-| Google Scholar h-index | **25** |
-| Crop samples in the current vineyard study | **300+** |
-| Sequencing reads processed | **1.3B+** |
+The crop stays central; the data grows deeper.
 
-## Data science with biological context
+## Research in practice
 
-This is not data science applied after the experiment. It is part of the research design—from deciding what to measure to building a result that can be rerun and challenged.
+**Grapevine disease**<br />
+Commercial-vineyard samples become diagnostic measurements, transcriptomic profiles, infection markers, and seasonal disease models.
 
-| Layer | What happens there |
-|---|---|
-| **Measure** | Field sampling, RT-qPCR, digital PCR, RNA-seq, GC-MS, and LC-MS/MS |
-| **Engineer** | Reusable Python, R, Bash, Snakemake, SLURM, and Linux/HPC workflows |
-| **Analyze** | Differential expression, multi-omics integration, causal mediation, Bayesian inference, and machine learning |
-| **Translate** | Diagnostic markers, disease models, mechanism evidence, and crop-management signals |
+**Food safety**<br />
+Formulation experiments become optimized treatments, release models, transcriptomic evidence, and testable explanations of toxin control.
 
-### Three examples
+**Open crop data**<br />
+Public records become reproducible analyses and visual stories that make uncertainty, bias, and biological meaning easier to see.
 
-1. **Grapevine disease:** commercial-vineyard samples → molecular diagnostics and RNA-seq → infection markers and seasonal disease models.
-2. **Food safety:** formulation experiments → mixture-design optimization and transcriptomics → sustained toxin control and mechanism evidence.
-3. **Public crop data:** open datasets → reproducible normalization and causal models → clear, decision-oriented visual stories.
+## Explore
 
-## Explore the work
+Start with [selected research](https://www.prempsingh.com/#research), then follow the work into [projects](https://www.prempsingh.com/#projects), [methods](https://www.prempsingh.com/methods), or [data stories](https://www.prempsingh.com/data). The [interactive research farm](https://www.prempsingh.com/explore) offers a more playful field-to-evidence route.
 
-| Destination | What you will find |
-|---|---|
-| [Research](https://www.prempsingh.com/#research) | Publications, citation signals, and the research program |
-| [Projects](https://www.prempsingh.com/#projects) | Field-to-evidence case studies with methods and outcomes |
-| [Methods](https://www.prempsingh.com/methods) | Visual, reproducible explanations of analytical approaches |
-| [Data stories](https://www.prempsingh.com/data) | Public datasets turned into interpretable evidence |
-| [Blog](https://www.prempsingh.com/blog) | Plant-disease research notes and visual summaries |
-| [Visual lab](https://www.prempsingh.com/gallery) | Research illustrations, charts, maps, and field images |
-| [Research farm](https://www.prempsingh.com/explore) | An interactive walk from crop observation to evidence |
-| [Journey](https://www.prempsingh.com/journey) | The path from botany to data-guided crop research |
+[Blog](https://www.prempsingh.com/blog) · [Visual lab](https://www.prempsingh.com/gallery) · [Career journey](https://www.prempsingh.com/journey) · [CV](https://www.prempsingh.com/cv.pdf)
 
-## Under the hood
+## Built for research communication
 
-| Layer | Tools |
-|---|---|
-| **Application** | Next.js 16, React 19, TypeScript 5 |
-| **Interface** | Tailwind CSS 4, Framer Motion, Radix UI, Embla Carousel |
-| **3D experience** | Three.js, React Three Fiber, Drei |
-| **Research content** | MDX, gray-matter, GFM, KaTeX |
-| **Discoverability** | JSON-LD, Open Graph, RSS, and sitemap generation |
-| **Automation** | Python, OpenAI API, GitHub Actions, and SMTP notifications |
-| **Hosting** | Vercel |
-
-<details>
-<summary><strong>How the research-blog pipeline works</strong></summary>
-
-The assisted pipeline creates a pending draft every other Thursday. Nothing is published automatically.
-
-```text
-Rotating research themes + author voice profile
-                    ↓
-arXiv + OpenAlex + Europe PMC + Google News
-                    ↓
-Source ranking and draft generation
-                    ↓
-Reference, similarity, and link-reachability checks
-                    ↓
-Email preview with a GitHub Actions review link
-                    ↓
-Human review → manual publication
-```
-
-Implementation and configuration details live in the [blog automation guide](blog_automation/README.md).
-
-</details>
+The portfolio combines **Next.js 16**, **React 19**, **TypeScript**, **Tailwind CSS**, **Framer Motion**, and **Three.js** with MDX research reports, reproducible analysis code, structured scholarly metadata, dynamic RSS, and automated sitemap generation.
 
 <details>
 <summary><strong>Repository map</strong></summary>
 
 ```text
-app/                     Next.js routes, metadata, feeds, and API handlers
-components/              Interface, visualizations, and interactive experiences
-content/blog/            Published research notes in MDX
-content/methods/         Method reports in MDX
-content/data/            Data stories in MDX
+app/                     Routes, metadata, feeds, APIs, and the research farm
+components/              Interface, charts, and interactive experiences
+content/                 Blog posts, method reports, and data stories in MDX
 profile/                 Publications, projects, experience, skills, and metrics
 data-interpretations/    Reproducible analysis code and report-specific data
 blog_automation/         Assisted research-draft pipeline
 lib/                     Content loaders and shared utilities
 public/                  CV, images, figures, and downloadable assets
-.github/workflows/       Draft-generation and manual-publishing workflows
 ```
+
+</details>
+
+<details>
+<summary><strong>Assisted research-blog workflow</strong></summary>
+
+Every other Thursday, the pipeline gathers recent work from arXiv, OpenAlex, Europe PMC, and Google News; ranks relevant sources; prepares a pending draft; checks references, similarity, and links; and emails a preview for human review. It never publishes automatically.
+
+Full details: [blog automation guide](blog_automation/README.md).
 
 </details>
 
 ## Run locally
 
 ```bash
-# Install the web application
 npm install
-
-# Start the local development server
 npm run dev
-
-# Check code quality and the production build
-npm run lint
-npm run build
 ```
 
-The local site is available at [http://localhost:3000](http://localhost:3000).
-
-Optional offline test of the research-draft pipeline:
+Open [http://localhost:3000](http://localhost:3000). Before shipping a change, run:
 
 ```bash
-python3 -m venv .venv
-source .venv/bin/activate
-pip install -r blog_automation/requirements.txt
-python blog_automation/generate_draft.py --offline
+npm run lint
+npm run build
 ```
 
 ## Connect
@@ -164,5 +95,5 @@ python blog_automation/generate_draft.py --offline
 ---
 
 <div align="center">
-<sub>Built around one principle: the crop stays central while the evidence grows deeper.</sub>
+<sub>Field → bench → data → evidence → crop decision</sub>
 </div>
