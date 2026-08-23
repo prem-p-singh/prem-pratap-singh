@@ -1,15 +1,15 @@
 <div align="center">
 
-# prempsingh.com
+<img src="./public/readme-banner.svg" alt="Crop biology and data science — from field samples to decision-ready evidence" width="100%" />
 
-**Academic portfolio & research blog for Dr. Prem Pratap Singh**
+<br />
 
-Postdoctoral Scholar | Plant Scientist | UC Davis
+Portfolio of **Dr. Prem Pratap Singh** — a plant scientist and data scientist connecting crop biology, molecular measurement, and reproducible computation.
 
-[![Live Site](https://img.shields.io/badge/Live-prempsingh.com-0e7490?style=for-the-badge)](https://www.prempsingh.com)
-[![Next.js](https://img.shields.io/badge/Next.js-16-000?style=for-the-badge&logo=next.js)](https://nextjs.org)
-[![TypeScript](https://img.shields.io/badge/TypeScript-5-3178C6?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org)
-[![Deployed on Vercel](https://img.shields.io/badge/Vercel-Deployed-000?style=for-the-badge&logo=vercel)](https://vercel.com)
+[![Live Site](https://img.shields.io/badge/Live-prempsingh.com-285F47?style=for-the-badge)](https://www.prempsingh.com)
+[![Research Farm](https://img.shields.io/badge/Explore-Research_Farm-9C482D?style=for-the-badge)](https://www.prempsingh.com/explore)
+[![Next.js](https://img.shields.io/badge/Next.js-16-1D2621?style=for-the-badge&logo=next.js)](https://nextjs.org)
+[![Vercel](https://img.shields.io/badge/Vercel-Live-7A5B16?style=for-the-badge&logo=vercel)](https://www.prempsingh.com)
 
 </div>
 
@@ -17,52 +17,58 @@ Postdoctoral Scholar | Plant Scientist | UC Davis
 
 ## About
 
-A personal academic website showcasing research publications, projects, experience, and an AI-powered research blog. Built with Next.js App Router, Tailwind CSS, and Framer Motion.
+This portfolio follows research from a crop question to decision-ready evidence. It brings together field biology, molecular diagnostics, multi-omics, statistics, machine learning, and reproducible analysis—alongside publications, projects, methods, and visual data stories.
 
-**Key sections:** Hero / About / Experience Timeline / Education / Publications (20+) / Research Projects / Blog / Contact
+**Research path:** Field observation → biological measurement → data integration → crop decision
+
+**Key sections:** About / Experience / Research / Methods / Data / Blog / Visual Lab / Interactive Research Farm / Contact
 
 ## Tech Stack
 
 | Layer | Tools |
 |-------|-------|
 | **Framework** | Next.js 16, React 19, TypeScript 5 |
-| **Styling** | Tailwind CSS 4, Framer Motion |
-| **Content** | MDX, gray-matter, KaTeX (math notation) |
-| **SEO** | JSON-LD schemas, OpenGraph images, RSS feed, sitemap |
-| **Blog Automation** | Python, OpenAI API, arXiv & Google News feeds |
+| **Interface** | Tailwind CSS 4, Framer Motion, Radix UI |
+| **Interactive visuals** | Three.js, React Three Fiber, Embla Carousel |
+| **Research content** | MDX, gray-matter, GFM, KaTeX |
+| **Discoverability** | JSON-LD, Open Graph, RSS, sitemap generation |
+| **Automation** | Python, OpenAI API, GitHub Actions, SMTP notifications |
 | **Deployment** | Vercel |
 
-## Blog Automation
+## Research Blog Automation
 
-An automated pipeline generates weekly research blog posts:
+An assisted, review-first pipeline prepares a research draft every other Thursday. Nothing is published automatically.
 
+```text
+Research themes + author voice profile
+                 ↓
+arXiv + OpenAlex + Europe PMC + Google News
+                 ↓
+Source ranking and draft preparation
+                 ↓
+Reference, similarity, and link checks
+                 ↓
+Email preview for human review
+                 ↓
+Manual publication
 ```
-CV Keywords + arXiv/News Sources
-        |
-    LLM Ranking & Draft Generation
-        |
-    Content Verification & Safety Guards
-        |
-    Email Notification with One-Click Publish
-        |
-    Manual Review & Publish via GitHub Actions
-```
 
-- **Schedule:** Every Thursday (configurable)
-- **Sources:** arXiv papers + Google News, ranked by relevance
-- **Guards:** Reference validation, plagiarism detection, link reachability checks
-- **Publish:** Via GitHub Actions or CLI with optional title/description overrides
+- **Schedule:** Every other Thursday
+- **Sources:** arXiv, OpenAlex, Europe PMC, and Google News
+- **Checks:** References, similarity, and link reachability
+- **Publishing:** Human review is required before release
 
 ## Project Structure
 
-```
-app/                    Next.js App Router pages
-components/             React components (Hero, Timeline, Publications, etc.)
-content/blog/           Published MDX blog posts
-blog_automation/        AI-powered draft generation pipeline
-data/                   Structured content (publications, projects, experience)
-lib/                    Utilities (MDX parsing)
-public/                 Static assets (CV, images, RSS feed)
+```text
+app/                     Routes, metadata, feeds, APIs, and research experiences
+components/              Interface, charts, and interactive components
+content/                 Blog posts, method reports, and data stories in MDX
+profile/                 Publications, projects, experience, skills, and metrics
+data-interpretations/    Reproducible analyses and report-specific data
+blog_automation/         Assisted research-draft pipeline
+lib/                     Content loaders and shared utilities
+public/                  CV, images, figures, and downloadable assets
 ```
 
 ## Getting Started
@@ -71,13 +77,15 @@ public/                 Static assets (CV, images, RSS feed)
 # Install dependencies
 npm install
 
-# Run dev server
+# Run the local website
 npm run dev
 
-# Blog automation (offline test)
-pip install -r blog_automation/requirements.txt
-python blog_automation/generate_draft.py --offline
+# Check code quality and the production build
+npm run lint
+npm run build
 ```
+
+Open [http://localhost:3000](http://localhost:3000).
 
 ## Connect
 
@@ -89,5 +97,5 @@ python blog_automation/generate_draft.py --offline
 ---
 
 <div align="center">
-<sub>Built with Next.js & deployed on Vercel</sub>
+<sub>Field → bench → data → evidence → crop decision</sub>
 </div>
