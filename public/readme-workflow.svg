@@ -1,0 +1,138 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="460" viewBox="0 0 1600 460" role="img" aria-labelledby="workflow-title workflow-desc">
+  <title id="workflow-title">Research writing workflow with a human checkpoint</title>
+  <desc id="workflow-desc">An animated five-stage workflow moving from a research question through source discovery, drafting, verification, and human review before publication.</desc>
+
+  <defs>
+    <pattern id="workflow-dots" width="24" height="24" patternUnits="userSpaceOnUse">
+      <circle cx="2" cy="2" r="1.3" fill="#D9D0C1" opacity="0.45" />
+    </pattern>
+    <linearGradient id="workflow-wash" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#E8F0E7" />
+      <stop offset="0.52" stop-color="#EEF0F6" />
+      <stop offset="1" stop-color="#F3EBDD" />
+    </linearGradient>
+    <filter id="workflow-shadow" x="-15%" y="-20%" width="130%" height="150%">
+      <feDropShadow dx="0" dy="9" stdDeviation="12" flood-color="#465049" flood-opacity="0.12" />
+    </filter>
+    <marker id="workflow-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#8B938D" />
+    </marker>
+    <path id="signal-path" d="M270 226 H366 M550 226 H646 M830 226 H926 M1110 226 H1206" />
+  </defs>
+
+  <style>
+    .flow-line { stroke-dasharray: 10 12; animation: evidence-flow 2.2s linear infinite; }
+    .workflow-card { animation: card-focus 6s ease-in-out infinite; }
+    .card-2 { animation-delay: -4.8s; }
+    .card-3 { animation-delay: -3.6s; }
+    .card-4 { animation-delay: -2.4s; }
+    .card-5 { animation-delay: -1.2s; }
+    .human-ring { transform-box: fill-box; transform-origin: center; animation: human-pulse 2.4s ease-in-out infinite; }
+    .status-dot { animation: status-pulse 1.8s ease-in-out infinite; }
+    @keyframes evidence-flow { to { stroke-dashoffset: -44; } }
+    @keyframes card-focus { 0%, 78%, 100% { opacity: 0.92; } 86% { opacity: 1; } }
+    @keyframes human-pulse { 0%, 100% { transform: scale(1); opacity: 0.55; } 50% { transform: scale(1.13); opacity: 0.12; } }
+    @keyframes status-pulse { 0%, 100% { opacity: 0.42; } 50% { opacity: 1; } }
+    @media (prefers-reduced-motion: reduce) {
+      .flow-line, .workflow-card, .human-ring, .status-dot { animation: none; }
+    }
+  </style>
+
+  <rect x="22" y="22" width="1556" height="416" rx="34" fill="#FBF8F1" stroke="#D9D0C1" stroke-width="2" />
+  <rect x="22" y="22" width="1556" height="416" rx="34" fill="url(#workflow-dots)" />
+  <path d="M22 340 C330 280 520 420 810 354 C1100 288 1270 258 1578 326 V438 H22 Z" fill="url(#workflow-wash)" opacity="0.58" />
+
+  <g fill="none" stroke="#8B938D" stroke-width="4" stroke-linecap="round" marker-end="url(#workflow-arrow)">
+    <path class="flow-line" d="M270 226 H366" />
+    <path class="flow-line" d="M550 226 H646" />
+    <path class="flow-line" d="M830 226 H926" />
+    <path class="flow-line" d="M1110 226 H1206" />
+  </g>
+
+  <g>
+    <circle r="7" fill="#9C482D">
+      <animateMotion dur="2.2s" repeatCount="indefinite" path="M270 226 H366" />
+    </circle>
+    <circle r="7" fill="#46567D">
+      <animateMotion begin="0.45s" dur="2.2s" repeatCount="indefinite" path="M550 226 H646" />
+    </circle>
+    <circle r="7" fill="#285F47">
+      <animateMotion begin="0.9s" dur="2.2s" repeatCount="indefinite" path="M830 226 H926" />
+    </circle>
+    <circle r="7" fill="#7A5B16">
+      <animateMotion begin="1.35s" dur="2.2s" repeatCount="indefinite" path="M1110 226 H1206" />
+    </circle>
+  </g>
+
+  <g font-family="Avenir Next, Segoe UI, Arial, sans-serif">
+    <g class="workflow-card card-1" transform="translate(54 96)">
+      <rect width="216" height="252" rx="26" fill="#FFFDF8" stroke="#B7CDBF" stroke-width="3" filter="url(#workflow-shadow)" />
+      <rect width="216" height="8" rx="4" fill="#285F47" />
+      <circle cx="108" cy="66" r="35" fill="#E8F0E7" />
+      <path d="M94 78 C90 60 99 45 121 39 C125 60 117 73 94 78 Z" fill="none" stroke="#285F47" stroke-width="5" stroke-linejoin="round" />
+      <path d="M94 78 C100 65 108 55 120 42 M94 78 V86" fill="none" stroke="#285F47" stroke-width="4" stroke-linecap="round" />
+      <text x="108" y="126" text-anchor="middle" fill="#285F47" font-size="16" font-weight="700" letter-spacing="2.2">01 · FRAME</text>
+      <text x="108" y="160" text-anchor="middle" fill="#1D2621" font-size="25" font-weight="700">Question + voice</text>
+      <text x="108" y="194" text-anchor="middle" fill="#656B66" font-size="17">Research themes</text>
+      <text x="108" y="218" text-anchor="middle" fill="#656B66" font-size="17">and author context</text>
+    </g>
+
+    <g class="workflow-card card-2" transform="translate(334 96)">
+      <rect width="216" height="252" rx="26" fill="#FFFDF8" stroke="#D9B7A8" stroke-width="3" filter="url(#workflow-shadow)" />
+      <rect width="216" height="8" rx="4" fill="#9C482D" />
+      <circle cx="108" cy="66" r="35" fill="#F3E5DF" />
+      <circle cx="101" cy="59" r="15" fill="none" stroke="#9C482D" stroke-width="5" />
+      <path d="M112 70 L127 85 M82 48 H91 M82 58 H87 M82 68 H91" fill="none" stroke="#9C482D" stroke-width="5" stroke-linecap="round" />
+      <text x="108" y="126" text-anchor="middle" fill="#9C482D" font-size="16" font-weight="700" letter-spacing="2.2">02 · DISCOVER</text>
+      <text x="108" y="160" text-anchor="middle" fill="#1D2621" font-size="25" font-weight="700">Find sources</text>
+      <text x="108" y="194" text-anchor="middle" fill="#656B66" font-size="17">Literature, datasets,</text>
+      <text x="108" y="218" text-anchor="middle" fill="#656B66" font-size="17">and research news</text>
+    </g>
+
+    <g class="workflow-card card-3" transform="translate(614 96)">
+      <rect width="216" height="252" rx="26" fill="#FFFDF8" stroke="#BCC4D8" stroke-width="3" filter="url(#workflow-shadow)" />
+      <rect width="216" height="8" rx="4" fill="#46567D" />
+      <circle cx="108" cy="66" r="35" fill="#E8EAF1" />
+      <rect x="80" y="67" width="12" height="17" rx="3" fill="#AEB8D1" />
+      <rect x="99" y="56" width="12" height="28" rx="3" fill="#7382A7" />
+      <rect x="118" y="43" width="12" height="41" rx="3" fill="#46567D" />
+      <path d="M80 48 C95 45 103 34 115 38 C124 41 127 31 136 30" fill="none" stroke="#9C482D" stroke-width="4" stroke-linecap="round" />
+      <text x="108" y="126" text-anchor="middle" fill="#46567D" font-size="16" font-weight="700" letter-spacing="2.2">03 · BUILD</text>
+      <text x="108" y="160" text-anchor="middle" fill="#1D2621" font-size="25" font-weight="700">Rank + draft</text>
+      <text x="108" y="194" text-anchor="middle" fill="#656B66" font-size="17">Prioritize evidence</text>
+      <text x="108" y="218" text-anchor="middle" fill="#656B66" font-size="17">and shape the story</text>
+    </g>
+
+    <g class="workflow-card card-4" transform="translate(894 96)">
+      <rect width="216" height="252" rx="26" fill="#FFFDF8" stroke="#DDC98F" stroke-width="3" filter="url(#workflow-shadow)" />
+      <rect width="216" height="8" rx="4" fill="#7A5B16" />
+      <circle cx="108" cy="66" r="35" fill="#F3EBDD" />
+      <path d="M108 34 L132 44 V62 C132 76 122 87 108 93 C94 87 84 76 84 62 V44 Z" fill="none" stroke="#7A5B16" stroke-width="5" stroke-linejoin="round" />
+      <path d="M96 62 L105 71 L122 52" fill="none" stroke="#285F47" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" />
+      <text x="108" y="126" text-anchor="middle" fill="#7A5B16" font-size="16" font-weight="700" letter-spacing="2.2">04 · VERIFY</text>
+      <text x="108" y="160" text-anchor="middle" fill="#1D2621" font-size="25" font-weight="700">Check evidence</text>
+      <text x="108" y="194" text-anchor="middle" fill="#656B66" font-size="17">References, similarity,</text>
+      <text x="108" y="218" text-anchor="middle" fill="#656B66" font-size="17">and live links</text>
+    </g>
+
+    <g class="workflow-card card-5" transform="translate(1174 78)">
+      <rect class="human-ring" x="-9" y="-9" width="288" height="288" rx="36" fill="none" stroke="#285F47" stroke-width="5" />
+      <rect width="270" height="270" rx="30" fill="#FFFDF8" stroke="#285F47" stroke-width="4" filter="url(#workflow-shadow)" />
+      <rect width="270" height="9" rx="4.5" fill="#285F47" />
+      <circle cx="135" cy="69" r="39" fill="#E8F0E7" />
+      <circle cx="135" cy="58" r="13" fill="none" stroke="#285F47" stroke-width="5" />
+      <path d="M111 94 C114 76 125 71 135 71 C145 71 156 76 159 94" fill="none" stroke="#285F47" stroke-width="5" stroke-linecap="round" />
+      <circle cx="170" cy="46" r="17" fill="#7A5B16" />
+      <path d="M162 46 L168 52 L179 39" fill="none" stroke="#FFFDF8" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />
+      <text x="135" y="137" text-anchor="middle" fill="#285F47" font-size="16" font-weight="700" letter-spacing="2.2">05 · HUMAN CHECKPOINT</text>
+      <text x="135" y="176" text-anchor="middle" fill="#1D2621" font-size="28" font-weight="750">Review + decide</text>
+      <text x="135" y="212" text-anchor="middle" fill="#656B66" font-size="18">Prem reviews the draft</text>
+      <text x="135" y="237" text-anchor="middle" fill="#656B66" font-size="18">before publication</text>
+      <circle class="status-dot" cx="135" cy="253" r="5" fill="#285F47" />
+    </g>
+
+    <text x="800" y="405" text-anchor="middle" fill="#656B66" font-size="19" font-weight="600" letter-spacing="0.8">
+      Automation moves the evidence forward. A person makes the publishing decision.
+    </text>
+  </g>
+</svg>

@@ -136,17 +136,7 @@ The site is organized around one idea: a model is useful only when it remains co
 
 The automation assists with discovery and drafting; it does not publish on its own.
 
-```text
-Research themes + author voice
-            ↓
-Literature and news discovery
-            ↓
-Source ranking + draft preparation
-            ↓
-Reference, similarity, and link checks
-            ↓
-Email preview → human review → manual publication
-```
+<img src="./public/readme-workflow.svg" alt="Animated research-writing workflow from question framing to a human publication checkpoint" width="100%" />
 
 <details>
 <summary><strong>📁 Open the repository map</strong></summary>
