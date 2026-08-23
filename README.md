@@ -4,86 +4,88 @@
 
 <br />
 
-[![Live portfolio](https://img.shields.io/badge/Live_portfolio-prempsingh.com-285F47?style=for-the-badge)](https://www.prempsingh.com)
-[![Research farm](https://img.shields.io/badge/Explore-Research_farm-9C482D?style=for-the-badge)](https://www.prempsingh.com/explore)
-[![Methods](https://img.shields.io/badge/Read-Methods-46567D?style=for-the-badge)](https://www.prempsingh.com/methods)
-[![Data stories](https://img.shields.io/badge/Open-Data_stories-7A5B16?style=for-the-badge)](https://www.prempsingh.com/data)
+Portfolio of **Dr. Prem Pratap Singh** — a plant scientist and data scientist connecting crop biology, molecular measurement, and reproducible computation.
+
+[![Live Site](https://img.shields.io/badge/Live-prempsingh.com-285F47?style=for-the-badge)](https://www.prempsingh.com)
+[![Research Farm](https://img.shields.io/badge/Explore-Research_Farm-9C482D?style=for-the-badge)](https://www.prempsingh.com/explore)
+[![Next.js](https://img.shields.io/badge/Next.js-16-1D2621?style=for-the-badge&logo=next.js)](https://nextjs.org)
+[![Vercel](https://img.shields.io/badge/Vercel-Live-7A5B16?style=for-the-badge&logo=vercel)](https://www.prempsingh.com)
 
 </div>
 
+---
+
 ## About
 
-I am **Prem Pratap Singh**, a plant scientist and data scientist at UC Davis. I study crop disease from the first field observation to the final model, connecting molecular diagnostics, multi-omics, and reproducible computation to find evidence that can improve crop decisions.
+This portfolio follows research from a crop question to decision-ready evidence. It brings together field biology, molecular diagnostics, multi-omics, statistics, machine learning, and reproducible analysis—alongside publications, projects, methods, and visual data stories.
 
-<p align="center"><strong>300+ crop samples · 1.3B+ sequencing reads · 38 journal articles · 22 book chapters · 2,300+ citations</strong></p>
+**Research path:** Field observation → biological measurement → data integration → crop decision
 
-## How I work
+**Key sections:** About / Experience / Research / Methods / Data / Blog / Visual Lab / Interactive Research Farm / Contact
 
-- **Diagnose the crop.** Field sampling, RT-qPCR, digital PCR, and carefully designed assays establish what changed biologically.
-- **Build the evidence.** RNA-seq and metabolomics move through reusable Python, R, Bash, Snakemake, SLURM, and Linux/HPC workflows.
-- **Make it useful.** Statistics, causal analysis, and machine learning help turn measurements into markers, mechanisms, and decisions.
+## Tech Stack
 
-The crop stays central; the data grows deeper.
+| Layer | Tools |
+|-------|-------|
+| **Framework** | Next.js 16, React 19, TypeScript 5 |
+| **Interface** | Tailwind CSS 4, Framer Motion, Radix UI |
+| **Interactive visuals** | Three.js, React Three Fiber, Embla Carousel |
+| **Research content** | MDX, gray-matter, GFM, KaTeX |
+| **Discoverability** | JSON-LD, Open Graph, RSS, sitemap generation |
+| **Automation** | Python, OpenAI API, GitHub Actions, SMTP notifications |
+| **Deployment** | Vercel |
 
-## Research in practice
+## Research Blog Automation
 
-**Grapevine disease**<br />
-Commercial-vineyard samples become diagnostic measurements, transcriptomic profiles, infection markers, and seasonal disease models.
-
-**Food safety**<br />
-Formulation experiments become optimized treatments, release models, transcriptomic evidence, and testable explanations of toxin control.
-
-**Open crop data**<br />
-Public records become reproducible analyses and visual stories that make uncertainty, bias, and biological meaning easier to see.
-
-## Explore
-
-Start with [selected research](https://www.prempsingh.com/#research), then follow the work into [projects](https://www.prempsingh.com/#projects), [methods](https://www.prempsingh.com/methods), or [data stories](https://www.prempsingh.com/data). The [interactive research farm](https://www.prempsingh.com/explore) offers a more playful field-to-evidence route.
-
-[Blog](https://www.prempsingh.com/blog) · [Visual lab](https://www.prempsingh.com/gallery) · [Career journey](https://www.prempsingh.com/journey) · [CV](https://www.prempsingh.com/cv.pdf)
-
-## Built for research communication
-
-The portfolio combines **Next.js 16**, **React 19**, **TypeScript**, **Tailwind CSS**, **Framer Motion**, and **Three.js** with MDX research reports, reproducible analysis code, structured scholarly metadata, dynamic RSS, and automated sitemap generation.
-
-<details>
-<summary><strong>Repository map</strong></summary>
+An assisted, review-first pipeline prepares a research draft every other Thursday. Nothing is published automatically.
 
 ```text
-app/                     Routes, metadata, feeds, APIs, and the research farm
-components/              Interface, charts, and interactive experiences
+Research themes + author voice profile
+                 ↓
+arXiv + OpenAlex + Europe PMC + Google News
+                 ↓
+Source ranking and draft preparation
+                 ↓
+Reference, similarity, and link checks
+                 ↓
+Email preview for human review
+                 ↓
+Manual publication
+```
+
+- **Schedule:** Every other Thursday
+- **Sources:** arXiv, OpenAlex, Europe PMC, and Google News
+- **Checks:** References, similarity, and link reachability
+- **Publishing:** Human review is required before release
+
+## Project Structure
+
+```text
+app/                     Routes, metadata, feeds, APIs, and research experiences
+components/              Interface, charts, and interactive components
 content/                 Blog posts, method reports, and data stories in MDX
 profile/                 Publications, projects, experience, skills, and metrics
-data-interpretations/    Reproducible analysis code and report-specific data
+data-interpretations/    Reproducible analyses and report-specific data
 blog_automation/         Assisted research-draft pipeline
 lib/                     Content loaders and shared utilities
 public/                  CV, images, figures, and downloadable assets
 ```
 
-</details>
-
-<details>
-<summary><strong>Assisted research-blog workflow</strong></summary>
-
-Every other Thursday, the pipeline gathers recent work from arXiv, OpenAlex, Europe PMC, and Google News; ranks relevant sources; prepares a pending draft; checks references, similarity, and links; and emails a preview for human review. It never publishes automatically.
-
-Full details: [blog automation guide](blog_automation/README.md).
-
-</details>
-
-## Run locally
+## Getting Started
 
 ```bash
+# Install dependencies
 npm install
+
+# Run the local website
 npm run dev
-```
 
-Open [http://localhost:3000](http://localhost:3000). Before shipping a change, run:
-
-```bash
+# Check code quality and the production build
 npm run lint
 npm run build
 ```
+
+Open [http://localhost:3000](http://localhost:3000).
 
 ## Connect
 
