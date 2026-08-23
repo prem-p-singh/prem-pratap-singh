@@ -2,67 +2,80 @@
 
 <img src="./public/readme-banner.svg" alt="Crop biology and data science — from field samples to decision-ready evidence" width="100%" />
 
-<br />
+### A research portfolio built as an evidence system
 
-Portfolio of **Dr. Prem Pratap Singh** — a plant scientist and data scientist connecting crop biology, molecular measurement, and reproducible computation.
+Field biology, molecular measurement, reproducible computation, and scientific communication—brought together in one living portfolio.
 
-[![Live Site](https://img.shields.io/badge/Live-prempsingh.com-285F47?style=for-the-badge)](https://www.prempsingh.com)
-[![Research Farm](https://img.shields.io/badge/Explore-Research_Farm-9C482D?style=for-the-badge)](https://www.prempsingh.com/explore)
-[![Next.js](https://img.shields.io/badge/Next.js-16-1D2621?style=for-the-badge&logo=next.js)](https://nextjs.org)
-[![Vercel](https://img.shields.io/badge/Vercel-Live-7A5B16?style=for-the-badge&logo=vercel)](https://www.prempsingh.com)
+[![Live portfolio](https://img.shields.io/badge/OPEN_PORTFOLIO-prempsingh.com-285F47?style=for-the-badge)](https://www.prempsingh.com)
+[![Research](https://img.shields.io/badge/EXPLORE-RESEARCH-9C482D?style=for-the-badge)](https://www.prempsingh.com/#research)
+[![Methods](https://img.shields.io/badge/VIEW-METHODS-46567D?style=for-the-badge)](https://www.prempsingh.com/methods)
+[![Visual Lab](https://img.shields.io/badge/ENTER-VISUAL_LAB-7A5B16?style=for-the-badge)](https://www.prempsingh.com/gallery)
 
 </div>
 
 ---
 
-## About
+## 🧭 Explore the portfolio
 
-This portfolio follows research from a crop question to decision-ready evidence. It brings together field biology, molecular diagnostics, multi-omics, statistics, machine learning, and reproducible analysis—alongside publications, projects, methods, and visual data stories.
+| | Area | What lives there | Open |
+|---|---|---|---|
+| 🌿 | **Research** | Crop-disease programs, publications, and project evidence | [View research →](https://www.prempsingh.com/#research) |
+| 🧬 | **Methods** | Visual explanations of statistical and biological methods | [Browse methods →](https://www.prempsingh.com/methods) |
+| 📊 | **Data stories** | Reproducible analyses translated into clear findings | [Read the data →](https://www.prempsingh.com/data) |
+| 🎨 | **Visual Lab** | Research illustrations, charts, maps, and presentation assets | [See the visuals →](https://www.prempsingh.com/gallery) |
+| ✍️ | **Field notes** | Short research writing connecting crop biology and data | [Open the blog →](https://www.prempsingh.com/blog) |
 
-**Research path:** Field observation → biological measurement → data integration → crop decision
+---
 
-**Key sections:** About / Experience / Research / Methods / Data / Blog / Visual Lab / Interactive Research Farm / Contact
+## 🔁 The evidence pathway
 
-## Tech Stack
+<p align="center">
+  <strong>🌿 Observe &nbsp;➜&nbsp; 🔬 Measure &nbsp;➜&nbsp; 🧹 Quality-check &nbsp;➜&nbsp; 📊 Model &nbsp;➜&nbsp; 🎯 Decide</strong>
+</p>
 
-| Layer | Tools |
-|-------|-------|
-| **Framework** | Next.js 16, React 19, TypeScript 5 |
-| **Interface** | Tailwind CSS 4, Framer Motion, Radix UI |
-| **Interactive visuals** | Three.js, React Three Fiber, Embla Carousel |
-| **Research content** | MDX, gray-matter, GFM, KaTeX |
-| **Discoverability** | JSON-LD, Open Graph, RSS, sitemap generation |
-| **Automation** | Python, OpenAI API, GitHub Actions, SMTP notifications |
-| **Deployment** | Vercel |
+The site is organized around one idea: a model is useful only when it remains connected to the crop question, the measurement, and the uncertainty behind it.
 
-## Research Blog Automation
+| Biology layer | Data layer |
+|---|---|
+| Field sampling · plant pathology · molecular diagnostics · multi-omics | Reproducible pipelines · statistics · machine learning · causal analysis · visualization |
 
-An assisted, review-first pipeline prepares a research draft every other Thursday. Nothing is published automatically.
+---
+
+## 🧱 Built as a research system
+
+| Layer | Purpose | Core tools |
+|---|---|---|
+| **Experience** | Responsive navigation, motion, and interactive storytelling | Next.js 16 · React 19 · TypeScript · Tailwind CSS · Framer Motion |
+| **Evidence** | Long-form research reports, equations, citations, and reusable content | MDX · GFM · KaTeX · gray-matter |
+| **Visualization** | Charts, carousels, research graphics, and visual collections | SVG · React components · Embla Carousel · Lucide |
+| **Discovery** | Search-friendly research pages and machine-readable metadata | JSON-LD · Open Graph · RSS · sitemap generation |
+| **Workflow** | Review-first research drafting and repository automation | Python · GitHub Actions · OpenAI API · SMTP notifications |
+| **Delivery** | Production deployment and environment-managed services | Vercel |
+
+---
+
+## 🤖 Research writing, with a human checkpoint
+
+The automation assists with discovery and drafting; it does not publish on its own.
 
 ```text
-Research themes + author voice profile
-                 ↓
-arXiv + OpenAlex + Europe PMC + Google News
-                 ↓
-Source ranking and draft preparation
-                 ↓
+Research themes + author voice
+            ↓
+Literature and news discovery
+            ↓
+Source ranking + draft preparation
+            ↓
 Reference, similarity, and link checks
-                 ↓
-Email preview for human review
-                 ↓
-Manual publication
+            ↓
+Email preview → human review → manual publication
 ```
 
-- **Schedule:** Every other Thursday
-- **Sources:** arXiv, OpenAlex, Europe PMC, and Google News
-- **Checks:** References, similarity, and link reachability
-- **Publishing:** Human review is required before release
-
-## Project Structure
+<details>
+<summary><strong>📁 Open the repository map</strong></summary>
 
 ```text
-app/                     Routes, metadata, feeds, APIs, and research experiences
-components/              Interface, charts, and interactive components
+app/                     Routes, metadata, feeds, APIs, and page composition
+components/              Interface, charts, and interactive research components
 content/                 Blog posts, method reports, and data stories in MDX
 profile/                 Publications, projects, experience, skills, and metrics
 data-interpretations/    Reproducible analyses and report-specific data
@@ -71,31 +84,36 @@ lib/                     Content loaders and shared utilities
 public/                  CV, images, figures, and downloadable assets
 ```
 
-## Getting Started
+</details>
+
+<details>
+<summary><strong>💻 Run the portfolio locally</strong></summary>
 
 ```bash
-# Install dependencies
 npm install
-
-# Run the local website
 npm run dev
+```
 
-# Check code quality and the production build
+Open [http://localhost:3000](http://localhost:3000). Before shipping a change:
+
+```bash
 npm run lint
 npm run build
 ```
 
-Open [http://localhost:3000](http://localhost:3000).
-
-## Connect
-
-[![Google Scholar](https://img.shields.io/badge/Google_Scholar-4285F4?style=flat-square&logo=google-scholar&logoColor=white)](https://scholar.google.com/citations?user=UGFMZEYAAAAJ&hl=en)
-[![LinkedIn](https://img.shields.io/badge/LinkedIn-0A66C2?style=flat-square&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/prem-p-singh)
-[![ORCID](https://img.shields.io/badge/ORCID-A6CE39?style=flat-square&logo=orcid&logoColor=white)](https://orcid.org/0000-0001-7921-9379)
-[![ResearchGate](https://img.shields.io/badge/ResearchGate-00CCBB?style=flat-square&logo=researchgate&logoColor=white)](https://www.researchgate.net/profile/Prem-Singh-12)
+</details>
 
 ---
 
 <div align="center">
-<sub>Field → bench → data → evidence → crop decision</sub>
+
+### Connect with Prem
+
+[![Google Scholar](https://img.shields.io/badge/Google_Scholar-Research-4285F4?style=flat-square&logo=googlescholar&logoColor=white)](https://scholar.google.com/citations?user=UGFMZEYAAAAJ&hl=en)
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-Connect-0A66C2?style=flat-square&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/prem-p-singh)
+[![ORCID](https://img.shields.io/badge/ORCID-0000--0001--7921--9379-A6CE39?style=flat-square&logo=orcid&logoColor=white)](https://orcid.org/0000-0001-7921-9379)
+[![ResearchGate](https://img.shields.io/badge/ResearchGate-Profile-00CCBB?style=flat-square&logo=researchgate&logoColor=white)](https://www.researchgate.net/profile/Prem-Singh-12)
+
+**🌿 Field &nbsp;➜&nbsp; 🔬 Bench &nbsp;➜&nbsp; 💻 Data &nbsp;➜&nbsp; 📊 Evidence &nbsp;➜&nbsp; 🎯 Crop decision**
+
 </div>
