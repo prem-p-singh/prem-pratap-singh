@@ -10,6 +10,27 @@ export const metadata: Metadata = {
   title: "Blog",
   description: "Visual field notes on plant disease, grapevine virology, molecular signals, and multi-omics.",
   alternates: { canonical: "/blog" },
+  openGraph: {
+    type: "website",
+    url: "/blog",
+    siteName: "Prem Pratap Singh",
+    title: "Research Blog | Prem Pratap Singh",
+    description: "Visual field notes on plant disease, grapevine virology, molecular signals, and multi-omics.",
+    images: [
+      {
+        url: "/opengraph-image",
+        width: 1200,
+        height: 630,
+        alt: "Prem Pratap Singh research blog",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Research Blog | Prem Pratap Singh",
+    description: "Visual field notes on plant disease, grapevine virology, molecular signals, and multi-omics.",
+    images: ["/opengraph-image"],
+  },
 };
 
 const topicNodes = [
