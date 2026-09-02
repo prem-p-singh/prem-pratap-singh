@@ -2,7 +2,7 @@ name: Biweekly Blog Draft
 
 on:
   schedule:
-    # Fires every Thursday at 1 PM UTC (8 AM PT). The biweekly-gate job below
+    # Fires every Thursday at 1 PM UTC. The biweekly-gate job below
     # then only proceeds on ODD ISO weeks, so a draft is generated every other
     # Thursday. GitHub cron has no native biweekly schedule.
     - cron: '0 13 * * 4'

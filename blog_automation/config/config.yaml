@@ -77,6 +77,8 @@ guards:
   check_link_reachability: true
   link_timeout_seconds: 8
   max_similarity_ratio: 0.72
+  max_topic_similarity: 0.68
+  max_reference_reuse_ratio: 0.50
   link_check_delay: 0.5
 
 notifications:

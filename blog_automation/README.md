@@ -1,6 +1,6 @@
 # Blog Automation (Approval-First)
 
-This pipeline generates **pending MDX drafts** on a schedule (weekly by default) from:
+This pipeline generates **pending MDX drafts** on a biweekly schedule from:
 - Keywords extracted from your CV PDF
 - Manual research keywords in `config.yaml`
 - Fresh updates from arXiv + Google News RSS
@@ -38,15 +38,16 @@ Drafts land in: `blog_automation/drafts/pending/<timestamp>--<slug>.mdx`
 ### Pipeline steps
 
 1. **Pre-flight self-test** — humanizer regexes are validated against a probe string. If anything is broken, the job aborts in under a second with **zero OpenAI spend**.
-2. **Keyword extraction** from CV PDF + manual config keywords.
-3. **Source gathering** from arXiv + Google News RSS.
+2. **Keyword selection** from the triangulated rotating keyword bank (with CV fallback).
+3. **Fresh source gathering** from arXiv, Google News, OpenAlex, and Europe PMC. Scholarly results are date-filtered, and references already used by published or pending posts are removed.
 4. **Source ranking** — LLM picks the top N most important/recent sources.
 5. **Draft generation** — LLM writes the blog body with strict reference-URL rules.
 6. **Raw-output backup** — the LLM response is saved to `blog_automation/drafts/raw/` immediately, so any later crash cannot erase paid output.
 7. **Humanizer pass** — removes AI writing patterns (see below). Failures are **non-fatal**: the pipeline logs the error and continues with the un-humanized text.
 8. **Content verification** — word count, required sections, reference links, LLM-artifact scrub.
 9. **Reference enforcement** — replaces hallucinated URLs with real fetched sources.
-10. **Save draft + notify** (email / Telegram).
+10. **Blocking novelty gate** — compares topic similarity against both published and pending posts.
+11. **Save draft + notify** (email / Telegram).
 
 ### Humanizer
 
@@ -72,7 +73,11 @@ After confirmation, the file moves to `content/blog/<slug>.mdx`.
 
 - **References guard** — requires a `## References` section with at least `min_reference_links` entries (default 4).
 - **Link guard** — HTTP-tests every reference URL for reachability.
-- **Plagiarism guard** — compares draft against existing posts; fails above `max_similarity_ratio` (default 0.72).
+- **DOI guard** — validates scholarly links through Crossref and DataCite, including Zenodo datasets.
+- **Source-reuse guard** — blocks drafts when more than half their references already appear in published posts.
+- **Topic guard** — catches paraphrased or thematic duplicates using topic-term similarity.
+- **Plagiarism guard** — compares exact wording against existing posts; fails above `max_similarity_ratio` (default 0.72).
+- **Slug guard** — refuses to create numbered copies when a published slug already exists.
 
 ### CLI flags
 
@@ -199,6 +204,8 @@ guards:
   check_link_reachability: true
   link_timeout_seconds: 8
   max_similarity_ratio: 0.72
+  max_topic_similarity: 0.68
+  max_reference_reuse_ratio: 0.50
   link_check_delay: 0.5
 ```
 
@@ -208,7 +215,7 @@ guards:
 
 ### GitHub Actions (current production setup)
 
-- `.github/workflows/daily-blog-draft.yml` — scheduled weekly (Thursday 1 PM UTC). Generates a draft and commits it to `blog_automation/drafts/pending/`.
+- `.github/workflows/daily-blog-draft.yml` — checked every Thursday at 1 PM UTC and allowed through on odd ISO weeks, producing one draft every two weeks. Generates a draft and commits it to `blog_automation/drafts/pending/`.
 - `.github/workflows/publish-draft.yml` — manual trigger (`workflow_dispatch`). Reviews and publishes a pending draft with optional title/description overrides.
 
 ### Local cron (alternative)
@@ -251,6 +258,6 @@ blog_automation/
 content/blog/             # published posts (site source of truth)
 public/blog/<slug>/       # figures attached to posts
 .github/workflows/
-├── daily-blog-draft.yml  # weekly generation
+├── daily-blog-draft.yml  # biweekly generation gate
 └── publish-draft.yml     # manual publish
 ```

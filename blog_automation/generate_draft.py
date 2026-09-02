@@ -399,7 +399,7 @@ def select_triangulated_keywords(
 
 
 # ── Source Gathering ─────────────────────────────────────────────────────────
-def fetch_arxiv(keyword: str, max_items: int) -> List[Dict]:
+def fetch_arxiv(keyword: str, max_items: int, from_date: Optional[str] = None) -> List[Dict]:
     q = requests.utils.quote(keyword)
     url = (
         f"https://export.arxiv.org/api/query?search_query=all:{q}"
@@ -409,6 +409,15 @@ def fetch_arxiv(keyword: str, max_items: int) -> List[Dict]:
     feed = feedparser.parse(url)
     out = []
     for e in feed.entries[:max_items]:
+        published = e.get("published_parsed") or e.get("updated_parsed")
+        if from_date and published:
+            published_date = dt.date(*published[:3])
+            if published_date < dt.date.fromisoformat(from_date):
+                log.info(
+                    f"  Dropped stale arXiv item ({published_date}): "
+                    f"{e.get('title', '')[:60]}"
+                )
+                continue
         out.append({
             "title": e.get("title", "").strip().replace("\n", " "),
             "link": e.get("link", ""),
@@ -575,7 +584,7 @@ def gather_sources(keywords: List[str], feeds_cfg: Dict) -> List[Dict]:
     for kw in keywords:
         items: List[Dict] = []
         if enabled("arxiv", True):
-            items += fetch_arxiv(kw, cap("arxiv"))
+            items += fetch_arxiv(kw, cap("arxiv"), from_date)
         if enabled("google_news", True):
             items += fetch_google_news(kw, cap("google_news"))
         if enabled("openalex", False):
@@ -597,6 +606,37 @@ def gather_sources(keywords: List[str], feeds_cfg: Dict) -> List[Dict]:
             item["keyword"] = kw
             merged.append(item)
     return merged[:pool_cap]
+
+
+def _reference_urls_in(directories: List[Path]) -> set[str]:
+    """Collect normalized reference URLs already used by published or pending posts."""
+    urls: set[str] = set()
+    for directory in directories:
+        if not directory.exists():
+            continue
+        for path in directory.glob("*.mdx"):
+            try:
+                raw = path.read_text(encoding="utf-8")
+            except Exception:
+                continue
+            urls.update(_normalize_url(url) for url in re.findall(r"\]\((https?://[^)]+)\)", raw))
+    return urls
+
+
+def remove_previously_used_sources(
+    sources: List[Dict], directories: List[Path]
+) -> Tuple[List[Dict], List[Dict]]:
+    """Keep automated drafts focused on sources not already used by the site or queue."""
+    used_urls = _reference_urls_in(directories)
+    fresh: List[Dict] = []
+    reused: List[Dict] = []
+    for source in sources:
+        normalized = _normalize_url(source.get("link", ""))
+        if normalized and normalized in used_urls:
+            reused.append(source)
+        else:
+            fresh.append(source)
+    return fresh, reused
 
 
 # ── Source Ranking ───────────────────────────────────────────────────────────
@@ -1156,19 +1196,58 @@ Return ONLY the JSON array."""
     return []
 
 
-# ── Novelty check (advisory) ─────────────────────────────────────────────────
-def check_novelty(title: str, description: str, content_dir: Path, threshold: float = 0.5):
-    """Compare the new post's title+description against existing posts.
+# ── Novelty check ────────────────────────────────────────────────────────────
+TOPIC_STOPWORDS = {
+    "the", "and", "for", "with", "that", "from", "this", "what", "when",
+    "where", "which", "into", "new", "today", "todays", "week", "weeks",
+    "research", "study", "studies", "paper", "papers", "plant", "plants",
+    "crop", "crops", "data", "model", "models", "method", "methods",
+}
 
-    Cheap, deterministic word-overlap. Returns (is_novel, detail). Flags the
-    closest existing post when overlap meets the threshold.
-    """
-    new_text = f"{title} {description}"
-    if not content_dir.exists():
-        return True, "No existing posts to compare against."
+
+def _topic_tokens(text: str) -> List[str]:
+    return [
+        word for word in re.findall(r"[a-z][a-z0-9-]{2,}", text.lower())
+        if word not in TOPIC_STOPWORDS
+    ]
+
+
+def _topic_similarity(text_a: str, text_b: str) -> float:
+    """Cosine similarity over meaningful topic terms, robust to paraphrasing."""
+    counts_a: Dict[str, int] = {}
+    counts_b: Dict[str, int] = {}
+    for word in _topic_tokens(text_a):
+        counts_a[word] = counts_a.get(word, 0) + 1
+    for word in _topic_tokens(text_b):
+        counts_b[word] = counts_b.get(word, 0) + 1
+    if not counts_a or not counts_b:
+        return 0.0
+    dot = sum(value * counts_b.get(word, 0) for word, value in counts_a.items())
+    norm_a = sum(value * value for value in counts_a.values()) ** 0.5
+    norm_b = sum(value * value for value in counts_b.values()) ** 0.5
+    return dot / (norm_a * norm_b)
+
+
+def check_novelty(
+    title: str,
+    description: str,
+    body: str,
+    content_dirs: List[Path],
+    threshold: float = 0.68,
+):
+    """Compare a draft topic against both published and still-pending posts."""
+    new_text = f"{title} {description} {body}"
+    candidates = [
+        path
+        for directory in content_dirs
+        if directory.exists()
+        for path in sorted(directory.glob("*.mdx"))
+    ]
+    if not candidates:
+        return True, "No existing posts or pending drafts to compare against."
     best_ratio = 0.0
-    best_slug = None
-    for p in sorted(content_dir.glob("*.mdx")):
+    best_path = None
+    for p in candidates:
         try:
             raw = p.read_text(encoding="utf-8")
         except Exception:
@@ -1178,14 +1257,15 @@ def check_novelty(title: str, description: str, content_dir: Path, threshold: fl
         existing = " ".join(filter(None, [
             m_title.group(1) if m_title else "",
             m_desc.group(1) if m_desc else "",
+            raw.split("\n---\n", 1)[1] if "\n---\n" in raw else raw,
         ]))
-        ratio = _title_word_overlap(new_text, existing)
+        ratio = _topic_similarity(new_text, existing)
         if ratio > best_ratio:
             best_ratio = ratio
-            best_slug = p.stem
+            best_path = p
     if best_ratio >= threshold:
-        return False, f"Overlaps existing post '{best_slug}' (overlap {best_ratio:.2f})"
-    closest = f", closest '{best_slug}'" if best_slug else ""
+        return False, f"Overlaps '{best_path}' (topic similarity {best_ratio:.2f})"
+    closest = f", closest '{best_path}'" if best_path else ""
     return True, f"Distinct topic (max overlap {best_ratio:.2f}{closest})"
 
 
@@ -1594,6 +1674,8 @@ def main() -> None:
     report = DiagnosticReport()
     cfg = load_config(Path(args.config))
     reset_usage()
+    content_dir = Path(cfg["site"].get("blog_content_dir", "./content/blog"))
+    pending_dir = Path("./blog_automation/drafts/pending")
 
     # ── Step 0: Self-test post-processing (catch bugs BEFORE paid OpenAI calls) ──
     t0 = time.time()
@@ -1665,6 +1747,21 @@ def main() -> None:
 
         if not sources:
             raise RuntimeError("No sources fetched. Check internet connectivity or keyword quality.")
+
+        sources, reused_sources = remove_previously_used_sources(
+            sources, [content_dir, pending_dir]
+        )
+        if reused_sources:
+            log.info(
+                f"Removed {len(reused_sources)} source(s) already used by a published "
+                "post or pending draft."
+            )
+        min_reference_links = int(cfg.get("guards", {}).get("min_reference_links", 4))
+        if len(sources) < min_reference_links:
+            raise RuntimeError(
+                f"Only {len(sources)} unused sources remain after deduplication; "
+                f"need at least {min_reference_links}. Try a different rotating theme."
+            )
 
         by_platform: Dict[str, int] = {}
         for s in sources:
@@ -1809,11 +1906,21 @@ def main() -> None:
     else:
         flagged_claims = []
 
-    # ── Step 5d: Novelty check (advisory) ─────────────────────────────────
-    content_dir = Path(cfg["site"].get("blog_content_dir", "./content/blog"))
-    is_novel, novelty_detail = check_novelty(title, description, content_dir)
+    # ── Step 5d: Novelty check (blocking) ─────────────────────────────────
+    novelty_threshold = float(cfg.get("guards", {}).get("max_topic_similarity", 0.68))
+    is_novel, novelty_detail = check_novelty(
+        title,
+        description,
+        body,
+        [content_dir, pending_dir],
+        threshold=novelty_threshold,
+    )
     report.add_verify("Novelty", is_novel, novelty_detail)
     log.info(f"Novelty check: {novelty_detail}")
+    if not is_novel:
+        report.add_step("Novelty gate", False, 0.0, novelty_detail)
+        _send_error_notification(cfg, novelty_detail, report)
+        raise RuntimeError(f"Duplicate topic blocked before saving: {novelty_detail}")
 
     # ── Step 6: Save draft ────────────────────────────────────────────────
     tags = [k.replace("-", " ") for k in keywords[:6]]
@@ -1821,7 +1928,7 @@ def main() -> None:
     body += "\n\n> Status: PENDING_APPROVAL\n"
 
     full_content = frontmatter + "\n" + body.strip() + "\n"
-    out, slug = save_pending_mdx(frontmatter, body, Path("./blog_automation/drafts/pending"), title)
+    out, slug = save_pending_mdx(frontmatter, body, pending_dir, title)
     log.info(f"Draft saved: {out}")
     log.info(f"Slug: {slug}")
 

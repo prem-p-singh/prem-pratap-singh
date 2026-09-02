@@ -93,25 +93,21 @@ jobs:
           echo "Using slug: $SLUG"
 
       - name: Publish draft
+        env:
+          INPUT_TITLE: ${{ inputs.title }}
+          INPUT_DESCRIPTION: ${{ inputs.description }}
         run: |
-          FORCE_FLAG=""
+          ARGS=(--file "$DRAFT_PATH" --slug "$SLUG" --yes)
           if [ "${{ inputs.skip_guards }}" = "true" ]; then
-            FORCE_FLAG="--force"
+            ARGS+=(--force)
           fi
-          TITLE_FLAG=""
-          if [ -n "${{ inputs.title }}" ]; then
-            TITLE_FLAG="--title \"${{ inputs.title }}\""
+          if [ -n "$INPUT_TITLE" ]; then
+            ARGS+=(--title "$INPUT_TITLE")
           fi
-          DESC_FLAG=""
-          if [ -n "${{ inputs.description }}" ]; then
-            DESC_FLAG="--description \"${{ inputs.description }}\""
+          if [ -n "$INPUT_DESCRIPTION" ]; then
+            ARGS+=(--description "$INPUT_DESCRIPTION")
           fi
-          eval python blog_automation/approve_and_publish.py \
-            --file "${{ env.DRAFT_PATH }}" \
-            --yes \
-            $FORCE_FLAG \
-            $TITLE_FLAG \
-            $DESC_FLAG
+          python blog_automation/approve_and_publish.py "${ARGS[@]}"
 
       - name: Commit and push
         run: |

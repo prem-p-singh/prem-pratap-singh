@@ -9,6 +9,7 @@ import subprocess
 import sys
 import tempfile
 import time
+import urllib.parse
 from pathlib import Path
 
 import requests
@@ -39,17 +40,23 @@ def extract_slug_from_filename(path: Path) -> str:
     return name
 
 
+def validate_slug(slug: str) -> str:
+    slug = slug.strip().lower()
+    if not re.fullmatch(r"[a-z0-9]+(?:-[a-z0-9]+)*", slug):
+        raise ValueError(
+            "Slug must contain only lowercase letters, numbers, and single hyphens."
+        )
+    return slug
+
+
 def ensure_unique_destination(base_dir: Path, slug: str) -> Path:
     candidate = base_dir / f"{slug}.mdx"
-    if not candidate.exists():
-        return candidate
-
-    i = 2
-    while True:
-        candidate = base_dir / f"{slug}-{i}.mdx"
-        if not candidate.exists():
-            return candidate
-        i += 1
+    if candidate.exists():
+        raise FileExistsError(
+            f"A published post already uses slug '{slug}': {candidate}. "
+            "Choose a genuinely distinct slug instead of creating a numbered copy."
+        )
+    return candidate
 
 
 def split_frontmatter_and_body(raw: str):
@@ -68,6 +75,68 @@ def normalize_text(text: str) -> str:
     text = re.sub(r"[^a-zA-Z0-9\s]", " ", text.lower())
     text = re.sub(r"\s+", " ", text).strip()
     return text
+
+
+TOPIC_STOPWORDS = {
+    "the", "and", "for", "with", "that", "from", "this", "what", "when",
+    "where", "which", "into", "new", "today", "todays", "week", "weeks",
+    "research", "study", "studies", "paper", "papers", "plant", "plants",
+    "crop", "crops", "data", "model", "models", "method", "methods",
+}
+
+
+def topic_tokens(text: str):
+    return [
+        word for word in re.findall(r"[a-z][a-z0-9-]{2,}", text.lower())
+        if word not in TOPIC_STOPWORDS
+    ]
+
+
+def topic_similarity(text_a: str, text_b: str) -> float:
+    counts_a = {}
+    counts_b = {}
+    for word in topic_tokens(text_a):
+        counts_a[word] = counts_a.get(word, 0) + 1
+    for word in topic_tokens(text_b):
+        counts_b[word] = counts_b.get(word, 0) + 1
+    if not counts_a or not counts_b:
+        return 0.0
+    dot = sum(value * counts_b.get(word, 0) for word, value in counts_a.items())
+    norm_a = sum(value * value for value in counts_a.values()) ** 0.5
+    norm_b = sum(value * value for value in counts_b.values()) ** 0.5
+    return dot / (norm_a * norm_b)
+
+
+def normalize_reference_url(url: str) -> str:
+    url = re.sub(r"^https?://", "", url.strip().lower())
+    url = re.sub(r"^www\.", "", url)
+    return url.split("?", 1)[0].rstrip("/")
+
+
+def published_reference_urls(content_dir: Path):
+    urls = set()
+    for path in content_dir.glob("*.mdx"):
+        try:
+            raw = path.read_text(encoding="utf-8")
+        except Exception:
+            continue
+        urls.update(normalize_reference_url(url) for url in extract_reference_links(raw))
+    return urls
+
+
+def max_topic_similarity_with_existing(draft_text: str, content_dir: Path):
+    max_ratio = 0.0
+    max_file = None
+    for path in content_dir.glob("*.mdx"):
+        try:
+            raw = path.read_text(encoding="utf-8")
+        except Exception:
+            continue
+        ratio = topic_similarity(draft_text, raw)
+        if ratio > max_ratio:
+            max_ratio = ratio
+            max_file = path
+    return max_ratio, max_file
 
 
 def extract_reference_links(body: str):
@@ -90,28 +159,37 @@ BROWSER_UA = (
 
 
 def doi_is_registered(url: str, timeout_sec: int) -> bool:
-    """Validate a DOI through Crossref, which permits automated access."""
+    """Validate a DOI through Crossref, then DataCite for Zenodo and datasets."""
     match = re.search(r"doi\.org/(10\.[^\s/]+/[^\s?#]+)", url)
     if not match:
         return False
-    try:
-        r = requests.get(
-            f"https://api.crossref.org/works/{match.group(1)}",
-            timeout=timeout_sec,
-            headers={"User-Agent": BROWSER_UA},
-        )
-        return r.status_code == 200
-    except Exception:
-        return False
+    doi = match.group(1)
+    encoded = urllib.parse.quote(doi, safe="")
+    registries = (
+        f"https://api.crossref.org/works/{encoded}",
+        f"https://api.datacite.org/dois/{encoded}",
+    )
+    for registry_url in registries:
+        try:
+            r = requests.get(
+                registry_url,
+                timeout=timeout_sec,
+                headers={"User-Agent": BROWSER_UA},
+            )
+            if r.status_code == 200:
+                return True
+        except Exception:
+            continue
+    return False
 
 
 def check_links_reachable(links, timeout_sec: int, delay: float = 0.5):
     """Return only links that are genuinely dead.
 
     Publisher sites frequently block or reset automated requests (403, 429, or a
-    raw connection reset). For DOI links, the Crossref registry is the source of
-    truth: if the DOI is registered there, the reference is real regardless of how
-    the direct request failed. Non-DOI links only fail on hard errors.
+    raw connection reset). DOI links are verified through Crossref or DataCite,
+    so publisher bot blocking does not make a registered reference fail.
+    Non-DOI links only fail on hard errors.
     """
     bad = []
     headers = {"User-Agent": BROWSER_UA}
@@ -135,13 +213,16 @@ def check_links_reachable(links, timeout_sec: int, delay: float = 0.5):
         if status is not None and 200 <= status < 400:
             continue
 
-        # DOI links: validate against Crossref regardless of the failure mode
+        # DOI links: validate against Crossref or DataCite regardless of the failure mode
         # (403/429 bot block, connection reset, timeout). Registered means real.
         if "doi.org" in link:
             if doi_is_registered(link, timeout_sec):
-                log.info(f"  DOI blocked/failed automation ({status or 'conn error'}) but is registered in Crossref: {link}")
+                log.info(
+                    f"  DOI blocked/failed automation ({status or 'conn error'}) "
+                    f"but is present in a DOI registry: {link}"
+                )
             else:
-                log.warning(f"  DOI not found in Crossref registry: {link}")
+                log.warning(f"  DOI not found in Crossref or DataCite: {link}")
                 bad.append((link, status or "error"))
             continue
 
@@ -183,6 +264,8 @@ def run_quality_guards(raw_text: str, cfg: dict, content_dir: Path):
     timeout_sec = int(guards.get("link_timeout_seconds", 8))
     link_check_delay = float(guards.get("link_check_delay", 0.5))
     plagiarism_threshold = float(guards.get("max_similarity_ratio", 0.72))
+    topic_threshold = float(guards.get("max_topic_similarity", 0.68))
+    reference_reuse_threshold = float(guards.get("max_reference_reuse_ratio", 0.5))
 
     _, body = split_frontmatter_and_body(raw_text)
     refs = extract_reference_links(body)
@@ -200,7 +283,28 @@ def run_quality_guards(raw_text: str, cfg: dict, content_dir: Path):
     else:
         log.info(f"Reference links: {len(refs)} (min: {min_links})")
 
-    # Guard 3: Link reachability (rate-limited)
+    # Guard 3: Do not build a nominally new post around already-published sources.
+    if refs:
+        existing_refs = published_reference_urls(content_dir)
+        reused = [url for url in refs if normalize_reference_url(url) in existing_refs]
+        reuse_ratio = len(reused) / len(refs)
+        if reuse_ratio > reference_reuse_threshold:
+            log.warning(
+                f"Published-reference reuse too high: {len(reused)}/{len(refs)} "
+                f"({reuse_ratio:.2f}, max {reference_reuse_threshold:.2f})"
+            )
+            errors.append(
+                f"Source duplication risk: {len(reused)}/{len(refs)} references "
+                f"already appear in published posts ({reuse_ratio:.2f} > "
+                f"{reference_reuse_threshold:.2f})."
+            )
+        else:
+            log.info(
+                f"Published-reference reuse: {len(reused)}/{len(refs)} "
+                f"({reuse_ratio:.2f}, max {reference_reuse_threshold:.2f})"
+            )
+
+    # Guard 4: Link reachability (rate-limited)
     if check_reachability and refs:
         log.info(f"Checking {len(refs)} reference links (delay={link_check_delay}s)...")
         bad_links = check_links_reachable(refs, timeout_sec, delay=link_check_delay)
@@ -211,7 +315,19 @@ def run_quality_guards(raw_text: str, cfg: dict, content_dir: Path):
         else:
             log.info("All reference links reachable")
 
-    # Guard 4: Plagiarism/similarity check
+    # Guard 5: Topic similarity catches paraphrased duplicates.
+    log.info("Running topic similarity check against existing posts...")
+    topic_ratio, topic_file = max_topic_similarity_with_existing(raw_text, content_dir)
+    if topic_ratio >= topic_threshold:
+        log.warning(f"High topic similarity: {topic_ratio:.2f} (threshold: {topic_threshold})")
+        errors.append(
+            f"Topic duplication risk: similarity {topic_ratio:.2f} meets/exceeds "
+            f"{topic_threshold:.2f}" + (f" (closest: {topic_file})" if topic_file else "")
+        )
+    else:
+        log.info(f"Topic similarity passed: {topic_ratio:.2f} (threshold: {topic_threshold})")
+
+    # Guard 6: Exact wording/plagiarism similarity check.
     log.info("Running similarity check against existing posts...")
     sim_ratio, sim_file = max_similarity_with_existing(body, content_dir)
     if sim_ratio > plagiarism_threshold:
@@ -317,6 +433,7 @@ def main() -> None:
     parser = argparse.ArgumentParser(description="Approve and publish pending MDX draft to content/blog")
     parser.add_argument("--config", default="./blog_automation/config/config.yaml")
     parser.add_argument("--file", default=None, help="Specific pending draft file")
+    parser.add_argument("--slug", default=None, help="Override the destination slug")
     parser.add_argument("--yes", action="store_true", help="Skip interactive confirmation")
     parser.add_argument("--force", action="store_true", help="Bypass quality guards and publish anyway")
     parser.add_argument("--title", default=None, help="Override the draft title before publishing")
@@ -371,7 +488,7 @@ def main() -> None:
             print(line.rstrip("\n"))
 
     # ── Figures: copy images and insert into body ───────────────────────────
-    slug = extract_slug_from_filename(src)
+    slug = validate_slug(args.slug or extract_slug_from_filename(src))
     if args.figures:
         copied_figures = copy_figures(args.figures, slug)
         if copied_figures:
