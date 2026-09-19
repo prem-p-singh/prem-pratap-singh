@@ -69,6 +69,10 @@ const socialItems = [
 export default function Footer() {
   const currentYear = new Date().getFullYear();
 
+  const openPrivacyChoices = () => {
+    window.dispatchEvent(new Event("open-analytics-consent"));
+  };
+
   return (
     <footer className="relative z-10 bg-[var(--background)]">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -106,6 +110,13 @@ export default function Footer() {
           <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-sm text-[var(--muted-foreground)]">
             <p>&copy; {currentYear} {personal.name}. All rights reserved.</p>
             <Link href="/privacy" className="hover:text-[var(--foreground)] transition-colors">Privacy</Link>
+            <button
+              type="button"
+              onClick={openPrivacyChoices}
+              className="hover:text-[var(--foreground)] transition-colors"
+            >
+              Privacy choices
+            </button>
           </div>
           <div className="flex items-center gap-4">
             {socialItems.map((social) => (

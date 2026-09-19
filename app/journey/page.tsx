@@ -1,14 +1,14 @@
-import type { Metadata } from "next";
 import { ShinyCard } from "@/components/ui/shiny-card";
 import JourneyChapters from "@/components/JourneyChapters";
 import JourneyImpact from "@/components/JourneyImpact";
+import { buildPageMetadata } from "@/lib/metadata";
 
-export const metadata: Metadata = {
+export const metadata = buildPageMetadata({
   title: "A Research Journey",
   description:
     "From a Botany gold medal at BHU to grapevine virology and multi-omics at UC Davis. Milestones, publications, and the people who opened their labs along the way.",
-  alternates: { canonical: "https://www.prempsingh.com/journey" },
-};
+  path: "/journey",
+});
 
 
 export default function JourneyPage() {

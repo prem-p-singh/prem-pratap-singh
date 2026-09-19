@@ -1,15 +1,13 @@
-import type { Metadata } from "next";
 import VisualGallery, { type GalleryItem } from "@/components/gallery/VisualGallery";
 import { getAllPosts } from "@/lib/mdx";
 import { getAllMethodPosts } from "@/lib/methods";
+import { buildPageMetadata } from "@/lib/metadata";
 
-export const metadata: Metadata = {
+export const metadata = buildPageMetadata({
   title: "Gallery",
   description: "A visual collection of research illustrations, data stories, and methods from plant pathology and grapevine virology.",
-  alternates: {
-    canonical: "/gallery",
-  },
-};
+  path: "/gallery",
+});
 
 export default function GalleryPage() {
   const blogPresentations: GalleryItem[] = getAllPosts()

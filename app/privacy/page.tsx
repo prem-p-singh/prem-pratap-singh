@@ -1,11 +1,11 @@
-import type { Metadata } from "next";
 import Link from "next/link";
+import { buildPageMetadata } from "@/lib/metadata";
 
-export const metadata: Metadata = {
+export const metadata = buildPageMetadata({
   title: "Privacy",
   description: "How this portfolio handles contact, newsletter, and basic technical data.",
-  alternates: { canonical: "/privacy" },
-};
+  path: "/privacy",
+});
 
 export default function PrivacyPage() {
   return (
@@ -24,6 +24,9 @@ export default function PrivacyPage() {
           <p>
             If you subscribe, your email address is sent to Buttondown and used only to deliver occasional research notes. Buttondown processes that address under its own privacy terms. You can unsubscribe from any newsletter email.
           </p>
+          <p>
+            Newsletter signup is protected by Cloudflare Turnstile, which checks whether a request is likely to come from a person rather than automated abuse. Cloudflare may process technical information needed to perform that security check under its own privacy policy.
+          </p>
 
           <h2>Contact</h2>
           <p>
@@ -37,19 +40,19 @@ export default function PrivacyPage() {
 
           <h2>Usage analytics</h2>
           <p>
-            The site uses Microsoft Clarity to understand how visitors use pages, through aggregated heatmaps and session replays. Clarity sets cookies and records interactions such as clicks, scrolling, and page navigation. Text you type into form fields is masked and not recorded. Microsoft processes this data under the <a href="https://privacy.microsoft.com/privacystatement">Microsoft Privacy Statement</a>. You can block it with any standard tracker blocker.
+            If you select “Allow analytics,” the site loads Microsoft Clarity to understand how visitors use pages through aggregated heatmaps and session replays. Clarity may set cookies and record interactions such as clicks, scrolling, and page navigation. Text typed into form fields is masked and not recorded. Microsoft processes this data under the <a href="https://privacy.microsoft.com/privacystatement">Microsoft Privacy Statement</a>.
           </p>
 
           <h2>Your choices</h2>
           <p>
-            You can browse without creating an account. Theme preference may be stored in your browser so the site can remember light or dark mode. To ask about information you submitted, use the contact section on the homepage.
+            You can browse without creating an account. Analytics remains off unless you allow it, and you can reopen “Privacy choices” from the footer at any time. Theme and consent preferences may be stored in your browser so the site can remember them. To ask about information you submitted, use the contact section on the homepage.
           </p>
         </div>
 
         <Link href="/#contact" className="mt-10 inline-flex text-sm font-semibold text-primary hover:underline">
           Contact Prem Pratap Singh
         </Link>
-        <p className="mt-8 text-xs text-muted-foreground">Last updated September 18, 2026.</p>
+        <p className="mt-8 text-xs text-muted-foreground">Last updated September 19, 2026.</p>
       </section>
     </main>
   );

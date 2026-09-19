@@ -17,8 +17,8 @@ export default function HeroClient() {
     <section id="about" data-guided-scroll-section className="guided-scroll-section relative flex items-center overflow-hidden pt-16">
       <div className="absolute inset-0 bg-dot-grid opacity-20" />
       <div className="relative mx-auto max-w-6xl px-4 pb-6 pt-10 sm:px-6 sm:pb-8 sm:pt-12 lg:px-8">
-        <div className="grid items-center gap-14 lg:grid-cols-2">
-          <div className="order-2 lg:order-2">
+        <div className="grid items-center gap-10 lg:grid-cols-2 lg:gap-14">
+          <div className="order-1 lg:order-2">
             <p className="text-sm font-semibold text-field">
               Crop biology, measured carefully
             </p>
@@ -95,7 +95,7 @@ export default function HeroClient() {
             </div>
           </div>
 
-          <div className="order-1 flex justify-center lg:order-1">
+          <div className="order-2 flex justify-center lg:order-1">
             <div className="relative size-72 sm:size-80 lg:size-96">
               <div className="absolute inset-0 rounded-full bg-[conic-gradient(from_210deg,var(--field-wash),var(--biology-wash),var(--data-wash),var(--field-wash))] blur-3xl" />
               <div className="relative size-full overflow-hidden rounded-full border-2 border-field/30 shadow-2xl">

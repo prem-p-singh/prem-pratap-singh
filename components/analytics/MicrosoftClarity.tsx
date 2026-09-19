@@ -1,3 +1,5 @@
+"use client";
+
 import Script from "next/script";
 
 // Set NEXT_PUBLIC_CLARITY_PROJECT_ID in Vercel to enable. Without it, nothing loads.

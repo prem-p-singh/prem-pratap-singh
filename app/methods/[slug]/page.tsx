@@ -45,6 +45,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const post = getMethodPostBySlug(slug);
   if (!post) return { title: "Not Found" };
+  const socialImage = post.visualSummary || post.image;
   return {
     title: post.title,
     description: post.description,
@@ -54,6 +55,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       description: post.description,
       type: "article",
       url: `https://www.prempsingh.com/methods/${slug}`,
+      images: socialImage ? [{ url: socialImage, alt: post.title }] : undefined,
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: post.title,
+      description: post.description,
+      images: socialImage ? [socialImage] : undefined,
     },
   };
 }

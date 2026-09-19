@@ -1,16 +1,16 @@
-import type { Metadata } from "next";
 import Link from "next/link";
 import Image from "next/image";
 import { ArrowRight } from "lucide-react";
 import { getAllDataPosts } from "@/lib/data";
 import { formatContentDate } from "@/lib/date";
+import { buildPageMetadata } from "@/lib/metadata";
 
-export const metadata: Metadata = {
+export const metadata = buildPageMetadata({
   title: "Open Data, Decoded",
   description:
     "Public datasets in plant science, read honestly. Reproducible analyses that turn raw open data into clear, defensible interpretation, with the code behind every figure.",
-  alternates: { canonical: "/data" },
-};
+  path: "/data",
+});
 
 export default function DataPage() {
   const posts = getAllDataPosts();

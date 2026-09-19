@@ -3,7 +3,7 @@ import { Urbanist } from "next/font/google";
 import "./globals.css";
 import FloatingNavWrapper from "@/components/FloatingNavWrapper";
 import Footer from "@/components/Footer";
-import MicrosoftClarity from "@/components/analytics/MicrosoftClarity";
+import ConsentAwareAnalytics from "@/components/analytics/ConsentAwareAnalytics";
 
 const urbanist = Urbanist({
   variable: "--font-urbanist",
@@ -139,11 +139,6 @@ const websiteJsonLd = {
     name: "Prem Pratap Singh",
     url: siteUrl,
   },
-  potentialAction: {
-    "@type": "SearchAction",
-    target: `${siteUrl}/blog?q={search_term_string}`,
-    "query-input": "required name=search_term_string",
-  },
 };
 
 const profilePageJsonLd = {
@@ -212,7 +207,7 @@ export default function RootLayout({
           {children}
         </main>
         <Footer />
-        <MicrosoftClarity />
+        <ConsentAwareAnalytics />
       </body>
     </html>
   );

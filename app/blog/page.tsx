@@ -132,6 +132,28 @@ export default function BlogPage() {
         <section className="border-t border-border py-6 sm:py-8">
           <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
             <BlogSearchList posts={library} />
+
+            <details className="mt-10 border-y border-border py-5">
+              <summary className="cursor-pointer list-none text-sm font-semibold text-foreground marker:content-none">
+                Complete archive · {posts.length} field notes
+              </summary>
+              <p className="mt-2 text-sm text-muted-foreground">
+                Every published note, in chronological order.
+              </p>
+              <ol className="mt-5 grid gap-x-8 gap-y-3 sm:grid-cols-2">
+                {posts.map((post) => (
+                  <li key={post.slug}>
+                    <Link
+                      href={`/blog/${post.slug}`}
+                      className="group flex items-start justify-between gap-3 text-sm text-muted-foreground hover:text-foreground"
+                    >
+                      <span>{post.title}</span>
+                      <ArrowRight className="mt-0.5 size-4 shrink-0 transition-transform group-hover:translate-x-1" aria-hidden="true" />
+                    </Link>
+                  </li>
+                ))}
+              </ol>
+            </details>
           </div>
         </section>
       )}

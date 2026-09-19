@@ -1,15 +1,15 @@
-import type { Metadata } from "next";
 import Link from "next/link";
 import Image from "next/image";
 import { ArrowRight } from "lucide-react";
 import { getAllMethodPosts } from "@/lib/methods";
+import { buildPageMetadata } from "@/lib/metadata";
 
-export const metadata: Metadata = {
+export const metadata = buildPageMetadata({
   title: "Methods That Travel",
   description:
     "Interactive statistical methods tested across crop research and public data.",
-  alternates: { canonical: "/methods" },
-};
+  path: "/methods",
+});
 
 /** Reads the count off the content folder so the intro cannot go stale. */
 function methodCount(n: number): string {

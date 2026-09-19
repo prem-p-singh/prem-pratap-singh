@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
-import { ChevronDown, Menu, X } from "lucide-react";
+import { ChevronDown, Mail, Menu, X } from "lucide-react";
 import ThemeToggle from "@/components/ThemeToggle";
 import { MovingBorder } from "@/components/ui/moving-border";
 import { exploreNavigation, primaryNavigation } from "@/profile/navigation";
@@ -148,6 +148,15 @@ export default function FloatingNavWrapper() {
             </span>
           </Link>
           <div className="flex items-center gap-1">
+            <Link
+              href="/#contact"
+              onClick={closeMobileMenu}
+              className="paper-button flex size-10 items-center justify-center"
+              aria-label="Let's talk"
+              title="Let's talk"
+            >
+              <Mail className="size-4" aria-hidden="true" />
+            </Link>
             <ThemeToggle />
             <button
               type="button"
