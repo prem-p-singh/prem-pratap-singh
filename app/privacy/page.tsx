@@ -35,6 +35,11 @@ export default function PrivacyPage() {
             The site is hosted by Vercel. Like most hosting providers, Vercel may process limited technical information needed to deliver and protect the site, such as an IP address, browser details, request time, and requested page.
           </p>
 
+          <h2>Usage analytics</h2>
+          <p>
+            The site uses Microsoft Clarity to understand how visitors use pages, through aggregated heatmaps and session replays. Clarity sets cookies and records interactions such as clicks, scrolling, and page navigation. Text you type into form fields is masked and not recorded. Microsoft processes this data under the <a href="https://privacy.microsoft.com/privacystatement">Microsoft Privacy Statement</a>. You can block it with any standard tracker blocker.
+          </p>
+
           <h2>Your choices</h2>
           <p>
             You can browse without creating an account. Theme preference may be stored in your browser so the site can remember light or dark mode. To ask about information you submitted, use the contact section on the homepage.
@@ -44,7 +49,7 @@ export default function PrivacyPage() {
         <Link href="/#contact" className="mt-10 inline-flex text-sm font-semibold text-primary hover:underline">
           Contact Prem Pratap Singh
         </Link>
-        <p className="mt-8 text-xs text-muted-foreground">Last updated August 12, 2026.</p>
+        <p className="mt-8 text-xs text-muted-foreground">Last updated September 18, 2026.</p>
       </section>
     </main>
   );

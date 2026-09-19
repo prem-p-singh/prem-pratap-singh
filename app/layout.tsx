@@ -3,6 +3,7 @@ import { Urbanist } from "next/font/google";
 import "./globals.css";
 import FloatingNavWrapper from "@/components/FloatingNavWrapper";
 import Footer from "@/components/Footer";
+import MicrosoftClarity from "@/components/analytics/MicrosoftClarity";
 
 const urbanist = Urbanist({
   variable: "--font-urbanist",
@@ -211,6 +212,7 @@ export default function RootLayout({
           {children}
         </main>
         <Footer />
+        <MicrosoftClarity />
       </body>
     </html>
   );
