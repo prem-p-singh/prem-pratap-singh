@@ -1,6 +1,6 @@
 # Blog Automation (Approval-First)
 
-This pipeline generates **pending MDX drafts** on a biweekly schedule from:
+This pipeline generates **pending MDX drafts** on a monthly schedule from:
 - Keywords extracted from your CV PDF
 - Manual research keywords in `config.yaml`
 - Fresh updates from arXiv + Google News RSS
@@ -215,18 +215,18 @@ guards:
 
 ### GitHub Actions (current production setup)
 
-- `.github/workflows/daily-blog-draft.yml` — checked every Thursday at 1 PM UTC and allowed through on odd ISO weeks, producing one draft every two weeks. Generates a draft and commits it to `blog_automation/drafts/pending/`.
+- `.github/workflows/daily-blog-draft.yml` — runs on the 1st of each month at 13:00 UTC (6 AM PDT / 5 AM PST). Generates a draft and commits it to `blog_automation/drafts/pending/`. Manual runs remain available; publishing still requires approval. The existing workflow filename is retained for compatibility.
 - `.github/workflows/publish-draft.yml` — manual trigger (`workflow_dispatch`). Reviews and publishes a pending draft with optional title/description overrides.
 
 ### Local cron (alternative)
 
 ```bash
-0 8 * * * cd /Users/prempratapsingh/PycharmProjects/prem-pratap-singh && \
+0 8 1 * * cd /Users/prempratapsingh/PycharmProjects/prem-pratap-singh && \
   /Users/prempratapsingh/PycharmProjects/prem-pratap-singh/blog_automation/.venv/bin/python \
   blog_automation/generate_draft.py >> blog_automation/daily.log 2>&1
 ```
 
-This generates drafts only. Publishing always stays manual.
+This optional local schedule runs at 8 AM local time on the 1st of each month. Use it instead of GitHub Actions, not alongside it, to avoid duplicate runs. It generates drafts only. Publishing always stays manual.
 
 ---
 
@@ -258,6 +258,6 @@ blog_automation/
 content/blog/             # published posts (site source of truth)
 public/blog/<slug>/       # figures attached to posts
 .github/workflows/
-├── daily-blog-draft.yml  # biweekly generation gate
+├── daily-blog-draft.yml  # monthly generation
 └── publish-draft.yml     # manual publish
 ```
