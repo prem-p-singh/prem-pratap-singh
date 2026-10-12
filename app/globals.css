@@ -840,24 +840,11 @@ h1, h2, h3 {
   display: inline-flex;
   max-width: 100%;
   align-items: center;
-  gap: 0.625rem;
-  color: var(--field);
+  color: var(--muted-foreground);
   font-size: 1rem;
-  font-weight: 700;
+  font-weight: 600;
   line-height: 1.25rem;
-  letter-spacing: 0.09em;
-  text-transform: uppercase;
   text-wrap: balance;
-}
-
-.section-kicker::before {
-  content: '';
-  width: 1.75rem;
-  height: 2px;
-  flex: 0 0 auto;
-  border-radius: 999px;
-  background: var(--field);
-  box-shadow: 0 0 0 1px color-mix(in srgb, var(--field) 12%, transparent);
 }
 
 .section-title {

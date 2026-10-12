@@ -2,7 +2,6 @@ import Link from "next/link";
 import Image from "next/image";
 import type { ReactNode } from "react";
 import {
-  ArrowRight,
   BookOpen,
   BriefcaseBusiness,
   Compass,
@@ -41,10 +40,7 @@ export default function Home() {
         <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
           <div className="flex flex-wrap items-end justify-between gap-5 border-y border-border py-8 sm:py-10">
             <div>
-              <p className="section-kicker">
-                Published research
-              </p>
-              <h2 className="mt-3 max-w-2xl text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
+              <h2 className="max-w-2xl text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
                 Evidence that has passed peer review.
               </h2>
               <p className="mt-3 max-w-2xl text-sm leading-relaxed text-muted-foreground sm:text-base">
@@ -79,10 +75,7 @@ export default function Home() {
       <section id="projects" data-guided-scroll-section className="guided-scroll-section py-6 sm:py-8">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="mb-8 max-w-3xl">
-            <p className="section-kicker">
-              Selected work
-            </p>
-            <h2 className="mt-3 text-3xl font-semibold tracking-tight text-foreground sm:text-4xl lg:text-5xl">
+            <h2 className="text-3xl font-semibold tracking-tight text-foreground sm:text-4xl lg:text-5xl">
               Research projects
             </h2>
             <p className="mt-4 max-w-2xl text-base leading-relaxed text-muted-foreground">
@@ -108,9 +101,9 @@ export default function Home() {
               </div>
               <Link
                 href="/blog"
-                className="inline-flex items-center gap-2 text-sm font-semibold text-muted-foreground transition-colors hover:text-foreground"
+                className="inline-flex items-center text-sm font-semibold text-muted-foreground transition-colors hover:text-foreground"
               >
-                Open research notebook <ArrowRight className="size-4" aria-hidden="true" />
+                Open research notebook
               </Link>
             </div>
 
@@ -206,13 +199,12 @@ export default function Home() {
               <div className="flex flex-col gap-4">
                 <a
                   href={`mailto:${personal.email}`}
-                  className="paper-panel group bg-card p-6 transition-transform hover:-translate-y-0.5"
+                  className="paper-panel bg-card p-6 transition-transform hover:-translate-y-0.5"
                 >
                   <div className="flex items-start justify-between gap-4">
                     <span className="flex size-12 items-center justify-center rounded-xl bg-field-wash text-field">
                       <Mail className="size-5" aria-hidden="true" />
                     </span>
-                    <ArrowRight className="size-5 text-muted-foreground transition-transform group-hover:translate-x-1" aria-hidden="true" />
                   </div>
                   <p className="mt-10 text-sm font-semibold text-muted-foreground">Start a conversation</p>
                   <p className="mt-1 break-all text-xl font-bold text-foreground">{personal.email}</p>

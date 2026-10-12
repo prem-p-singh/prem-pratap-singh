@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import Image from "next/image";
-import { ArrowRight } from "lucide-react";
 import { getAllDataPosts } from "@/lib/data";
 import { formatContentDate } from "@/lib/date";
 
@@ -85,9 +84,8 @@ export default function DataPage() {
                       <h2 className="text-lg sm:text-xl font-semibold text-foreground group-hover:text-primary transition-colors mb-2 leading-snug">
                         {post.title}
                       </h2>
-                      <span className="mt-4 inline-flex items-center gap-1 text-sm font-medium text-primary">
+                      <span className="mt-4 inline-flex items-center text-sm font-medium text-primary">
                         Open visual story
-                        <ArrowRight className="size-4 transition-transform group-hover:translate-x-1" strokeWidth={1.8} aria-hidden="true" />
                       </span>
                     </div>
                   </Link>

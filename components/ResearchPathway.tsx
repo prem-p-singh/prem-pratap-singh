@@ -3,7 +3,6 @@
 import Link from "next/link";
 import { useState } from "react";
 import {
-  ArrowRight,
   ChartNoAxesCombined,
   Dna,
   Sprout,
@@ -236,9 +235,9 @@ export default function ResearchPathway() {
 
               <Link
                 href={active.href}
-                className={`mt-auto inline-flex items-center gap-2 text-sm font-semibold underline underline-offset-4 transition-colors ${active.linkClass}`}
+                className={`mt-auto inline-flex items-center text-sm font-semibold underline underline-offset-4 transition-colors ${active.linkClass}`}
               >
-                {active.linkLabel} <ArrowRight className="size-4" aria-hidden="true" />
+                {active.linkLabel}
               </Link>
             </div>
           </div>

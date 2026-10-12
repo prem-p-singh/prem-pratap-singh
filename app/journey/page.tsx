@@ -33,10 +33,7 @@ export default function JourneyPage() {
       <section className="border-y border-border py-6 sm:py-8">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="max-w-2xl mx-auto text-center">
-            <p className="section-kicker">
-              Evidence along the way
-            </p>
-            <h2 className="mt-3 text-3xl font-bold text-foreground">
+            <h2 className="text-3xl font-bold text-foreground">
               The work kept accumulating
             </h2>
           </div>

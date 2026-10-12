@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useMemo, useState } from "react";
-import { ArrowRight, BookOpen, Search, Shuffle } from "lucide-react";
+import { BookOpen, Search, Shuffle } from "lucide-react";
 import { formatContentDate } from "@/lib/date";
 import type { BlogPostMeta } from "@/lib/mdx";
 
@@ -174,7 +174,6 @@ export default function BlogSearchList({ posts }: BlogSearchListProps) {
                     </time>
                     <span>·</span>
                     <span>{post.readingTime}</span>
-                    <ArrowRight className="ml-auto size-4 transition-transform group-hover:translate-x-1" aria-hidden="true" />
                   </div>
                 </div>
               </Link>

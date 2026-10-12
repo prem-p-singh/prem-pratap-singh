@@ -120,7 +120,6 @@ export default function BlogPage() {
                   </time>
                   <span>·</span>
                   <span>{featured.readingTime}</span>
-                  <ArrowRight className="ml-auto size-4 transition-transform group-hover:translate-x-1" aria-hidden="true" />
                 </div>
               </div>
             </Link>

@@ -44,8 +44,7 @@ export default function WorkExperience() {
       <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
         <div className="grid gap-5 border-b border-border pb-9 lg:grid-cols-[minmax(0,1fr)_22rem] lg:items-end">
           <div>
-            <p className="section-kicker">Experience</p>
-            <h2 id="work-experience-title" className="mt-3 text-3xl font-semibold tracking-tight text-foreground sm:text-4xl lg:text-5xl">
+            <h2 id="work-experience-title" className="text-3xl font-semibold tracking-tight text-foreground sm:text-4xl lg:text-5xl">
               Where I have done the work
             </h2>
           </div>
