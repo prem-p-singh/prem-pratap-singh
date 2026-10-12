@@ -243,11 +243,11 @@ export default function Home() {
 const opportunities = [
   {
     title: "Research Scientist and Data Scientist roles",
-    detail: "Ag-bio R&D, molecular diagnostics, NGS workflows and trait discovery",
+    detail: "Ag-biotech, diagnostics and trait discovery",
   },
   {
     title: "Research collaborations",
-    detail: "Multi-omics studies that start from field samples",
+    detail: "Field biology, multi-omics and reproducible analysis",
   },
   {
     title: "Scientific consulting",

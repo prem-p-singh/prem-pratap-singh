@@ -69,7 +69,7 @@ const stages: Stage[] = [
 const fieldNotes = [
   { label: "Field", value: "327 vine samples, two seasons" },
   { label: "Bench", value: "dPCR, RNA-seq and metabolites" },
-  { label: "Analysis", value: "Mechanisms and candidate markers" },
+  { label: "Analysis", value: "Mechanisms, markers and trait leads" },
 ];
 
 export default function ResearchPathway() {
