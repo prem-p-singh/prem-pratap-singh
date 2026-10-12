@@ -43,28 +43,29 @@ export default function JourneyImpact() {
   }, []);
 
   const cells = [
-    { v: STATIC.journalArticles, l: "Journal articles" },
-    { v: STATIC.bookChapters, l: "Book chapters" },
-    { v: live?.citations ?? FALLBACK.citations, l: "Citations" },
-    { v: live?.indices ?? FALLBACK.indices, l: "Indices" },
+    // Articles data and chapters decision, as on the homepage; citations field, indices biology.
+    { v: STATIC.journalArticles, l: "Journal articles", wash: "bg-data-wash", text: "text-data" },
+    { v: STATIC.bookChapters, l: "Book chapters", wash: "bg-decision-wash", text: "text-decision" },
+    { v: live?.citations ?? FALLBACK.citations, l: "Citations", wash: "bg-field-wash", text: "text-field" },
+    { v: live?.indices ?? FALLBACK.indices, l: "Indices", wash: "bg-biology-wash", text: "text-biology" },
   ];
 
   return (
-    <>
-      <dl className="text-sm leading-normal">
+    <div className="paper-panel p-6 sm:p-7">
+      <dl className="grid grid-cols-2 gap-3">
         {cells.map((s) => (
           <div
             key={s.l}
-            className="grid grid-cols-[9rem_1fr] gap-x-4 border-t border-border py-3 first:border-t-0 first:pt-0"
+            className={`flex flex-col-reverse justify-end rounded-xl px-4 py-3 ${s.wash}`}
           >
-            <dt className="text-muted-foreground">{s.l}</dt>
-            <dd className="text-base font-semibold tabular-nums text-foreground">{s.v}</dd>
+            <dt className="text-sm font-semibold leading-snug text-foreground">{s.l}</dt>
+            <dd className={`text-2xl font-semibold tabular-nums ${s.text}`}>{s.v}</dd>
           </div>
         ))}
       </dl>
-      <p className="border-t border-border pt-3 text-xs text-muted-foreground">
+      <p className="mt-4 text-xs text-muted-foreground">
         Citations and indices update automatically from OpenAlex.
       </p>
-    </>
+    </div>
   );
 }

@@ -1,7 +1,46 @@
 "use client";
 
-import { useState, type KeyboardEvent } from "react";
+import { useState, type ComponentType, type KeyboardEvent } from "react";
 import { ArrowRight } from "lucide-react";
+import {
+  AnalysisIcon,
+  BenchIcon,
+  CropBiologyIcon,
+  CropIcon,
+  type IconProps,
+} from "@/components/icons/PortfolioIcons";
+
+type Tone = "field" | "biology" | "data" | "decision";
+
+// Family colours, written out in full so Tailwind can see every class.
+const tones: Record<Tone, { tile: string; edge: string; selected: string; tag: string }> = {
+  field: {
+    tile: "bg-field-wash text-field",
+    edge: "bg-field",
+    selected: "aria-selected:border-field",
+    tag: "border-field/20 bg-field-wash text-field",
+  },
+  biology: {
+    tile: "bg-biology-wash text-biology",
+    edge: "bg-biology",
+    selected: "aria-selected:border-biology",
+    tag: "border-biology/20 bg-biology-wash text-biology",
+  },
+  data: {
+    tile: "bg-data-wash text-data",
+    edge: "bg-data",
+    selected: "aria-selected:border-data",
+    tag: "border-data/20 bg-data-wash text-data",
+  },
+  decision: {
+    tile: "bg-decision-wash text-decision",
+    edge: "bg-decision",
+    selected: "aria-selected:border-decision",
+    tag: "border-decision/20 bg-decision-wash text-decision",
+  },
+};
+
+const iconTile = "flex size-11 shrink-0 items-center justify-center rounded-xl";
 
 type Chapter = {
   id: string;
@@ -12,8 +51,11 @@ type Chapter = {
   story: string;
   thread: string;
   markers: string[];
+  icon: ComponentType<IconProps>;
+  tone: Tone;
 };
 
+// Families as the previous design had them: field, biology, decision, data.
 const chapters: Chapter[] = [
   {
     id: "foundations",
@@ -24,6 +66,8 @@ const chapters: Chapter[] = [
     story: "Botany expanded into plant pathology, microbial genetics, biotechnology, and ecology—and a gold medal.",
     thread: "Understand the whole system first.",
     markers: ["B.Sc. Botany", "M.Sc. Gold Medal", "First paper in 2016"],
+    icon: CropBiologyIcon,
+    tone: "field",
   },
   {
     id: "doctorate",
@@ -34,6 +78,8 @@ const chapters: Chapter[] = [
     story: "A plant-based formulation was tested from antimicrobial assay to molecular simulation.",
     thread: "Bench and computation became one workflow.",
     markers: ["Ph.D. Plant Pathology", "6 first-author papers", "Mentored 5+ researchers"],
+    icon: BenchIcon,
+    tone: "biology",
   },
   {
     id: "vineyard",
@@ -44,6 +90,8 @@ const chapters: Chapter[] = [
     story: "Commercial vineyards became the laboratory for diagnostics, sequencing, and GRBV modeling.",
     thread: "Observe, measure, model, decide.",
     markers: ["300+ samples", "1.3B+ sequencing reads", "10+ vineyard blocks"],
+    icon: CropIcon,
+    tone: "decision",
   },
   {
     id: "reasoning",
@@ -54,20 +102,24 @@ const chapters: Chapter[] = [
     story: "Biological reasoning is checked against published evidence to expose recurring AI failure patterns.",
     thread: "Separate evidence from confidence.",
     markers: ["MOVE Fellow", "Biology-domain evaluation", "Scientific reasoning"],
+    icon: AnalysisIcon,
+    tone: "data",
   },
 ];
 
 // A real sequence of places and years, so the arrows stay.
-const route = [
-  { place: "Varanasi", year: "2012" },
-  { place: "Davis", year: "2023" },
-  { place: "Scientific AI", year: "2025" },
+const route: Array<{ place: string; year: string; icon: ComponentType<IconProps>; tone: Tone }> = [
+  { place: "Varanasi", year: "2012", icon: CropBiologyIcon, tone: "field" },
+  { place: "Davis", year: "2023", icon: CropIcon, tone: "decision" },
+  { place: "Scientific AI", year: "2025", icon: AnalysisIcon, tone: "data" },
 ];
 
 export default function JourneyChapters() {
   const [activeId, setActiveId] = useState(chapters[0].id);
   const activeIndex = chapters.findIndex((chapter) => chapter.id === activeId);
   const active = chapters[activeIndex] ?? chapters[0];
+  const activeTone = tones[active.tone];
+  const ActiveIcon = active.icon;
 
   // Same handling as the homepage workflow stepper: arrow keys, Home and End move
   // focus and selection together. Modified keys are left to the browser and system.
@@ -109,18 +161,29 @@ export default function JourneyChapters() {
           Choose a chapter.
         </p>
 
-        <ol className="mt-8 flex flex-wrap items-start gap-x-3 gap-y-2 text-sm">
-          {route.map((stop, index) => (
-            <li key={stop.place} className="flex items-start gap-3">
-              {index > 0 && (
-                <ArrowRight className="mt-1 size-4 text-muted-foreground" aria-hidden="true" />
-              )}
-              <span>
-                <span className="block text-foreground">{stop.place}</span>
-                <span className="block tabular-nums text-muted-foreground">{stop.year}</span>
-              </span>
-            </li>
-          ))}
+        <ol className="mt-8 flex flex-col gap-2 sm:flex-row sm:items-center lg:flex-col lg:items-stretch">
+          {route.map((stop, index) => {
+            const Icon = stop.icon;
+            return (
+              <li key={stop.place} className="contents">
+                {index > 0 && (
+                  <ArrowRight
+                    className="size-4 shrink-0 rotate-90 self-center text-muted-foreground sm:rotate-0 lg:rotate-90"
+                    aria-hidden="true"
+                  />
+                )}
+                <span className="paper-panel flex flex-1 items-center gap-3 px-4 py-3 text-sm">
+                  <span className={`${iconTile} ${tones[stop.tone].tile}`}>
+                    <Icon size={22} />
+                  </span>
+                  <span>
+                    <span className="block font-semibold text-foreground">{stop.place}</span>
+                    <span className="block tabular-nums text-muted-foreground">{stop.year}</span>
+                  </span>
+                </span>
+              </li>
+            );
+          })}
         </ol>
       </div>
 
@@ -131,26 +194,35 @@ export default function JourneyChapters() {
           onKeyDown={moveWithKeys}
           className="grid border-l border-border md:grid-cols-4 md:border-l-0 md:border-t"
         >
-          {chapters.map((chapter, index) => (
-            <button
-              key={chapter.id}
-              type="button"
-              role="tab"
-              id={`journey-chapter-tab-${chapter.id}`}
-              aria-selected={chapter.id === active.id}
-              tabIndex={chapter.id === active.id ? 0 : -1}
-              aria-controls="journey-chapter-panel"
-              onClick={() => setActiveId(chapter.id)}
-              className="-ml-px flex flex-col items-start gap-1 border-l-2 border-transparent py-3 pl-4 text-left text-muted-foreground transition-colors hover:text-foreground aria-selected:border-accent aria-selected:text-foreground md:-mt-px md:ml-0 md:border-l-0 md:border-t-2 md:pb-0 md:pl-0 md:pr-4 md:pt-4"
-            >
-              <span className="text-xs tabular-nums">
-                {index + 1}
-                <span className="ml-3">{chapter.period}</span>
-              </span>
-              <span className="text-sm font-semibold leading-snug">{chapter.title}</span>
-              <span className="text-xs font-normal text-muted-foreground">{chapter.place}</span>
-            </button>
-          ))}
+          {chapters.map((chapter, index) => {
+            const Icon = chapter.icon;
+            const tone = tones[chapter.tone];
+            return (
+              <button
+                key={chapter.id}
+                type="button"
+                role="tab"
+                id={`journey-chapter-tab-${chapter.id}`}
+                aria-selected={chapter.id === active.id}
+                tabIndex={chapter.id === active.id ? 0 : -1}
+                aria-controls="journey-chapter-panel"
+                onClick={() => setActiveId(chapter.id)}
+                className={`-ml-px flex items-start gap-3 border-l-2 border-transparent py-3 pl-4 text-left text-muted-foreground transition-colors hover:text-foreground aria-selected:text-foreground md:-mt-px md:ml-0 md:flex-col md:border-l-0 md:border-t-2 md:pb-0 md:pl-0 md:pr-4 md:pt-4 ${tone.selected}`}
+              >
+                <span className={`${iconTile} ${tone.tile}`}>
+                  <Icon size={22} />
+                </span>
+                <span className="flex flex-col items-start gap-1">
+                  <span className="text-xs tabular-nums">
+                    {index + 1}
+                    <span className="ml-3">{chapter.period}</span>
+                  </span>
+                  <span className="text-sm font-semibold leading-snug">{chapter.title}</span>
+                  <span className="text-xs font-normal text-muted-foreground">{chapter.place}</span>
+                </span>
+              </button>
+            );
+          })}
         </div>
 
         <div
@@ -159,25 +231,40 @@ export default function JourneyChapters() {
           tabIndex={0}
           aria-labelledby={`journey-chapter-tab-${active.id}`}
           aria-live="polite"
-          className="mt-10"
+          className="paper-panel mt-8 p-6 sm:p-8"
         >
-          <p className="text-sm tabular-nums text-muted-foreground">
-            Chapter {activeIndex + 1} · {active.period}
-          </p>
-          <h3 className="mt-2 text-2xl leading-tight text-foreground sm:text-3xl">{active.prompt}</h3>
-          <p className="mt-4 max-w-[60ch] text-base leading-relaxed text-foreground">{active.story}</p>
-          <p className="mt-2 max-w-[60ch] text-sm tabular-nums text-muted-foreground">
-            {active.markers.join(", ")}
-          </p>
-
-          <dl className="mt-6 text-sm leading-normal">
-            <div className="grid gap-x-4 gap-y-1 border-t border-border py-3 sm:grid-cols-[12rem_1fr]">
-              <dt className="text-muted-foreground">Place</dt>
-              <dd className="text-foreground">{active.place}</dd>
+          <span className={`absolute inset-x-0 top-0 h-1 ${activeTone.edge}`} aria-hidden="true" />
+          <div className="flex items-start justify-between gap-5">
+            <div>
+              <p className="text-sm tabular-nums text-muted-foreground">
+                Chapter {activeIndex + 1} · {active.period}
+              </p>
+              <h3 className="mt-2 text-2xl leading-tight text-foreground sm:text-3xl">{active.prompt}</h3>
             </div>
-            <div className="grid gap-x-4 gap-y-1 border-t border-border py-3 sm:grid-cols-[12rem_1fr]">
-              <dt className="text-muted-foreground">The constant</dt>
-              <dd className="text-foreground">{active.thread}</dd>
+            <span className={`${iconTile} ${activeTone.tile}`}>
+              <ActiveIcon size={22} />
+            </span>
+          </div>
+          <p className="mt-4 max-w-[60ch] text-base leading-relaxed text-foreground">{active.story}</p>
+          <ul className="mt-5 flex flex-wrap gap-2">
+            {active.markers.map((marker) => (
+              <li
+                key={marker}
+                className={`rounded-full border px-3 py-1 text-xs font-semibold tabular-nums ${activeTone.tag}`}
+              >
+                {marker}
+              </li>
+            ))}
+          </ul>
+
+          <dl className="mt-6 divide-y divide-border border-t border-border text-sm leading-normal">
+            <div className="grid gap-x-4 gap-y-1 py-4 sm:grid-cols-[12rem_1fr]">
+              <dt className="font-semibold text-foreground">Place</dt>
+              <dd className="text-muted-foreground">{active.place}</dd>
+            </div>
+            <div className="grid gap-x-4 gap-y-1 pt-4 sm:grid-cols-[12rem_1fr]">
+              <dt className="font-semibold text-foreground">The constant</dt>
+              <dd className="text-muted-foreground">{active.thread}</dd>
             </div>
           </dl>
         </div>
