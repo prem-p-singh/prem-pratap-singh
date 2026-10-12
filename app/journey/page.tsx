@@ -9,57 +9,52 @@ export const metadata: Metadata = {
   alternates: { canonical: "https://www.prempsingh.com/journey" },
 };
 
-
 export default function JourneyPage() {
   return (
-    <div className="pt-16 min-h-screen">
-      {/* Header */}
-      <section className="bg-gradient-to-b from-muted to-background pb-6 pt-14 sm:pb-8 sm:pt-16">
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <p className="section-kicker mb-4">
-            Curiosity · Method · Evidence · Impact
-          </p>
-          <h1 className="text-4xl sm:text-5xl font-bold text-foreground mb-6">
+    <div className="min-h-screen pt-16">
+      <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+        <header className="pb-10 pt-10 sm:pt-12 lg:pb-14 lg:pt-14">
+          <p className="section-kicker">Curiosity, Method, Evidence and Impact</p>
+          <h1 className="mt-3 text-4xl leading-tight text-foreground sm:text-5xl lg:text-6xl">
             A Research Journey
           </h1>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto leading-relaxed">
+          <p className="mt-5 max-w-[60ch] text-base leading-relaxed text-muted-foreground">
             From botany in Varanasi to grapevine virology in California.
           </p>
-        </div>
-      </section>
+        </header>
 
-      <JourneyChapters />
+        {/* Each section below opens with its own top rule, which also closes the header. */}
+        <JourneyChapters />
 
-      <section className="border-y border-border py-6 sm:py-8">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="max-w-2xl mx-auto text-center">
-            <h2 className="text-3xl font-bold text-foreground">
+        <section
+          className="grid gap-x-8 gap-y-10 border-t border-border py-16 lg:grid-cols-12 lg:py-24"
+          aria-labelledby="journey-impact-title"
+        >
+          <div className="lg:col-span-4">
+            <h2 id="journey-impact-title" className="text-3xl leading-tight text-foreground sm:text-4xl">
               The work kept accumulating
             </h2>
           </div>
-          <JourneyImpact />
-        </div>
-      </section>
-
-      {/* Gratitude */}
-      <section className="py-6 sm:py-8">
-        <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="paper-panel p-8 sm:p-10">
-            <blockquote className="text-center">
-              <p className="text-lg text-foreground leading-relaxed mb-4">
-                Every chapter was made possible by mentors, collaborators, and lab communities that opened their doors.
-              </p>
-              <p className="text-base font-semibold text-foreground">
-                I remain deeply grateful.
-              </p>
-            </blockquote>
+          <div className="lg:col-span-8">
+            <JourneyImpact />
           </div>
+        </section>
 
-          <p className="text-center text-sm text-muted-foreground mt-10 tracking-wide uppercase">
-            Grateful for the past. Building what comes next.
-          </p>
-        </div>
-      </section>
+        {/* Gratitude */}
+        <section className="grid gap-x-8 border-t border-border py-16 lg:grid-cols-12 lg:py-24">
+          <div className="lg:col-span-8 lg:col-start-5">
+            <p className="max-w-[60ch] font-serif text-base leading-relaxed text-foreground">
+              Every chapter was made possible by mentors, collaborators, and lab communities that opened their doors.
+            </p>
+            <p className="mt-4 max-w-[60ch] font-serif text-base leading-relaxed text-foreground">
+              I remain deeply grateful.
+            </p>
+            <p className="mt-8 text-sm text-muted-foreground">
+              Grateful for the past. Building what comes next.
+            </p>
+          </div>
+        </section>
+      </div>
     </div>
   );
 }

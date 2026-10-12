@@ -50,16 +50,21 @@ export default function JourneyImpact() {
   ];
 
   return (
-    <div className="mt-14 grid grid-cols-2 sm:grid-cols-4 gap-4 max-w-3xl mx-auto">
-      {cells.map((s) => (
-        <div key={s.l} className="text-center">
-          <p className="text-xl font-bold text-foreground">{s.v}</p>
-          <p className="text-xs text-muted-foreground mt-1">{s.l}</p>
-        </div>
-      ))}
-      <p className="col-span-2 sm:col-span-4 text-center text-xs text-muted-foreground/70 mt-2">
+    <>
+      <dl className="text-sm leading-normal">
+        {cells.map((s) => (
+          <div
+            key={s.l}
+            className="grid grid-cols-[9rem_1fr] gap-x-4 border-t border-border py-3 first:border-t-0 first:pt-0"
+          >
+            <dt className="text-muted-foreground">{s.l}</dt>
+            <dd className="text-base font-semibold tabular-nums text-foreground">{s.v}</dd>
+          </div>
+        ))}
+      </dl>
+      <p className="border-t border-border pt-3 text-xs text-muted-foreground">
         Citations and indices update automatically from OpenAlex.
       </p>
-    </div>
+    </>
   );
 }

@@ -1,7 +1,7 @@
 "use client";
 
-import { useState } from "react";
-import { ArrowRight, BrainCircuit, MapPin } from "lucide-react";
+import { useState, type KeyboardEvent } from "react";
+import { ArrowRight } from "lucide-react";
 
 type Chapter = {
   id: string;
@@ -12,9 +12,6 @@ type Chapter = {
   story: string;
   thread: string;
   markers: string[];
-  activeClass: string;
-  numberClass: string;
-  lineClass: string;
 };
 
 const chapters: Chapter[] = [
@@ -27,9 +24,6 @@ const chapters: Chapter[] = [
     story: "Botany expanded into plant pathology, microbial genetics, biotechnology, and ecology—and a gold medal.",
     thread: "Understand the whole system first.",
     markers: ["B.Sc. Botany", "M.Sc. Gold Medal", "First paper in 2016"],
-    activeClass: "border-field/60 bg-field-wash",
-    numberClass: "bg-field-wash text-field",
-    lineClass: "bg-field",
   },
   {
     id: "doctorate",
@@ -40,9 +34,6 @@ const chapters: Chapter[] = [
     story: "A plant-based formulation was tested from antimicrobial assay to molecular simulation.",
     thread: "Bench and computation became one workflow.",
     markers: ["Ph.D. Plant Pathology", "6 first-author papers", "Mentored 5+ researchers"],
-    activeClass: "border-biology/60 bg-biology-wash",
-    numberClass: "bg-biology-wash text-biology",
-    lineClass: "bg-biology",
   },
   {
     id: "vineyard",
@@ -53,9 +44,6 @@ const chapters: Chapter[] = [
     story: "Commercial vineyards became the laboratory for diagnostics, sequencing, and GRBV modeling.",
     thread: "Observe, measure, model, decide.",
     markers: ["300+ samples", "1.3B+ sequencing reads", "10+ vineyard blocks"],
-    activeClass: "border-decision/60 bg-decision-wash",
-    numberClass: "bg-decision-wash text-decision",
-    lineClass: "bg-decision",
   },
   {
     id: "reasoning",
@@ -66,10 +54,14 @@ const chapters: Chapter[] = [
     story: "Biological reasoning is checked against published evidence to expose recurring AI failure patterns.",
     thread: "Separate evidence from confidence.",
     markers: ["MOVE Fellow", "Biology-domain evaluation", "Scientific reasoning"],
-    activeClass: "border-data/60 bg-data-wash",
-    numberClass: "bg-data-wash text-data",
-    lineClass: "bg-data",
   },
+];
+
+// A real sequence of places and years, so the arrows stay.
+const route = [
+  { place: "Varanasi", year: "2012" },
+  { place: "Davis", year: "2023" },
+  { place: "Scientific AI", year: "2025" },
 ];
 
 export default function JourneyChapters() {
@@ -77,110 +69,115 @@ export default function JourneyChapters() {
   const activeIndex = chapters.findIndex((chapter) => chapter.id === activeId);
   const active = chapters[activeIndex] ?? chapters[0];
 
+  // Same handling as the homepage workflow stepper: arrow keys, Home and End move
+  // focus and selection together. Modified keys are left to the browser and system.
+  const moveWithKeys = (event: KeyboardEvent<HTMLDivElement>) => {
+    if (event.altKey || event.metaKey || event.ctrlKey || event.shiftKey) return;
+    const tabs = Array.from(
+      event.currentTarget.querySelectorAll<HTMLButtonElement>('[role="tab"]')
+    );
+    const current = tabs.indexOf(event.target as HTMLButtonElement);
+    const last = chapters.length - 1;
+    const forward = current === last ? 0 : current + 1;
+    const back = current <= 0 ? last : current - 1;
+    const targets: Record<string, number> = {
+      ArrowRight: forward,
+      ArrowDown: forward,
+      ArrowLeft: back,
+      ArrowUp: back,
+      Home: 0,
+      End: last,
+    };
+    const next = targets[event.key];
+    if (next === undefined) return;
+    event.preventDefault();
+    setActiveId(chapters[next].id);
+    tabs[next]?.focus();
+  };
+
   return (
-    <section className="py-6 sm:py-8" aria-labelledby="journey-chapters-title">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
-          <div>
-            <p className="section-kicker">
-              From Varanasi to Davis · now evaluating scientific AI
-            </p>
-            <h2 id="journey-chapters-title" className="mt-3 text-3xl font-bold text-foreground sm:text-4xl">
-              Four chapters, one research habit
-            </h2>
-          </div>
-          <p className="max-w-md text-sm leading-relaxed text-muted-foreground">
-            Choose a chapter.
+    <section
+      className="grid gap-x-8 gap-y-10 border-t border-border py-16 lg:grid-cols-12 lg:py-24"
+      aria-labelledby="journey-chapters-title"
+    >
+      <div className="lg:col-span-4">
+        <p className="section-kicker">From Varanasi to Davis, now evaluating scientific AI</p>
+        <h2 id="journey-chapters-title" className="mt-3 text-3xl leading-tight text-foreground sm:text-4xl">
+          Four chapters, one research habit
+        </h2>
+        <p className="mt-5 max-w-[60ch] text-base leading-relaxed text-muted-foreground">
+          Choose a chapter.
+        </p>
+
+        <ol className="mt-8 flex flex-wrap items-start gap-x-3 gap-y-2 text-sm">
+          {route.map((stop, index) => (
+            <li key={stop.place} className="flex items-start gap-3">
+              {index > 0 && (
+                <ArrowRight className="mt-1 size-4 text-muted-foreground" aria-hidden="true" />
+              )}
+              <span>
+                <span className="block text-foreground">{stop.place}</span>
+                <span className="block tabular-nums text-muted-foreground">{stop.year}</span>
+              </span>
+            </li>
+          ))}
+        </ol>
+      </div>
+
+      <div className="lg:col-span-8">
+        <div
+          role="tablist"
+          aria-label="Research journey chapters"
+          onKeyDown={moveWithKeys}
+          className="grid border-l border-border md:grid-cols-4 md:border-l-0 md:border-t"
+        >
+          {chapters.map((chapter, index) => (
+            <button
+              key={chapter.id}
+              type="button"
+              role="tab"
+              id={`journey-chapter-tab-${chapter.id}`}
+              aria-selected={chapter.id === active.id}
+              tabIndex={chapter.id === active.id ? 0 : -1}
+              aria-controls="journey-chapter-panel"
+              onClick={() => setActiveId(chapter.id)}
+              className="-ml-px flex flex-col items-start gap-1 border-l-2 border-transparent py-3 pl-4 text-left text-muted-foreground transition-colors hover:text-foreground aria-selected:border-accent aria-selected:text-foreground md:-mt-px md:ml-0 md:border-l-0 md:border-t-2 md:pb-0 md:pl-0 md:pr-4 md:pt-4"
+            >
+              <span className="text-xs tabular-nums">
+                {index + 1}
+                <span className="ml-3">{chapter.period}</span>
+              </span>
+              <span className="text-sm font-semibold leading-snug">{chapter.title}</span>
+            </button>
+          ))}
+        </div>
+
+        <div
+          id="journey-chapter-panel"
+          role="tabpanel"
+          aria-labelledby={`journey-chapter-tab-${active.id}`}
+          aria-live="polite"
+          className="mt-10"
+        >
+          <p className="text-sm tabular-nums text-muted-foreground">
+            Chapter {activeIndex + 1} · {active.period}
           </p>
-        </div>
+          <h3 className="mt-2 text-2xl leading-tight text-foreground sm:text-3xl">{active.prompt}</h3>
+          <p className="mt-4 max-w-[60ch] text-base leading-relaxed text-foreground">{active.story}</p>
+          <p className="mt-2 max-w-[60ch] text-sm tabular-nums text-muted-foreground">
+            {active.markers.join(", ")}
+          </p>
 
-        <div className="paper-panel mt-8 grid grid-cols-[1fr_auto_1fr_auto_1fr] items-center gap-3 bg-card p-5 sm:p-6">
-          <div className="text-center">
-            <MapPin className="mx-auto size-6 text-field" strokeWidth={1.7} aria-hidden="true" />
-            <p className="mt-2 text-sm font-bold text-foreground">Varanasi</p>
-            <p className="text-xs text-muted-foreground">2012</p>
-          </div>
-          <ArrowRight className="size-5 text-muted-foreground/50" aria-hidden="true" />
-          <div className="text-center">
-            <MapPin className="mx-auto size-6 text-decision" strokeWidth={1.7} aria-hidden="true" />
-            <p className="mt-2 text-sm font-bold text-foreground">Davis</p>
-            <p className="text-xs text-muted-foreground">2023</p>
-          </div>
-          <ArrowRight className="size-5 text-muted-foreground/50" aria-hidden="true" />
-          <div className="text-center">
-            <BrainCircuit className="mx-auto size-6 text-data" strokeWidth={1.7} aria-hidden="true" />
-            <p className="mt-2 text-sm font-bold text-foreground">Scientific AI</p>
-            <p className="text-xs text-muted-foreground">2025</p>
-          </div>
-        </div>
-
-        <div className="mt-10 grid gap-6 lg:grid-cols-[0.82fr_1.18fr]">
-          <div className="relative space-y-3" role="tablist" aria-label="Research journey chapters">
-            <div className="absolute bottom-6 left-[1.63rem] top-6 w-px bg-border" aria-hidden="true" />
-            {chapters.map((chapter, index) => {
-              const selected = chapter.id === active.id;
-              return (
-                <button
-                  key={chapter.id}
-                  type="button"
-                  role="tab"
-                  aria-selected={selected}
-                  aria-controls="journey-chapter-panel"
-                  onClick={() => setActiveId(chapter.id)}
-                  className={`relative flex w-full items-start gap-4 rounded-2xl border p-4 text-left transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground/40 ${
-                    selected
-                      ? chapter.activeClass
-                      : "border-transparent bg-card/50 hover:border-border hover:bg-card"
-                  }`}
-                >
-                  <span className={`relative z-10 flex size-6 shrink-0 items-center justify-center rounded-full text-xs font-bold ${chapter.numberClass}`}>
-                    {index + 1}
-                  </span>
-                  <span>
-                    <span className="block text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-                      {chapter.period}
-                    </span>
-                    <span className="mt-1 block font-semibold text-foreground">{chapter.title}</span>
-                    <span className="mt-1 block text-xs leading-relaxed text-muted-foreground">
-                      {chapter.place}
-                    </span>
-                  </span>
-                </button>
-              );
-            })}
-          </div>
-
-          <article
-            id="journey-chapter-panel"
-            role="tabpanel"
-            aria-live="polite"
-            className="paper-panel relative overflow-hidden bg-card p-6 sm:p-8 lg:p-10"
-          >
-            <div className={`absolute inset-x-0 top-0 h-1 ${active.lineClass}`} />
-            <p className="text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">
-              Chapter {activeIndex + 1} · {active.period}
-            </p>
-            <p className="mt-4 text-3xl font-bold leading-tight text-foreground sm:text-4xl">
-              {active.prompt}
-            </p>
-            <p className="mt-5 text-base leading-relaxed text-muted-foreground">{active.story}</p>
-
-            <div className="mt-7 flex flex-wrap gap-2">
-              {active.markers.map((marker) => (
-                <span
-                  key={marker}
-                  className={`rounded-full px-3 py-1.5 text-xs font-semibold ${active.numberClass}`}
-                >
-                  {marker}
-                </span>
-              ))}
+          <dl className="mt-6 text-sm leading-normal">
+            <div className="grid gap-x-4 gap-y-1 border-t border-border py-3 sm:grid-cols-[12rem_1fr]">
+              <dt className="text-muted-foreground">Place</dt>
+              <dd className="text-foreground">{active.place}</dd>
             </div>
-
-            <div className="mt-8 flex items-center gap-3 rounded-2xl border border-border bg-background/60 p-5">
-              <span className={`size-2.5 shrink-0 rounded-full ${active.lineClass}`} />
-              <p className="text-sm font-semibold text-foreground">The constant: {active.thread}</p>
+            <div className="grid gap-x-4 gap-y-1 border-t border-border py-3 sm:grid-cols-[12rem_1fr]">
+              <dt className="text-muted-foreground">The constant</dt>
+              <dd className="text-foreground">{active.thread}</dd>
             </div>
-          </article>
+          </dl>
         </div>
       </div>
     </section>
