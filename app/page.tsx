@@ -1,17 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
-import type { ReactNode } from "react";
-import {
-  BookOpen,
-  BriefcaseBusiness,
-  ChevronDown,
-  ChevronUp,
-  Compass,
-  Github,
-  Handshake,
-  Linkedin,
-  Mail,
-} from "lucide-react";
+import { ChevronDown, ChevronUp } from "lucide-react";
 import { personal } from "@/profile/personal";
 import { projects } from "@/profile/projects";
 import { publications, bookChapters } from "@/profile/publications";
@@ -108,140 +97,141 @@ export default function Home() {
       </section>
 
       {latestPosts.length > 0 && (
-        <section id="blog" data-guided-scroll-section className="guided-scroll-section py-6 sm:py-8">
+        <section
+          id="blog"
+          data-guided-scroll-section
+          className="guided-scroll-section"
+          aria-labelledby="blog-title"
+        >
           <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
-            <div className="mb-12 flex flex-wrap items-end justify-between gap-4">
-              <div>
-                <p className="section-kicker">
-                  Field notes
-                </p>
-                <h2 className="mt-3 text-3xl font-bold tracking-tight text-foreground sm:text-4xl lg:text-5xl">
+            <div className="grid gap-x-8 gap-y-10 border-t border-border py-16 lg:grid-cols-12 lg:py-24">
+              <div className="lg:col-span-4">
+                <p className="section-kicker">Field notes</p>
+                <h2 id="blog-title" className="mt-3 text-3xl leading-tight text-foreground sm:text-4xl">
                   Ideas moving between crop and data
                 </h2>
-              </div>
-              <Link
-                href="/blog"
-                className="inline-flex items-center text-sm font-semibold text-muted-foreground transition-colors hover:text-foreground"
-              >
-                Open research notebook
-              </Link>
-            </div>
-
-            <div className="grid gap-5 md:grid-cols-2">
-              {latestPosts.map((post) => (
                 <Link
-                  key={post.slug}
-                  href={`/blog/${post.slug}`}
-                  className="group flex flex-col overflow-hidden rounded-2xl border border-border bg-card transition-all hover:-translate-y-1 hover:border-primary/40 hover:shadow-xl hover:shadow-primary/5"
+                  href="/blog"
+                  className="mt-5 inline-block text-sm text-accent underline underline-offset-4"
                 >
-                  {(post.visualSummary || post.image) && (
-                    <div className="relative aspect-[16/10] overflow-hidden bg-muted">
-                      <Image
-                        src={post.visualSummary || post.image!}
-                        alt={post.title}
-                        fill
-                        sizes="(max-width: 768px) 100vw, 50vw"
-                        className="object-cover transition-transform duration-500 group-hover:scale-105"
-                      />
-                    </div>
-                  )}
-                  <div className="flex flex-1 flex-col gap-4 p-5">
-                    <h3 className="line-clamp-2 text-lg font-semibold text-foreground transition-colors group-hover:text-primary">
-                      {post.title}
-                    </h3>
-                    {!(post.visualSummary || post.image) && post.description && (
-                      <p className="line-clamp-4 text-sm text-muted-foreground">
-                        {post.description}
-                      </p>
-                    )}
-                    <div className="mt-auto flex items-center justify-between border-t border-border pt-3 text-xs text-muted-foreground">
-                      <time dateTime={post.date}>
-                        {formatContentDate(post.date, {
-                          month: "short",
-                          day: "numeric",
-                        })}
-                      </time>
-                      <span>{post.readingTime}</span>
-                    </div>
-                  </div>
+                  Open research notebook
                 </Link>
-              ))}
+              </div>
+
+              <ul className="lg:col-span-8">
+                {latestPosts.map((post) => {
+                  const image = post.visualSummary || post.image;
+                  return (
+                    <li
+                      key={post.slug}
+                      className={`relative grid gap-x-8 gap-y-4 border-t border-border py-6 first:border-t-0 first:pt-0 ${
+                        image ? "sm:grid-cols-3" : ""
+                      }`}
+                    >
+                      {image && (
+                        <div className="relative aspect-[4/3] max-w-xs overflow-hidden rounded-md border border-border sm:max-w-none">
+                          <Image
+                            src={image}
+                            alt=""
+                            fill
+                            sizes="(max-width: 640px) 320px, 240px"
+                            className="object-cover"
+                          />
+                        </div>
+                      )}
+                      <div className={image ? "sm:col-span-2" : undefined}>
+                        <time
+                          dateTime={post.date}
+                          className="text-sm tabular-nums text-muted-foreground"
+                        >
+                          {formatContentDate(post.date, {
+                            month: "short",
+                            day: "numeric",
+                          })}
+                        </time>
+                        <h3 className="mt-1 text-xl leading-snug text-foreground">
+                          {/* The link's ::after covers the row, so the thumbnail is clickable too. */}
+                          <Link
+                            href={`/blog/${post.slug}`}
+                            className="underline-offset-4 after:absolute after:inset-0 hover:underline"
+                          >
+                            {post.title}
+                          </Link>
+                        </h3>
+                        {post.description && (
+                          <p className="mt-2 line-clamp-3 max-w-[60ch] text-base leading-relaxed text-muted-foreground">
+                            {post.description}
+                          </p>
+                        )}
+                        <p className="mt-2 text-sm tabular-nums text-muted-foreground">
+                          {post.readingTime}
+                        </p>
+                      </div>
+                    </li>
+                  );
+                })}
+              </ul>
             </div>
           </div>
         </section>
       )}
 
-      <section id="contact" data-guided-scroll-section className="guided-scroll-section py-6 sm:py-8">
+      <section
+        id="contact"
+        data-guided-scroll-section
+        className="guided-scroll-section"
+        aria-labelledby="contact-title"
+      >
         <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
-          <div className="paper-panel relative overflow-hidden bg-card p-6 sm:p-10 lg:p-12">
-            <div className="pointer-events-none absolute -right-24 -top-24 size-72 rounded-full border border-field/15 bg-field-wash" />
-            <div className="pointer-events-none absolute -bottom-32 left-1/3 size-80 rounded-full border border-data/10 bg-data-wash" />
+          <div className="grid gap-x-8 gap-y-10 border-t border-border py-16 lg:grid-cols-12 lg:py-24">
+            <div className="lg:col-span-4">
+              <p className="section-kicker">Where the work can grow next</p>
+              <h2 id="contact-title" className="mt-3 text-3xl leading-tight text-foreground sm:text-4xl">
+                Better crop decisions, built on stronger biological data.
+              </h2>
+            </div>
 
-            <div className="relative grid gap-10 lg:grid-cols-[1.05fr_0.95fr] lg:gap-16">
-              <div>
-                <p className="section-kicker">
-                  Where the work can grow next
-                </p>
-                <h2 className="mt-4 text-3xl font-bold tracking-tight text-foreground sm:text-4xl lg:text-5xl">
-                  Better crop decisions, built on stronger biological data.
-                </h2>
+            <div className="lg:col-span-8">
+              <ul>
+                {opportunities.map((opportunity) => (
+                  <li
+                    key={opportunity.title}
+                    className="border-t border-border py-6 first:border-t-0 first:pt-0"
+                  >
+                    {/* The base h3 rule is unlayered, so the sans needs the important flag to win. */}
+                    <h3 className="font-sans! text-base font-semibold leading-relaxed text-foreground">
+                      {opportunity.title}
+                    </h3>
+                    <p className="mt-1 text-sm text-muted-foreground">{opportunity.detail}</p>
+                  </li>
+                ))}
+              </ul>
 
-                <div className="mt-9 space-y-3">
-                  <Opportunity
-                    icon={<BriefcaseBusiness className="size-5" aria-hidden="true" />}
-                    title="Research Scientist and Data Scientist roles"
-                    detail="Ag-biotech · diagnostics · trait discovery"
-                    tone="emerald"
-                  />
-                  <Opportunity
-                    icon={<Handshake className="size-5" aria-hidden="true" />}
-                    title="Research collaborations"
-                    detail="Field biology · multi-omics · reproducible analysis"
-                    tone="violet"
-                  />
-                  <Opportunity
-                    icon={<Compass className="size-5" aria-hidden="true" />}
-                    title="Scientific consulting"
-                    detail="From experimental design to decision-ready evidence"
-                    tone="sky"
-                  />
-                </div>
-              </div>
-
-              <div className="flex flex-col gap-4">
+              <div className="border-t border-border pt-6">
+                <p className="text-sm text-muted-foreground">Start a conversation</p>
                 <a
                   href={`mailto:${personal.email}`}
-                  className="paper-panel bg-card p-6 transition-transform hover:-translate-y-0.5"
+                  className="mt-1 inline-block break-all text-lg text-accent underline-offset-4 hover:underline"
                 >
-                  <div className="flex items-start justify-between gap-4">
-                    <span className="flex size-12 items-center justify-center rounded-xl bg-field-wash text-field">
-                      <Mail className="size-5" aria-hidden="true" />
-                    </span>
-                  </div>
-                  <p className="mt-10 text-sm font-semibold text-muted-foreground">Start a conversation</p>
-                  <p className="mt-1 break-all text-xl font-bold text-foreground">{personal.email}</p>
+                  {personal.email}
                 </a>
-
-                <div className="grid grid-cols-3 gap-3">
-                  {personal.social.googleScholar && (
-                    <SocialLink href={personal.social.googleScholar} label="Scholar">
-                      <BookOpen className="size-5" aria-hidden="true" />
-                    </SocialLink>
-                  )}
-                  {personal.social.linkedin && (
-                    <SocialLink href={personal.social.linkedin} label="LinkedIn">
-                      <Linkedin className="size-5" aria-hidden="true" />
-                    </SocialLink>
-                  )}
-                  {personal.social.github && (
-                    <SocialLink href={personal.social.github} label="GitHub">
-                      <Github className="size-5" aria-hidden="true" />
-                    </SocialLink>
-                  )}
-                </div>
-
-                <NewsletterSignup />
+                <ul className="mt-3 flex flex-wrap gap-x-5 gap-y-2 text-sm">
+                  {socialLinks.map((link) => (
+                    <li key={link.label}>
+                      <a
+                        href={link.href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-accent underline-offset-4 hover:underline"
+                      >
+                        {link.label}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
               </div>
+
+              <NewsletterSignup />
             </div>
           </div>
         </div>
@@ -250,54 +240,23 @@ export default function Home() {
   );
 }
 
-const opportunityTones = {
-  emerald: "bg-field-wash text-field",
-  violet: "bg-biology-wash text-biology",
-  sky: "bg-data-wash text-data",
-};
+const opportunities = [
+  {
+    title: "Research Scientist and Data Scientist roles",
+    detail: "Ag-bio R&D, molecular diagnostics, NGS workflows and trait discovery",
+  },
+  {
+    title: "Research collaborations",
+    detail: "Multi-omics studies that start from field samples",
+  },
+  {
+    title: "Scientific consulting",
+    detail: "From experimental design to decision-ready evidence",
+  },
+];
 
-function Opportunity({
-  icon,
-  title,
-  detail,
-  tone,
-}: {
-  icon: ReactNode;
-  title: string;
-  detail: string;
-  tone: keyof typeof opportunityTones;
-}) {
-  return (
-    <div className="paper-control flex items-center gap-4 bg-card p-4">
-      <span className={`flex size-11 shrink-0 items-center justify-center rounded-xl ${opportunityTones[tone]}`}>
-        {icon}
-      </span>
-      <div>
-        <p className="font-bold text-foreground">{title}</p>
-        <p className="text-sm text-muted-foreground">{detail}</p>
-      </div>
-    </div>
-  );
-}
-
-function SocialLink({
-  href,
-  label,
-  children,
-}: {
-  href: string;
-  label: string;
-  children: ReactNode;
-}) {
-  return (
-    <a
-      href={href}
-      target="_blank"
-      rel="noopener noreferrer"
-      className="paper-control flex min-h-24 flex-col justify-between bg-card p-4 text-muted-foreground hover:text-field"
-    >
-      {children}
-      <span className="text-xs font-semibold">{label}</span>
-    </a>
-  );
-}
+const socialLinks = [
+  { label: "Scholar", href: personal.social.googleScholar },
+  { label: "LinkedIn", href: personal.social.linkedin },
+  { label: "GitHub", href: personal.social.github },
+].filter((link) => link.href);

@@ -141,11 +141,12 @@ export default function NewsletterSignup() {
   };
 
   return (
-    <div className="paper-panel bg-card p-5">
-      <div className="mb-4">
-        <p className="font-bold text-foreground">Occasional field notes</p>
-        <p className="mt-1 text-xs text-muted-foreground">New research, no noise.</p>
-      </div>
+    <div className="mt-8 border-t border-border pt-6">
+      {/* The base h3 rule is unlayered, so the sans needs the important flag to win. */}
+      <h3 className="font-sans! text-base font-semibold leading-relaxed text-foreground">
+        Occasional field notes
+      </h3>
+      <p className="mt-1 text-sm text-muted-foreground">New research, no noise.</p>
 
       {turnstileConfigured ? (
         <Script
@@ -155,9 +156,11 @@ export default function NewsletterSignup() {
         />
       ) : null}
 
-      <form onSubmit={handleSubmit} className="flex flex-col gap-2">
+      <form onSubmit={handleSubmit} className="mt-4 flex max-w-xl flex-col gap-2">
+        <label htmlFor="newsletter-email" className="text-sm text-muted-foreground">
+          Email address
+        </label>
         <div className="flex flex-col gap-2 sm:flex-row">
-          <label htmlFor="newsletter-email" className="sr-only">Email address</label>
           <input
             id="newsletter-email"
             type="email"
@@ -168,7 +171,8 @@ export default function NewsletterSignup() {
             autoComplete="email"
             required
             disabled={formState === "submitting"}
-            className="paper-control min-w-0 flex-1 bg-card px-4 py-2.5 text-sm text-foreground placeholder:text-muted-foreground focus:border-field focus:outline-none disabled:cursor-wait disabled:opacity-65"
+            aria-describedby="newsletter-status"
+            className="paper-control min-w-0 flex-1 px-4 py-2.5 text-sm placeholder:text-muted-foreground disabled:cursor-wait disabled:opacity-65"
           />
 
           <div className="absolute -left-[9999px]" aria-hidden="true">
@@ -179,7 +183,7 @@ export default function NewsletterSignup() {
           <button
             type="submit"
             disabled={formState === "submitting" || !turnstileReady || !turnstileConfigured}
-            className="paper-button px-5 py-2.5 text-sm font-semibold disabled:cursor-wait disabled:opacity-60"
+            className="btn-primary text-sm disabled:cursor-wait disabled:opacity-60"
           >
             {formState === "submitting"
               ? "Subscribing…"
@@ -199,11 +203,12 @@ export default function NewsletterSignup() {
       </form>
 
       <p
+        id="newsletter-status"
         className={`mt-3 min-h-5 text-xs ${
           formState === "error"
             ? "text-danger"
             : formState === "success"
-              ? "text-field"
+              ? "text-foreground"
               : "text-muted-foreground"
         }`}
         role={formState === "error" ? "alert" : "status"}
