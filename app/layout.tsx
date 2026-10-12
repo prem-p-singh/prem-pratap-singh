@@ -1,12 +1,20 @@
 import type { Metadata } from "next";
-import { Urbanist } from "next/font/google";
+import { IBM_Plex_Sans, STIX_Two_Text } from "next/font/google";
 import "./globals.css";
 import FloatingNavWrapper from "@/components/FloatingNavWrapper";
 import Footer from "@/components/Footer";
 import MicrosoftClarity from "@/components/analytics/MicrosoftClarity";
 
-const urbanist = Urbanist({
-  variable: "--font-urbanist",
+const stix = STIX_Two_Text({
+  variable: "--font-stix",
+  subsets: ["latin"],
+  weight: "variable",
+  style: ["normal", "italic"],
+  display: "swap",
+});
+
+const plex = IBM_Plex_Sans({
+  variable: "--font-plex",
   subsets: ["latin"],
   weight: "variable",
   style: ["normal", "italic"],
@@ -199,7 +207,7 @@ export default function RootLayout({
         <link rel="alternate" type="application/rss+xml" title="Prem Pratap Singh's Blog" href="/feed.xml" />
       </head>
       <body
-        className={`${urbanist.variable} antialiased min-h-screen flex flex-col`}
+        className={`${stix.variable} ${plex.variable} antialiased min-h-screen flex flex-col`}
         suppressHydrationWarning
       >
         {/* A restrained field-to-data wash gives both themes a shared identity. */}

@@ -176,9 +176,8 @@ img[alt="Vercel Logo"] {
   --color-decision-wash: var(--decision-wash);
   --color-danger: var(--danger);
   --color-danger-wash: var(--danger-wash);
-  --font-sans: var(--font-urbanist);
-  --font-serif: var(--font-urbanist);
-  --font-mono: var(--font-urbanist);
+  --font-sans: var(--font-plex);
+  --font-serif: var(--font-stix);
 
   /*
    * Readability scale: every body tier moves up by exactly 2px while retaining
@@ -228,18 +227,20 @@ html {
 body {
   background: var(--background);
   color: var(--foreground);
-  /* Reference --font-urbanist directly. The @theme inline block above feeds the
-     Tailwind font utilities, but it does not publish --font-sans as a custom
-     property, so var(--font-sans) here resolves to Tailwind's default stack and
-     the page silently renders in the system font. */
-  font-family: var(--font-urbanist), "Avenir Next", "Helvetica Neue", Arial, sans-serif;
+  /* Reference --font-plex and --font-stix (the next/font variables) directly.
+     The @theme inline block above feeds the Tailwind font utilities, but it
+     does not publish --font-sans or --font-serif as custom properties, so
+     var(--font-sans) here resolves to Tailwind's default stack and the page
+     silently renders in the system font. */
+  font-family: var(--font-plex), "Helvetica Neue", Arial, sans-serif;
   line-height: 1.6;
 }
 
-/* One consistent professional typeface across body copy and headings. */
+/* Serif for headings, sans (inherited from body) for interface text. */
 h1, h2, h3 {
-  font-family: var(--font-urbanist), "Avenir Next", "Helvetica Neue", Arial, sans-serif;
-  letter-spacing: -0.024em;
+  font-family: var(--font-stix), "STIX Two Text", Georgia, "Times New Roman", serif;
+  font-weight: 600;
+  letter-spacing: -0.012em;
   text-wrap: balance;
 }
 
@@ -895,8 +896,10 @@ h1, h2, h3 {
 }
 
 .section-title {
+  font-family: var(--font-stix), "STIX Two Text", Georgia, "Times New Roman", serif;
   font-size: 2rem;
-  font-weight: 700;
+  font-weight: 600;
+  letter-spacing: -0.012em;
   margin-bottom: 0.5rem;
   position: relative;
   display: inline-block;
@@ -968,6 +971,14 @@ h1, h2, h3 {
 /* ═══════════════════════════════════════════════════════════════════════════
    Prose enhancements
    ═══════════════════════════════════════════════════════════════════════════ */
+
+/* Article body: serif for reading, capped measure. Tables, code and captions stay sans. */
+.prose p,
+.prose li {
+  font-family: var(--font-stix), "STIX Two Text", Georgia, "Times New Roman", serif;
+  line-height: 1.65;
+  max-width: 70ch;
+}
 
 .prose {
   --tw-prose-body: var(--foreground);

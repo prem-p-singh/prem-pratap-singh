@@ -224,7 +224,7 @@ note on the homepage was a blockquote until August 2026 for this reason.
 
 - `var(--font-sans)` does not resolve in hand-written CSS. Tailwind v4's
   `@theme inline` feeds the utility classes without publishing the variable, so
-  the base rules reference `var(--font-urbanist)` directly. Point them back at
+  the base rules reference `var(--font-plex)` and `var(--font-stix)` directly. Point them back at
   `--font-sans` and every page silently falls back to the visitor's system font.
 - The publish workflow must pick drafts by **filename timestamp**, not mtime.
   `actions/checkout` resets every file's mtime, so `ls -t` returns the wrong draft.
