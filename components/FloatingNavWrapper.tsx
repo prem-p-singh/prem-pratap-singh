@@ -11,7 +11,7 @@ const linkClass =
   "whitespace-nowrap text-sm text-muted-foreground underline-offset-8 hover:text-foreground hover:underline aria-[current=page]:text-foreground aria-[current=page]:underline aria-[current=page]:decoration-accent aria-[current=page]:decoration-2";
 
 const mobileRowClass =
-  "flex items-baseline justify-between gap-4 border-b border-border py-3 text-base text-foreground aria-[current=page]:underline aria-[current=page]:decoration-accent aria-[current=page]:decoration-2 aria-[current=page]:underline-offset-8";
+  "flex items-baseline justify-between gap-4 border-b border-border py-3 last:border-b-0 text-base text-foreground aria-[current=page]:underline aria-[current=page]:decoration-accent aria-[current=page]:decoration-2 aria-[current=page]:underline-offset-8";
 
 export default function FloatingNavWrapper() {
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -50,8 +50,11 @@ export default function FloatingNavWrapper() {
 
   return (
     <>
-      <header className="fixed inset-x-0 top-0 z-[5001] h-16 border-b border-border bg-background">
-        <div className="mx-auto flex h-full max-w-6xl items-center justify-between gap-6 px-4 sm:px-6 lg:px-8">
+      {/* The fixed wrapper keeps the 4rem that pages reserve with pt-16. The pill
+          floats inside it: a 0.75rem gap, then 3.25rem of pill. Clicks pass
+          through the empty space on either side. */}
+      <header className="pointer-events-none fixed inset-x-0 top-0 z-[5001] h-16 px-4 sm:px-6 lg:px-8">
+        <div className="pointer-events-auto mx-auto mt-3 flex h-13 w-full items-center justify-between gap-6 rounded-full border border-border bg-card pl-5 pr-2 [box-shadow:var(--shadow-float)] lg:w-max lg:max-w-full lg:gap-8 lg:pl-6 lg:pr-3">
           <Link href="/" onClick={closeMobileMenu} className="shrink-0 text-foreground" aria-label="Prem P. Singh, home">
             <span className="block font-serif text-lg font-semibold leading-tight">Prem P. Singh</span>
             <span className="block text-xs leading-snug text-muted-foreground lg:hidden xl:block">
@@ -83,8 +86,8 @@ export default function FloatingNavWrapper() {
                   <ChevronDown className={`size-3.5 ${exploreOpen ? "rotate-180" : ""}`} aria-hidden="true" />
                 </button>
                 {exploreOpen && (
-                  <div id="desktop-explore-menu" className="absolute right-0 top-full z-20 w-64 pt-5">
-                    <div className="paper-panel p-1 shadow-md" role="menu" aria-label="Explore more">
+                  <div id="desktop-explore-menu" className="absolute right-0 top-full z-20 w-64 pt-7">
+                    <div className="paper-panel p-1.5" role="menu" aria-label="Explore more">
                       {exploreNavigation.map((item) => (
                         <Link
                           key={item.name}
@@ -92,7 +95,7 @@ export default function FloatingNavWrapper() {
                           role="menuitem"
                           aria-current={current(item.link)}
                           onClick={() => setExploreOpen(false)}
-                          className="block rounded px-3 py-2 hover:bg-muted aria-[current=page]:bg-muted"
+                          className="block rounded-2xl px-3 py-2 hover:bg-muted aria-[current=page]:bg-muted"
                         >
                           <span className="block text-sm font-medium text-foreground">{item.name}</span>
                           <span className="block text-xs text-muted-foreground">{item.detail}</span>
@@ -116,7 +119,7 @@ export default function FloatingNavWrapper() {
               <button
                 type="button"
                 onClick={() => setMobileOpen((open) => !open)}
-                className="flex size-10 items-center justify-center rounded-md text-foreground hover:bg-muted lg:hidden"
+                className="flex size-10 items-center justify-center rounded-full text-foreground hover:bg-muted lg:hidden"
                 aria-label={mobileOpen ? "Close navigation menu" : "Open navigation menu"}
                 aria-expanded={mobileOpen}
                 aria-controls="mobile-navigation"
@@ -129,8 +132,13 @@ export default function FloatingNavWrapper() {
       </header>
 
       {mobileOpen && (
-        <div id="mobile-navigation" className="fixed inset-x-0 bottom-0 top-16 z-[5000] overflow-y-auto bg-background lg:hidden">
-          <nav aria-label="Mobile navigation" className="mx-auto max-w-6xl px-4 pb-8 pt-2 sm:px-6">
+        <div id="mobile-navigation" className="fixed inset-x-4 top-18 z-[5000] sm:inset-x-6 lg:hidden">
+          {/* Same surface as .paper-panel, written out because that class forces
+              overflow: hidden and this list has to scroll on short screens. */}
+          <nav
+            aria-label="Mobile navigation"
+            className="max-h-[calc(100dvh-5.5rem)] overflow-y-auto overscroll-contain rounded-[20px] border border-border bg-card px-5 py-2 [box-shadow:var(--shadow-float)]"
+          >
             {primaryNavigation.map((item) => (
               <Link
                 key={item.name}

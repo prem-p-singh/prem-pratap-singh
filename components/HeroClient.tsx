@@ -82,7 +82,7 @@ export default function HeroClient() {
     <section id="about" data-guided-scroll-section className="guided-scroll-section pt-16">
       <div className="mx-auto grid max-w-6xl gap-x-8 gap-y-12 px-4 pb-10 pt-10 sm:px-6 sm:pt-12 lg:grid-cols-12 lg:px-8 lg:pb-14 lg:pt-14">
         <div className="lg:col-span-7">
-          <h1 className="text-4xl leading-tight text-foreground sm:text-5xl lg:text-6xl">
+          <h1 className="name-gradient text-4xl leading-tight text-foreground sm:text-5xl lg:text-6xl">
             {personal.name}
           </h1>
           <p className="mt-4 text-lg font-medium text-foreground">{personal.heroRole}</p>
