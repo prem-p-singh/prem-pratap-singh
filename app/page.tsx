@@ -4,6 +4,8 @@ import type { ReactNode } from "react";
 import {
   BookOpen,
   BriefcaseBusiness,
+  ChevronDown,
+  ChevronUp,
   Compass,
   Github,
   Handshake,
@@ -36,54 +38,72 @@ export default function Home() {
       <ResearchSnapshot />
       <WorkExperience />
 
-      <section id="research" data-guided-scroll-section className="guided-scroll-section py-6 sm:py-8">
+      <section
+        id="research"
+        data-guided-scroll-section
+        className="guided-scroll-section"
+        aria-labelledby="research-title"
+      >
         <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-wrap items-end justify-between gap-5 border-y border-border py-8 sm:py-10">
-            <div>
-              <h2 className="max-w-2xl text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
+          <div className="grid gap-x-8 gap-y-10 border-t border-border py-16 lg:grid-cols-12 lg:py-24">
+            <div className="lg:col-span-4">
+              <h2 id="research-title" className="text-3xl leading-tight text-foreground sm:text-4xl">
                 Evidence that has passed peer review.
               </h2>
-              <p className="mt-3 max-w-2xl text-sm leading-relaxed text-muted-foreground sm:text-base">
+              <p className="mt-5 max-w-[60ch] text-base leading-relaxed text-muted-foreground">
                 Journal articles and book chapters spanning plant disease, diagnostics, multi-omics, and food safety.
               </p>
             </div>
-            <div className="flex items-center gap-3">
-              <span className="text-4xl font-black tabular-nums text-foreground sm:text-5xl">
-                {publishedJournalCount + bookChapters.length}
-              </span>
-              <span className="max-w-24 text-sm font-semibold leading-tight text-muted-foreground">
+
+            <div className="lg:col-span-8">
+              <p className="text-base leading-relaxed text-foreground">
+                <span className="text-2xl font-semibold tabular-nums">
+                  {publishedJournalCount + bookChapters.length}
+                </span>{" "}
                 published works
-              </span>
+              </p>
+
+              <details className="group mt-6 border-t border-border">
+                <summary className="flex cursor-pointer list-none items-start justify-between gap-4 py-4 text-sm marker:content-none">
+                  <span>
+                    <span className="text-accent underline underline-offset-4">
+                      Browse the publication archive
+                    </span>
+                    <span className="mt-1 block text-muted-foreground">Filter by format and method</span>
+                  </span>
+                  <ChevronDown className="size-5 shrink-0 text-muted-foreground group-open:hidden" aria-hidden="true" />
+                  <ChevronUp className="hidden size-5 shrink-0 text-muted-foreground group-open:block" aria-hidden="true" />
+                </summary>
+                <div className="pt-4">
+                  <PublicationsList publications={[...publications, ...bookChapters]} />
+                </div>
+              </details>
             </div>
           </div>
-
-          <details className="group border-b border-border">
-            <summary className="flex cursor-pointer list-none items-center justify-between gap-4 py-5 text-sm font-semibold text-foreground marker:content-none">
-              <span>Browse the publication archive</span>
-              <span className="flex items-center gap-2 text-muted-foreground">
-                Filter by format and method
-                <span className="text-lg transition-transform group-open:rotate-45" aria-hidden="true">+</span>
-              </span>
-            </summary>
-            <div className="pb-10 pt-3">
-              <PublicationsList publications={[...publications, ...bookChapters]} />
-            </div>
-          </details>
         </div>
       </section>
 
-      <section id="projects" data-guided-scroll-section className="guided-scroll-section py-6 sm:py-8">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="mb-8 max-w-3xl">
-            <h2 className="text-3xl font-semibold tracking-tight text-foreground sm:text-4xl lg:text-5xl">
-              Research projects
-            </h2>
-            <p className="mt-4 max-w-2xl text-base leading-relaxed text-muted-foreground">
-              Field studies, diagnostic methods, and mechanism work across crop and food systems.
-            </p>
-          </div>
+      <section
+        id="projects"
+        data-guided-scroll-section
+        className="guided-scroll-section"
+        aria-labelledby="projects-title"
+      >
+        <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+          <div className="grid gap-x-8 gap-y-10 border-t border-border py-16 lg:grid-cols-12 lg:py-24">
+            <div className="lg:col-span-4">
+              <h2 id="projects-title" className="text-3xl leading-tight text-foreground sm:text-4xl">
+                Research projects
+              </h2>
+              <p className="mt-5 max-w-[60ch] text-base leading-relaxed text-muted-foreground">
+                Field studies, diagnostic methods, and mechanism work across crop and food systems.
+              </p>
+            </div>
 
-          <ProjectCaseFiles projects={projects} initialVisible={3} />
+            <div className="lg:col-span-8">
+              <ProjectCaseFiles projects={projects} initialVisible={3} />
+            </div>
+          </div>
         </div>
       </section>
 

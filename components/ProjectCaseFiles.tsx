@@ -2,15 +2,11 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import { ChevronDown, ExternalLink } from "lucide-react";
+import { ChevronDown, ChevronUp } from "lucide-react";
 import type { Project } from "@/components/ProjectCard";
 
-const tones = [
-  { dot: "bg-biology", text: "text-biology", wash: "bg-biology-wash" },
-  { dot: "bg-field", text: "text-field", wash: "bg-field-wash" },
-  { dot: "bg-data", text: "text-data", wash: "bg-data-wash" },
-  { dot: "bg-decision", text: "text-decision", wash: "bg-decision-wash" },
-];
+const linkClass = "text-sm text-accent underline-offset-4 hover:underline";
+const detailRowClass = "grid gap-x-4 gap-y-1 border-t border-border py-3 sm:grid-cols-[12rem_1fr]";
 
 export default function ProjectCaseFiles({
   projects,
@@ -26,154 +22,128 @@ export default function ProjectCaseFiles({
 
   return (
     <div>
-      <div className="border-t border-border">
       {visibleProjects.map((project, index) => {
         const open = openIndex === index;
-        const tone = tones[index % tones.length];
         const panelId = `project-case-${index}`;
-        const methods = project.tech.slice(0, 3).join(" · ");
+        const methods = project.tech.slice(0, 3).join(", ");
         const toolkit = Array.from(new Set([...(project.skills ?? []), ...project.tech]));
+        const Chevron = open ? ChevronUp : ChevronDown;
 
         return (
-          <article key={project.title} className="border-b border-border">
-            <button
-              type="button"
-              aria-expanded={open}
-              aria-controls={panelId}
-              onClick={() => setOpenIndex(open ? null : index)}
-              className={`grid w-full grid-cols-[3rem_minmax(0,1fr)_auto] gap-x-4 gap-y-4 px-1 py-6 text-left transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-data/45 sm:px-4 md:grid-cols-[4rem_minmax(0,1.35fr)_minmax(0,0.75fr)_8rem_auto] md:items-center md:gap-x-6 ${
-                open ? tone.wash : "hover:bg-muted/20"
-              }`}
-            >
-              <div className="col-start-1 row-start-1 flex items-center gap-2 self-start pt-1 md:self-center md:pt-0">
-                <span className={`size-2 rounded-full ${tone.dot}`} aria-hidden="true" />
-              </div>
-
-              <div className="col-start-2 row-start-1 min-w-0 md:col-start-2 md:row-start-1">
-                <p className={`text-xs font-semibold ${tone.text}`}>
-                  {project.category || "Research"}
-                </p>
-                <h3 className="mt-1.5 text-xl font-semibold leading-tight text-foreground sm:text-2xl">
-                  {project.title}
+          <article
+            key={project.title}
+            className="border-t border-border py-6 first:border-t-0 first:pt-0"
+          >
+            {/* The button holds only the title. Its ::after covers the header, so the whole row toggles. */}
+            <div className="relative grid gap-x-8 gap-y-3 sm:grid-cols-[1fr_10rem]">
+              <div>
+                <p className="text-sm text-muted-foreground">{project.category || "Research"}</p>
+                {/* The base h3 rule is unlayered, so the sans needs the important flag to win. */}
+                <h3 className="font-sans! mt-1 text-lg font-semibold leading-snug text-foreground">
+                  <button
+                    type="button"
+                    aria-expanded={open}
+                    aria-controls={panelId}
+                    onClick={() => setOpenIndex(open ? null : index)}
+                    className="text-left after:absolute after:inset-0"
+                  >
+                    {project.title}
+                  </button>
                 </h3>
                 {project.question && (
-                  <p className="mt-2 max-w-2xl text-sm leading-relaxed text-muted-foreground">
+                  <p className="mt-2 max-w-[60ch] text-base leading-relaxed text-foreground">
                     {project.question}
                   </p>
                 )}
+                <p className="mt-2 text-sm text-muted-foreground">Methods: {methods}</p>
               </div>
 
-              <div className="col-span-2 col-start-2 row-start-2 md:col-span-1 md:col-start-3 md:row-start-1">
-                <p className="text-xs font-semibold text-muted-foreground">Methods</p>
-                <p className="mt-1 text-sm leading-snug text-foreground/80">{methods}</p>
-              </div>
-
-              <div className="col-span-2 col-start-2 row-start-3 md:col-span-1 md:col-start-4 md:row-start-1">
-                <p className={`text-2xl font-semibold leading-none ${tone.text}`}>
-                  {project.resultStat || "Evidence"}
+              <div className="flex items-start justify-between gap-4">
+                <p>
+                  <span className="block text-xl font-semibold leading-snug tabular-nums text-accent">
+                    {project.resultStat || "Evidence"}
+                  </span>
+                  <span className="text-sm text-muted-foreground">outcome</span>
                 </p>
-                <p className="mt-1 text-xs text-muted-foreground">outcome</p>
+                <Chevron className="size-5 shrink-0 text-muted-foreground" aria-hidden="true" />
               </div>
+            </div>
 
-              <ChevronDown
-                className={`col-start-3 row-start-1 size-5 self-start text-muted-foreground transition-transform md:col-start-5 md:row-start-1 md:self-center ${
-                  open ? "rotate-180" : ""
-                }`}
-                aria-hidden="true"
-              />
-            </button>
-
-            <div id={panelId} hidden={!open} className={tone.wash}>
-              <div className="grid gap-8 border-t border-border px-5 py-7 sm:px-8 md:grid-cols-[1.15fr_0.85fr] md:px-12 md:py-9">
-                <div className="space-y-7">
-                  <div>
-                    <p className="text-xs font-semibold text-muted-foreground">What we did</p>
-                    <p className="mt-2 max-w-3xl text-sm leading-relaxed text-foreground/85">
-                      {project.description}
-                    </p>
+            <div id={panelId} hidden={!open} className="pt-6">
+              <dl className="text-sm leading-normal">
+                <div className={detailRowClass}>
+                  <dt className="text-muted-foreground">What we did</dt>
+                  <dd className="text-foreground">{project.description}</dd>
+                </div>
+                {project.impact && (
+                  <div className={detailRowClass}>
+                    <dt className="text-muted-foreground">What the data showed</dt>
+                    <dd className="tabular-nums text-foreground">{project.impact}</dd>
                   </div>
-
-                  {project.impact && (
-                    <div>
-                      <p className="text-xs font-semibold text-muted-foreground">What the data showed</p>
-                      <p className="mt-2 max-w-3xl text-sm leading-relaxed text-foreground/90">
-                        {project.impact}
-                      </p>
-                    </div>
-                  )}
-
-                  {((project.papers && project.papers.length > 0) || project.links?.github) && (
-                    <div className="flex flex-wrap gap-x-5 gap-y-2 border-t border-border pt-5">
-                      {project.papers?.map((paper) => (
-                        <a
-                          key={paper.url}
-                          href={paper.url}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="inline-flex items-center gap-1.5 text-sm font-semibold text-foreground underline decoration-border underline-offset-4 hover:decoration-foreground"
-                        >
-                          {paper.label} <ExternalLink className="size-3.5" aria-hidden="true" />
-                        </a>
-                      ))}
-                      {project.links?.github && (
-                        <a
-                          href={project.links.github}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="inline-flex items-center gap-1.5 text-sm font-semibold text-foreground underline decoration-border underline-offset-4 hover:decoration-foreground"
-                        >
-                          Analysis code <ExternalLink className="size-3.5" aria-hidden="true" />
-                        </a>
-                      )}
-                    </div>
-                  )}
-                </div>
-
-                <div>
-                  <p className="text-xs font-semibold text-muted-foreground">Methods and capabilities</p>
-                  <ul className="mt-3 grid grid-cols-2 border-t border-border">
-                    {toolkit.map((item) => (
-                      <li key={item} className="border-b border-border py-2.5 pr-3 text-xs leading-snug text-foreground/75">
-                        {item}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-
-                {/* min-w-0 lets this grid item shrink below the figure's intrinsic
-                    width, so the overflow happens inside the scroller rather than
-                    widening the whole page. */}
-                {project.image && (
-                  <figure className="min-w-0 md:col-span-2">
-                    {/* Scrolls sideways on narrow screens. Shrinking a dense figure
-                        to phone width makes axis labels unreadable, so it keeps a
-                        legible minimum and the reader pans instead. */}
-                    <div className="overflow-x-auto rounded-xl border border-border bg-white">
-                      <Image
-                        src={project.image}
-                        alt={project.imageCaption || `Figure from ${project.title}`}
-                        width={project.imageWidth ?? 1600}
-                        height={project.imageHeight ?? 1200}
-                        sizes="(max-width: 768px) 640px, (max-width: 1280px) 90vw, 1200px"
-                        className="h-auto w-full min-w-[640px] max-w-none"
-                      />
-                    </div>
-                    {project.imageCaption && (
-                      <figcaption className="mt-3 text-xs leading-relaxed text-muted-foreground">
-                        {project.imageCaption}
-                      </figcaption>
-                    )}
-                  </figure>
                 )}
-              </div>
+                <div className={detailRowClass}>
+                  <dt className="text-muted-foreground">Methods and capabilities</dt>
+                  <dd className="text-foreground">{toolkit.join(", ")}</dd>
+                </div>
+              </dl>
+
+              {((project.papers && project.papers.length > 0) || project.links?.github) && (
+                <div className="flex flex-wrap gap-x-5 gap-y-2 border-t border-border pt-3">
+                  {project.papers?.map((paper) => (
+                    <a
+                      key={paper.url}
+                      href={paper.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className={linkClass}
+                    >
+                      {paper.label}
+                    </a>
+                  ))}
+                  {project.links?.github && (
+                    <a
+                      href={project.links.github}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className={linkClass}
+                    >
+                      Analysis code
+                    </a>
+                  )}
+                </div>
+              )}
+
+              {/* min-w-0 lets the figure shrink below its intrinsic width, so the
+                  overflow happens inside the scroller rather than widening the page. */}
+              {project.image && (
+                <figure className="mt-6 min-w-0">
+                  {/* Scrolls sideways on narrow screens. Shrinking a dense figure
+                      to phone width makes axis labels unreadable, so it keeps a
+                      legible minimum and the reader pans instead. */}
+                  <div className="overflow-x-auto rounded-md border border-border bg-card">
+                    <Image
+                      src={project.image}
+                      alt={project.imageCaption || `Figure from ${project.title}`}
+                      width={project.imageWidth ?? 1600}
+                      height={project.imageHeight ?? 1200}
+                      sizes="(max-width: 768px) 640px, (max-width: 1280px) 90vw, 800px"
+                      className="h-auto w-full min-w-[640px] max-w-none"
+                    />
+                  </div>
+                  {project.imageCaption && (
+                    <figcaption className="mt-3 text-xs leading-relaxed text-muted-foreground">
+                      {project.imageCaption}
+                    </figcaption>
+                  )}
+                </figure>
+              )}
             </div>
           </article>
         );
       })}
-      </div>
 
       {hiddenCount > 0 && (
-        <div className="mt-6 flex justify-center">
+        <div className="mt-2 border-t border-border pt-6">
           <button
             type="button"
             onClick={() => {
