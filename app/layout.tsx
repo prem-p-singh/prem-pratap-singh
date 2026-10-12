@@ -204,11 +204,6 @@ export default function RootLayout({
         className={`${stix.variable} ${plex.variable} antialiased min-h-screen flex flex-col`}
         suppressHydrationWarning
       >
-        {/* A restrained field-to-data wash gives both themes a shared identity. */}
-        <div className="fixed inset-0 -z-10 overflow-hidden">
-          <div className="absolute -right-32 -top-40 size-[38rem] rounded-full bg-field-wash blur-[140px]" />
-          <div className="absolute -bottom-40 -left-32 size-[34rem] rounded-full bg-data-wash blur-[140px]" />
-        </div>
         <FloatingNavWrapper />
         <main className="flex-grow relative z-10">
           {children}

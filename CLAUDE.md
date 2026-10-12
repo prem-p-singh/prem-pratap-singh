@@ -135,14 +135,13 @@ wheel handler or scroll snapping.
 ### Shared surface treatment
 
 `.paper-panel`, `.paper-button`, `.paper-control`, `.btn-primary` and
-`.btn-outline` share one rule set in `globals.css`: border, card background,
-inset highlight, and a top-right corner accent drawn with `::after` in the
-`field` colour. `.paper-panel` is used in about twenty files, so a change there
-is a change to most surfaces on the site.
+`.btn-outline` share one rule set in `globals.css`: a 1px border, a 6px radius,
+card background, no shadow and no movement on hover. `.btn-primary` is a solid
+accent fill and `.btn-outline` is transparent. `.paper-panel` is used in about
+twenty files, so a change there is a change to most surfaces on the site.
 
-The corner accent applies to the navigation too. An element that adds its own
-perimeter effect would have to opt out of `::after`, or the two read as an
-accidental partial border.
+These rules are unlayered, so they beat Tailwind utilities on the same element:
+a `rounded-*` or `bg-*` class on a `.paper-panel` has no effect.
 
 ## Analysis pipeline (`data-interpretations/`)
 

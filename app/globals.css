@@ -101,8 +101,6 @@ img[alt="Vercel Logo"] {
   --decision-wash: color-mix(in oklab, var(--ref-decision-dark) 12%, transparent);
   --danger: var(--ref-danger-dark);
   --danger-wash: color-mix(in oklab, var(--ref-danger-dark) 12%, transparent);
-  --glow-primary: color-mix(in oklab, var(--ref-blotch-dark) 10%, transparent);
-  --glow-accent: color-mix(in oklab, var(--ref-blotch-dark) 8%, transparent);
 }
 
 .light {
@@ -139,8 +137,6 @@ img[alt="Vercel Logo"] {
   --decision-wash: color-mix(in oklab, var(--ref-decision) 10%, transparent);
   --danger: var(--ref-danger);
   --danger-wash: color-mix(in oklab, var(--ref-danger) 9%, transparent);
-  --glow-primary: color-mix(in oklab, var(--ref-blotch) 9%, transparent);
-  --glow-accent: color-mix(in oklab, var(--ref-blotch) 7%, transparent);
 }
 
 @theme inline {
@@ -203,7 +199,8 @@ html {
   scroll-behavior: smooth;
 }
 
-/* Where an anchored homepage section settles below the fixed nav. */
+/* Where an anchored homepage section settles below the fixed nav:
+   the 4rem bar plus 1rem of air, the same at every width. */
 :root {
   --guided-scroll-offset: 5rem;
 }
@@ -212,15 +209,16 @@ html {
   scroll-margin-top: var(--guided-scroll-offset);
 }
 
-@media (min-width: 1280px) and (pointer: fine) {
-  :root {
-    --guided-scroll-offset: 6.5rem;
-  }
-}
-
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
   }
 }
 
@@ -316,41 +314,11 @@ h1, h2, h3 {
   transition: all 0.1s ease;
 }
 
-/* Dot-grid background pattern */
-.bg-dot-grid {
-  background-image: radial-gradient(circle, var(--border) 1px, transparent 1px);
-  background-size: 24px 24px;
-}
-
 /* Formerly a three-family gradient. Kept as a class, drawn in plain ink. */
 .gradient-text {
   color: var(--foreground);
   display: inline-block;
   padding-bottom: 0.1em;
-}
-
-/* Scroll-triggered animation */
-.animate-on-scroll {
-  opacity: 0;
-  transform: translateY(20px);
-  transition: opacity 0.6s ease, transform 0.6s ease;
-}
-
-.animate-on-scroll.visible {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-/* Scroll reveal */
-.scroll-reveal {
-  opacity: 0;
-  transform: translateY(20px);
-  transition: opacity 0.6s ease, transform 0.6s ease;
-}
-
-.scroll-reveal.visible {
-  opacity: 1;
-  transform: translateY(0);
 }
 
 /* Section divider */
@@ -400,11 +368,10 @@ h1, h2, h3 {
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════
-   Field-notebook surfaces
+   Shared surfaces
 
-   Panels and actions use one visual grammar: grey paper, a quiet neutral
-   outline, and a short accent seam at the upper-right corner. Category color
-   stays inside the surface as an icon, label, rule, or selected state.
+   Flat: a 1px rule, a 6px radius, no shadow, no movement. Hover and focus
+   change colour only.
    ═══════════════════════════════════════════════════════════════════════════ */
 
 .paper-panel,
@@ -412,40 +379,16 @@ h1, h2, h3 {
 .paper-control,
 .btn-primary,
 .btn-outline {
-  position: relative;
-  isolation: isolate;
-  overflow: hidden;
   border: 1px solid var(--border);
+  border-radius: 6px;
   background: var(--card);
   color: var(--foreground);
-  box-shadow:
-    inset 0 1px 0 color-mix(in srgb, var(--foreground) 4%, transparent),
-    0 12px 35px -32px color-mix(in srgb, var(--foreground) 30%, transparent);
 }
 
-.paper-panel::after,
-.paper-button::after,
-.paper-control::after,
-.btn-primary::after,
-.btn-outline::after {
-  content: "";
-  position: absolute;
-  z-index: -1;
-  top: -1px;
-  right: -1px;
-  width: 24%;
-  min-width: 3.5rem;
-  height: 42%;
-  min-height: 1.5rem;
-  pointer-events: none;
-  border-top: 1px solid var(--accent);
-  border-right: 1px solid var(--accent);
-  border-top-right-radius: inherit;
-  opacity: 0.9;
-}
-
+/* Panels in other files position and clip their children against these. */
 .paper-panel {
-  border-radius: 1.5rem;
+  position: relative;
+  overflow: hidden;
 }
 
 .paper-button,
@@ -456,68 +399,29 @@ h1, h2, h3 {
   justify-content: center;
   gap: 0.5rem;
   padding: 0.75rem 1.5rem;
-  border-radius: 1.25rem;
   font-weight: 500;
-  transition: border-color 0.2s ease, color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-.paper-control {
-  border-radius: 0.875rem;
-  transition: border-color 0.2s ease, color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .paper-button:hover,
-.paper-control:hover,
-.btn-primary:hover,
-.btn-outline:hover {
-  border-color: color-mix(in oklab, var(--accent) 58%, var(--border));
-  color: var(--accent);
-  transform: translateY(-1px);
-  box-shadow:
-    inset 0 1px 0 color-mix(in srgb, var(--foreground) 5%, transparent),
-    0 16px 34px -28px color-mix(in oklab, var(--accent) 55%, transparent);
-}
-
-.paper-button:focus-visible,
-.paper-control:focus-visible,
-.btn-primary:focus-visible,
-.btn-outline:focus-visible {
-  outline: 2px solid var(--accent);
-  outline-offset: 3px;
+.btn-outline:hover,
+:is(a, button, input).paper-control:hover {
+  border-color: var(--foreground);
 }
 
 .btn-primary {
-  padding: 0.75rem 1.5rem;
-  font-weight: 500;
-  transition: all 0.2s ease;
-  position: relative;
-  overflow: hidden;
+  border-color: var(--primary);
+  background: var(--primary);
+  color: var(--primary-foreground);
 }
 
+/* Mixing toward ink darkens the fill in light mode and lightens it in dark. */
 .btn-primary:hover {
-  opacity: 1;
-}
-
-.btn-primary:active {
-  opacity: 1;
-  transform: translateY(1px) scale(0.97);
-  transition: all 0.08s ease;
+  border-color: color-mix(in oklab, var(--primary) 86%, var(--foreground));
+  background: color-mix(in oklab, var(--primary) 86%, var(--foreground));
 }
 
 .btn-outline {
-  padding: 0.75rem 1.5rem;
-  font-weight: 500;
-  transition: all 0.2s ease;
-}
-
-.btn-outline:hover {
-  transform: translateY(-1px);
-}
-
-.btn-outline:active {
-  transform: translateY(1px) scale(0.97);
-  border-color: var(--foreground);
-  transition: all 0.08s ease;
+  background: transparent;
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════
@@ -924,51 +828,6 @@ h1, h2, h3 {
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════
-   Animations
-   ═══════════════════════════════════════════════════════════════════════════ */
-
-@keyframes float {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-10px); }
-}
-
-.float-animation {
-  animation: float 3s ease-in-out infinite;
-}
-
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.fade-in-up {
-  animation: fadeInUp 0.6s ease forwards;
-}
-
-@keyframes wave {
-  0%, 100% { transform: rotate(0deg); }
-  25% { transform: rotate(20deg); }
-  75% { transform: rotate(-10deg); }
-}
-
-.wave {
-  display: inline-block;
-  animation: wave 1.5s ease-in-out infinite;
-  transform-origin: 70% 70%;
-}
-
-@keyframes subtle-glow {
-  0%, 100% { opacity: 0.5; }
-  50% { opacity: 1; }
-}
-
-/* ═══════════════════════════════════════════════════════════════════════════
    Prose enhancements
    ═══════════════════════════════════════════════════════════════════════════ */
 
@@ -1061,20 +920,6 @@ h1, h2, h3 {
    Global Interactive States
    ═══════════════════════════════════════════════════════════════════════════ */
 
-/* Social icon links (hero + footer) */
-a[aria-label] {
-  transition: all 0.2s ease;
-}
-
-a[aria-label]:hover {
-  transform: translateY(-2px);
-}
-
-a[aria-label]:active {
-  transform: translateY(1px) scale(0.9);
-  transition: all 0.08s ease;
-}
-
 /* Footer social icons with rounded bg */
 .rounded-full[aria-label]:hover {
   border-color: var(--muted-foreground);
@@ -1092,17 +937,6 @@ a[aria-label]:active {
 .experience-date-badge:hover {
   border-color: var(--muted-foreground);
   color: var(--foreground);
-}
-
-/* Nav links */
-nav a {
-  transition: all 0.2s ease;
-  position: relative;
-}
-
-nav a:active {
-  transform: scale(0.95);
-  transition: all 0.08s ease;
 }
 
 /* Publication / list items press */
@@ -1126,10 +960,13 @@ a, button {
 
 /* Focus-visible for keyboard navigation */
 a:focus-visible,
-button:focus-visible {
-  outline: 2px solid var(--foreground);
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible,
+summary:focus-visible {
+  outline: 2px solid var(--accent);
   outline-offset: 2px;
-  border-radius: 4px;
 }
 
 /* Smooth press for show more/less buttons */
