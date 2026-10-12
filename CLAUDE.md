@@ -98,7 +98,9 @@ follows the theme into dark mode without extra work.
 
 `app/globals.css` holds a field-notebook colour system. `:root` holds the dark
 values and a `.light` class overrides them. Light is the default for visitors:
-the class is server-rendered on `<html>`, and a saved `dark` choice removes it.
+the class is server-rendered on `<html>`, and a saved `dark` choice removes it. The palette is warm paper with near-white
+cards, green as the main colour (`--primary` is the `field` green) and
+terracotta as the accent.
 Alongside the usual background and
 foreground tokens there are four semantic families, each with a base, `-strong`,
 `-foreground` and `-wash` variant:
@@ -135,10 +137,13 @@ wheel handler or scroll snapping.
 ### Shared surface treatment
 
 `.paper-panel`, `.paper-button`, `.paper-control`, `.btn-primary` and
-`.btn-outline` share one rule set in `globals.css`: a 1px border, a 6px radius,
-card background, no shadow and no movement on hover. `.btn-primary` is a solid
-accent fill and `.btn-outline` is transparent. `.paper-panel` is used in about
-twenty files, so a change there is a change to most surfaces on the site.
+`.btn-outline` share one rule set in `globals.css`: a 1px border, card
+background and a soft shadow. Panels have a 24px radius and a static
+corner accent in the `field` colour; buttons and controls have smaller radii.
+`.btn-primary` is a solid green fill and `.btn-outline` sits on the card
+colour. Hover changes border colour and shadow only: nothing lifts, scales or
+animates. `.paper-panel` is used in about twenty files, so a change there is a
+change to most surfaces on the site.
 
 These rules are unlayered, so they beat Tailwind utilities on the same element:
 a `rounded-*` or `bg-*` class on a `.paper-panel` has no effect.
