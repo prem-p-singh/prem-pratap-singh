@@ -55,7 +55,7 @@ export default function WorkExperience() {
         </div>
 
         <div>
-          {workExperience.map((role, index) => {
+          {workExperience.map((role) => {
             const detail = roleDetails[role.title];
             if (!detail) return null;
 
@@ -89,7 +89,6 @@ export default function WorkExperience() {
 
                 <div className="hidden text-right lg:block">
                   <p className="text-xs font-semibold text-muted-foreground">{detail.label}</p>
-                  <p className="mt-2 text-3xl font-semibold tabular-nums text-foreground/20">0{index + 1}</p>
                 </div>
               </article>
             );

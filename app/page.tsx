@@ -142,9 +142,6 @@ export default function Home() {
                       >
                         <span className="absolute -right-8 -top-8 size-36 rounded-full border border-foreground/10" />
                         <span className="absolute right-8 top-8 size-16 rounded-full border border-foreground/10" />
-                        <span className="text-6xl font-black tabular-nums text-foreground/10">
-                          0{index + 1}
-                        </span>
                       </div>
                     )}
                   </div>

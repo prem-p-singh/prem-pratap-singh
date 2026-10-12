@@ -118,11 +118,8 @@ export default function SkillsMatrix() {
         </div>
 
         <ol className="mt-7 grid border-t border-border sm:grid-cols-2 sm:gap-x-8">
-          {visible.map((item, index) => (
+          {visible.map((item) => (
             <li key={item} className="flex gap-3 border-b border-border py-3 text-sm leading-snug text-foreground/85">
-              <span className={`font-mono text-xs ${activeVisual.text}`}>
-                {String(index + 1).padStart(2, "0")}
-              </span>
               <span>{item}</span>
             </li>
           ))}

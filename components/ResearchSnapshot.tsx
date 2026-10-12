@@ -85,7 +85,7 @@ export default function ResearchSnapshot() {
         </div>
 
         <div className="mt-8 grid gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
-          {capabilityPillars.map((pillar, index) => {
+          {capabilityPillars.map((pillar) => {
             const Icon = pillar.icon;
             return (
               <article
@@ -97,7 +97,6 @@ export default function ResearchSnapshot() {
                   <span className={`flex size-12 items-center justify-center rounded-xl ${pillar.surface} ${pillar.tone}`}>
                     <Icon className="size-6" strokeWidth={1.65} aria-hidden="true" />
                   </span>
-                  <span className="font-mono text-xs text-muted-foreground">0{index + 1}</span>
                 </div>
                 <h3 className="mt-6 text-lg font-semibold leading-tight text-foreground">{pillar.title}</h3>
                 <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{pillar.description}</p>

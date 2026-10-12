@@ -47,9 +47,6 @@ export default function ProjectCaseFiles({
             >
               <div className="col-start-1 row-start-1 flex items-center gap-2 self-start pt-1 md:self-center md:pt-0">
                 <span className={`size-2 rounded-full ${tone.dot}`} aria-hidden="true" />
-                <span className="font-mono text-xs text-muted-foreground">
-                  {String(index + 1).padStart(2, "0")}
-                </span>
               </div>
 
               <div className="col-start-2 row-start-1 min-w-0 md:col-start-2 md:row-start-1">
