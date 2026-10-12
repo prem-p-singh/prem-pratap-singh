@@ -4,7 +4,6 @@ import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { ChevronDown, Menu, X } from "lucide-react";
 import ThemeToggle from "@/components/ThemeToggle";
-import { MovingBorder } from "@/components/ui/moving-border";
 import { exploreNavigation, primaryNavigation } from "@/profile/navigation";
 
 export default function FloatingNavWrapper() {
@@ -40,12 +39,6 @@ export default function FloatingNavWrapper() {
     <>
       <header className="fixed inset-x-0 top-4 z-[5001] hidden px-4 xl:block">
         <div className="relative mx-auto max-w-7xl">
-          <div className="nav-moving-border" aria-hidden="true">
-            <MovingBorder duration={12000} rx="24" ry="24">
-              <div className="nav-shine-orb" />
-            </MovingBorder>
-          </div>
-
           <nav
             aria-label="Primary navigation"
             className="paper-panel flex items-center gap-3 !overflow-visible bg-card/95 px-3 py-2 backdrop-blur-xl"

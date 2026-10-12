@@ -3,7 +3,6 @@
 import Image from "next/image";
 import { Github, GraduationCap, Linkedin, Mail, type LucideIcon } from "lucide-react";
 import { personal } from "@/profile/personal";
-import { MovingBorderButton } from "@/components/ui/moving-border";
 
 const socialLinks: Array<{ label: string; href: string; icon: LucideIcon }> = [
   { label: "GitHub", href: personal.social.github, icon: Github },
@@ -50,28 +49,17 @@ export default function HeroClient() {
             </div>
 
             <div className="mt-9 flex flex-wrap gap-4">
-              <MovingBorderButton
-                as="a"
-                href="#capabilities"
-                borderRadius="1.25rem"
-                containerClassName="h-[3.25rem] w-auto"
-                className="px-6 font-medium"
-                duration={3000}
-              >
+              <a href="#capabilities" className="btn-primary">
                 Explore research
-              </MovingBorderButton>
-              <MovingBorderButton
-                as="a"
+              </a>
+              <a
                 href="/cv.pdf"
                 target="_blank"
                 rel="noopener noreferrer"
-                borderRadius="1.25rem"
-                containerClassName="h-[3.25rem] w-auto"
-                className="px-6 font-medium"
-                duration={3000}
+                className="btn-outline"
               >
                 CV
-              </MovingBorderButton>
+              </a>
             </div>
 
             <div className="mt-8 flex items-center gap-3">

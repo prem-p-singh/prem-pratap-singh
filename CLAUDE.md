@@ -138,10 +138,9 @@ inset highlight, and a top-right corner accent drawn with `::after` in the
 `field` colour. `.paper-panel` is used in about twenty files, so a change there
 is a change to most surfaces on the site.
 
-The corner accent is why any element that also carries its own perimeter effect
-has to opt out. The navigation does exactly that through
-`.nav-moving-border + nav::after { content: none }`, because a travelling
-highlight plus a fixed corner reads as an accidental partial border.
+The corner accent applies to the navigation too. An element that adds its own
+perimeter effect would have to opt out of `::after`, or the two read as an
+accidental partial border.
 
 ## Analysis pipeline (`data-interpretations/`)
 

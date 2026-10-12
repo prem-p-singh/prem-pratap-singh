@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { ShinyCard } from "@/components/ui/shiny-card";
 import JourneyChapters from "@/components/JourneyChapters";
 import JourneyImpact from "@/components/JourneyImpact";
 
@@ -48,7 +47,7 @@ export default function JourneyPage() {
       {/* Gratitude */}
       <section className="py-6 sm:py-8">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-          <ShinyCard className="p-8 sm:p-10" duration={6000}>
+          <div className="paper-panel p-8 sm:p-10">
             <blockquote className="text-center">
               <p className="text-lg text-foreground leading-relaxed mb-4">
                 Every chapter was made possible by mentors, collaborators, and lab communities that opened their doors.
@@ -57,7 +56,7 @@ export default function JourneyPage() {
                 I remain deeply grateful.
               </p>
             </blockquote>
-          </ShinyCard>
+          </div>
 
           <p className="text-center text-sm text-muted-foreground mt-10 tracking-wide uppercase">
             Grateful for the past. Building what comes next.
