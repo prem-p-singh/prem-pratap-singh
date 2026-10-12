@@ -1,0 +1,261 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Portfolio theme playground</title>
+<style>
+  * { box-sizing: border-box; }
+  body { margin: 0; font: 14px/1.45 system-ui, -apple-system, "Segoe UI", sans-serif; background: #15171a; color: #e6e8eb; }
+  .app { display: grid; grid-template-columns: 320px 1fr; min-height: 100vh; }
+  .side { padding: 18px; border-right: 1px solid #2a2e33; overflow: auto; max-height: 100vh; position: sticky; top: 0; }
+  .main { display: flex; flex-direction: column; min-width: 0; }
+  h1 { font-size: 16px; margin: 0 0 4px; }
+  .hint { color: #9aa1a9; font-size: 13px; margin: 0 0 14px; }
+  h2 { font-size: 12px; text-transform: none; color: #9aa1a9; margin: 18px 0 8px; font-weight: 600; }
+  .presets { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+  button { font: inherit; color: inherit; background: #22262b; border: 1px solid #343a41; border-radius: 8px; padding: 7px 9px; cursor: pointer; text-align: left; }
+  button:hover { border-color: #5b646e; }
+  button[aria-pressed="true"] { border-color: #8ab4f8; background: #1d2a3d; }
+  button:focus-visible, select:focus-visible, input:focus-visible { outline: 2px solid #8ab4f8; outline-offset: 2px; }
+  label { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin: 7px 0; color: #cfd4da; }
+  select, input[type="range"] { width: 150px; }
+  select { font: inherit; background: #22262b; color: inherit; border: 1px solid #343a41; border-radius: 6px; padding: 5px; }
+  input[type="color"] { width: 44px; height: 28px; padding: 0; border: 1px solid #343a41; border-radius: 6px; background: none; }
+  .stage { padding: 20px; overflow: auto; flex: 1; }
+  .out { border-top: 1px solid #2a2e33; padding: 14px 20px; background: #101214; }
+  .out pre { margin: 0 0 10px; white-space: pre-wrap; font: 13px/1.5 ui-monospace, SFMono-Regular, Menlo, monospace; color: #cfd4da; }
+  .copy { text-align: center; background: #2d5fd0; border-color: #2d5fd0; color: #fff; }
+
+  /* Preview. Everything reads the --p-* variables set from state. */
+  #preview { border-radius: 14px; overflow: hidden; max-width: 1080px; margin: 0 auto; color: var(--p-ink); background: var(--p-bg); font-family: var(--p-body); position: relative; }
+  #preview::before { content: ""; position: absolute; inset: 0; background: var(--p-overlay); pointer-events: none; }
+  #preview > * { position: relative; }
+  .nav { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 14px 28px; }
+  .nav.bar { border-bottom: 1px solid var(--p-line); background: var(--p-navbg); }
+  .nav.pill { margin: 16px auto 0; width: max-content; max-width: calc(100% - 32px); border: 1px solid var(--p-line); border-radius: 999px; background: var(--p-card); box-shadow: var(--p-shadow); padding: 10px 22px; }
+  .nav b { font-family: var(--p-head); font-size: 17px; }
+  .nav span { color: var(--p-muted); margin-left: 16px; font-size: 14px; }
+  .hero { display: grid; grid-template-columns: 1.4fr 1fr; gap: 32px; align-items: center; padding: calc(var(--p-space) * 1.6) 28px var(--p-space); }
+  .hero h3 { font-family: var(--p-head); font-weight: var(--p-headw); font-size: 46px; line-height: 1.05; margin: 0 0 10px; letter-spacing: -0.015em; background: var(--p-headfill); -webkit-background-clip: text; background-clip: text; color: var(--p-headcolor); }
+  .role { font-weight: 600; font-size: 17px; margin: 0 0 10px; }
+  .bio { color: var(--p-muted); font-size: 16px; line-height: 1.6; margin: 0 0 14px; max-width: 46ch; }
+  .tags { display: flex; gap: 7px; flex-wrap: wrap; margin-bottom: 16px; }
+  .tag { font-size: 13px; font-weight: 600; padding: 4px 11px; border-radius: 999px; }
+  .t1 { color: var(--p-primary); background: color-mix(in oklab, var(--p-primary) 14%, transparent); }
+  .t2 { color: var(--p-accent); background: color-mix(in oklab, var(--p-accent) 13%, transparent); }
+  .t3 { color: var(--p-third); background: color-mix(in oklab, var(--p-third) 13%, transparent); }
+  .btns { display: flex; gap: 10px; align-items: center; }
+  .btn { font-weight: 600; font-size: 14px; padding: 10px 18px; border-radius: var(--p-btnr); border: 1px solid transparent; }
+  .btn.pri { background: var(--p-btnfill); color: var(--p-onprimary); }
+  .btn.sec { background: var(--p-card); color: var(--p-ink); border-color: var(--p-line); }
+  .portrait { width: 230px; height: 230px; margin: 0 auto; border-radius: var(--p-photor); background: #c9d3c6 center/cover no-repeat url("../../public/images/headshot-1.jpg"); border: 3px solid var(--p-primary); box-shadow: var(--p-shadow); }
+  .card { background: var(--p-card); border: 1px solid var(--p-line); border-radius: var(--p-radius); box-shadow: var(--p-shadow); padding: 18px; backdrop-filter: var(--p-blur); }
+  .card.bezel { padding: 6px; background: color-mix(in oklab, var(--p-ink) 5%, transparent); border-color: color-mix(in oklab, var(--p-ink) 8%, transparent); box-shadow: none; }
+  .card.bezel > .core { background: var(--p-card); border-radius: calc(var(--p-radius) - 6px); padding: 16px; box-shadow: var(--p-shadow); height: 100%; }
+  .block { padding: 0 28px var(--p-space); }
+  .facts { display: grid; gap: 0; }
+  .facts div { display: grid; grid-template-columns: 110px 1fr; gap: 12px; padding: 9px 0; border-top: 1px solid var(--p-line); font-size: 14px; }
+  .facts div:first-child { border-top: 0; }
+  .facts dt { color: var(--p-muted); margin: 0; }
+  .facts dd { margin: 0; }
+  .grid3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+  .tile { width: 42px; height: 42px; border-radius: 12px; display: grid; place-items: center; font-weight: 700; margin-bottom: 12px; }
+  .tile.a { color: var(--p-primary); background: color-mix(in oklab, var(--p-primary) 15%, transparent); }
+  .tile.b { color: var(--p-accent); background: color-mix(in oklab, var(--p-accent) 14%, transparent); }
+  .tile.c { color: var(--p-third); background: color-mix(in oklab, var(--p-third) 14%, transparent); }
+  .card h4 { font-family: var(--p-head); font-weight: var(--p-headw); font-size: 19px; margin: 0 0 6px; }
+  .card p { margin: 0; color: var(--p-muted); font-size: 14px; line-height: 1.55; }
+  .seclabel { font-family: var(--p-head); font-weight: var(--p-headw); font-size: 28px; margin: 0 0 14px; }
+  .proj { display: grid; grid-template-columns: 1fr auto; gap: 16px; align-items: center; }
+  .fig { font-family: var(--p-head); font-size: 34px; font-weight: 700; color: var(--p-accent); background: color-mix(in oklab, var(--p-accent) 10%, transparent); padding: 10px 18px; border-radius: 14px; }
+  .field { display: flex; gap: 10px; margin-top: 12px; }
+  .field span { flex: 1; border: 1px solid var(--p-line); border-radius: 12px; padding: 10px 12px; color: var(--p-muted); background: color-mix(in oklab, var(--p-card) 70%, var(--p-bgflat)); }
+  a.lk { color: var(--p-link); text-decoration: underline; text-underline-offset: 3px; }
+  @media (max-width: 900px) { .app { grid-template-columns: 1fr; } .side { position: static; max-height: none; border-right: 0; } .hero, .grid3 { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+<div class="app">
+  <aside class="side">
+    <h1>Portfolio theme playground</h1>
+    <p class="hint">Pick a preset, adjust anything, then copy the text at the bottom back to Claude.</p>
+    <h2>Presets</h2>
+    <div class="presets" id="presets"></div>
+    <h2>Mode and background</h2>
+    <label>Mode <select id="mode"><option value="light">Light</option><option value="dark">Dark</option></select></label>
+    <label>Background <select id="bg"><option value="flat">Flat colour</option><option value="wash">Soft two-colour wash</option><option value="mesh">Mesh glow (three colours)</option><option value="band">Coloured hero band</option><option value="contour">Contour lines</option><option value="dots">Dot grid</option><option value="grain">Paper grain</option></select></label>
+    <label>Page colour <input type="color" id="page"></label>
+    <h2>Colours</h2>
+    <label>Main colour <input type="color" id="primary"></label>
+    <label>Accent <input type="color" id="accent"></label>
+    <label>Third colour <input type="color" id="third"></label>
+    <h2>Cards</h2>
+    <label>Card style <select id="card"><option value="flat">Flat with border</option><option value="soft">Soft shadow</option><option value="float">Floating, deep shadow</option><option value="glass">Glass</option><option value="bezel">Double frame</option></select></label>
+    <label>Corner radius <input type="range" id="radius" min="0" max="32" step="2"></label>
+    <h2>Type</h2>
+    <label>Headings <select id="head"><option value="serif">Serif (current)</option><option value="grotesk">Bold sans</option><option value="slab">Slab serif</option><option value="rounded">Rounded sans</option></select></label>
+    <label>Heading weight <select id="headw"><option value="500">Medium</option><option value="600">Semibold</option><option value="800">Heavy</option></select></label>
+    <label>Gradient name <select id="headfill"><option value="no">No</option><option value="yes">Yes</option></select></label>
+    <h2>Shape</h2>
+    <label>Buttons <select id="btn"><option value="solid">Solid</option><option value="gradient">Gradient</option></select></label>
+    <label>Button shape <select id="btnr"><option value="8">Slightly rounded</option><option value="14">Rounded</option><option value="999">Pill</option></select></label>
+    <label>Navigation <select id="nav"><option value="bar">Full-width bar</option><option value="pill">Floating pill</option></select></label>
+    <label>Portrait <select id="photo"><option value="50%">Circle</option><option value="28px">Rounded square</option><option value="8px">Rectangle</option></select></label>
+    <label>Spacing <input type="range" id="space" min="24" max="72" step="4"></label>
+  </aside>
+  <div class="main">
+    <div class="stage">
+      <div id="preview">
+        <div class="nav" id="navEl"><b>Prem P. Singh</b><div><span>About</span><span>Experience</span><span>Research</span><span>Blog</span></div></div>
+        <div class="hero">
+          <div>
+            <h3>Prem Pratap Singh</h3>
+            <p class="role">Plant scientist and data scientist</p>
+            <p class="bio">I study crop disease from the field sample to the final model, bringing molecular diagnostics, multi-omics and reproducible analysis together.</p>
+            <div class="tags"><span class="tag t1">UC Davis</span><span class="tag t2">Grapevine virology</span><span class="tag t3">Data science</span></div>
+            <div class="btns"><span class="btn pri">Explore research</span><span class="btn sec">CV</span><a class="lk">Email me</a></div>
+          </div>
+          <div class="portrait" role="img" aria-label="Portrait placeholder"></div>
+        </div>
+        <div class="block">
+          <div class="card" data-card><div class="core"><dl class="facts">
+            <div><dt>Now</dt><dd>Postdoctoral Scholar, University of California, Davis</dd></div>
+            <div><dt>Study</dt><dd>Grapevine Red Blotch Virus, 327 vine samples across two growing seasons</dd></div>
+            <div><dt>Published</dt><dd>38 peer-reviewed articles, 22 book chapters</dd></div>
+          </dl></div></div>
+        </div>
+        <div class="block">
+          <p class="seclabel">Capabilities</p>
+          <div class="grid3">
+            <div class="card" data-card><div class="core"><div class="tile a">Cb</div><h4>Crop biology</h4><p>Read disease in the plant and design sampling around the question.</p></div></div>
+            <div class="card" data-card><div class="core"><div class="tile b">Md</div><h4>Molecular diagnostics</h4><p>Build quantitative assays that move from the lab to the field.</p></div></div>
+            <div class="card" data-card><div class="core"><div class="tile c">Ds</div><h4>Data science</h4><p>Turn complex measurements into reproducible models.</p></div></div>
+          </div>
+        </div>
+        <div class="block">
+          <p class="seclabel">Research projects</p>
+          <div class="card" data-card><div class="core proj"><div><h4>What Red Blotch Virus Costs a Vineyard</h4><p>Why does red blotch become more damaging in hot seasons?</p></div><div class="fig">2.6×</div></div></div>
+        </div>
+        <div class="block">
+          <div class="card" data-card><div class="core"><h4>Occasional field notes</h4><p>New research, no noise.</p><div class="field"><span>your@email.com</span><span class="btn pri" style="flex:none;border:0">Subscribe</span></div></div></div>
+        </div>
+      </div>
+    </div>
+    <div class="out"><pre id="prompt"></pre><button class="copy" id="copy">Copy this for Claude</button></div>
+  </div>
+</div>
+<script>
+const FONTS = {
+  serif: '"STIX Two Text", "Iowan Old Style", Georgia, "Times New Roman", serif',
+  grotesk: '"Helvetica Neue", "Arial Narrow", Arial, system-ui, sans-serif',
+  slab: 'Rockwell, "Roboto Slab", "Courier New", Georgia, serif',
+  rounded: 'ui-rounded, "SF Pro Rounded", "Nunito", system-ui, sans-serif'
+};
+const PRESETS = {
+  'Field notebook (current)': { mode:'light', bg:'flat', page:'#fbf8f1', primary:'#285f47', accent:'#9c482d', third:'#46567d', card:'soft', radius:24, head:'serif', headw:'600', headfill:'no', btn:'solid', btnr:'14', nav:'bar', photo:'50%', space:40 },
+  'Vineyard dusk': { mode:'light', bg:'wash', page:'#f5f6ee', primary:'#2f6b3f', accent:'#7a1f3d', third:'#2c5282', card:'glass', radius:20, head:'serif', headw:'600', headfill:'no', btn:'gradient', btnr:'999', nav:'pill', photo:'50%', space:48 },
+  'Editorial luxury': { mode:'light', bg:'grain', page:'#fdfbf7', primary:'#3d2b1f', accent:'#8a5a3c', third:'#5b6b52', card:'flat', radius:4, head:'serif', headw:'500', headfill:'no', btn:'solid', btnr:'8', nav:'bar', photo:'8px', space:64 },
+  'Soft structure': { mode:'light', bg:'flat', page:'#f3f4f6', primary:'#111827', accent:'#2563eb', third:'#0f766e', card:'float', radius:28, head:'grotesk', headw:'800', headfill:'no', btn:'solid', btnr:'999', nav:'pill', photo:'28px', space:56 },
+  'Glass night': { mode:'dark', bg:'mesh', page:'#0b1020', primary:'#34d399', accent:'#a78bfa', third:'#38bdf8', card:'glass', radius:24, head:'grotesk', headw:'800', headfill:'yes', btn:'gradient', btnr:'999', nav:'pill', photo:'50%', space:52 },
+  'Terrain map': { mode:'light', bg:'contour', page:'#f6f4ee', primary:'#2f5d3a', accent:'#7a1f3d', third:'#2c5282', card:'soft', radius:16, head:'serif', headw:'600', headfill:'no', btn:'solid', btnr:'14', nav:'bar', photo:'28px', space:44 },
+  'Bold colour band': { mode:'light', bg:'band', page:'#ffffff', primary:'#0f5132', accent:'#c2410c', third:'#1d4ed8', card:'bezel', radius:22, head:'slab', headw:'800', headfill:'no', btn:'solid', btnr:'14', nav:'bar', photo:'28px', space:48 },
+  'Lab bench': { mode:'light', bg:'dots', page:'#f7f9fb', primary:'#0e7490', accent:'#be185d', third:'#4338ca', card:'soft', radius:12, head:'rounded', headw:'600', headfill:'no', btn:'solid', btnr:'8', nav:'bar', photo:'50%', space:40 }
+};
+const DEFAULT = 'Field notebook (current)';
+const state = { ...PRESETS[DEFAULT], preset: DEFAULT };
+const ids = ['mode','bg','page','primary','accent','third','card','radius','head','headw','headfill','btn','btnr','nav','photo','space'];
+const $ = id => document.getElementById(id);
+const page = $('preview');
+
+function lum(hex) { const c = [1,3,5].map(i => parseInt(hex.slice(i, i+2), 16) / 255).map(v => v <= .04045 ? v/12.92 : ((v+.055)/1.055) ** 2.4); return .2126*c[0] + .7152*c[1] + .0722*c[2]; }
+const onColor = hex => lum(hex) > .4 ? '#111418' : '#ffffff';
+
+function renderPreview() {
+  const dark = state.mode === 'dark';
+  const s = page.style, P = state.primary, A = state.accent, T = state.third, B = state.page;
+  const ink = dark ? '#eef2f6' : '#1c2024', muted = dark ? '#a8b2bf' : '#5d646b';
+  const line = dark ? 'rgba(255,255,255,.14)' : 'rgba(20,30,25,.13)';
+  const cardSolid = dark ? `color-mix(in oklab, ${B} 82%, white)` : `color-mix(in oklab, ${B} 35%, white)`;
+  const bgs = {
+    flat: B,
+    wash: `linear-gradient(135deg, color-mix(in oklab, ${P} 14%, ${B}) 0%, ${B} 50%, color-mix(in oklab, ${A} 13%, ${B}) 100%)`,
+    mesh: `radial-gradient(90% 70% at 0% 0%, color-mix(in oklab, ${P} 34%, transparent) 0%, transparent 60%), radial-gradient(90% 70% at 100% 0%, color-mix(in oklab, ${A} 32%, transparent) 0%, transparent 60%), radial-gradient(80% 60% at 50% 100%, color-mix(in oklab, ${T} 26%, transparent) 0%, transparent 60%), ${B}`,
+    band: `linear-gradient(180deg, color-mix(in oklab, ${P} 16%, ${B}) 0 420px, ${B} 420px)`,
+    contour: B, dots: B, grain: B
+  };
+  const enc = encodeURIComponent(P);
+  const overlays = {
+    contour: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='260' height='170'%3E%3Cg fill='none' stroke='${enc}' stroke-opacity='.17'%3E%3Cpath d='M-10 40C45 8 85 72 135 40s85-30 135 0'/%3E%3Cpath d='M-10 75C45 43 85 107 135 75s85-30 135 0'/%3E%3Cpath d='M-10 110C45 78 85 142 135 110s85-30 135 0'/%3E%3Cpath d='M-10 145C45 113 85 177 135 145s85-30 135 0'/%3E%3C/g%3E%3C/svg%3E")`,
+    dots: `radial-gradient(color-mix(in oklab, ${P} 30%, transparent) 1px, transparent 1.4px) 0 0 / 18px 18px`,
+    grain: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .07 0'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E")`
+  };
+  const cards = {
+    flat:  { bg: cardSolid, shadow: 'none', blur: 'none' },
+    soft:  { bg: cardSolid, shadow: dark ? '0 10px 30px -18px rgba(0,0,0,.7)' : '0 12px 34px -24px rgba(20,30,25,.35)', blur: 'none' },
+    float: { bg: cardSolid, shadow: dark ? '0 30px 60px -30px rgba(0,0,0,.9)' : '0 30px 60px -32px rgba(20,30,25,.38), 0 6px 14px -10px rgba(20,30,25,.18)', blur: 'none' },
+    glass: { bg: dark ? 'rgba(255,255,255,.07)' : 'rgba(255,255,255,.62)', shadow: dark ? '0 20px 50px -30px rgba(0,0,0,.8)' : '0 18px 40px -28px rgba(20,30,25,.3)', blur: 'blur(14px)' },
+    bezel: { bg: cardSolid, shadow: dark ? 'inset 0 1px 0 rgba(255,255,255,.08)' : 'inset 0 1px 0 rgba(255,255,255,.8), 0 8px 22px -18px rgba(20,30,25,.3)', blur: 'none' }
+  };
+  const c = cards[state.card];
+  const set = (k, v) => s.setProperty(k, v);
+  set('--p-bg', bgs[state.bg]); set('--p-bgflat', B); set('--p-overlay', overlays[state.bg] || 'none');
+  set('--p-ink', ink); set('--p-muted', muted); set('--p-line', line);
+  set('--p-primary', dark ? `color-mix(in oklab, ${P} 78%, white)` : P);
+  set('--p-accent', dark ? `color-mix(in oklab, ${A} 78%, white)` : A);
+  set('--p-third', dark ? `color-mix(in oklab, ${T} 78%, white)` : T);
+  set('--p-link', dark ? `color-mix(in oklab, ${A} 70%, white)` : A);
+  set('--p-onprimary', onColor(P));
+  set('--p-btnfill', state.btn === 'gradient' ? `linear-gradient(135deg, ${P}, ${A})` : P);
+  set('--p-btnr', state.btnr + 'px'); set('--p-radius', state.radius + 'px'); set('--p-photor', state.photo);
+  set('--p-card', c.bg); set('--p-shadow', c.shadow); set('--p-blur', c.blur);
+  set('--p-navbg', state.card === 'glass' ? c.bg : 'transparent');
+  set('--p-head', FONTS[state.head]); set('--p-headw', state.headw);
+  set('--p-body', state.head === 'rounded' ? FONTS.rounded : '"IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif');
+  set('--p-headfill', state.headfill === 'yes' ? `linear-gradient(90deg, ${dark ? `color-mix(in oklab, ${P} 75%, white)` : P}, ${dark ? `color-mix(in oklab, ${A} 75%, white)` : A})` : 'none');
+  set('--p-headcolor', state.headfill === 'yes' ? 'transparent' : ink);
+  set('--p-space', state.space + 'px');
+  $('navEl').className = 'nav ' + state.nav;
+  document.querySelectorAll('[data-card]').forEach(el => el.classList.toggle('bezel', state.card === 'bezel'));
+}
+
+const WORDS = {
+  bg: { flat:'a flat page colour', wash:'a soft two-colour wash across the page', mesh:'a three-colour mesh glow behind the page', band:'a coloured band behind the hero', contour:'a contour-line pattern behind the page', dots:'a dot-grid pattern behind the page', grain:'a paper-grain texture' },
+  card: { flat:'flat cards with a border and no shadow', soft:'cards with a soft shadow', float:'floating cards with a deep shadow', glass:'translucent glass cards', bezel:'double-framed cards (an outer frame around an inner card)' },
+  head: { serif:'serif headings', grotesk:'bold sans-serif headings', slab:'slab-serif headings', rounded:'rounded sans-serif headings and body' },
+  photo: { '50%':'a circular portrait', '28px':'a rounded-square portrait', '8px':'a rectangular portrait' },
+  nav: { bar:'a full-width navigation bar', pill:'a floating pill navigation' },
+  btnr: { '8':'slightly rounded', '14':'rounded', '999':'pill-shaped' },
+  headw: { '500':'medium', '600':'semibold', '800':'heavy' }
+};
+function updatePrompt() {
+  const st = state, base = PRESETS[st.preset] || PRESETS[DEFAULT];
+  const changed = ids.filter(k => String(st[k]) !== String(base[k]));
+  const lines = [`Apply this theme to the portfolio. I started from the "${st.preset}" preset${changed.length ? ' and changed ' + changed.length + ' setting' + (changed.length > 1 ? 's' : '') : ' with no changes'}.`];
+  lines.push(`Mode: ${st.mode}. Background: ${WORDS.bg[st.bg]}, page colour ${st.page}.`);
+  lines.push(`Colours: main ${st.primary}, accent ${st.accent}, third ${st.third}.`);
+  lines.push(`Cards: ${WORDS.card[st.card]}, corner radius ${st.radius}px.`);
+  lines.push(`Type: ${WORDS.head[st.head]} at ${WORDS.headw[st.headw]} weight${st.headfill === 'yes' ? ', with my name in a gradient of the main and accent colours' : ''}.`);
+  lines.push(`Buttons: ${st.btn === 'gradient' ? 'gradient from main to accent' : 'solid main colour'}, ${WORDS.btnr[st.btnr]}. Navigation: ${WORDS.nav[st.nav]}. Portrait: ${WORDS.photo[st.photo]}. Section spacing: ${st.space <= 32 ? 'compact' : st.space >= 60 ? 'very airy' : 'comfortable'} (${st.space}px).`);
+  if (changed.length) lines.push('Changed from the preset: ' + changed.join(', ') + '.');
+  $('prompt').textContent = lines.join('\n');
+}
+function syncControls() { ids.forEach(k => { $(k).value = state[k]; }); document.querySelectorAll('#presets button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.name === state.preset))); }
+function updateAll() { renderPreview(); updatePrompt(); }
+
+Object.keys(PRESETS).forEach(name => {
+  const b = document.createElement('button'); b.textContent = name; b.dataset.name = name; b.type = 'button';
+  b.addEventListener('click', () => { Object.assign(state, PRESETS[name], { preset: name }); syncControls(); updateAll(); });
+  $('presets').appendChild(b);
+});
+ids.forEach(k => $(k).addEventListener('input', e => { state[k] = e.target.type === 'range' ? Number(e.target.value) : e.target.value; updateAll(); }));
+$('copy').addEventListener('click', async () => {
+  const text = $('prompt').textContent;
+  try { await navigator.clipboard.writeText(text); $('copy').textContent = 'Copied'; }
+  catch (err) { const r = document.createRange(); r.selectNodeContents($('prompt')); const sel = getSelection(); sel.removeAllRanges(); sel.addRange(r); $('copy').textContent = 'Selected, press Cmd+C'; }
+  setTimeout(() => { $('copy').textContent = 'Copy this for Claude'; }, 1600);
+});
+syncControls(); updateAll();
+</script>
+</body>
+</html>
