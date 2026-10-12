@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useMemo, useState } from "react";
 import { formatContentDate } from "@/lib/date";
+import { FieldIcon } from "@/components/icons/PortfolioIcons";
 import type { BlogPostMeta } from "@/lib/mdx";
 
 interface BlogSearchListProps {
@@ -17,13 +18,18 @@ const researchTrails: Array<{
   id: TrailId;
   label: string;
   keywords: string[];
+  dot: string;
 }> = [
-  { id: "all", label: "Everything", keywords: [] },
-  { id: "vineyard", label: "Vineyard", keywords: ["grapevine", "vineyard", "vine ", "grbv"] },
-  { id: "signals", label: "Omics & RNA", keywords: ["omics", "rna", "gene", "genom", "molecular", "mass spectrometry"] },
-  { id: "sensing", label: "Sensing & 3D", keywords: ["3d", "sensing", "point cloud", "imaging", "geometry", "biomarker", "detection"] },
-  { id: "defense", label: "Disease defense", keywords: ["pathogen", "disease", "defense", "resistance", "fusarium", "xylella", "phytophthora"] },
+  // Dot colours as the previous design had them, one family per trail.
+  { id: "all", label: "Everything", keywords: [], dot: "bg-foreground" },
+  { id: "vineyard", label: "Vineyard", keywords: ["grapevine", "vineyard", "vine ", "grbv"], dot: "bg-field" },
+  { id: "signals", label: "Omics & RNA", keywords: ["omics", "rna", "gene", "genom", "molecular", "mass spectrometry"], dot: "bg-biology" },
+  { id: "sensing", label: "Sensing & 3D", keywords: ["3d", "sensing", "point cloud", "imaging", "geometry", "biomarker", "detection"], dot: "bg-data" },
+  { id: "defense", label: "Disease defense", keywords: ["pathogen", "disease", "defense", "resistance", "fusarium", "xylella", "phytophthora"], dot: "bg-decision" },
 ];
+
+const tagClass =
+  "rounded-full border border-field/20 bg-field-wash px-3 py-1 text-xs font-semibold text-field";
 
 const DEFAULT_VISIBLE = 6;
 
@@ -73,7 +79,7 @@ export default function BlogSearchList({ posts }: BlogSearchListProps) {
         </h2>
 
         <div
-          className="mt-6 flex flex-wrap gap-x-5 gap-y-1 lg:flex-col"
+          className="mt-6 flex flex-wrap gap-2"
           role="group"
           aria-label="Research trails"
         >
@@ -88,9 +94,13 @@ export default function BlogSearchList({ posts }: BlogSearchListProps) {
                 type="button"
                 aria-pressed={activeTrail === trail.id}
                 onClick={() => chooseTrail(trail.id)}
-                className="py-1.5 text-left text-sm text-muted-foreground underline-offset-4 transition-colors hover:text-foreground aria-pressed:text-accent aria-pressed:underline"
+                className="group inline-flex items-center rounded-full border border-border bg-card px-3.5 py-1.5 text-xs font-semibold text-muted-foreground transition-colors hover:border-field hover:text-foreground aria-pressed:border-primary aria-pressed:bg-primary aria-pressed:text-primary-foreground"
               >
-                {trail.label} <span className="tabular-nums">{count}</span>
+                <span
+                  className={`mr-2 size-2 rounded-full group-aria-pressed:bg-primary-foreground ${trail.dot}`}
+                  aria-hidden="true"
+                />
+                {trail.label} <span className="ml-1 font-normal tabular-nums">{count}</span>
               </button>
             );
           })}
@@ -99,14 +109,14 @@ export default function BlogSearchList({ posts }: BlogSearchListProps) {
         <button
           type="button"
           onClick={surpriseMe}
-          className="mt-5 text-sm text-accent underline-offset-4 hover:underline"
+          className="btn-outline mt-6"
         >
           Surprise me
         </button>
       </div>
 
       <div className="lg:col-span-8">
-        <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+        <div className="paper-panel flex flex-col gap-4 px-5 py-4 sm:flex-row sm:items-center sm:justify-between sm:px-6">
           {/* The base h3 rule is unlayered, so the sans needs the important flag to win. */}
           <h3 className="font-sans! text-base font-semibold text-foreground">
             Visual index{" "}
@@ -127,37 +137,45 @@ export default function BlogSearchList({ posts }: BlogSearchListProps) {
 
         {filtered.length > 0 ? (
           <>
-            <ul className="mt-8">
+            <ul className="mt-5 grid gap-5 md:grid-cols-2">
               {visible.map((post) => {
                 const image = post.visualSummary || post.image;
+                // Without an image the first tag sits in the tinted band, so the list starts at the second.
+                const tags = image ? post.tags : post.tags.slice(1);
                 return (
-                  <li
-                    key={post.slug}
-                    className={`relative grid gap-x-8 gap-y-4 border-t border-border py-6 first:border-t-0 first:pt-0 ${
-                      image ? "sm:grid-cols-4" : ""
-                    }`}
-                  >
-                    {image && (
-                      <div className="relative aspect-[4/3] max-w-xs overflow-hidden rounded-md border border-border sm:max-w-none">
+                  <li key={post.slug} className="paper-panel flex flex-col">
+                    {image ? (
+                      <div className="relative aspect-video border-b border-border">
                         <Image
                           src={image}
                           alt={post.title}
                           fill
-                          sizes="(max-width: 640px) 320px, 200px"
+                          sizes="(max-width: 768px) 100vw, 360px"
                           className="object-cover"
                         />
                       </div>
+                    ) : (
+                      // No image: a tinted band with the notebook's field icon and the post's first tag.
+                      <div className="flex items-center justify-between gap-4 border-b border-border bg-field-wash px-6 py-5">
+                        <span className="flex size-11 shrink-0 items-center justify-center rounded-xl bg-card text-field">
+                          <FieldIcon size={22} />
+                        </span>
+                        {post.tags[0] && (
+                          <span className="rounded-full border border-field/20 bg-card px-3 py-1 text-xs font-semibold text-field">
+                            {post.tags[0]}
+                          </span>
+                        )}
+                      </div>
                     )}
-                    <div className={image ? "sm:col-span-3" : undefined}>
-                      <p className="flex items-center gap-2 text-sm tabular-nums text-muted-foreground">
+                    <div className="flex flex-1 flex-col p-6">
+                      <p className="flex justify-between gap-4 text-sm tabular-nums text-muted-foreground">
                         <time dateTime={post.date}>
                           {formatContentDate(post.date, { month: "short", day: "numeric", year: "numeric" })}
                         </time>
-                        <span aria-hidden="true">·</span>
                         <span>{post.readingTime}</span>
                       </p>
-                      <h3 className="mt-1 text-xl leading-snug text-foreground">
-                        {/* The link's ::after covers the row, so the thumbnail is clickable too. */}
+                      <h3 className="mt-3 text-xl leading-snug text-foreground">
+                        {/* The link's ::after covers the card, so the image or band is clickable too. */}
                         <Link
                           href={`/blog/${post.slug}`}
                           className="underline-offset-4 after:absolute after:inset-0 hover:underline"
@@ -166,12 +184,18 @@ export default function BlogSearchList({ posts }: BlogSearchListProps) {
                         </Link>
                       </h3>
                       {post.description && (
-                        <p className="mt-2 line-clamp-3 max-w-[60ch] text-base leading-relaxed text-muted-foreground">
+                        <p className="mb-5 mt-3 line-clamp-3 text-sm leading-relaxed text-muted-foreground">
                           {post.description}
                         </p>
                       )}
-                      {post.tags.length > 0 && (
-                        <p className="mt-2 text-sm text-muted-foreground">{post.tags.join(", ")}</p>
+                      {tags.length > 0 && (
+                        <ul className="mt-auto flex flex-wrap gap-2">
+                          {tags.map((tag) => (
+                            <li key={tag} className={tagClass}>
+                              {tag}
+                            </li>
+                          ))}
+                        </ul>
                       )}
                     </div>
                   </li>
@@ -180,7 +204,7 @@ export default function BlogSearchList({ posts }: BlogSearchListProps) {
             </ul>
 
             {hiddenCount > 0 && (
-              <div className="mt-2 border-t border-border pt-6">
+              <div className="mt-6">
                 <button type="button" onClick={() => setShowAll((value) => !value)} className="btn-outline">
                   {showAll ? "Show less" : `Show ${hiddenCount} more`}
                 </button>
@@ -188,7 +212,7 @@ export default function BlogSearchList({ posts }: BlogSearchListProps) {
             )}
           </>
         ) : (
-          <div className="mt-8">
+          <div className="paper-panel mt-5 p-6">
             <p className="text-base text-muted-foreground">No matching notes.</p>
             <button
               type="button"
@@ -196,7 +220,7 @@ export default function BlogSearchList({ posts }: BlogSearchListProps) {
                 setQuery("");
                 setActiveTrail("all");
               }}
-              className="mt-3 text-sm text-accent underline-offset-4 hover:underline"
+              className="mt-3 text-sm font-semibold text-field underline underline-offset-4"
             >
               Clear filters
             </button>

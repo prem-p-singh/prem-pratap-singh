@@ -23,7 +23,7 @@ export default function MethodsPage() {
   return (
     <div className="min-h-screen pt-16">
       <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
-        <header className="border-b border-border pb-10 pt-10 sm:pt-12 lg:pb-14 lg:pt-14">
+        <header className="pb-10 pt-10 sm:pt-12 lg:pt-14">
           <h1 className="text-4xl leading-tight text-foreground sm:text-5xl lg:text-6xl">
             Methods, made visible.
           </h1>
@@ -34,30 +34,48 @@ export default function MethodsPage() {
         </header>
 
         {posts.length > 0 ? (
-          <ul className="py-10">
+          <ul className="grid gap-5 pb-16 lg:pb-24">
             {posts.map((post, index) => (
               <li
                 key={post.slug}
-                className={`relative grid gap-x-8 gap-y-5 border-t border-border py-8 first:border-t-0 first:pt-0 ${
-                  post.image ? "md:grid-cols-12" : ""
-                }`}
+                className="paper-panel grid gap-x-8 gap-y-6 p-6 sm:p-7 lg:grid-cols-12"
               >
-                {post.image && (
-                  <div className="relative aspect-video overflow-hidden rounded-md border border-border bg-card md:col-span-5">
-                    <Image
-                      src={post.image}
-                      alt={post.title}
-                      fill
-                      priority={index === 0}
-                      sizes="(max-width: 768px) 100vw, 480px"
-                      className="object-contain"
-                    />
-                  </div>
-                )}
-                <div className={post.image ? "md:col-span-7" : undefined}>
-                  {post.method && <p className="text-sm text-muted-foreground">{post.method}</p>}
-                  <h2 className="mt-2 text-2xl leading-snug text-foreground">
-                    {/* The link's ::after covers the row, so the figure is clickable too. */}
+                <span className="absolute inset-x-0 top-0 h-1 bg-decision" aria-hidden="true" />
+                <div className="lg:col-span-5">
+                  {post.image && (
+                    <div className="relative aspect-video overflow-hidden rounded-xl border border-border bg-card">
+                      <Image
+                        src={post.image}
+                        alt={post.title}
+                        fill
+                        priority={index === 0}
+                        sizes="(max-width: 1024px) 100vw, 440px"
+                        className="object-contain"
+                      />
+                    </div>
+                  )}
+                  {(post.origin || post.reappliedTo) && (
+                    <dl className={`divide-y divide-border text-sm leading-normal ${post.image ? "mt-4" : ""}`}>
+                      {/* Label colours as the previous design had them: origin biology, re-test data. */}
+                      <div className="grid grid-cols-[7rem_1fr] gap-x-4 py-3">
+                        <dt className="font-semibold text-biology">Built in</dt>
+                        <dd className="tabular-nums text-foreground">{post.origin || "Original study"}</dd>
+                      </div>
+                      <div className="grid grid-cols-[7rem_1fr] gap-x-4 py-3">
+                        <dt className="font-semibold text-data">Re-tested on</dt>
+                        <dd className="tabular-nums text-foreground">{post.reappliedTo || "Public data"}</dd>
+                      </div>
+                    </dl>
+                  )}
+                </div>
+                <div className="flex flex-col lg:col-span-7">
+                  {post.method && (
+                    <p className="self-start rounded-full border border-decision/20 bg-decision-wash px-3 py-1 text-xs font-semibold text-decision">
+                      {post.method}
+                    </p>
+                  )}
+                  <h2 className="mt-3 text-2xl leading-snug text-foreground">
+                    {/* The link's ::after covers the card, so the figure is clickable too. */}
                     <Link
                       href={`/methods/${post.slug}`}
                       className="underline-offset-4 after:absolute after:inset-0 hover:underline"
@@ -70,16 +88,21 @@ export default function MethodsPage() {
                       {post.description}
                     </p>
                   )}
-                  {(post.origin || post.reappliedTo) && (
-                    <dl className="mt-4 text-sm leading-normal">
-                      <div className="grid grid-cols-[7rem_1fr] gap-x-4 border-t border-border py-3">
-                        <dt className="text-muted-foreground">Built in</dt>
-                        <dd className="tabular-nums text-foreground">{post.origin || "Original study"}</dd>
-                      </div>
-                      <div className="grid grid-cols-[7rem_1fr] gap-x-4 border-t border-border py-3">
-                        <dt className="text-muted-foreground">Re-tested on</dt>
-                        <dd className="tabular-nums text-foreground">{post.reappliedTo || "Public data"}</dd>
-                      </div>
+                  {post.keyStats && post.keyStats.length > 0 && (
+                    <dl className="mt-5 grid grid-cols-2 gap-3 sm:grid-cols-4 lg:mt-auto lg:pt-5">
+                      {post.keyStats.map((stat) => (
+                        <div
+                          key={stat.label}
+                          className="flex flex-col-reverse justify-end rounded-xl bg-decision-wash px-4 py-3"
+                        >
+                          <dt className="text-sm font-semibold leading-snug text-foreground">
+                            {stat.label}
+                          </dt>
+                          <dd className="text-2xl font-semibold tabular-nums text-decision">
+                            {stat.value}
+                          </dd>
+                        </div>
+                      ))}
                     </dl>
                   )}
                 </div>
@@ -87,7 +110,7 @@ export default function MethodsPage() {
             ))}
           </ul>
         ) : (
-          <div className="py-16">
+          <div className="paper-panel mb-16 p-6 sm:p-8 lg:mb-24">
             <h2 className="text-3xl leading-tight text-foreground">Case studies coming soon</h2>
           </div>
         )}

@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import BlogSearchList from "@/components/blog/BlogSearchList";
+import { DataScienceIcon, FieldIcon, OmicsIcon } from "@/components/icons/PortfolioIcons";
 import { formatContentDate } from "@/lib/date";
 import { getAllPosts } from "@/lib/mdx";
 
@@ -33,61 +34,110 @@ export const metadata: Metadata = {
   },
 };
 
-const topicNodes = ["Field", "Signals", "Models"];
+// Families as the previous design had them: field, then biology, then data.
+const topicNodes = [
+  { label: "Field", icon: FieldIcon, tile: "bg-field-wash text-field" },
+  { label: "Signals", icon: OmicsIcon, tile: "bg-biology-wash text-biology" },
+  { label: "Models", icon: DataScienceIcon, tile: "bg-data-wash text-data" },
+];
+
+const tagClass =
+  "rounded-full border border-field/20 bg-field-wash px-3 py-1 text-xs font-semibold text-field";
 
 export default function BlogPage() {
   const posts = getAllPosts();
   const featured = posts[0];
   const library = posts.slice(1);
   const featuredImage = featured?.visualSummary || featured?.image;
+  // Without an image the first tag sits in the tinted band, so the list below starts at the second.
+  const featuredTags = featured ? (featuredImage ? featured.tags : featured.tags.slice(1)) : [];
 
   return (
     <div className="min-h-screen pt-16">
       <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
-        <header className="border-b border-border pb-10 pt-10 sm:pt-12 lg:pb-14 lg:pt-14">
-          <p className="section-kicker">Research notebook</p>
-          <h1 className="mt-3 text-4xl leading-tight text-foreground sm:text-5xl lg:text-6xl">
-            See the idea before reading the details
-          </h1>
-          <p className="mt-5 max-w-[60ch] text-base leading-relaxed text-muted-foreground">
-            Visual field notes on plants, pathogens, measurements, and models.
-          </p>
-          <div className="mt-8 flex flex-wrap items-center gap-x-8 gap-y-2 text-sm text-muted-foreground">
+        <header className="grid gap-x-8 gap-y-8 pb-10 pt-10 sm:pt-12 lg:grid-cols-12 lg:items-end lg:pt-14">
+          <div className="lg:col-span-7">
+            <p className="section-kicker">Research notebook</p>
+            <h1 className="mt-3 text-4xl leading-tight text-foreground sm:text-5xl lg:text-6xl">
+              See the idea before reading the details
+            </h1>
+            <p className="mt-5 max-w-[60ch] text-base leading-relaxed text-muted-foreground">
+              Visual field notes on plants, pathogens, measurements, and models.
+            </p>
+          </div>
+
+          <div className="paper-panel p-5 sm:p-6 lg:col-span-5">
             {/* The arrows mark a real order: field observation, then signals, then models. */}
-            <ol className="flex flex-wrap items-center gap-x-2 gap-y-1">
-              {topicNodes.map((topic, index) => (
-                <li key={topic} className="flex items-center gap-2">
-                  {index > 0 && <ArrowRight className="size-4" aria-hidden="true" />}
-                  {topic}
-                </li>
-              ))}
+            <ol className="flex items-center justify-between gap-2">
+              {topicNodes.map((topic, index) => {
+                const Icon = topic.icon;
+                return (
+                  <li key={topic.label} className="contents">
+                    {index > 0 && (
+                      <ArrowRight className="size-4 shrink-0 text-muted-foreground" aria-hidden="true" />
+                    )}
+                    <span className="flex flex-col items-center gap-2 text-sm font-semibold text-foreground">
+                      <span
+                        className={`flex size-11 shrink-0 items-center justify-center rounded-xl ${topic.tile}`}
+                      >
+                        <Icon size={22} />
+                      </span>
+                      {topic.label}
+                    </span>
+                  </li>
+                );
+              })}
             </ol>
-            <p>
-              Published notes <span className="tabular-nums text-foreground">{posts.length}</span>
+            <p className="mt-5 flex items-end justify-between gap-4 border-t border-border pt-4 text-sm font-semibold text-muted-foreground">
+              Published notes{" "}
+              <span className="font-serif text-4xl leading-none tabular-nums text-field">
+                {posts.length}
+              </span>
             </p>
           </div>
         </header>
 
         {featured && (
-          <article
-            className={`relative grid gap-x-8 gap-y-4 py-10 ${featuredImage ? "sm:grid-cols-3" : ""}`}
-          >
-            {featuredImage && (
-              <div className="relative aspect-[4/3] overflow-hidden rounded-md border border-border">
-                <Image
-                  src={featuredImage}
-                  alt={featured.title}
-                  fill
-                  priority
-                  sizes="(max-width: 640px) 100vw, 380px"
-                  className="object-cover"
-                />
+          <article className={`paper-panel ${featuredImage ? "grid lg:grid-cols-5 lg:items-center" : ""}`}>
+            {featuredImage ? (
+              <div className="p-5 pb-0 sm:p-6 sm:pb-0 lg:col-span-3 lg:pb-6 lg:pr-0">
+                <div className="relative aspect-video overflow-hidden rounded-xl border border-border bg-card">
+                  <Image
+                    src={featuredImage}
+                    alt={featured.title}
+                    fill
+                    priority
+                    sizes="(max-width: 1024px) 100vw, 660px"
+                    className="object-cover"
+                  />
+                </div>
+              </div>
+            ) : (
+              // No image: a tinted band with the notebook's field icon and the post's first tag.
+              <div className="flex items-center justify-between gap-4 border-b border-border bg-field-wash px-6 py-5 sm:px-8">
+                <span className="flex size-11 shrink-0 items-center justify-center rounded-xl bg-card text-field">
+                  <FieldIcon size={22} />
+                </span>
+                {featured.tags[0] && (
+                  <span className="rounded-full border border-field/20 bg-card px-3 py-1 text-xs font-semibold text-field">
+                    {featured.tags[0]}
+                  </span>
+                )}
               </div>
             )}
-            <div className={featuredImage ? "sm:col-span-2" : undefined}>
-              <p className="text-sm text-muted-foreground">Latest field note</p>
-              <h2 className="mt-1 text-2xl leading-tight text-foreground sm:text-3xl">
-                {/* The link's ::after covers the row, so the thumbnail is clickable too. */}
+            <div className={`p-6 sm:p-8 ${featuredImage ? "lg:col-span-2" : ""}`}>
+              <p className="flex flex-wrap items-center justify-between gap-x-4 gap-y-2 text-sm tabular-nums text-muted-foreground">
+                <span className="font-semibold">Latest field note</span>
+                <span className="flex items-center gap-2">
+                  <time dateTime={featured.date}>
+                    {formatContentDate(featured.date, { year: "numeric", month: "short", day: "numeric" })}
+                  </time>
+                  <span aria-hidden="true">·</span>
+                  <span>{featured.readingTime}</span>
+                </span>
+              </p>
+              <h2 className="mt-3 text-2xl leading-tight text-foreground sm:text-3xl">
+                {/* The link's ::after covers the card, so the image or band is clickable too. */}
                 <Link
                   href={`/blog/${featured.slug}`}
                   className="underline-offset-4 after:absolute after:inset-0 hover:underline"
@@ -100,15 +150,14 @@ export default function BlogPage() {
                   {featured.description}
                 </p>
               )}
-              <p className="mt-3 flex items-center gap-2 text-sm tabular-nums text-muted-foreground">
-                <time dateTime={featured.date}>
-                  {formatContentDate(featured.date, { year: "numeric", month: "short", day: "numeric" })}
-                </time>
-                <span aria-hidden="true">·</span>
-                <span>{featured.readingTime}</span>
-              </p>
-              {featured.tags.length > 0 && (
-                <p className="mt-1 text-sm text-muted-foreground">{featured.tags.join(", ")}</p>
+              {featuredTags.length > 0 && (
+                <ul className="mt-5 flex flex-wrap gap-2">
+                  {featuredTags.map((tag) => (
+                    <li key={tag} className={tagClass}>
+                      {tag}
+                    </li>
+                  ))}
+                </ul>
               )}
             </div>
           </article>
