@@ -5,34 +5,46 @@ import Image from "next/image";
 import { ChevronDown, ChevronUp } from "lucide-react";
 import type { Project } from "@/components/ProjectCard";
 
-// Family colours cycle through the projects in the order the previous design used.
-// Classes are written out in full so Tailwind can see every one.
-const tones = [
-  {
-    edge: "bg-biology",
-    text: "text-biology",
-    wash: "bg-biology-wash",
-    tag: "border-biology/20 bg-biology-wash text-biology",
-  },
-  {
+// Family colours, written out in full so Tailwind can see every class.
+const tones = {
+  field: {
     edge: "bg-field",
     text: "text-field",
     wash: "bg-field-wash",
     tag: "border-field/20 bg-field-wash text-field",
   },
-  {
+  biology: {
+    edge: "bg-biology",
+    text: "text-biology",
+    wash: "bg-biology-wash",
+    tag: "border-biology/20 bg-biology-wash text-biology",
+  },
+  data: {
     edge: "bg-data",
     text: "text-data",
     wash: "bg-data-wash",
     tag: "border-data/20 bg-data-wash text-data",
   },
-  {
+  decision: {
     edge: "bg-decision",
     text: "text-decision",
     wash: "bg-decision-wash",
     tag: "border-decision/20 bg-decision-wash text-decision",
   },
-];
+};
+
+// One family per project category, keyed on the strings in profile/projects.ts.
+// A category that is not listed falls back to field.
+const categoryTones: Record<string, keyof typeof tones> = {
+  "Vineyard systems": "field",
+  Diagnostics: "biology",
+  "Food safety": "decision",
+  "Multi-omics": "data",
+  Formulation: "biology",
+  "Mathematical modeling": "data",
+  "Drug discovery": "data",
+  Mechanism: "biology",
+};
 
 const tagClass = "rounded-full border px-3 py-1 text-xs font-semibold";
 const detailRowClass = "grid gap-x-4 gap-y-2 py-4 sm:grid-cols-[12rem_1fr]";
@@ -54,7 +66,7 @@ export default function ProjectCaseFiles({
       <div className="grid gap-5">
         {visibleProjects.map((project, index) => {
           const open = openIndex === index;
-          const tone = tones[index % tones.length];
+          const tone = tones[categoryTones[project.category ?? ""] ?? "field"];
           const panelId = `project-case-${index}`;
           const methods = project.tech.slice(0, 3);
           const toolkit = Array.from(new Set([...(project.skills ?? []), ...project.tech]));
@@ -65,7 +77,8 @@ export default function ProjectCaseFiles({
             <article key={project.title} className="paper-panel p-6 pl-7 sm:p-7 sm:pl-9">
               <span className={`absolute inset-y-0 left-0 w-1.5 ${tone.edge}`} aria-hidden="true" />
 
-              {/* The button holds only the title. Its ::after covers the header, so the whole summary toggles. */}
+              {/* The button holds only the title. Its ::after covers the header, above the
+                  positioned result block, so the whole summary toggles. */}
               <div className="relative grid gap-x-6 gap-y-5 sm:grid-cols-[1fr_12rem]">
                 <div>
                   <p>
@@ -79,7 +92,7 @@ export default function ProjectCaseFiles({
                       aria-expanded={open}
                       aria-controls={panelId}
                       onClick={() => setOpenIndex(open ? null : index)}
-                      className="text-left after:absolute after:inset-0"
+                      className="text-left after:absolute after:inset-0 after:z-10"
                     >
                       {project.title}
                     </button>
@@ -89,7 +102,8 @@ export default function ProjectCaseFiles({
                       {project.question}
                     </p>
                   )}
-                  <ul className="mt-4 flex flex-wrap gap-2" aria-label="Methods">
+                  <p className="sr-only">Methods</p>
+                  <ul className="mt-4 flex flex-wrap gap-2">
                     {methods.map((method) => (
                       <li key={method} className={`${tagClass} ${tone.tag}`}>
                         {method}
@@ -98,7 +112,7 @@ export default function ProjectCaseFiles({
                   </ul>
                 </div>
 
-                <div className={`flex flex-col justify-center rounded-xl p-5 pr-10 ${tone.wash}`}>
+                <div className={`relative flex flex-col justify-center rounded-xl p-5 pr-10 ${tone.wash}`}>
                   <p>
                     <span
                       className={`block text-3xl font-semibold leading-tight tabular-nums ${tone.text}`}

@@ -161,7 +161,7 @@ export default function NewsletterSignup() {
         <label htmlFor="newsletter-email" className="text-sm font-semibold text-muted-foreground">
           Email address
         </label>
-        <div className="flex flex-col gap-2 sm:flex-row">
+        <div className="flex flex-col gap-2 sm:max-md:flex-row">
           <input
             id="newsletter-email"
             type="email"

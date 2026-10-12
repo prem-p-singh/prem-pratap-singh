@@ -22,7 +22,7 @@ const typeLabels = {
   book: "Book Chapter",
 };
 
-// Family per type, as the previous design had it: data for articles, decision for chapters.
+// The previous design coloured two types: data for articles, decision for chapters.
 const typeTags: Record<Publication["type"], string> = {
   journal: "border-data/20 bg-data-wash text-data",
   conference: "border-field/20 bg-field-wash text-field",

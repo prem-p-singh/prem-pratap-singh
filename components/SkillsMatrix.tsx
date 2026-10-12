@@ -39,7 +39,8 @@ export default function SkillsMatrix() {
                 {skill.items.length}
               </span>
             </div>
-            <ul className="mt-5 flex flex-wrap gap-2" aria-label={`${skill.category} items`}>
+            <p className="sr-only">{skill.category} items</p>
+            <ul className="mt-5 flex flex-wrap gap-2">
               {skill.items.map((item) => (
                 <li key={item} className={`${tagClass} ${tone.tag}`}>
                   {item}
