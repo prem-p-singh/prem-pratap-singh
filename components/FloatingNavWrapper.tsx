@@ -18,6 +18,8 @@ export default function FloatingNavWrapper() {
   const [exploreOpen, setExploreOpen] = useState(false);
   const exploreMenuRef = useRef<HTMLDivElement>(null);
   const exploreButtonRef = useRef<HTMLButtonElement>(null);
+  const headerRef = useRef<HTMLElement>(null);
+  const mobileMenuRef = useRef<HTMLDivElement>(null);
   const pathname = usePathname();
 
   const closeMobileMenu = () => setMobileOpen(false);
@@ -28,8 +30,12 @@ export default function FloatingNavWrapper() {
 
   useEffect(() => {
     const closeOnOutsideClick = (event: PointerEvent) => {
-      if (exploreMenuRef.current?.contains(event.target as Node)) return;
-      setExploreOpen(false);
+      const target = event.target as Node;
+      if (!exploreMenuRef.current?.contains(target)) setExploreOpen(false);
+      // The header holds the menu button, which toggles the mobile menu itself.
+      if (!headerRef.current?.contains(target) && !mobileMenuRef.current?.contains(target)) {
+        setMobileOpen(false);
+      }
     };
 
     const closeOnEscape = (event: KeyboardEvent) => {
@@ -53,7 +59,7 @@ export default function FloatingNavWrapper() {
       {/* The fixed wrapper keeps the 4rem that pages reserve with pt-16. The pill
           floats inside it: a 0.75rem gap, then 3.25rem of pill. Clicks pass
           through the empty space on either side. */}
-      <header className="pointer-events-none fixed inset-x-0 top-0 z-[5001] h-16 px-4 sm:px-6 lg:px-8">
+      <header ref={headerRef} className="pointer-events-none fixed inset-x-0 top-0 z-[5001] h-16 px-4 sm:px-6 lg:px-8">
         <div className="pointer-events-auto mx-auto mt-3 flex h-13 w-full items-center justify-between gap-6 rounded-full border border-border bg-card pl-5 pr-2 [box-shadow:var(--shadow-float)] lg:w-max lg:max-w-full lg:gap-8 lg:pl-6 lg:pr-3">
           <Link href="/" onClick={closeMobileMenu} className="shrink-0 text-foreground" aria-label="Prem P. Singh, home">
             <span className="block font-serif text-lg font-semibold leading-tight">Prem P. Singh</span>
@@ -132,7 +138,7 @@ export default function FloatingNavWrapper() {
       </header>
 
       {mobileOpen && (
-        <div id="mobile-navigation" className="fixed inset-x-4 top-18 z-[5000] sm:inset-x-6 lg:hidden">
+        <div id="mobile-navigation" ref={mobileMenuRef} className="fixed inset-x-4 top-18 z-[5000] sm:inset-x-6 lg:hidden">
           {/* Same surface as .paper-panel, written out because that class forces
               overflow: hidden and this list has to scroll on short screens. */}
           <nav

@@ -118,6 +118,10 @@ foreground tokens there are four semantic families, each with a base, `-strong`,
 | `data` | computation and evidence |
 | `decision` | translation and outcomes |
 
+`-strong` is the variant that passes as 14px text on the page, the card and its
+own wash, in both modes: darker than the base in light, lighter than the base in
+dark. Use it for small family-coloured text that sits directly on the page.
+
 `danger` exists as a fifth, smaller family.
 
 **The Tailwind text tokens are redefined**, so the class names do not mean what

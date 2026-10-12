@@ -125,7 +125,7 @@ export default function WorkExperience() {
               href="/cv.pdf"
               target="_blank"
               rel="noopener noreferrer"
-              className="mt-6 inline-block text-sm font-semibold text-field underline underline-offset-4"
+              className="mt-6 inline-block text-sm font-semibold text-field-strong underline underline-offset-4"
             >
               Full career details
             </Link>

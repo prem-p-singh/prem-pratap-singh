@@ -22,10 +22,11 @@ img[alt="Vercel Logo"] {
    field = crop and observation · biology = bench and mechanism
    data = computation and evidence · decision = translation and outcomes
 
-   Small text on the bare page: the family bases pass 4.5:1 on the flat page
-   colour, but green and ochre drop to about 3.9:1 where the wash is
-   strongest. Use the -strong variant for 14px family text that sits directly
-   on the page instead of on a card.
+   -strong is the variant that passes as 14px text on the page, the card and
+   its own wash, in both modes. It is darker than the base in light and
+   lighter than the base in dark. Use it for small family-coloured text that
+   sits directly on the page: there the light green and ochre bases drop to
+   about 3.9:1 where the wash is strongest.
    ═══════════════════════════════════════════════════════════════════════════ */
 
 :root {
@@ -48,21 +49,22 @@ img[alt="Vercel Logo"] {
   --elevated: #323935;
   /* The owner's three hues, lightened in OKLCH at a chroma above 0.10 and
      stepped apart in lightness so green and merlot stay distinct under
-     red-green colour blindness. */
+     red-green colour blindness. Each -strong is one step lighter again, so
+     it is text-safe here as it is in light. */
   --field: #8fd89e;
-  --field-strong: #519962;
+  --field-strong: #aae5b5;
   --field-foreground: #101612;
   --field-wash: rgba(143, 216, 158, 0.12);
   --biology: #e0879b;
-  --biology-strong: #bf5b76;
+  --biology-strong: #ec9eae;
   --biology-foreground: #101612;
   --biology-wash: rgba(224, 135, 155, 0.1);
   --data: #7aaeef;
-  --data-strong: #5182c1;
+  --data-strong: #97c1f7;
   --data-foreground: #101612;
   --data-wash: rgba(122, 174, 239, 0.12);
   --decision: #edbb64;
-  --decision-strong: #bc913a;
+  --decision-strong: #f5ce87;
   --decision-foreground: #101612;
   --decision-wash: rgba(237, 187, 100, 0.12);
   --danger: #ff9d8f;
@@ -336,6 +338,14 @@ h1, h2, h3 {
   .name-gradient {
     background: none;
     color: CanvasText;
+  }
+}
+
+/* Printing with background graphics off would leave the name blank. */
+@media print {
+  .name-gradient {
+    background: none;
+    color: #000;
   }
 }
 
