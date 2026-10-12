@@ -13,84 +13,134 @@ img[alt="Vercel Logo"] {
    Field-notebook color system
    :root = dark (default), .light = light override
 
+   Paper-grey page, graphite ink, and one accent: the red-purple of grapevine
+   red blotch leaves. UI chrome uses ink plus that accent only.
+
+   The four families encode categories (charts, the "How I work" steps):
    field = crop and observation · biology = bench and mechanism
    data = computation and evidence · decision = translation and outcomes
+
+   Reference tokens hold the raw OKLCH values. The semantic tokens below map
+   onto them, and components only ever read the semantic names. Every value is
+   inside sRGB; the trailing comment is its hex. Within a mode the four family
+   bases share one lightness, and the set passes the dataviz palette validator
+   (chroma floor, pairwise deltaE, simulated colour-vision deficiency).
    ═══════════════════════════════════════════════════════════════════════════ */
 
 :root {
+  /* Reference: light mode */
+  --ref-paper-page: oklch(0.965 0.003 95); /* #f4f3f1 */
+  --ref-paper-section: oklch(0.945 0.003 95); /* #ededea */
+  --ref-paper-card: oklch(0.985 0.002 95); /* #fafaf9 */
+  --ref-paper-elevated: oklch(0.925 0.004 95); /* #e7e6e3 */
+  --ref-paper-rule: oklch(0.86 0.004 95); /* #d2d1ce */
+  --ref-ink: oklch(0.25 0.012 255); /* #1e2227 */
+  --ref-ink-muted: oklch(0.47 0.012 255); /* #565b62 */
+  --ref-blotch: oklch(0.43 0.15 358); /* #8b1d4f */
+  --ref-field: oklch(0.525 0.105 166); /* #0f7d5c */
+  --ref-field-strong: oklch(0.44 0.085 166); /* #116148 */
+  --ref-biology: oklch(0.525 0.145 314); /* #884ca4 */
+  --ref-biology-strong: oklch(0.44 0.13 314); /* #6c3884 */
+  --ref-data: oklch(0.525 0.19 258); /* #0764d5 */
+  --ref-data-strong: oklch(0.44 0.16 258); /* #034da8 */
+  --ref-decision: oklch(0.525 0.11 68); /* #935c0f */
+  --ref-decision-strong: oklch(0.44 0.09 68); /* #73480d */
+  --ref-danger: oklch(0.54 0.2 30); /* #c92516 */
+
+  /* Reference: dark mode */
+  --ref-graphite-page: oklch(0.24 0.008 255); /* #1d1f23 */
+  --ref-graphite-section: oklch(0.258 0.008 255); /* #212427 */
+  --ref-graphite-card: oklch(0.275 0.008 255); /* #25282c */
+  --ref-graphite-elevated: oklch(0.31 0.008 255); /* #2e3134 */
+  --ref-graphite-rule: oklch(0.38 0.008 255); /* #404347 */
+  --ref-chalk: oklch(0.93 0.004 95); /* #e8e8e5 */
+  --ref-chalk-muted: oklch(0.76 0.008 255); /* #aeb1b6 */
+  --ref-blotch-dark: oklch(0.76 0.12 358); /* #ee90b1 */
+  --ref-field-dark: oklch(0.665 0.13 165); /* #26ac80 */
+  --ref-field-dark-strong: oklch(0.57 0.11 165); /* #208b67 */
+  --ref-biology-dark: oklch(0.665 0.11 312); /* #aa7fc5 */
+  --ref-biology-dark-strong: oklch(0.57 0.1 312); /* #8b65a2 */
+  --ref-data-dark: oklch(0.665 0.18 252); /* #2996fd */
+  --ref-data-dark-strong: oklch(0.57 0.155 252); /* #1f79cf */
+  --ref-decision-dark: oklch(0.665 0.135 74); /* #c48517 */
+  --ref-decision-dark-strong: oklch(0.57 0.115 74); /* #9f6b13 */
+  --ref-danger-dark: oklch(0.68 0.18 30); /* #f36451 */
+}
+
+:root {
   color-scheme: dark;
-  --background: #111713;
-  --foreground: #f5f0e6;
-  --muted: #202a23;
-  --muted-foreground: #b4b8b1;
-  --primary: #83c69e;
-  --primary-foreground: #111713;
-  --accent: #e69069;
-  --accent-muted: rgba(230, 144, 105, 0.12);
-  --border: #354238;
-  --card: #18211b;
-  --card-foreground: #f5f0e6;
-  --section-bg: #151d18;
-  --surface: #18211b;
-  --elevated: #202a23;
-  --field: #83c69e;
-  --field-strong: #4f9d70;
-  --field-foreground: #111713;
-  --field-wash: rgba(131, 198, 158, 0.12);
-  --biology: #e69069;
-  --biology-strong: #c76f49;
-  --biology-foreground: #111713;
-  --biology-wash: rgba(230, 144, 105, 0.12);
-  --data: #a6b4df;
-  --data-strong: #7789c3;
-  --data-foreground: #111713;
-  --data-wash: rgba(166, 180, 223, 0.12);
-  --decision: #d8b85e;
-  --decision-strong: #b89432;
-  --decision-foreground: #111713;
-  --decision-wash: rgba(216, 184, 94, 0.12);
-  --danger: #f0a0aa;
-  --danger-wash: rgba(240, 160, 170, 0.12);
-  --glow-primary: rgba(131, 198, 158, 0.1);
-  --glow-accent: rgba(230, 144, 105, 0.08);
+  --background: var(--ref-graphite-page);
+  --foreground: var(--ref-chalk);
+  --muted: var(--ref-graphite-elevated);
+  --muted-foreground: var(--ref-chalk-muted);
+  --primary: var(--ref-blotch-dark);
+  --primary-foreground: var(--ref-graphite-page);
+  --accent: var(--ref-blotch-dark);
+  --accent-muted: color-mix(in oklab, var(--ref-blotch-dark) 12%, transparent);
+  --border: var(--ref-graphite-rule);
+  --card: var(--ref-graphite-card);
+  --card-foreground: var(--ref-chalk);
+  --section-bg: var(--ref-graphite-section);
+  --surface: var(--ref-graphite-card);
+  --elevated: var(--ref-graphite-elevated);
+  --field: var(--ref-field-dark);
+  --field-strong: var(--ref-field-dark-strong);
+  --field-foreground: var(--ref-graphite-page);
+  --field-wash: color-mix(in oklab, var(--ref-field-dark) 12%, transparent);
+  --biology: var(--ref-biology-dark);
+  --biology-strong: var(--ref-biology-dark-strong);
+  --biology-foreground: var(--ref-graphite-page);
+  --biology-wash: color-mix(in oklab, var(--ref-biology-dark) 12%, transparent);
+  --data: var(--ref-data-dark);
+  --data-strong: var(--ref-data-dark-strong);
+  --data-foreground: var(--ref-graphite-page);
+  --data-wash: color-mix(in oklab, var(--ref-data-dark) 12%, transparent);
+  --decision: var(--ref-decision-dark);
+  --decision-strong: var(--ref-decision-dark-strong);
+  --decision-foreground: var(--ref-graphite-page);
+  --decision-wash: color-mix(in oklab, var(--ref-decision-dark) 12%, transparent);
+  --danger: var(--ref-danger-dark);
+  --danger-wash: color-mix(in oklab, var(--ref-danger-dark) 12%, transparent);
+  --glow-primary: color-mix(in oklab, var(--ref-blotch-dark) 10%, transparent);
+  --glow-accent: color-mix(in oklab, var(--ref-blotch-dark) 8%, transparent);
 }
 
 .light {
   color-scheme: light;
-  --background: #fbf8f1;
-  --foreground: #1d2621;
-  --muted: #f1eadf;
-  --muted-foreground: #656b66;
-  --primary: #285f47;
-  --primary-foreground: #ffffff;
-  --accent: #9c482d;
-  --accent-muted: rgba(156, 72, 45, 0.09);
-  --border: #d9d0c1;
-  --card: #fffdf8;
-  --card-foreground: #1d2621;
-  --section-bg: #f5f0e6;
-  --surface: #fffdf8;
-  --elevated: #f1eadf;
-  --field: #285f47;
-  --field-strong: #174a34;
-  --field-foreground: #ffffff;
-  --field-wash: rgba(40, 95, 71, 0.09);
-  --biology: #9c482d;
-  --biology-strong: #7e351f;
-  --biology-foreground: #ffffff;
-  --biology-wash: rgba(156, 72, 45, 0.09);
-  --data: #46567d;
-  --data-strong: #334263;
-  --data-foreground: #ffffff;
-  --data-wash: rgba(70, 86, 125, 0.09);
-  --decision: #7a5b16;
-  --decision-strong: #604509;
-  --decision-foreground: #ffffff;
-  --decision-wash: rgba(122, 91, 22, 0.1);
-  --danger: #a43e4f;
-  --danger-wash: rgba(164, 62, 79, 0.09);
-  --glow-primary: rgba(40, 95, 71, 0.09);
-  --glow-accent: rgba(156, 72, 45, 0.07);
+  --background: var(--ref-paper-page);
+  --foreground: var(--ref-ink);
+  --muted: var(--ref-paper-elevated);
+  --muted-foreground: var(--ref-ink-muted);
+  --primary: var(--ref-blotch);
+  --primary-foreground: var(--ref-paper-card);
+  --accent: var(--ref-blotch);
+  --accent-muted: color-mix(in oklab, var(--ref-blotch) 9%, transparent);
+  --border: var(--ref-paper-rule);
+  --card: var(--ref-paper-card);
+  --card-foreground: var(--ref-ink);
+  --section-bg: var(--ref-paper-section);
+  --surface: var(--ref-paper-card);
+  --elevated: var(--ref-paper-elevated);
+  --field: var(--ref-field);
+  --field-strong: var(--ref-field-strong);
+  --field-foreground: var(--ref-paper-card);
+  --field-wash: color-mix(in oklab, var(--ref-field) 9%, transparent);
+  --biology: var(--ref-biology);
+  --biology-strong: var(--ref-biology-strong);
+  --biology-foreground: var(--ref-paper-card);
+  --biology-wash: color-mix(in oklab, var(--ref-biology) 9%, transparent);
+  --data: var(--ref-data);
+  --data-strong: var(--ref-data-strong);
+  --data-foreground: var(--ref-paper-card);
+  --data-wash: color-mix(in oklab, var(--ref-data) 9%, transparent);
+  --decision: var(--ref-decision);
+  --decision-strong: var(--ref-decision-strong);
+  --decision-foreground: var(--ref-paper-card);
+  --decision-wash: color-mix(in oklab, var(--ref-decision) 10%, transparent);
+  --danger: var(--ref-danger);
+  --danger-wash: color-mix(in oklab, var(--ref-danger) 9%, transparent);
+  --glow-primary: color-mix(in oklab, var(--ref-blotch) 9%, transparent);
+  --glow-accent: color-mix(in oklab, var(--ref-blotch) 7%, transparent);
 }
 
 @theme inline {
@@ -235,8 +285,8 @@ h1, h2, h3 {
 
 /* Selection styling */
 ::selection {
-  background: var(--field);
-  color: var(--field-foreground);
+  background: var(--primary);
+  color: var(--primary-foreground);
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════
@@ -257,7 +307,7 @@ h1, h2, h3 {
 }
 
 .glow-hover:hover {
-  border-color: var(--field);
+  border-color: var(--accent);
 }
 
 .glow-hover:active {
@@ -271,12 +321,9 @@ h1, h2, h3 {
   background-size: 24px 24px;
 }
 
-/* Gradient text */
+/* Formerly a three-family gradient. Kept as a class, drawn in plain ink. */
 .gradient-text {
-  background: linear-gradient(110deg, var(--field), var(--data), var(--biology));
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
+  color: var(--foreground);
   display: inline-block;
   padding-bottom: 0.1em;
 }
@@ -354,8 +401,8 @@ h1, h2, h3 {
 /* ═══════════════════════════════════════════════════════════════════════════
    Field-notebook surfaces
 
-   Panels and actions use one visual grammar: warm paper, a quiet neutral
-   outline, and a short green seam at the upper-right corner. Semantic color
+   Panels and actions use one visual grammar: grey paper, a quiet neutral
+   outline, and a short accent seam at the upper-right corner. Category color
    stays inside the surface as an icon, label, rule, or selected state.
    ═══════════════════════════════════════════════════════════════════════════ */
 
@@ -390,8 +437,8 @@ h1, h2, h3 {
   height: 42%;
   min-height: 1.5rem;
   pointer-events: none;
-  border-top: 1px solid var(--field);
-  border-right: 1px solid var(--field);
+  border-top: 1px solid var(--accent);
+  border-right: 1px solid var(--accent);
   border-top-right-radius: inherit;
   opacity: 0.9;
 }
@@ -422,19 +469,19 @@ h1, h2, h3 {
 .paper-control:hover,
 .btn-primary:hover,
 .btn-outline:hover {
-  border-color: color-mix(in srgb, var(--field) 58%, var(--border));
-  color: var(--field);
+  border-color: color-mix(in oklab, var(--accent) 58%, var(--border));
+  color: var(--accent);
   transform: translateY(-1px);
   box-shadow:
     inset 0 1px 0 color-mix(in srgb, var(--foreground) 5%, transparent),
-    0 16px 34px -28px color-mix(in srgb, var(--field) 55%, transparent);
+    0 16px 34px -28px color-mix(in oklab, var(--accent) 55%, transparent);
 }
 
 .paper-button:focus-visible,
 .paper-control:focus-visible,
 .btn-primary:focus-visible,
 .btn-outline:focus-visible {
-  outline: 2px solid var(--field);
+  outline: 2px solid var(--accent);
   outline-offset: 3px;
 }
 
@@ -1063,7 +1110,7 @@ nav a:active {
 
 /* Ripple-like feedback for all clickable elements */
 a, button {
-  -webkit-tap-highlight-color: rgba(250, 250, 250, 0.08);
+  -webkit-tap-highlight-color: color-mix(in oklab, var(--foreground) 8%, transparent);
 }
 
 /* Focus-visible for keyboard navigation */
