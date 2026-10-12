@@ -10,87 +10,113 @@ img[alt="Vercel Logo"] {
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════
-   Field-notebook color system
+   Vineyard dusk colour system
    :root = dark, .light = light override (light is the default for visitors)
 
-   Warm paper and near-white cards, field green as the main colour, terracotta
-   as the accent.
+   The light values were chosen by the site owner in
+   docs/design/theme-playground.html: a sage-grey page, vine green as the main
+   colour, merlot as the accent, blue as the third colour. Those four hex
+   values are exact. Everything else is derived from them.
 
    The four families encode categories (charts, the "How I work" steps):
    field = crop and observation · biology = bench and mechanism
    data = computation and evidence · decision = translation and outcomes
+
+   Small text on the bare page: the family bases pass 4.5:1 on the flat page
+   colour, but green and ochre drop to about 3.9:1 where the wash is
+   strongest. Use the -strong variant for 14px family text that sits directly
+   on the page instead of on a card.
    ═══════════════════════════════════════════════════════════════════════════ */
 
 :root {
   color-scheme: dark;
-  --background: #111713;
-  --foreground: #f5f0e6;
-  --muted: #202a23;
-  --muted-foreground: #b4b8b1;
-  --primary: #83c69e;
-  --primary-foreground: #111713;
-  --accent: #e69069;
-  --accent-muted: rgba(230, 144, 105, 0.12);
-  --border: #354238;
-  --card: #18211b;
-  --card-foreground: #f5f0e6;
-  --section-bg: #151d18;
-  --surface: #18211b;
-  --elevated: #202a23;
-  --field: #83c69e;
-  --field-strong: #4f9d70;
-  --field-foreground: #111713;
-  --field-wash: rgba(131, 198, 158, 0.12);
-  --biology: #e69069;
-  --biology-strong: #c76f49;
-  --biology-foreground: #111713;
-  --biology-wash: rgba(230, 144, 105, 0.12);
-  --data: #a6b4df;
-  --data-strong: #7789c3;
-  --data-foreground: #111713;
-  --data-wash: rgba(166, 180, 223, 0.12);
-  --decision: #d8b85e;
-  --decision-strong: #b89432;
-  --decision-foreground: #111713;
-  --decision-wash: rgba(216, 184, 94, 0.12);
-  --danger: #f0a0aa;
-  --danger-wash: rgba(240, 160, 170, 0.12);
+  --background: #131a16;
+  --foreground: #eef2ee;
+  --muted: #323935;
+  --muted-foreground: #a9b3ab;
+  --primary: #8fd89e;
+  --primary-foreground: #101612;
+  --accent: #e0879b;
+  --accent-muted: rgba(224, 135, 155, 0.1);
+  --border: rgba(255, 255, 255, 0.14);
+  /* color-mix(in oklab, #131a16 90%, white) */
+  --card: #262d29;
+  --card-foreground: #eef2ee;
+  --section-bg: #1b221e;
+  --surface: #262d29;
+  /* color-mix(in oklab, #131a16 84%, white) */
+  --elevated: #323935;
+  /* The owner's three hues, lightened in OKLCH at a chroma above 0.10 and
+     stepped apart in lightness so green and merlot stay distinct under
+     red-green colour blindness. */
+  --field: #8fd89e;
+  --field-strong: #519962;
+  --field-foreground: #101612;
+  --field-wash: rgba(143, 216, 158, 0.12);
+  --biology: #e0879b;
+  --biology-strong: #bf5b76;
+  --biology-foreground: #101612;
+  --biology-wash: rgba(224, 135, 155, 0.1);
+  --data: #7aaeef;
+  --data-strong: #5182c1;
+  --data-foreground: #101612;
+  --data-wash: rgba(122, 174, 239, 0.12);
+  --decision: #edbb64;
+  --decision-strong: #bc913a;
+  --decision-foreground: #101612;
+  --decision-wash: rgba(237, 187, 100, 0.12);
+  --danger: #ff9d8f;
+  --danger-wash: rgba(255, 157, 143, 0.12);
+  --shadow-float: 0 30px 60px -30px rgba(0, 0, 0, 0.9);
+  --wash-primary: 10%;
+  --wash-accent: 9%;
 }
 
 .light {
   color-scheme: light;
-  --background: #fbf8f1;
-  --foreground: #1d2621;
-  --muted: #f1eadf;
-  --muted-foreground: #656b66;
-  --primary: #285f47;
+  --background: #dfe0d7;
+  --foreground: #1c2024;
+  /* color-mix(in oklab, #dfe0d7 70%, white) */
+  --muted: #e9e9e3;
+  --muted-foreground: #4d545a;
+  --primary: #2f6b3f;
   --primary-foreground: #ffffff;
-  --accent: #9c482d;
-  --accent-muted: rgba(156, 72, 45, 0.09);
-  --border: #d9d0c1;
-  --card: #fffdf8;
-  --card-foreground: #1d2621;
-  --section-bg: #f5f0e6;
-  --surface: #fffdf8;
-  --elevated: #f1eadf;
-  --field: #285f47;
-  --field-strong: #174a34;
+  --accent: #7a1f3d;
+  --accent-muted: rgba(122, 31, 61, 0.1);
+  --border: rgba(20, 30, 25, 0.13);
+  /* color-mix(in oklab, #dfe0d7 35%, white) */
+  --card: #f4f4f1;
+  --card-foreground: #1c2024;
+  /* color-mix(in oklab, #dfe0d7 85%, white) */
+  --section-bg: #e4e5dd;
+  --surface: #f4f4f1;
+  --elevated: #e9e9e3;
+  --field: #2f6b3f;
+  --field-strong: #235230;
   --field-foreground: #ffffff;
-  --field-wash: rgba(40, 95, 71, 0.09);
-  --biology: #9c482d;
-  --biology-strong: #7e351f;
+  --field-wash: rgba(47, 107, 63, 0.12);
+  --biology: #7a1f3d;
+  --biology-strong: #5f1830;
   --biology-foreground: #ffffff;
-  --biology-wash: rgba(156, 72, 45, 0.09);
-  --data: #46567d;
-  --data-strong: #334263;
+  --biology-wash: rgba(122, 31, 61, 0.11);
+  --data: #2c5282;
+  --data-strong: #213f66;
   --data-foreground: #ffffff;
-  --data-wash: rgba(70, 86, 125, 0.09);
-  --decision: #7a5b16;
-  --decision-strong: #604509;
+  --data-wash: rgba(44, 82, 130, 0.11);
+  /* Ochre, derived. oklch(0.50 0.11 65): above the chroma floor and as far
+     from the green as 4.5:1 on the page allows. */
+  --decision: #8d5406;
+  --decision-strong: #6b3f04;
   --decision-foreground: #ffffff;
-  --decision-wash: rgba(122, 91, 22, 0.1);
-  --danger: #a43e4f;
-  --danger-wash: rgba(164, 62, 79, 0.09);
+  --decision-wash: rgba(141, 84, 6, 0.13);
+  /* A warm red, 24 degrees of hue and a clear lightness step from merlot. */
+  --danger: #b3261e;
+  --danger-wash: rgba(179, 38, 30, 0.1);
+  --shadow-float:
+    0 30px 60px -32px rgba(20, 30, 25, 0.38),
+    0 6px 14px -10px rgba(20, 30, 25, 0.18);
+  --wash-primary: 14%;
+  --wash-accent: 13%;
 }
 
 @theme inline {
@@ -154,7 +180,7 @@ html {
 }
 
 /* Where an anchored homepage section settles below the fixed nav:
-   the 4rem bar plus 1rem of air, the same at every width. */
+   the pill ends 4rem from the top, plus 1rem of air, the same at every width. */
 :root {
   --guided-scroll-offset: 5rem;
 }
@@ -176,8 +202,29 @@ html {
   }
 }
 
-body {
+/* The solid page colour is the canvas and the fallback. */
+html {
   background: var(--background);
+}
+
+/* The page wash: one calm green-to-merlot gradient pinned to the viewport, so
+   it neither repeats nor bands on long pages. A fixed layer is used instead of
+   background-attachment: fixed, which mobile Safari ignores on the root. */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background: linear-gradient(
+    135deg,
+    color-mix(in oklab, var(--primary) var(--wash-primary), var(--background)) 0%,
+    var(--background) 50%,
+    color-mix(in oklab, var(--accent) var(--wash-accent), var(--background)) 100%
+  );
+}
+
+body {
   color: var(--foreground);
   /* Reference --font-plex and --font-stix (the next/font variables) directly.
      The @theme inline block above feeds the Tailwind font utilities, but it
@@ -243,7 +290,7 @@ h1, h2, h3 {
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════
-   Utility classes — field-notebook design system
+   Utility classes
    ═══════════════════════════════════════════════════════════════════════════ */
 
 /* Card */
@@ -266,6 +313,30 @@ h1, h2, h3 {
 .glow-hover:active {
   transform: scale(0.985);
   transition: all 0.1s ease;
+}
+
+/* The name in the hero: main colour to accent, sized to the text so both
+   ends show. Solid ink where clipping to text is unsupported or the system
+   forces its own colours. */
+.name-gradient {
+  width: fit-content;
+  color: var(--foreground);
+}
+
+@supports ((background-clip: text) or (-webkit-background-clip: text)) {
+  .name-gradient {
+    background: linear-gradient(90deg, var(--primary), var(--accent));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+}
+
+@media (forced-colors: active) {
+  .name-gradient {
+    background: none;
+    color: CanvasText;
+  }
 }
 
 /* Formerly a three-family gradient. Kept as a class, drawn in plain ink. */
@@ -324,8 +395,9 @@ h1, h2, h3 {
 /* ═══════════════════════════════════════════════════════════════════════════
    Shared surfaces
 
-   Cards: a 1px rule, a generous radius and a soft shadow. Hover changes
-   colour and shadow strength only; nothing moves.
+   Cards float: card colour, a 1px line, 20px corners and one deep shadow that
+   each mode sets once in --shadow-float. Buttons are pills. Hover changes
+   colour only; nothing moves.
    ═══════════════════════════════════════════════════════════════════════════ */
 
 .paper-panel,
@@ -336,16 +408,14 @@ h1, h2, h3 {
   border: 1px solid var(--border);
   background: var(--card);
   color: var(--foreground);
-  box-shadow:
-    inset 0 1px 0 color-mix(in srgb, var(--foreground) 4%, transparent),
-    0 12px 35px -32px color-mix(in srgb, var(--foreground) 30%, transparent);
 }
 
 /* Panels in other files position and clip their children against these. */
 .paper-panel {
   position: relative;
   overflow: hidden;
-  border-radius: 1.5rem;
+  border-radius: 20px;
+  box-shadow: var(--shadow-float);
 }
 
 .paper-button,
@@ -356,15 +426,15 @@ h1, h2, h3 {
   justify-content: center;
   gap: 0.5rem;
   padding: 0.75rem 1.5rem;
-  border-radius: 1.25rem;
-  font-weight: 500;
+  border-radius: 999px;
+  font-weight: 600;
 }
 
 .paper-button,
 .paper-control,
 .btn-primary,
 .btn-outline {
-  transition: color 0.2s ease, background-color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+  transition: color 0.2s ease, background-color 0.2s ease, border-color 0.2s ease;
 }
 
 .paper-control {
@@ -374,26 +444,18 @@ h1, h2, h3 {
 .paper-button:hover,
 .btn-outline:hover,
 :is(a, button, input).paper-control:hover {
-  border-color: var(--field);
-  box-shadow:
-    inset 0 1px 0 color-mix(in srgb, var(--foreground) 5%, transparent),
-    0 16px 34px -28px color-mix(in oklab, var(--field) 55%, transparent);
+  border-color: var(--primary);
 }
 
 .btn-primary {
-  border-color: var(--primary);
+  border-color: transparent;
   background: var(--primary);
   color: var(--primary-foreground);
 }
 
 /* Mixing toward ink darkens the fill in light mode and lightens it in dark. */
 .btn-primary:hover {
-  border-color: color-mix(in oklab, var(--primary) 86%, var(--foreground));
   background: color-mix(in oklab, var(--primary) 86%, var(--foreground));
-}
-
-.btn-outline {
-  background: var(--card);
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════

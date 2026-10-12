@@ -96,11 +96,17 @@ follows the theme into dark mode without extra work.
 
 ## Theme and type
 
-`app/globals.css` holds a field-notebook colour system. `:root` holds the dark
+`app/globals.css` holds the "Vineyard dusk" colour system, which the owner chose
+in `docs/design/theme-playground.html`. `:root` holds the dark
 values and a `.light` class overrides them. Light is the default for visitors:
-the class is server-rendered on `<html>`, and a saved `dark` choice removes it. The palette is warm paper with near-white
-cards, green as the main colour (`--primary` is the `field` green) and
-terracotta as the accent.
+the class is server-rendered on `<html>`, and a saved `dark` choice removes it. The palette is a sage-grey page
+(`#dfe0d7`) under a soft green-to-merlot wash, lighter cards, vine green as the
+main colour (`--primary` is the `field` green, `#2f6b3f`), merlot as the accent
+(`#7a1f3d`, also `biology`) and blue as the third colour (`#2c5282`, `data`).
+Those four values are the owner's and are exact; the ochre `decision` colour,
+the surface steps and the whole dark mode are derived from them. The wash is a
+fixed `body::before` layer, so `body` itself has no background. The name in the
+hero uses `.name-gradient` (main colour to accent, clipped to the text).
 Alongside the usual background and
 foreground tokens there are four semantic families, each with a base, `-strong`,
 `-foreground` and `-wash` variant:
@@ -137,16 +143,18 @@ wheel handler or scroll snapping.
 ### Shared surface treatment
 
 `.paper-panel`, `.paper-button`, `.paper-control`, `.btn-primary` and
-`.btn-outline` share one rule set in `globals.css`: a 1px border, card
-background and a soft shadow. Panels have a 24px radius; buttons and
-controls have smaller radii.
+`.btn-outline` share one rule set in `globals.css`: a 1px border and card
+background. Panels float: a 20px radius and the deep shadow held in
+`--shadow-float`, which each mode sets once. Buttons are pills and controls
+have a 14px radius; neither has a shadow.
 `.btn-primary` is a solid green fill and `.btn-outline` sits on the card
-colour. Hover changes border colour and shadow only: nothing lifts, scales or
+colour. Hover changes colour only: nothing lifts, scales or
 animates. `.paper-panel` is used in about twenty files, so a change there is a
 change to most surfaces on the site.
 
 These rules are unlayered, so they beat Tailwind utilities on the same element:
-a `rounded-*` or `bg-*` class on a `.paper-panel` has no effect.
+a `rounded-*`, `bg-*`, `shadow-*`, `overflow-*` or position class on a
+`.paper-panel` has no effect.
 
 ## Analysis pipeline (`data-interpretations/`)
 
