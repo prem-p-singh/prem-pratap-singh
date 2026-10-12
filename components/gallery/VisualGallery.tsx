@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 
 type GalleryCategory = "All" | "Research illustrations" | "Data stories" | "Methods";
 
@@ -91,6 +91,7 @@ interface VisualGalleryProps {
 export default function VisualGallery({ presentationItems }: VisualGalleryProps) {
   const [activeCategory, setActiveCategory] = useState<GalleryCategory>("All");
   const [selected, setSelected] = useState<GalleryItem | null>(null);
+  const dialogRef = useRef<HTMLDialogElement>(null);
   const galleryItems = useMemo(() => {
     const seenImages = new Set<string>();
     return [...presentationItems, ...supportingGalleryItems].filter((item) => {
@@ -105,128 +106,108 @@ export default function VisualGallery({ presentationItems }: VisualGalleryProps)
     [activeCategory, galleryItems],
   );
 
+  // A native modal dialog closes on Escape, keeps focus inside while open and
+  // hands it back to the figure that opened it. Only the page scroll lock is ours.
   useEffect(() => {
     if (!selected) return;
-
-    function closeOnEscape(event: KeyboardEvent) {
-      if (event.key === "Escape") setSelected(null);
-    }
+    const dialog = dialogRef.current;
+    if (dialog && !dialog.open) dialog.showModal();
 
     const previousOverflow = document.body.style.overflow;
     document.body.style.overflow = "hidden";
-    window.addEventListener("keydown", closeOnEscape);
     return () => {
       document.body.style.overflow = previousOverflow;
-      window.removeEventListener("keydown", closeOnEscape);
     };
   }, [selected]);
 
+  const closeDialog = () => dialogRef.current?.close();
+
   return (
     <>
-      <section className="py-6 sm:py-8" aria-labelledby="visual-gallery-title">
-        <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
-            <div>
-              <p className="section-kicker">
-                Research, seen differently
-              </p>
-              <h2 id="visual-gallery-title" className="mt-3 text-3xl font-bold text-foreground">
-                Browse the evidence wall
-              </h2>
-            </div>
-            <p className="max-w-md text-sm leading-relaxed text-muted-foreground">
+      <section
+        className="border-t border-border py-16 lg:py-24"
+        aria-labelledby="visual-gallery-title"
+      >
+        <div className="grid gap-x-8 gap-y-10 lg:grid-cols-12">
+          <div className="lg:col-span-4">
+            <p className="section-kicker">Research, seen differently</p>
+            <h2 id="visual-gallery-title" className="mt-3 text-3xl leading-tight text-foreground sm:text-4xl">
+              Browse the evidence wall
+            </h2>
+          </div>
+          <div className="lg:col-span-8">
+            <p className="max-w-[60ch] text-base leading-relaxed text-muted-foreground">
               Filter the collection, open any visual for a closer look, then follow it back to the full story.
             </p>
+            <div className="mt-5 flex flex-wrap gap-x-5 gap-y-1" role="group" aria-label="Filter gallery visuals">
+              {categories.map((category) => {
+                const count = category === "All"
+                  ? galleryItems.length
+                  : galleryItems.filter((item) => item.category === category).length;
+                return (
+                  <button
+                    key={category}
+                    type="button"
+                    aria-pressed={activeCategory === category}
+                    onClick={() => setActiveCategory(category)}
+                    className="py-1.5 text-left text-sm text-muted-foreground underline-offset-4 transition-colors hover:text-foreground aria-pressed:text-accent aria-pressed:underline"
+                  >
+                    {category} <span className="tabular-nums">{count}</span>
+                  </button>
+                );
+              })}
+            </div>
           </div>
+        </div>
 
-          <div className="mt-8 flex flex-wrap gap-2" role="group" aria-label="Filter gallery visuals">
-            {categories.map((category) => {
-              const selectedCategory = activeCategory === category;
-              const count = category === "All"
-                ? galleryItems.length
-                : galleryItems.filter((item) => item.category === category).length;
-              return (
+        <ul className="mt-12 grid gap-x-8 gap-y-10 sm:grid-cols-2 lg:grid-cols-3">
+          {visibleItems.map((item) => (
+            <li key={item.id}>
+              <figure>
                 <button
-                  key={category}
                   type="button"
-                  aria-pressed={selectedCategory}
-                  onClick={() => setActiveCategory(category)}
-                  className={`inline-flex items-center gap-2 rounded-full border px-4 py-2 text-sm font-medium transition-all ${
-                    selectedCategory
-                      ? "border-primary bg-primary text-primary-foreground shadow-md shadow-primary/15"
-                      : "border-border bg-card text-muted-foreground hover:border-primary/40 hover:text-foreground"
-                  }`}
+                  onClick={() => setSelected(item)}
+                  className="relative block aspect-[4/3] w-full cursor-pointer overflow-hidden rounded-md border border-border bg-card"
                 >
-                  {category}
-                  <span className={`text-xs tabular-nums ${selectedCategory ? "text-primary-foreground/75" : "text-muted-foreground"}`}>
-                    {count}
-                  </span>
-                </button>
-              );
-            })}
-          </div>
-
-          <div className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-            {visibleItems.map((item) => (
-              <button
-                key={item.id}
-                type="button"
-                onClick={() => setSelected(item)}
-                className="paper-panel group overflow-hidden bg-card text-left transition-all hover:-translate-y-0.5 hover:border-field/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-field/50"
-              >
-                <span className="relative block aspect-[4/3] overflow-hidden bg-white">
+                  <span className="sr-only">Enlarge: </span>
                   <Image
                     src={item.src}
                     alt={item.alt}
                     fill
                     sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                    className="object-contain p-2 transition-transform duration-500 group-hover:scale-[1.03]"
+                    className="object-contain p-2"
                   />
-                  <span className="absolute right-3 top-3 flex size-9 items-center justify-center rounded-full border border-white/70 bg-black/55 text-white opacity-0 backdrop-blur-sm transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100">
-                    <svg className="size-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.8} aria-hidden="true">
-                      <circle cx="11" cy="11" r="7" />
-                      <path strokeLinecap="round" d="m20 20-4-4M11 8v6M8 11h6" />
-                    </svg>
-                  </span>
-                </span>
-                <span className="block border-t border-border p-4">
-                  <span className="text-xs font-semibold uppercase tracking-[0.16em] text-muted-foreground">
-                    {item.category}
-                  </span>
-                  <span className="mt-1.5 block font-semibold leading-snug text-foreground group-hover:text-primary">
-                    {item.title}
-                  </span>
-                </span>
-              </button>
-            ))}
-          </div>
-        </div>
+                </button>
+                <figcaption className="mt-3">
+                  <p className="text-base font-semibold leading-snug text-foreground">{item.title}</p>
+                  <p className="mt-1 text-sm text-muted-foreground">{item.category}</p>
+                  <Link
+                    href={item.sourceHref}
+                    aria-label={`${item.sourceLabel}: ${item.title}`}
+                    className="mt-1 inline-block text-sm text-accent underline-offset-4 hover:underline"
+                  >
+                    {item.sourceLabel}
+                  </Link>
+                </figcaption>
+              </figure>
+            </li>
+          ))}
+        </ul>
       </section>
 
-      {selected && (
-        <div
-          className="fixed inset-0 z-[6000] flex items-center justify-center bg-black/80 p-4 backdrop-blur-sm"
-          role="dialog"
-          aria-modal="true"
-          aria-labelledby="gallery-dialog-title"
-          onClick={() => setSelected(null)}
-        >
-          <div
-            className="relative max-h-[92vh] w-full max-w-5xl overflow-auto rounded-3xl border border-white/15 bg-background shadow-2xl"
-            onClick={(event) => event.stopPropagation()}
-          >
-            <button
-              type="button"
-              onClick={() => setSelected(null)}
-              className="absolute right-3 top-3 z-20 flex size-10 items-center justify-center rounded-full border border-border bg-background/90 text-foreground backdrop-blur transition-colors hover:bg-muted"
-              aria-label="Close visual"
-            >
-              <svg className="size-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.8} aria-hidden="true">
-                <path strokeLinecap="round" d="M6 6l12 12M18 6 6 18" />
-              </svg>
-            </button>
-
-            <div className="relative min-h-[300px] bg-white sm:min-h-[520px]">
+      <dialog
+        ref={dialogRef}
+        aria-labelledby="gallery-dialog-title"
+        onClose={() => setSelected(null)}
+        // A click that lands on the dialog element itself is a click on the backdrop.
+        onClick={(event) => {
+          if (event.target === event.currentTarget) closeDialog();
+        }}
+        className="m-auto max-h-[92vh] w-[calc(100%-2rem)] max-w-5xl overflow-auto rounded-md border border-border bg-background p-0 text-foreground backdrop:bg-black/80"
+      >
+        {selected && (
+          <>
+            <div className="relative min-h-[300px] bg-card sm:min-h-[520px]">
               <Image
                 src={selected.src}
                 alt={selected.alt}
@@ -238,27 +219,28 @@ export default function VisualGallery({ presentationItems }: VisualGalleryProps)
             </div>
             <div className="flex flex-col gap-4 border-t border-border p-5 sm:flex-row sm:items-center sm:justify-between sm:p-6">
               <div>
-                <p className="text-xs font-semibold uppercase tracking-[0.16em] text-muted-foreground">
-                  {selected.category}
-                </p>
-                <h3 id="gallery-dialog-title" className="mt-1 text-xl font-bold text-foreground">
+                <p className="text-sm text-muted-foreground">{selected.category}</p>
+                {/* The base h3 rule is unlayered, so the sans needs the important flag to win. */}
+                <h3 id="gallery-dialog-title" className="font-sans! mt-1 text-lg font-semibold leading-snug text-foreground">
                   {selected.title}
                 </h3>
               </div>
-              <Link
-                href={selected.sourceHref}
-                onClick={() => setSelected(null)}
-                className="inline-flex items-center justify-center gap-2 rounded-full bg-primary px-5 py-2.5 text-sm font-semibold text-primary-foreground transition-transform hover:-translate-y-0.5"
-              >
-                {selected.sourceLabel}
-                <svg className="size-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.8} aria-hidden="true">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="m9 5 7 7-7 7" />
-                </svg>
-              </Link>
+              <div className="flex shrink-0 flex-wrap items-center gap-x-5 gap-y-2">
+                <Link
+                  href={selected.sourceHref}
+                  onClick={closeDialog}
+                  className="text-sm text-accent underline-offset-4 hover:underline"
+                >
+                  {selected.sourceLabel}
+                </Link>
+                <button type="button" onClick={closeDialog} aria-label="Close visual" className="btn-outline">
+                  Close
+                </button>
+              </div>
             </div>
-          </div>
-        </div>
-      )}
+          </>
+        )}
+      </dialog>
     </>
   );
 }

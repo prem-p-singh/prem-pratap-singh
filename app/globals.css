@@ -799,34 +799,6 @@ h1, h2, h3 {
   text-wrap: balance;
 }
 
-.section-title {
-  font-family: var(--font-stix), "STIX Two Text", Georgia, "Times New Roman", serif;
-  font-size: 2rem;
-  font-weight: 600;
-  letter-spacing: -0.012em;
-  margin-bottom: 0.5rem;
-  position: relative;
-  display: inline-block;
-  padding-bottom: 16px;
-  transition: color 0.2s ease;
-}
-
-.section-title::after {
-  content: '';
-  position: absolute;
-  left: 0;
-  bottom: 0;
-  width: 48px;
-  height: 2px;
-  background: var(--foreground);
-  border-radius: 1px;
-}
-
-.section-title:hover::after {
-  width: 100%;
-  transition: width 0.4s ease;
-}
-
 /* ═══════════════════════════════════════════════════════════════════════════
    Prose enhancements
    ═══════════════════════════════════════════════════════════════════════════ */

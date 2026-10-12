@@ -38,20 +38,20 @@ export default function GalleryPage() {
 
   return (
     <div className="min-h-screen pt-16">
-      <section className="bg-gradient-to-b from-muted to-background pb-6 pt-14 sm:pb-8 sm:pt-16">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-          <p className="section-kicker">
-            Charts · maps · mechanisms · research illustrations
-          </p>
-          <div className="mt-5">
-            <h1 className="section-title !mb-0">The Visual Lab</h1>
-          </div>
-          <p className="mt-3 max-w-2xl text-lg leading-relaxed text-muted-foreground">
+      <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+        <header className="pb-10 pt-10 sm:pt-12 lg:pb-14 lg:pt-14">
+          <p className="section-kicker">Charts, maps, mechanisms and research illustrations</p>
+          <h1 className="mt-3 text-4xl leading-tight text-foreground sm:text-5xl lg:text-6xl">
+            The Visual Lab
+          </h1>
+          <p className="mt-5 max-w-[60ch] text-base leading-relaxed text-muted-foreground">
             A presentation wall for every blog and method visual, alongside the charts and maps that support the underlying evidence.
           </p>
-        </div>
-      </section>
-      <VisualGallery presentationItems={[...blogPresentations, ...methodPresentations]} />
+        </header>
+
+        {/* The gallery section opens with its own top rule, which also closes the header. */}
+        <VisualGallery presentationItems={[...blogPresentations, ...methodPresentations]} />
+      </div>
     </div>
   );
 }
