@@ -8,8 +8,13 @@ const THEME_CHANGE_EVENT = "portfolio-theme-change";
 let sessionTheme: Theme | null = null;
 
 function getStoredTheme(): Theme | null {
-  const stored = localStorage.getItem("theme");
-  return stored === "light" || stored === "dark" ? stored : null;
+  try {
+    const stored = localStorage.getItem("theme");
+    return stored === "light" || stored === "dark" ? stored : null;
+  } catch {
+    // Blocked storage falls back to the light default.
+    return null;
+  }
 }
 
 function getResolvedTheme(): Theme {
