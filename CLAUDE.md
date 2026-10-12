@@ -125,8 +125,8 @@ So `text-xs` is the 14px floor, not 12px. Nothing on the site renders below it.
 Adding an arbitrary size such as `text-[11px]` reintroduces the small-text
 problem this scale exists to prevent.
 
-Headings run 30 / 36 / 48 for sections and 36 / 48 / 60 for the page title, one
-step apart at every breakpoint. Keep that gap when adding a section.
+Section headings run 30 / 36 and stop there, because they sit in the narrow left
+column of the two-column section pattern. The page title runs 36 / 48 / 60.
 
 Homepage sections clear the fixed nav through the `.guided-scroll-section` class
 and the `--guided-scroll-offset` variable. The page scrolls natively; there is no

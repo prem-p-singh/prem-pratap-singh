@@ -61,7 +61,7 @@ export default function ResearchSnapshot() {
             <p className="section-kicker">Capabilities</p>
             <h2
               id="research-snapshot-title"
-              className="mt-3 text-3xl leading-tight text-foreground sm:text-4xl xl:text-5xl"
+              className="mt-3 text-3xl leading-tight text-foreground sm:text-4xl"
             >
               Crop biology is my domain. Data science is how I investigate it.
             </h2>

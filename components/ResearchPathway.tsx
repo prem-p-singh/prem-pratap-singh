@@ -115,7 +115,7 @@ export default function ResearchPathway() {
             <p className="section-kicker">How I work</p>
             <h2
               id="research-pathway-title"
-              className="mt-3 text-3xl leading-tight text-foreground sm:text-4xl xl:text-5xl"
+              className="mt-3 text-3xl leading-tight text-foreground sm:text-4xl"
             >
               Crop improvement is the destination. Data is how I get there.
             </h2>
