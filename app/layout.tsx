@@ -168,18 +168,12 @@ const profilePageJsonLd = {
 
 const themeScript = `
 (function(){
-  var saved = null;
-  try { saved = localStorage.getItem('theme'); } catch(e) {}
-
-  var hour = new Date().getHours();
-  var isNight = hour < 7 || hour >= 19;
-  var devicePrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-  var theme = saved === 'light' || saved === 'dark'
-    ? saved
-    : (devicePrefersDark || isNight ? 'dark' : 'light');
-
-  document.documentElement.classList.toggle('light', theme === 'light');
-  document.documentElement.style.colorScheme = theme;
+  try {
+    if (localStorage.getItem('theme') === 'dark') {
+      document.documentElement.classList.remove('light');
+      document.documentElement.style.colorScheme = 'dark';
+    }
+  } catch(e) {}
 })()
 `;
 
@@ -189,7 +183,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning data-scroll-behavior="smooth">
+    <html lang="en" className="light" suppressHydrationWarning data-scroll-behavior="smooth">
       <head>
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
         <script

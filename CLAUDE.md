@@ -96,8 +96,10 @@ follows the theme into dark mode without extra work.
 
 ## Theme and type
 
-`app/globals.css` holds a field-notebook colour system. `:root` is **dark by
-default**; a `.light` class overrides it. Alongside the usual background and
+`app/globals.css` holds a field-notebook colour system. `:root` holds the dark
+values and a `.light` class overrides them. Light is the default for visitors:
+the class is server-rendered on `<html>`, and a saved `dark` choice removes it.
+Alongside the usual background and
 foreground tokens there are four semantic families, each with a base, `-strong`,
 `-foreground` and `-wash` variant:
 
