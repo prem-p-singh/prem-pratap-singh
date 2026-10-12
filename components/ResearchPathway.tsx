@@ -77,7 +77,9 @@ export default function ResearchPathway() {
   const active = stages.find((stage) => stage.id === activeId) ?? stages[0];
 
   // Arrow keys, Home and End move focus and selection together, from the focused step.
+  // Modified keys are left alone so browser and system shortcuts keep working.
   const moveWithKeys = (event: KeyboardEvent<HTMLDivElement>) => {
+    if (event.altKey || event.metaKey || event.ctrlKey || event.shiftKey) return;
     const tabs = Array.from(
       event.currentTarget.querySelectorAll<HTMLButtonElement>('[role="tab"]')
     );
@@ -113,13 +115,14 @@ export default function ResearchPathway() {
             <p className="section-kicker">How I work</p>
             <h2
               id="research-pathway-title"
-              className="mt-3 text-3xl leading-tight text-foreground sm:text-4xl lg:text-5xl"
+              className="mt-3 text-3xl leading-tight text-foreground sm:text-4xl xl:text-5xl"
             >
               Crop improvement is the destination. Data is how I get there.
             </h2>
             <p className="mt-5 max-w-[60ch] text-base leading-relaxed text-muted-foreground">
               I do not begin with a model. I begin with what changed in the plant.
             </p>
+            <p className="mt-3 text-sm text-muted-foreground">Davis, California</p>
 
             <dl className="mt-8 text-sm leading-normal">
               {fieldNotes.map((note) => (
@@ -150,6 +153,7 @@ export default function ResearchPathway() {
                     role="tab"
                     id={`research-pathway-tab-${stage.id}`}
                     aria-selected={stage.id === active.id}
+                    tabIndex={stage.id === active.id ? 0 : -1}
                     aria-controls="research-pathway-panel"
                     onClick={() => setActiveId(stage.id)}
                     className="-ml-px flex items-center gap-3 border-l-2 border-transparent py-3 pl-4 text-left text-muted-foreground transition-colors hover:text-foreground aria-selected:border-accent aria-selected:text-foreground md:-mt-px md:ml-0 md:flex-col md:items-start md:gap-2 md:border-l-0 md:border-t-2 md:pb-0 md:pl-0 md:pr-4 md:pt-4"

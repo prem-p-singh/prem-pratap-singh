@@ -32,7 +32,7 @@ export default function WorkExperience() {
           <div className="lg:col-span-4">
             <h2
               id="work-experience-title"
-              className="text-3xl leading-tight text-foreground sm:text-4xl lg:text-5xl"
+              className="text-3xl leading-tight text-foreground sm:text-4xl xl:text-5xl"
             >
               Where I have done the work
             </h2>
