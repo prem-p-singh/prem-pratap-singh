@@ -1,6 +1,17 @@
 import Link from "next/link";
 import Image from "next/image";
-import { ChevronDown, ChevronUp } from "lucide-react";
+import {
+  BriefcaseBusiness,
+  ChevronDown,
+  ChevronUp,
+  Compass,
+  Github,
+  GraduationCap,
+  Handshake,
+  Linkedin,
+  Mail,
+} from "lucide-react";
+import { FieldIcon } from "@/components/icons/PortfolioIcons";
 import { personal } from "@/profile/personal";
 import { projects } from "@/profile/projects";
 import { publications, bookChapters } from "@/profile/publications";
@@ -128,47 +139,53 @@ export default function Home() {
                 <h2 id="blog-title" className="mt-3 text-3xl leading-tight text-foreground sm:text-4xl">
                   Ideas moving between crop and data
                 </h2>
-                <Link
-                  href="/blog"
-                  className="mt-5 inline-block text-sm text-accent underline underline-offset-4"
-                >
-                  Open research notebook
-                </Link>
+                <div className="mt-6">
+                  <Link href="/blog" className="btn-outline text-sm">
+                    Open research notebook
+                  </Link>
+                </div>
               </div>
 
-              <ul className="lg:col-span-8">
+              <ul className="grid gap-5 md:grid-cols-2 lg:col-span-8">
                 {latestPosts.map((post) => {
                   const image = post.visualSummary || post.image;
                   return (
-                    <li
-                      key={post.slug}
-                      className={`relative grid gap-x-8 gap-y-4 border-t border-border py-6 first:border-t-0 first:pt-0 ${
-                        image ? "sm:grid-cols-3" : ""
-                      }`}
-                    >
-                      {image && (
-                        <div className="relative aspect-[4/3] max-w-xs overflow-hidden rounded-md border border-border sm:max-w-none">
+                    <li key={post.slug} className="paper-panel flex flex-col">
+                      {image ? (
+                        <div className="relative aspect-[16/10] border-b border-border">
                           <Image
                             src={image}
                             alt=""
                             fill
-                            sizes="(max-width: 640px) 320px, 240px"
+                            sizes="(max-width: 768px) 100vw, 360px"
                             className="object-cover"
                           />
                         </div>
+                      ) : (
+                        // No image: a tinted band with the notebook's field icon and the post's first tag.
+                        <div className="flex items-center justify-between gap-4 border-b border-border bg-field-wash px-6 py-5">
+                          <span className="flex size-11 shrink-0 items-center justify-center rounded-xl bg-card text-field">
+                            <FieldIcon size={22} />
+                          </span>
+                          {post.tags[0] && (
+                            <span className="rounded-full border border-field/20 bg-card px-3 py-1 text-xs font-semibold text-field">
+                              {post.tags[0]}
+                            </span>
+                          )}
+                        </div>
                       )}
-                      <div className={image ? "sm:col-span-2" : undefined}>
-                        <time
-                          dateTime={post.date}
-                          className="text-sm tabular-nums text-muted-foreground"
-                        >
-                          {formatContentDate(post.date, {
-                            month: "short",
-                            day: "numeric",
-                          })}
-                        </time>
-                        <h3 className="mt-1 text-xl leading-snug text-foreground">
-                          {/* The link's ::after covers the row, so the thumbnail is clickable too. */}
+                      <div className="flex flex-1 flex-col p-6">
+                        <p className="flex justify-between gap-4 text-sm tabular-nums text-muted-foreground">
+                          <time dateTime={post.date}>
+                            {formatContentDate(post.date, {
+                              month: "short",
+                              day: "numeric",
+                            })}
+                          </time>
+                          <span>{post.readingTime}</span>
+                        </p>
+                        <h3 className="mt-3 text-xl leading-snug text-foreground">
+                          {/* The link's ::after covers the card, so the image or band is clickable too. */}
                           <Link
                             href={`/blog/${post.slug}`}
                             className="underline-offset-4 after:absolute after:inset-0 hover:underline"
@@ -177,13 +194,10 @@ export default function Home() {
                           </Link>
                         </h3>
                         {post.description && (
-                          <p className="mt-2 line-clamp-3 max-w-[60ch] text-base leading-relaxed text-muted-foreground">
+                          <p className="mt-3 line-clamp-3 text-sm leading-relaxed text-muted-foreground">
                             {post.description}
                           </p>
                         )}
-                        <p className="mt-2 text-sm tabular-nums text-muted-foreground">
-                          {post.readingTime}
-                        </p>
                       </div>
                     </li>
                   );
@@ -209,43 +223,56 @@ export default function Home() {
               </h2>
             </div>
 
-            <div className="lg:col-span-8">
-              <ul>
-                {opportunities.map((opportunity) => (
-                  <li
-                    key={opportunity.title}
-                    className="border-t border-border py-6 first:border-t-0 first:pt-0"
-                  >
-                    {/* The base h3 rule is unlayered, so the sans needs the important flag to win. */}
-                    <h3 className="font-sans! text-base font-semibold leading-relaxed text-foreground">
-                      {opportunity.title}
-                    </h3>
-                    <p className="mt-1 text-sm text-muted-foreground">{opportunity.detail}</p>
-                  </li>
-                ))}
+            <div className="grid gap-5 md:grid-cols-2 lg:col-span-8">
+              <ul className="paper-panel divide-y divide-border px-5 sm:px-6 md:col-span-2">
+                {opportunities.map((opportunity) => {
+                  const Icon = opportunity.icon;
+                  return (
+                    <li key={opportunity.title} className="flex items-center gap-4 py-5">
+                      <span
+                        className={`flex size-11 shrink-0 items-center justify-center rounded-xl ${opportunity.tile}`}
+                      >
+                        <Icon size={22} strokeWidth={1.5} aria-hidden="true" />
+                      </span>
+                      <div>
+                        <h3 className="text-xl leading-tight text-foreground">{opportunity.title}</h3>
+                        <p className="mt-1 text-sm leading-relaxed text-muted-foreground">
+                          {opportunity.detail}
+                        </p>
+                      </div>
+                    </li>
+                  );
+                })}
               </ul>
 
-              <div className="border-t border-border pt-6">
-                <p className="text-sm text-muted-foreground">Start a conversation</p>
+              <div className="paper-panel flex flex-col p-6">
+                <span className="flex size-11 shrink-0 items-center justify-center rounded-xl bg-field-wash text-field">
+                  <Mail size={22} strokeWidth={1.5} aria-hidden="true" />
+                </span>
+                <p className="mt-5 text-sm font-semibold text-muted-foreground">Start a conversation</p>
                 <a
                   href={`mailto:${personal.email}`}
-                  className="mt-1 inline-block break-all text-lg text-accent underline-offset-4 hover:underline"
+                  className="mt-1 break-all font-serif text-2xl font-semibold leading-tight text-foreground underline-offset-4 hover:text-field hover:underline"
                 >
                   {personal.email}
                 </a>
-                <ul className="mt-3 flex flex-wrap gap-x-5 gap-y-2 text-sm">
-                  {socialLinks.map((link) => (
-                    <li key={link.label}>
-                      <a
-                        href={link.href}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-accent underline-offset-4 hover:underline"
-                      >
-                        {link.label}
-                      </a>
-                    </li>
-                  ))}
+                <ul className="mt-auto flex flex-wrap gap-2 pt-6 text-sm">
+                  {socialLinks.map((link) => {
+                    const Icon = link.icon;
+                    return (
+                      <li key={link.label}>
+                        <a
+                          href={link.href}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="paper-control inline-flex items-center gap-2 px-3 py-2 text-foreground hover:text-field"
+                        >
+                          <Icon className="size-4 text-field" strokeWidth={1.8} aria-hidden="true" />
+                          {link.label}
+                        </a>
+                      </li>
+                    );
+                  })}
                 </ul>
               </div>
 
@@ -258,23 +285,30 @@ export default function Home() {
   );
 }
 
+// Icons and families as the previous design had them: roles field, collaborations biology, consulting data.
 const opportunities = [
   {
     title: "Research Scientist and Data Scientist roles",
     detail: "Ag-biotech, diagnostics and trait discovery",
+    icon: BriefcaseBusiness,
+    tile: "bg-field-wash text-field",
   },
   {
     title: "Research collaborations",
     detail: "Field biology, multi-omics and reproducible analysis",
+    icon: Handshake,
+    tile: "bg-biology-wash text-biology",
   },
   {
     title: "Scientific consulting",
     detail: "From experimental design to decision-ready evidence",
+    icon: Compass,
+    tile: "bg-data-wash text-data",
   },
 ];
 
 const socialLinks = [
-  { label: "Scholar", href: personal.social.googleScholar },
-  { label: "LinkedIn", href: personal.social.linkedin },
-  { label: "GitHub", href: personal.social.github },
+  { label: "Scholar", href: personal.social.googleScholar, icon: GraduationCap },
+  { label: "LinkedIn", href: personal.social.linkedin, icon: Linkedin },
+  { label: "GitHub", href: personal.social.github, icon: Github },
 ].filter((link) => link.href);

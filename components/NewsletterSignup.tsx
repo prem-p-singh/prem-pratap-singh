@@ -2,6 +2,7 @@
 
 import Script from "next/script";
 import { FormEvent, useCallback, useEffect, useRef, useState } from "react";
+import { ResearchDeliveryIcon } from "@/components/icons/PortfolioIcons";
 
 type FormState = "idle" | "submitting" | "success" | "error";
 
@@ -141,12 +142,12 @@ export default function NewsletterSignup() {
   };
 
   return (
-    <div className="mt-8 border-t border-border pt-6">
-      {/* The base h3 rule is unlayered, so the sans needs the important flag to win. */}
-      <h3 className="font-sans! text-base font-semibold leading-relaxed text-foreground">
-        Occasional field notes
-      </h3>
-      <p className="mt-1 text-sm text-muted-foreground">New research, no noise.</p>
+    <div className="paper-panel flex flex-col p-6">
+      <span className="flex size-11 shrink-0 items-center justify-center rounded-xl bg-decision-wash text-decision">
+        <ResearchDeliveryIcon size={22} />
+      </span>
+      <h3 className="mt-5 text-xl leading-tight text-foreground">Occasional field notes</h3>
+      <p className="mt-1 text-sm leading-relaxed text-muted-foreground">New research, no noise.</p>
 
       {turnstileConfigured ? (
         <Script
@@ -156,8 +157,8 @@ export default function NewsletterSignup() {
         />
       ) : null}
 
-      <form onSubmit={handleSubmit} className="mt-4 flex max-w-xl flex-col gap-2">
-        <label htmlFor="newsletter-email" className="text-sm text-muted-foreground">
+      <form onSubmit={handleSubmit} className="mt-auto flex flex-col gap-2 pt-6">
+        <label htmlFor="newsletter-email" className="text-sm font-semibold text-muted-foreground">
           Email address
         </label>
         <div className="flex flex-col gap-2 sm:flex-row">
