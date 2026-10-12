@@ -973,8 +973,8 @@ h1, h2, h3 {
    ═══════════════════════════════════════════════════════════════════════════ */
 
 /* Article body: serif for reading, capped measure. Tables, code and captions stay sans. */
-.prose p,
-.prose li {
+/* not-prose is excluded by hand: Tailwind typography only honours it for its own rules. */
+.prose :is(p, li):not(:where([class~="not-prose"], [class~="not-prose"] *, table *, figcaption *, pre *)) {
   font-family: var(--font-stix), "STIX Two Text", Georgia, "Times New Roman", serif;
   line-height: 1.65;
   max-width: 70ch;
