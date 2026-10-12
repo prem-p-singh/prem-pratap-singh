@@ -11,6 +11,37 @@ import {
 } from "@/components/icons/PortfolioIcons";
 
 type StageId = "crop" | "signal" | "intelligence" | "improvement";
+type Tone = "field" | "biology" | "data" | "decision";
+
+// Family colours, written out in full so Tailwind can see every class.
+const tones: Record<Tone, { tile: string; edge: string; selected: string; link: string }> = {
+  field: {
+    tile: "bg-field-wash text-field",
+    edge: "bg-field",
+    selected: "aria-selected:border-field",
+    link: "text-field",
+  },
+  biology: {
+    tile: "bg-biology-wash text-biology",
+    edge: "bg-biology",
+    selected: "aria-selected:border-biology",
+    link: "text-biology",
+  },
+  data: {
+    tile: "bg-data-wash text-data",
+    edge: "bg-data",
+    selected: "aria-selected:border-data",
+    link: "text-data",
+  },
+  decision: {
+    tile: "bg-decision-wash text-decision",
+    edge: "bg-decision",
+    selected: "aria-selected:border-decision",
+    link: "text-decision",
+  },
+};
+
+const iconTile = "flex size-11 shrink-0 items-center justify-center rounded-xl";
 
 type Stage = {
   id: StageId;
@@ -21,6 +52,7 @@ type Stage = {
   href: string;
   linkLabel: string;
   icon: ComponentType<IconProps>;
+  tone: Tone;
 };
 
 const stages: Stage[] = [
@@ -33,6 +65,7 @@ const stages: Stage[] = [
     href: "/#experience",
     linkLabel: "See the field program",
     icon: FieldIcon,
+    tone: "field",
   },
   {
     id: "signal",
@@ -43,6 +76,7 @@ const stages: Stage[] = [
     href: "/#skills",
     linkLabel: "See the laboratory toolkit",
     icon: BenchIcon,
+    tone: "biology",
   },
   {
     id: "intelligence",
@@ -53,6 +87,7 @@ const stages: Stage[] = [
     href: "/methods/causal-mediation",
     linkLabel: "Visit the methods lab",
     icon: AnalysisIcon,
+    tone: "data",
   },
   {
     id: "improvement",
@@ -63,18 +98,31 @@ const stages: Stage[] = [
     href: "/#projects",
     linkLabel: "See the research outcomes",
     icon: CropIcon,
+    tone: "decision",
   },
 ];
 
-const fieldNotes = [
-  { label: "Field", value: "327 vine samples, two seasons" },
-  { label: "Bench", value: "dPCR, RNA-seq and metabolites" },
-  { label: "Analysis", value: "Mechanisms, markers and trait leads" },
+const fieldNotes: Array<{
+  label: string;
+  value: string;
+  icon: ComponentType<IconProps>;
+  tone: Tone;
+}> = [
+  { label: "Field", value: "327 vine samples, two seasons", icon: FieldIcon, tone: "field" },
+  { label: "Bench", value: "dPCR, RNA-seq and metabolites", icon: BenchIcon, tone: "biology" },
+  {
+    label: "Analysis",
+    value: "Mechanisms, markers and trait leads",
+    icon: AnalysisIcon,
+    tone: "data",
+  },
 ];
 
 export default function ResearchPathway() {
   const [activeId, setActiveId] = useState<StageId>("crop");
   const active = stages.find((stage) => stage.id === activeId) ?? stages[0];
+  const ActiveIcon = active.icon;
+  const activeTone = tones[active.tone];
 
   // Arrow keys, Home and End move focus and selection together, from the focused step.
   // Modified keys are left alone so browser and system shortcuts keep working.
@@ -124,16 +172,23 @@ export default function ResearchPathway() {
             </p>
             <p className="mt-3 text-sm text-muted-foreground">Davis, California</p>
 
-            <dl className="mt-8 text-sm leading-normal">
-              {fieldNotes.map((note) => (
-                <div
-                  key={note.label}
-                  className="grid grid-cols-[5.5rem_1fr] gap-x-4 border-t border-border py-3"
-                >
-                  <dt className="text-muted-foreground">{note.label}</dt>
-                  <dd className="tabular-nums text-foreground">{note.value}</dd>
-                </div>
-              ))}
+            <dl className="paper-panel mt-8 divide-y divide-border px-5 text-sm leading-normal">
+              {fieldNotes.map((note) => {
+                const Icon = note.icon;
+                return (
+                  <div key={note.label} className="relative py-4 pl-15">
+                    <dt className="text-muted-foreground">
+                      <span
+                        className={`absolute inset-y-0 left-0 my-auto ${iconTile} ${tones[note.tone].tile}`}
+                      >
+                        <Icon size={22} />
+                      </span>
+                      {note.label}
+                    </dt>
+                    <dd className="font-medium tabular-nums text-foreground">{note.value}</dd>
+                  </div>
+                );
+              })}
             </dl>
           </div>
 
@@ -146,6 +201,7 @@ export default function ResearchPathway() {
             >
               {stages.map((stage, index) => {
                 const Icon = stage.icon;
+                const tone = tones[stage.tone];
                 return (
                   <button
                     key={stage.id}
@@ -156,11 +212,15 @@ export default function ResearchPathway() {
                     tabIndex={stage.id === active.id ? 0 : -1}
                     aria-controls="research-pathway-panel"
                     onClick={() => setActiveId(stage.id)}
-                    className="-ml-px flex items-center gap-3 border-l-2 border-transparent py-3 pl-4 text-left text-muted-foreground transition-colors hover:text-foreground aria-selected:border-accent aria-selected:text-foreground md:-mt-px md:ml-0 md:flex-col md:items-start md:gap-2 md:border-l-0 md:border-t-2 md:pb-0 md:pl-0 md:pr-4 md:pt-4"
+                    className={`-ml-px flex items-center gap-3 border-l-2 border-transparent py-3 pl-4 text-left text-muted-foreground transition-colors hover:text-foreground aria-selected:text-foreground md:-mt-px md:ml-0 md:flex-col md:items-start md:gap-3 md:border-l-0 md:border-t-2 md:pb-0 md:pl-0 md:pr-4 md:pt-4 ${tone.selected}`}
                   >
-                    <span className="text-xs tabular-nums">{index + 1}</span>
-                    <Icon className="shrink-0" />
-                    <span className="text-sm font-semibold leading-snug">{stage.label}</span>
+                    <span className={`${iconTile} ${tone.tile}`}>
+                      <Icon size={22} />
+                    </span>
+                    <span className="text-sm font-semibold leading-snug">
+                      <span className="mr-2 tabular-nums">{index + 1}</span>
+                      {stage.label}
+                    </span>
                   </button>
                 );
               })}
@@ -172,25 +232,39 @@ export default function ResearchPathway() {
               tabIndex={0}
               aria-labelledby={`research-pathway-tab-${active.id}`}
               aria-live="polite"
-              className="mt-10"
+              className="paper-panel mt-8 p-6 sm:p-8"
             >
-              <h3 className="text-2xl leading-tight text-foreground sm:text-3xl">{active.label}</h3>
-              <p className="mt-2 text-base text-muted-foreground">{active.cue}</p>
-
-              <dl className="mt-6 text-sm leading-normal">
-                <div className="grid gap-x-4 gap-y-1 border-t border-border py-3 sm:grid-cols-[12rem_1fr]">
-                  <dt className="text-muted-foreground">Evidence carried forward</dt>
-                  <dd className="tabular-nums text-foreground">{active.evidence}</dd>
+              <span className={`absolute inset-x-0 top-0 h-1 ${activeTone.edge}`} aria-hidden="true" />
+              <div className="flex items-start justify-between gap-5">
+                <div>
+                  <h3 className="text-2xl leading-tight text-foreground sm:text-3xl">
+                    {active.label}
+                  </h3>
+                  <p className="mt-2 text-base text-muted-foreground">{active.cue}</p>
                 </div>
-                <div className="grid gap-x-4 gap-y-1 border-t border-border py-3 sm:grid-cols-[12rem_1fr]">
+                <span className={`${iconTile} ${activeTone.tile}`}>
+                  <ActiveIcon size={22} />
+                </span>
+              </div>
+
+              <dl className="mt-6 grid border-y border-border text-sm leading-normal sm:grid-cols-2 sm:divide-x sm:divide-border">
+                <div className="py-5 sm:pr-6">
+                  <dt className="text-muted-foreground">Evidence carried forward</dt>
+                  <dd className="mt-2 text-base font-medium leading-snug tabular-nums text-foreground">
+                    {active.evidence}
+                  </dd>
+                </div>
+                <div className="border-t border-border py-5 sm:border-t-0 sm:pl-6">
                   <dt className="text-muted-foreground">What it changes</dt>
-                  <dd className="text-foreground">{active.translation}</dd>
+                  <dd className="mt-2 text-base font-medium leading-snug text-foreground">
+                    {active.translation}
+                  </dd>
                 </div>
               </dl>
 
               <Link
                 href={active.href}
-                className="mt-4 inline-block text-sm text-accent underline-offset-4 hover:underline"
+                className={`mt-5 inline-block text-sm font-semibold underline underline-offset-4 ${activeTone.link}`}
               >
                 {active.linkLabel}
               </Link>
