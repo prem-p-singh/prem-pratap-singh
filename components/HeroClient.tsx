@@ -1,111 +1,107 @@
-"use client";
-
 import Image from "next/image";
-import { Github, GraduationCap, Linkedin, Mail, type LucideIcon } from "lucide-react";
+import { workExperience } from "@/profile/experience";
 import { personal } from "@/profile/personal";
+import { projects } from "@/profile/projects";
+import { bookChapters, publications } from "@/profile/publications";
 
-const socialLinks: Array<{ label: string; href: string; icon: LucideIcon }> = [
-  { label: "GitHub", href: personal.social.github, icon: Github },
-  { label: "LinkedIn", href: personal.social.linkedin, icon: Linkedin },
-  { label: "Google Scholar", href: personal.social.googleScholar, icon: GraduationCap },
-  { label: "Email", href: `mailto:${personal.email}`, icon: Mail },
+const currentRole = workExperience.find(
+  (role) => role.endDate === "Present" && role.organization.includes("Davis")
+);
+const study = projects[0];
+const articleCount = publications.filter(
+  (publication) => publication.venue !== "In Preparation"
+).length;
+
+const facts = [
+  currentRole && {
+    label: "Now",
+    value: `${currentRole.title}, ${currentRole.organization}`,
+  },
+  // Wording from the study description in profile/projects.ts.
+  {
+    label: "Study",
+    value:
+      "Grapevine Red Blotch Virus, 327 vine samples across two growing seasons and four ripening stages",
+  },
+  { label: "Methods", value: study.tech.join(", ") },
+  {
+    label: "Published",
+    value: `${articleCount} peer-reviewed articles, ${bookChapters.length} book chapters`,
+  },
+].filter((fact) => !!fact);
+
+const links = [
+  { label: personal.email, href: `mailto:${personal.email}` },
+  { label: "GitHub", href: personal.social.github },
+  { label: "LinkedIn", href: personal.social.linkedin },
+  { label: "Google Scholar", href: personal.social.googleScholar },
 ];
 
 export default function HeroClient() {
   return (
-    <section id="about" data-guided-scroll-section className="guided-scroll-section relative flex items-center overflow-hidden pt-16">
-      <div className="absolute inset-0 bg-dot-grid opacity-20" />
-      <div className="relative mx-auto max-w-6xl px-4 pb-6 pt-10 sm:px-6 sm:pb-8 sm:pt-12 lg:px-8">
-        <div className="grid items-center gap-14 lg:grid-cols-2">
-          <div className="order-2 lg:order-2">
-            <p className="text-sm font-semibold text-field">
-              Crop biology, measured carefully
-            </p>
-            <h1 className="mt-3 text-4xl font-bold leading-tight text-foreground sm:text-5xl lg:text-6xl">
-              {personal.name}
-            </h1>
-            <p className="mt-4 text-lg font-semibold leading-snug text-foreground sm:text-xl">
-              {personal.heroRole}
-            </p>
-            <p className="mt-5 max-w-xl text-base leading-7 text-muted-foreground sm:text-lg sm:leading-8">
-              {personal.heroBio}
-            </p>
+    <section id="about" data-guided-scroll-section className="guided-scroll-section pt-16">
+      <div className="mx-auto grid max-w-6xl gap-x-8 gap-y-10 px-4 pb-10 pt-10 sm:px-6 sm:pt-12 lg:grid-cols-12 lg:px-8 lg:pb-14 lg:pt-14">
+        <div className="lg:col-span-7">
+          <h1 className="text-4xl leading-tight text-foreground sm:text-5xl lg:text-6xl">
+            {personal.name}
+          </h1>
+          <p className="mt-4 text-lg font-medium text-foreground">{personal.heroRole}</p>
+          <p className="mt-5 max-w-[60ch] font-serif text-base leading-relaxed text-foreground">
+            {personal.heroBio}
+          </p>
 
-            <div className="mt-6 flex flex-wrap gap-2">
-              {["UC Davis", "Grapevine virology", "Open to Research Scientist and Data Scientist roles"].map((label, index) => (
-                <span
-                  key={label}
-                  className={`rounded-full px-3 py-1.5 text-xs font-semibold ${
-                    index === 0
-                      ? "border border-field/20 bg-field-wash text-field"
-                      : index === 1
-                        ? "border border-biology/20 bg-biology-wash text-biology"
-                        : "border border-data/20 bg-data-wash text-data"
-                  }`}
-                >
-                  {label}
-                </span>
-              ))}
-            </div>
-
-            <div className="mt-9 flex flex-wrap gap-4">
-              <a href="#capabilities" className="btn-primary">
-                Explore research
-              </a>
-              <a
-                href="/cv.pdf"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="btn-outline"
-              >
-                CV
-              </a>
-            </div>
-
-            <div className="mt-8 flex items-center gap-3">
-              {socialLinks.map((social) => {
-                const Icon = social.icon;
-                const external = !social.href.startsWith("mailto:");
-                return (
+          <div className="mt-8 flex flex-wrap gap-3">
+            <a href="#capabilities" className="btn-primary">
+              Explore research
+            </a>
+            <a href="/cv.pdf" target="_blank" rel="noopener noreferrer" className="btn-outline">
+              CV
+            </a>
+          </div>
+          <p className="mt-5 max-w-[60ch] text-sm leading-normal text-muted-foreground">
+            {personal.openTo}
+          </p>
+          <ul className="mt-3 flex flex-wrap gap-x-5 gap-y-2 text-sm">
+            {links.map((link) => {
+              const external = !link.href.startsWith("mailto:");
+              return (
+                <li key={link.label}>
                   <a
-                    key={social.label}
-                    href={social.href}
+                    href={link.href}
                     target={external ? "_blank" : undefined}
                     rel={external ? "noopener noreferrer" : undefined}
-                    className="paper-control flex size-10 items-center justify-center text-muted-foreground hover:text-field"
-                    aria-label={social.label}
-                    title={social.label}
+                    className="text-accent underline-offset-4 hover:underline"
                   >
-                    <Icon className="size-4" strokeWidth={1.8} aria-hidden="true" />
+                    {link.label}
                   </a>
-                );
-              })}
-            </div>
-          </div>
+                </li>
+              );
+            })}
+          </ul>
 
-          <div className="order-1 flex justify-center lg:order-1">
-            <div className="relative size-72 sm:size-80 lg:size-96">
-              <div className="absolute inset-0 rounded-full bg-[conic-gradient(from_210deg,var(--field-wash),var(--biology-wash),var(--data-wash),var(--field-wash))] blur-3xl" />
-              <div className="relative size-full overflow-hidden rounded-full border-2 border-field/30 shadow-2xl">
-                <Image
-                  src="/images/headshot-1.jpg"
-                  alt={personal.name}
-                  fill
-                  sizes="(max-width: 640px) 18rem, (max-width: 1024px) 20rem, 24rem"
-                  className="object-cover"
-                  priority
-                />
+          <dl className="mt-10 text-sm leading-normal">
+            {facts.map((fact) => (
+              <div
+                key={fact.label}
+                className="grid grid-cols-[5.5rem_1fr] gap-x-4 border-t border-border py-3 sm:grid-cols-[7rem_1fr]"
+              >
+                <dt className="text-muted-foreground">{fact.label}</dt>
+                <dd className="tabular-nums text-foreground">{fact.value}</dd>
               </div>
-              <span className="absolute -left-3 top-12 rounded-full border border-field/30 bg-card/90 px-4 py-2 text-base font-bold leading-none text-field shadow-lg backdrop-blur-sm sm:-left-10">
-                FIELD
-              </span>
-              <span className="absolute -right-2 top-1/2 rounded-full border border-biology/30 bg-card/90 px-4 py-2 text-base font-bold leading-none text-biology shadow-lg backdrop-blur-sm sm:-right-12">
-                BENCH
-              </span>
-              <span className="absolute bottom-8 left-5 rounded-full border border-data/30 bg-card/90 px-4 py-2 text-base font-bold leading-none text-data shadow-lg backdrop-blur-sm sm:left-0">
-                CODE
-              </span>
-            </div>
+            ))}
+          </dl>
+        </div>
+
+        <div className="lg:col-span-4 lg:col-start-9">
+          <div className="relative aspect-[4/5] max-w-xs overflow-hidden rounded-md border border-border lg:max-w-none">
+            <Image
+              src="/images/headshot-1.jpg"
+              alt={personal.name}
+              fill
+              sizes="(min-width: 1024px) 341px, 320px"
+              className="object-cover"
+              priority
+            />
           </div>
         </div>
       </div>
