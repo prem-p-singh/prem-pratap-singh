@@ -51,11 +51,11 @@
     </g>
     <g id="DiagnosticsIcon" transform="translate(636 24)">
       <svg width="96" height="96" viewBox="0 0 24 24">
-        <path d="M17.5 2L12.5 8.5L13.5 9.5L20.5 5Z" />
-        <path d="M19 3.5L20.5 2" />
-        <circle cx="11" cy="11.5" r="1" fill="#1e2227" stroke="none" />
-        <path d="M6 14H16M7.5 14V18L11 22L14.5 18V14" />
-        <path d="M7.5 18H14.5" />
+        <path d="M10 2H14M12 2V4.5M15 6H17.5V8.5" />
+        <rect x="9" y="4.5" width="6" height="5.5" rx="1.5" />
+        <path d="M10 10L11 15H13L14 10" />
+        <circle cx="12" cy="18.5" r="1" fill="#1e2227" stroke="none" />
+        <path d="M4 17.5H6.5M17.5 17.5H20M6.5 17.5V20A2 2 0 0 0 8.5 22H15.5A2 2 0 0 0 17.5 20V17.5" />
       </svg>
     </g>
     <g id="OmicsIcon" transform="translate(756 24)">
@@ -137,11 +137,11 @@
     </g>
     <g id="DiagnosticsIcon-24" transform="translate(672 160)">
       <svg width="24" height="24" viewBox="0 0 24 24">
-        <path d="M17.5 2L12.5 8.5L13.5 9.5L20.5 5Z" />
-        <path d="M19 3.5L20.5 2" />
-        <circle cx="11" cy="11.5" r="1" fill="#1e2227" stroke="none" />
-        <path d="M6 14H16M7.5 14V18L11 22L14.5 18V14" />
-        <path d="M7.5 18H14.5" />
+        <path d="M10 2H14M12 2V4.5M15 6H17.5V8.5" />
+        <rect x="9" y="4.5" width="6" height="5.5" rx="1.5" />
+        <path d="M10 10L11 15H13L14 10" />
+        <circle cx="12" cy="18.5" r="1" fill="#1e2227" stroke="none" />
+        <path d="M4 17.5H6.5M17.5 17.5H20M6.5 17.5V20A2 2 0 0 0 8.5 22H15.5A2 2 0 0 0 17.5 20V17.5" />
       </svg>
     </g>
     <g id="OmicsIcon-24" transform="translate(792 160)">
