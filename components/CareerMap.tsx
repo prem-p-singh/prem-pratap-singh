@@ -170,6 +170,7 @@ export default function CareerMap() {
             <div
               id="career-growth-panel"
               role="tabpanel"
+              tabIndex={0}
               aria-labelledby={`career-growth-tab-${active.id}`}
               aria-live="polite"
               className="mt-10"

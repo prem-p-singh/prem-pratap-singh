@@ -169,6 +169,7 @@ export default function ResearchPathway() {
             <div
               id="research-pathway-panel"
               role="tabpanel"
+              tabIndex={0}
               aria-labelledby={`research-pathway-tab-${active.id}`}
               aria-live="polite"
               className="mt-10"

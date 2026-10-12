@@ -148,6 +148,7 @@ export default function JourneyChapters() {
                 <span className="ml-3">{chapter.period}</span>
               </span>
               <span className="text-sm font-semibold leading-snug">{chapter.title}</span>
+              <span className="text-xs font-normal text-muted-foreground">{chapter.place}</span>
             </button>
           ))}
         </div>
@@ -155,6 +156,7 @@ export default function JourneyChapters() {
         <div
           id="journey-chapter-panel"
           role="tabpanel"
+          tabIndex={0}
           aria-labelledby={`journey-chapter-tab-${active.id}`}
           aria-live="polite"
           className="mt-10"
