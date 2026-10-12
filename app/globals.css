@@ -344,27 +344,8 @@ h1, h2, h3 {
 /* Panels in other files position and clip their children against these. */
 .paper-panel {
   position: relative;
-  isolation: isolate;
   overflow: hidden;
   border-radius: 1.5rem;
-}
-
-/* Static corner accent in the field colour, behind the panel's content. */
-.paper-panel::after {
-  content: "";
-  position: absolute;
-  z-index: -1;
-  top: -1px;
-  right: -1px;
-  width: 24%;
-  min-width: 3.5rem;
-  height: 42%;
-  min-height: 1.5rem;
-  pointer-events: none;
-  border-top: 1px solid var(--field);
-  border-right: 1px solid var(--field);
-  border-top-right-radius: inherit;
-  opacity: 0.9;
 }
 
 .paper-button,

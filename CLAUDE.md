@@ -138,8 +138,8 @@ wheel handler or scroll snapping.
 
 `.paper-panel`, `.paper-button`, `.paper-control`, `.btn-primary` and
 `.btn-outline` share one rule set in `globals.css`: a 1px border, card
-background and a soft shadow. Panels have a 24px radius and a static
-corner accent in the `field` colour; buttons and controls have smaller radii.
+background and a soft shadow. Panels have a 24px radius; buttons and
+controls have smaller radii.
 `.btn-primary` is a solid green fill and `.btn-outline` sits on the card
 colour. Hover changes border colour and shadow only: nothing lifts, scales or
 animates. `.paper-panel` is used in about twenty files, so a change there is a
