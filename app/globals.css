@@ -154,22 +154,13 @@ html {
   scroll-behavior: smooth;
 }
 
-/* Homepage-only guided scrolling. Section padding and content heights remain
-   untouched; these values only define where a chapter settles below the nav. */
+/* Where an anchored homepage section settles below the fixed nav. */
 :root {
   --guided-scroll-offset: 5rem;
 }
 
 .guided-scroll-section {
   scroll-margin-top: var(--guided-scroll-offset);
-  scroll-snap-align: start;
-  scroll-snap-stop: normal;
-}
-
-@media (max-width: 1023px), (pointer: coarse) {
-  html.guided-scroll-page {
-    scroll-snap-type: y proximity;
-  }
 }
 
 @media (min-width: 1280px) and (pointer: fine) {
@@ -181,10 +172,6 @@ html {
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
-  }
-
-  html.guided-scroll-page {
-    scroll-snap-type: none;
   }
 }
 

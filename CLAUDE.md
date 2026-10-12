@@ -126,8 +126,9 @@ problem this scale exists to prevent.
 Headings run 30 / 36 / 48 for sections and 36 / 48 / 60 for the page title, one
 step apart at every breakpoint. Keep that gap when adding a section.
 
-Homepage scroll chapters come from `components/GuidedSectionScroll.tsx` plus the
-`.guided-scroll-section` class and the `--guided-scroll-offset` variable.
+Homepage sections clear the fixed nav through the `.guided-scroll-section` class
+and the `--guided-scroll-offset` variable. The page scrolls natively; there is no
+wheel handler or scroll snapping.
 
 ### Shared surface treatment
 

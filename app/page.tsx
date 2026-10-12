@@ -23,7 +23,6 @@ import ProjectCaseFiles from "@/components/ProjectCaseFiles";
 import ResearchSnapshot from "@/components/ResearchSnapshot";
 import WorkExperience from "@/components/WorkExperience";
 import NewsletterSignup from "@/components/NewsletterSignup";
-import GuidedSectionScroll from "@/components/GuidedSectionScroll";
 
 export default function Home() {
   const latestPosts = getAllPosts().slice(0, 2);
@@ -33,7 +32,6 @@ export default function Home() {
 
   return (
     <>
-      <GuidedSectionScroll />
       <HeroClient />
       <ResearchPathway />
       <ResearchSnapshot />
