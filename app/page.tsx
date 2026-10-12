@@ -45,25 +45,43 @@ export default function Home() {
             </div>
 
             <div className="lg:col-span-8">
-              <p className="text-base leading-relaxed text-foreground">
-                <span className="text-2xl font-semibold tabular-nums">
-                  {publishedJournalCount + bookChapters.length}
-                </span>{" "}
-                published works
-              </p>
-
-              <details className="group mt-6 border-t border-border">
-                <summary className="flex cursor-pointer list-none items-start justify-between gap-4 py-4 text-sm marker:content-none">
-                  <span>
-                    <span className="text-accent underline underline-offset-4">
-                      Browse the publication archive
-                    </span>
-                    <span className="mt-1 block text-muted-foreground">Filter by format and method</span>
+              <div className="paper-panel grid gap-6 p-6 sm:grid-cols-[auto_1fr] sm:items-center sm:gap-8 sm:p-7">
+                <p className="text-sm font-semibold leading-normal text-muted-foreground">
+                  <span className="block font-serif text-6xl leading-none tabular-nums text-field">
+                    {publishedJournalCount + bookChapters.length}
                   </span>
-                  <ChevronDown className="size-5 shrink-0 text-muted-foreground group-open:hidden" aria-hidden="true" />
-                  <ChevronUp className="hidden size-5 shrink-0 text-muted-foreground group-open:block" aria-hidden="true" />
+                  <span className="mt-2 block">published works</span>
+                </p>
+                <dl className="grid grid-cols-2 gap-3">
+                  <div className="flex flex-col-reverse justify-end rounded-xl bg-data-wash px-4 py-3">
+                    <dt className="text-sm font-semibold leading-snug text-foreground">Journal articles</dt>
+                    <dd className="text-2xl font-semibold tabular-nums text-data">
+                      {publishedJournalCount}
+                    </dd>
+                  </div>
+                  <div className="flex flex-col-reverse justify-end rounded-xl bg-decision-wash px-4 py-3">
+                    <dt className="text-sm font-semibold leading-snug text-foreground">Book chapters</dt>
+                    <dd className="text-2xl font-semibold tabular-nums text-decision">
+                      {bookChapters.length}
+                    </dd>
+                  </div>
+                </dl>
+              </div>
+
+              <details className="group mt-5">
+                <summary className="cursor-pointer list-none text-sm marker:content-none">
+                  <span className="paper-panel flex items-center justify-between gap-4 px-6 py-4">
+                    <span>
+                      <span className="font-semibold text-field underline underline-offset-4">
+                        Browse the publication archive
+                      </span>
+                      <span className="mt-1 block text-muted-foreground">Filter by format and method</span>
+                    </span>
+                    <ChevronDown className="size-5 shrink-0 text-muted-foreground group-open:hidden" aria-hidden="true" />
+                    <ChevronUp className="hidden size-5 shrink-0 text-muted-foreground group-open:block" aria-hidden="true" />
+                  </span>
                 </summary>
-                <div className="pt-4">
+                <div className="pt-5">
                   <PublicationsList publications={[...publications, ...bookChapters]} />
                 </div>
               </details>

@@ -5,8 +5,37 @@ import Image from "next/image";
 import { ChevronDown, ChevronUp } from "lucide-react";
 import type { Project } from "@/components/ProjectCard";
 
-const linkClass = "text-sm text-accent underline-offset-4 hover:underline";
-const detailRowClass = "grid gap-x-4 gap-y-1 border-t border-border py-3 sm:grid-cols-[12rem_1fr]";
+// Family colours cycle through the projects in the order the previous design used.
+// Classes are written out in full so Tailwind can see every one.
+const tones = [
+  {
+    edge: "bg-biology",
+    text: "text-biology",
+    wash: "bg-biology-wash",
+    tag: "border-biology/20 bg-biology-wash text-biology",
+  },
+  {
+    edge: "bg-field",
+    text: "text-field",
+    wash: "bg-field-wash",
+    tag: "border-field/20 bg-field-wash text-field",
+  },
+  {
+    edge: "bg-data",
+    text: "text-data",
+    wash: "bg-data-wash",
+    tag: "border-data/20 bg-data-wash text-data",
+  },
+  {
+    edge: "bg-decision",
+    text: "text-decision",
+    wash: "bg-decision-wash",
+    tag: "border-decision/20 bg-decision-wash text-decision",
+  },
+];
+
+const tagClass = "rounded-full border px-3 py-1 text-xs font-semibold";
+const detailRowClass = "grid gap-x-4 gap-y-2 py-4 sm:grid-cols-[12rem_1fr]";
 
 export default function ProjectCaseFiles({
   projects,
@@ -22,128 +51,153 @@ export default function ProjectCaseFiles({
 
   return (
     <div>
-      {visibleProjects.map((project, index) => {
-        const open = openIndex === index;
-        const panelId = `project-case-${index}`;
-        const methods = project.tech.slice(0, 3).join(", ");
-        const toolkit = Array.from(new Set([...(project.skills ?? []), ...project.tech]));
-        const Chevron = open ? ChevronUp : ChevronDown;
+      <div className="grid gap-5">
+        {visibleProjects.map((project, index) => {
+          const open = openIndex === index;
+          const tone = tones[index % tones.length];
+          const panelId = `project-case-${index}`;
+          const methods = project.tech.slice(0, 3);
+          const toolkit = Array.from(new Set([...(project.skills ?? []), ...project.tech]));
+          const Chevron = open ? ChevronUp : ChevronDown;
+          const linkClass = `text-sm font-semibold underline underline-offset-4 ${tone.text}`;
 
-        return (
-          <article
-            key={project.title}
-            className="border-t border-border py-6 first:border-t-0 first:pt-0"
-          >
-            {/* The button holds only the title. Its ::after covers the header, so the whole row toggles. */}
-            <div className="relative grid gap-x-8 gap-y-3 sm:grid-cols-[1fr_10rem]">
-              <div>
-                <p className="text-sm text-muted-foreground">{project.category || "Research"}</p>
-                {/* The base h3 rule is unlayered, so the sans needs the important flag to win. */}
-                <h3 className="font-sans! mt-1 text-lg font-semibold leading-snug text-foreground">
-                  <button
-                    type="button"
-                    aria-expanded={open}
-                    aria-controls={panelId}
-                    onClick={() => setOpenIndex(open ? null : index)}
-                    className="text-left after:absolute after:inset-0"
-                  >
-                    {project.title}
-                  </button>
-                </h3>
-                {project.question && (
-                  <p className="mt-2 max-w-[60ch] text-base leading-relaxed text-foreground">
-                    {project.question}
+          return (
+            <article key={project.title} className="paper-panel p-6 pl-7 sm:p-7 sm:pl-9">
+              <span className={`absolute inset-y-0 left-0 w-1.5 ${tone.edge}`} aria-hidden="true" />
+
+              {/* The button holds only the title. Its ::after covers the header, so the whole summary toggles. */}
+              <div className="relative grid gap-x-6 gap-y-5 sm:grid-cols-[1fr_12rem]">
+                <div>
+                  <p>
+                    <span className={`inline-block ${tagClass} ${tone.tag}`}>
+                      {project.category || "Research"}
+                    </span>
                   </p>
-                )}
-                <p className="mt-2 text-sm text-muted-foreground">Methods: {methods}</p>
-              </div>
-
-              <div className="flex items-start justify-between gap-4">
-                <p>
-                  <span className="block text-xl font-semibold leading-snug tabular-nums text-accent">
-                    {project.resultStat || "Evidence"}
-                  </span>
-                  <span className="text-sm text-muted-foreground">outcome</span>
-                </p>
-                <Chevron className="size-5 shrink-0 text-muted-foreground" aria-hidden="true" />
-              </div>
-            </div>
-
-            <div id={panelId} hidden={!open} className="pt-6">
-              <dl className="text-sm leading-normal">
-                <div className={detailRowClass}>
-                  <dt className="text-muted-foreground">What we did</dt>
-                  <dd className="text-foreground">{project.description}</dd>
+                  <h3 className="mt-4 text-2xl leading-tight text-foreground">
+                    <button
+                      type="button"
+                      aria-expanded={open}
+                      aria-controls={panelId}
+                      onClick={() => setOpenIndex(open ? null : index)}
+                      className="text-left after:absolute after:inset-0"
+                    >
+                      {project.title}
+                    </button>
+                  </h3>
+                  {project.question && (
+                    <p className="mt-3 max-w-[60ch] text-base leading-relaxed text-foreground">
+                      {project.question}
+                    </p>
+                  )}
+                  <ul className="mt-4 flex flex-wrap gap-2" aria-label="Methods">
+                    {methods.map((method) => (
+                      <li key={method} className={`${tagClass} ${tone.tag}`}>
+                        {method}
+                      </li>
+                    ))}
+                  </ul>
                 </div>
-                {project.impact && (
+
+                <div className={`flex flex-col justify-center rounded-xl p-5 pr-10 ${tone.wash}`}>
+                  <p>
+                    <span
+                      className={`block text-3xl font-semibold leading-tight tabular-nums ${tone.text}`}
+                    >
+                      {project.resultStat || "Evidence"}
+                    </span>
+                    <span className="mt-1 block text-sm text-muted-foreground">outcome</span>
+                  </p>
+                  <Chevron
+                    className="absolute right-3 top-3 size-5 text-muted-foreground"
+                    aria-hidden="true"
+                  />
+                </div>
+              </div>
+
+              <div id={panelId} hidden={!open} className="mt-6 border-t border-border pt-2">
+                <dl className="divide-y divide-border text-sm leading-normal">
                   <div className={detailRowClass}>
-                    <dt className="text-muted-foreground">What the data showed</dt>
-                    <dd className="tabular-nums text-foreground">{project.impact}</dd>
+                    <dt className="font-semibold text-foreground">What we did</dt>
+                    <dd className="text-foreground">{project.description}</dd>
+                  </div>
+                  {project.impact && (
+                    <div className={detailRowClass}>
+                      <dt className="font-semibold text-foreground">What the data showed</dt>
+                      <dd className="tabular-nums text-foreground">{project.impact}</dd>
+                    </div>
+                  )}
+                  <div className={detailRowClass}>
+                    <dt className="font-semibold text-foreground">Methods and capabilities</dt>
+                    <dd>
+                      <ul className="flex flex-wrap gap-2">
+                        {toolkit.map((item) => (
+                          <li key={item} className={`${tagClass} ${tone.tag}`}>
+                            {item}
+                          </li>
+                        ))}
+                      </ul>
+                    </dd>
+                  </div>
+                </dl>
+
+                {((project.papers && project.papers.length > 0) || project.links?.github) && (
+                  <div className="flex flex-wrap gap-x-5 gap-y-2 border-t border-border pt-4">
+                    {project.papers?.map((paper) => (
+                      <a
+                        key={paper.url}
+                        href={paper.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className={linkClass}
+                      >
+                        {paper.label}
+                      </a>
+                    ))}
+                    {project.links?.github && (
+                      <a
+                        href={project.links.github}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className={linkClass}
+                      >
+                        Analysis code
+                      </a>
+                    )}
                   </div>
                 )}
-                <div className={detailRowClass}>
-                  <dt className="text-muted-foreground">Methods and capabilities</dt>
-                  <dd className="text-foreground">{toolkit.join(", ")}</dd>
-                </div>
-              </dl>
 
-              {((project.papers && project.papers.length > 0) || project.links?.github) && (
-                <div className="flex flex-wrap gap-x-5 gap-y-2 border-t border-border pt-3">
-                  {project.papers?.map((paper) => (
-                    <a
-                      key={paper.url}
-                      href={paper.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className={linkClass}
-                    >
-                      {paper.label}
-                    </a>
-                  ))}
-                  {project.links?.github && (
-                    <a
-                      href={project.links.github}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className={linkClass}
-                    >
-                      Analysis code
-                    </a>
-                  )}
-                </div>
-              )}
-
-              {/* min-w-0 lets the figure shrink below its intrinsic width, so the
-                  overflow happens inside the scroller rather than widening the page. */}
-              {project.image && (
-                <figure className="mt-6 min-w-0">
-                  {/* Scrolls sideways on narrow screens. Shrinking a dense figure
-                      to phone width makes axis labels unreadable, so it keeps a
-                      legible minimum and the reader pans instead. */}
-                  <div className="overflow-x-auto rounded-md border border-border bg-card">
-                    <Image
-                      src={project.image}
-                      alt={project.imageCaption || `Figure from ${project.title}`}
-                      width={project.imageWidth ?? 1600}
-                      height={project.imageHeight ?? 1200}
-                      sizes="(max-width: 768px) 640px, (max-width: 1280px) 90vw, 800px"
-                      className="h-auto w-full min-w-[640px] max-w-none"
-                    />
-                  </div>
-                  {project.imageCaption && (
-                    <figcaption className="mt-3 text-xs leading-relaxed text-muted-foreground">
-                      {project.imageCaption}
-                    </figcaption>
-                  )}
-                </figure>
-              )}
-            </div>
-          </article>
-        );
-      })}
+                {/* min-w-0 lets the figure shrink below its intrinsic width, so the
+                    overflow happens inside the scroller rather than widening the page. */}
+                {project.image && (
+                  <figure className="mt-6 min-w-0">
+                    {/* Scrolls sideways on narrow screens. Shrinking a dense figure
+                        to phone width makes axis labels unreadable, so it keeps a
+                        legible minimum and the reader pans instead. */}
+                    <div className="overflow-x-auto rounded-xl border border-border bg-card">
+                      <Image
+                        src={project.image}
+                        alt={project.imageCaption || `Figure from ${project.title}`}
+                        width={project.imageWidth ?? 1600}
+                        height={project.imageHeight ?? 1200}
+                        sizes="(max-width: 768px) 640px, (max-width: 1280px) 90vw, 800px"
+                        className="h-auto w-full min-w-[640px] max-w-none"
+                      />
+                    </div>
+                    {project.imageCaption && (
+                      <figcaption className="mt-3 text-xs leading-relaxed text-muted-foreground">
+                        {project.imageCaption}
+                      </figcaption>
+                    )}
+                  </figure>
+                )}
+              </div>
+            </article>
+          );
+        })}
+      </div>
 
       {hiddenCount > 0 && (
-        <div className="mt-2 border-t border-border pt-6">
+        <div className="mt-6">
           <button
             type="button"
             onClick={() => {

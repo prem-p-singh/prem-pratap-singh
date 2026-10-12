@@ -22,28 +22,40 @@ const typeLabels = {
   book: "Book Chapter",
 };
 
-/** One publication as a reference-list row: year and type, then authors, title, venue, methods. */
+// Family per type, as the previous design had it: data for articles, decision for chapters.
+const typeTags: Record<Publication["type"], string> = {
+  journal: "border-data/20 bg-data-wash text-data",
+  conference: "border-field/20 bg-field-wash text-field",
+  preprint: "border-biology/20 bg-biology-wash text-biology",
+  thesis: "border-field/20 bg-field-wash text-field",
+  book: "border-decision/20 bg-decision-wash text-decision",
+};
+
+/** One publication as a row in the archive panel: year and type tag, then title, authors, venue, methods. */
 export default function PublicationCard({ publication }: { publication: Publication }) {
   const { title, authors, venue, year, type, methods, links } = publication;
   const href = links?.paper && links.paper !== "#" ? links.paper : undefined;
 
   return (
-    <div className="grid gap-x-8 gap-y-1 sm:grid-cols-[9rem_1fr]">
-      <p className="text-sm leading-normal tabular-nums text-muted-foreground">
-        {year}
-        <span className="sm:block"> {typeLabels[type]}</span>
+    <div className="grid gap-x-6 gap-y-3 sm:grid-cols-[8.5rem_1fr]">
+      <p className="flex items-center gap-3 sm:flex-col sm:items-start sm:gap-2">
+        <span className="text-base font-semibold leading-normal tabular-nums text-foreground">
+          {year}
+        </span>
+        <span className={`rounded-full border px-3 py-1 text-xs font-semibold ${typeTags[type]}`}>
+          {typeLabels[type]}
+        </span>
       </p>
 
       <div>
-        <p className="text-sm text-muted-foreground">{authors.join(", ")}</p>
         {/* The base h3 rule is unlayered, so the sans needs the important flag to win. */}
-        <h3 className="font-sans! text-wrap! mt-1 text-base font-semibold leading-snug text-foreground">
+        <h3 className="font-sans! text-wrap! text-base font-semibold leading-snug text-foreground">
           {href ? (
             <a
               href={href}
               target="_blank"
               rel="noopener noreferrer"
-              className="underline decoration-border underline-offset-4 transition-colors hover:text-accent hover:decoration-accent"
+              className="underline decoration-border underline-offset-4 transition-colors hover:text-field hover:decoration-field"
             >
               {title}
             </a>
@@ -51,6 +63,7 @@ export default function PublicationCard({ publication }: { publication: Publicat
             title
           )}
         </h3>
+        <p className="mt-2 text-sm text-muted-foreground">{authors.join(", ")}</p>
         <p className="mt-1 text-sm text-foreground">{venue}</p>
         {methods && methods.length > 0 && (
           <p className="mt-1 text-sm text-muted-foreground">{methods.join(", ")}</p>

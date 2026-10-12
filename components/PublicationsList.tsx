@@ -36,8 +36,8 @@ export default function PublicationsList({ publications }: { publications: Publi
 
   return (
     <>
-      <div className="flex flex-col gap-4 border-b border-border pb-5 sm:flex-row sm:items-center sm:justify-between">
-        <div className="flex flex-wrap gap-x-6 gap-y-2" role="group" aria-label="Filter publications by type">
+      <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+        <div className="flex flex-wrap gap-2" role="group" aria-label="Filter publications by type">
           {(["all", "journal", "book"] as FilterType[]).map((type) => {
             const label = type === "all" ? "All" : type === "journal" ? "Articles" : "Chapters";
             const count = type === "all" ? publications.length : publications.filter((publication) => publication.type === type).length;
@@ -47,9 +47,9 @@ export default function PublicationsList({ publications }: { publications: Publi
                 type="button"
                 aria-pressed={typeFilter === type}
                 onClick={() => selectType(type)}
-                className="text-sm text-muted-foreground underline-offset-8 transition-colors hover:text-foreground aria-pressed:font-semibold aria-pressed:text-foreground aria-pressed:underline aria-pressed:decoration-accent aria-pressed:decoration-2"
+                className="rounded-full border border-border bg-card px-3.5 py-1.5 text-xs font-semibold text-muted-foreground transition-colors hover:border-field hover:text-foreground aria-pressed:border-primary aria-pressed:bg-primary aria-pressed:text-primary-foreground"
               >
-                {label} <span className="font-normal tabular-nums text-muted-foreground">{count}</span>
+                {label} <span className="ml-1 font-normal tabular-nums">{count}</span>
               </button>
             );
           })}
@@ -74,21 +74,21 @@ export default function PublicationsList({ publications }: { publications: Publi
       </div>
 
       {displayed.length > 0 ? (
-        <ul>
+        <ul className="paper-panel mt-5 divide-y divide-border px-5 sm:px-7">
           {displayed.map((publication, index) => (
-            <li key={`${publication.title}-${index}`} className="border-b border-border py-5">
+            <li key={`${publication.title}-${index}`} className="py-5">
               <PublicationCard publication={publication} />
             </li>
           ))}
         </ul>
       ) : (
-        <p className="border-b border-border py-8 text-sm text-muted-foreground">
+        <p className="paper-panel mt-5 px-6 py-8 text-sm text-muted-foreground">
           No publications match these filters.
         </p>
       )}
 
       {filtered.length > INITIAL_COUNT && (
-        <div className="mt-6">
+        <div className="mt-5">
           <button type="button" onClick={() => setShowAll((value) => !value)} className="btn-outline">
             {showAll ? "Show less" : `Show ${filtered.length - INITIAL_COUNT} more`}
           </button>
