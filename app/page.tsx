@@ -108,14 +108,14 @@ export default function Home() {
             </div>
 
             <div className="grid gap-5 md:grid-cols-2">
-              {latestPosts.map((post, index) => (
+              {latestPosts.map((post) => (
                 <Link
                   key={post.slug}
                   href={`/blog/${post.slug}`}
-                  className="group overflow-hidden rounded-2xl border border-border bg-card transition-all hover:-translate-y-1 hover:border-primary/40 hover:shadow-xl hover:shadow-primary/5"
+                  className="group flex flex-col overflow-hidden rounded-2xl border border-border bg-card transition-all hover:-translate-y-1 hover:border-primary/40 hover:shadow-xl hover:shadow-primary/5"
                 >
-                  <div className="relative aspect-[16/10] overflow-hidden bg-muted">
-                    {post.visualSummary || post.image ? (
+                  {(post.visualSummary || post.image) && (
+                    <div className="relative aspect-[16/10] overflow-hidden bg-muted">
                       <Image
                         src={post.visualSummary || post.image!}
                         alt={post.title}
@@ -123,26 +123,18 @@ export default function Home() {
                         sizes="(max-width: 768px) 100vw, 50vw"
                         className="object-cover transition-transform duration-500 group-hover:scale-105"
                       />
-                    ) : (
-                      <div
-                        className={`relative flex h-full items-end overflow-hidden p-5 ${
-                          index === 0
-                            ? "bg-gradient-to-br from-field-wash to-data-wash"
-                            : index === 1
-                              ? "bg-gradient-to-br from-biology-wash to-data-wash"
-                              : "bg-gradient-to-br from-decision-wash to-biology-wash"
-                        }`}
-                      >
-                        <span className="absolute -right-8 -top-8 size-36 rounded-full border border-foreground/10" />
-                        <span className="absolute right-8 top-8 size-16 rounded-full border border-foreground/10" />
-                      </div>
-                    )}
-                  </div>
-                  <div className="p-5">
+                    </div>
+                  )}
+                  <div className="flex flex-1 flex-col gap-4 p-5">
                     <h3 className="line-clamp-2 text-lg font-semibold text-foreground transition-colors group-hover:text-primary">
                       {post.title}
                     </h3>
-                    <div className="mt-4 flex items-center justify-between border-t border-border pt-3 text-xs text-muted-foreground">
+                    {!(post.visualSummary || post.image) && post.description && (
+                      <p className="line-clamp-4 text-sm text-muted-foreground">
+                        {post.description}
+                      </p>
+                    )}
+                    <div className="mt-auto flex items-center justify-between border-t border-border pt-3 text-xs text-muted-foreground">
                       <time dateTime={post.date}>
                         {formatContentDate(post.date, {
                           month: "short",
