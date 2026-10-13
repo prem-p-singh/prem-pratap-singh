@@ -42,15 +42,15 @@ export function VineyardCaseFile() {
   const response = suspect ? suspectResponses[suspect] : null;
 
   return (
-    <section className="paper-panel not-prose my-10 overflow-hidden bg-card">
-      <div className="border-b border-border bg-card px-5 py-6 sm:px-7">
-        <div className="flex flex-wrap items-center gap-2 text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">
-          <span className="rounded-full bg-biology-wash px-2.5 py-1 text-biology">
+    <section className="paper-panel not-prose my-10">
+      <div className="border-b border-border px-5 py-6 sm:px-7">
+        <div className="flex flex-wrap items-center gap-2 text-sm font-semibold text-muted-foreground">
+          <span className="rounded-full border border-biology/20 bg-biology-wash px-3 py-1 text-xs font-semibold text-biology">
             Case file 01
           </span>
           Vineyard mystery
         </div>
-        <h2 className="mt-3 text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
+        <h2 className="mt-3 text-2xl leading-tight text-foreground sm:text-3xl">
           Which route fits?
         </h2>
         <p className="mt-2 max-w-2xl text-sm leading-relaxed text-muted-foreground sm:text-base">
@@ -68,15 +68,16 @@ export function VineyardCaseFile() {
                 type="button"
                 aria-pressed={active}
                 onClick={() => setSuspect(option.id)}
-                className={`w-full rounded-2xl border p-4 text-left transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50 ${
+                // .paper-control fixes its own colours, so the selected state swaps it for utilities.
+                className={`w-full p-4 text-left ${
                   active
-                    ? "border-primary bg-primary/[0.07] shadow-sm"
-                    : "border-border bg-background/60 hover:-translate-y-0.5 hover:border-primary/40"
+                    ? "rounded-[0.875rem] border border-primary bg-field-wash"
+                    : "paper-control"
                 }`}
               >
                 <span className="flex items-center gap-3">
                   <span
-                    className={`flex size-7 shrink-0 items-center justify-center rounded-full border text-xs font-bold ${
+                    className={`flex size-7 shrink-0 items-center justify-center rounded-full border text-xs font-semibold ${
                       active
                         ? "border-primary bg-primary text-primary-foreground"
                         : "border-border text-muted-foreground"
@@ -91,7 +92,7 @@ export function VineyardCaseFile() {
           })}
         </div>
 
-        <div className="rounded-2xl border border-border bg-background/70 p-5 sm:p-6">
+        <div className="rounded-2xl bg-muted p-5 sm:p-6">
           {!response ? (
             <div className="flex min-h-72 flex-col items-center justify-center text-center">
               <div className="flex w-full max-w-md items-center text-sm font-semibold text-foreground">
@@ -119,10 +120,10 @@ export function VineyardCaseFile() {
             </div>
           ) : (
             <div aria-live="polite">
-              <p className="text-xs font-semibold uppercase tracking-[0.16em] text-primary">
+              <p className="text-sm font-semibold text-field">
                 Evidence revealed
               </p>
-              <h3 className="mt-2 text-xl font-bold text-foreground">{response.title}</h3>
+              <h3 className="mt-2 text-xl leading-tight text-foreground">{response.title}</h3>
               <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
                 {response.body}
               </p>
@@ -135,7 +136,7 @@ export function VineyardCaseFile() {
                     </span>
                     <span className="tabular-nums text-muted-foreground">61.8%</span>
                   </div>
-                  <div className="h-3 overflow-hidden rounded-full bg-muted">
+                  <div className="h-3 overflow-hidden rounded-full bg-card">
                     <div className="h-full w-[61.8%] rounded-full bg-data" />
                   </div>
                 </div>
@@ -146,21 +147,21 @@ export function VineyardCaseFile() {
                     </span>
                     <span className="tabular-nums text-muted-foreground">38.2%</span>
                   </div>
-                  <div className="h-3 overflow-hidden rounded-full bg-muted">
+                  <div className="h-3 overflow-hidden rounded-full bg-card">
                     <div className="h-full w-[38.2%] rounded-full bg-biology" />
                   </div>
                 </div>
               </div>
 
               <div className="mt-6 grid grid-cols-2 gap-3">
-                <div className="rounded-xl bg-muted/70 p-3">
-                  <p className="text-2xl font-bold tabular-nums text-foreground">39</p>
+                <div className="rounded-xl bg-card p-3">
+                  <p className="text-2xl font-semibold tabular-nums text-foreground">39</p>
                   <p className="mt-1 text-xs leading-snug text-muted-foreground">
                     significant mediating genes
                   </p>
                 </div>
-                <div className="rounded-xl bg-muted/70 p-3">
-                  <p className="text-2xl font-bold tabular-nums text-foreground">2,000</p>
+                <div className="rounded-xl bg-card p-3">
+                  <p className="text-2xl font-semibold tabular-nums text-foreground">2,000</p>
                   <p className="mt-1 text-xs leading-snug text-muted-foreground">
                     bootstrap resamples
                   </p>
@@ -296,15 +297,15 @@ export function CropGrowthExplorer() {
   const yieldShare = 100 - landShare;
 
   return (
-    <section className="paper-panel not-prose my-10 overflow-hidden bg-card">
-      <div className="border-b border-border bg-card px-5 py-6 sm:px-7">
-        <div className="flex flex-wrap items-center gap-2 text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">
-          <span className="rounded-full bg-field-wash px-2.5 py-1 text-field">
+    <section className="paper-panel not-prose my-10">
+      <div className="border-b border-border px-5 py-6 sm:px-7">
+        <div className="flex flex-wrap items-center gap-2 text-sm font-semibold text-muted-foreground">
+          <span className="rounded-full border border-field/20 bg-field-wash px-3 py-1 text-xs font-semibold text-field">
             Case file 02
           </span>
           The method goes travelling
         </div>
-        <h2 className="mt-3 text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
+        <h2 className="mt-3 text-2xl leading-tight text-foreground sm:text-3xl">
           More farmland or better harvests?
         </h2>
         <p className="mt-2 max-w-2xl text-sm leading-relaxed text-muted-foreground sm:text-base">
@@ -326,11 +327,7 @@ export function CropGrowthExplorer() {
                 setGuess(option);
                 setSelectedName(option);
               }}
-              className={`rounded-full border px-4 py-2 text-sm font-medium transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50 ${
-                guess === option
-                  ? "border-primary bg-primary text-primary-foreground"
-                  : "border-border bg-background hover:border-primary/40"
-              }`}
+              className="rounded-full border border-border bg-card px-3.5 py-1.5 text-xs font-semibold text-muted-foreground transition-colors hover:border-field hover:text-foreground aria-pressed:border-primary aria-pressed:bg-primary aria-pressed:text-primary-foreground"
             >
               {option}
             </button>
@@ -338,10 +335,8 @@ export function CropGrowthExplorer() {
         </div>
         {guess && (
           <div
-            className={`mt-4 rounded-xl border p-4 text-sm leading-relaxed ${
-              guess === "Sugarcane"
-                ? "border-field/30 bg-field-wash text-foreground"
-                : "border-decision/30 bg-decision-wash text-foreground"
+            className={`mt-4 rounded-xl p-4 text-sm leading-relaxed text-foreground ${
+              guess === "Sugarcane" ? "bg-field-wash" : "bg-decision-wash"
             }`}
             aria-live="polite"
           >
@@ -355,11 +350,11 @@ export function CropGrowthExplorer() {
 
       <div className="p-5 sm:p-7">
         <label className="block sm:hidden">
-          <span className="text-xs font-semibold uppercase tracking-[0.16em] text-muted-foreground">Explore a crop</span>
+          <span className="text-sm font-semibold text-muted-foreground">Explore a crop</span>
           <select
             value={selected.name}
             onChange={(event) => setSelectedName(event.target.value)}
-            className="mt-2 w-full rounded-xl border border-border bg-background px-4 py-3 text-sm font-semibold text-foreground focus:outline-none focus:ring-2 focus:ring-primary/50"
+            className="paper-control mt-2 w-full px-4 py-3 text-sm font-semibold"
           >
             {crops.map((crop) => (
               <option key={crop.name} value={crop.name}>{crop.name}</option>
@@ -375,11 +370,7 @@ export function CropGrowthExplorer() {
               role="tab"
               aria-selected={selected.name === crop.name}
               onClick={() => setSelectedName(crop.name)}
-              className={`shrink-0 rounded-full border px-3.5 py-2 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50 ${
-                selected.name === crop.name
-                  ? "border-primary bg-primary text-primary-foreground"
-                  : "border-border bg-background text-muted-foreground hover:text-foreground"
-              }`}
+              className="shrink-0 rounded-full border border-border bg-card px-3.5 py-1.5 text-xs font-semibold text-muted-foreground transition-colors hover:border-field hover:text-foreground aria-selected:border-primary aria-selected:bg-primary aria-selected:text-primary-foreground"
             >
               {crop.name}
             </button>
@@ -387,25 +378,25 @@ export function CropGrowthExplorer() {
         </div>
 
         <div className="mt-4 grid gap-5 lg:grid-cols-[0.75fr_1.25fr]">
-          <div className="rounded-2xl border border-border bg-background/70 p-5">
-            <p className="text-xs font-semibold uppercase tracking-[0.16em] text-muted-foreground">
+          <div className="rounded-2xl bg-muted p-5">
+            <p className="text-sm font-semibold tabular-nums text-muted-foreground">
               1961–2023
             </p>
-            <h3 className="mt-2 text-2xl font-bold text-foreground">{selected.name}</h3>
-            <p className="mt-1 text-sm font-semibold text-primary">{selected.verdict}</p>
+            <h3 className="mt-2 text-2xl leading-tight text-foreground">{selected.name}</h3>
+            <p className="mt-1 text-sm font-semibold text-field">{selected.verdict}</p>
             <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
               {selected.detail}
             </p>
 
             <div className="mt-5 grid grid-cols-2 gap-3">
-              <div className="rounded-xl bg-muted/70 p-3">
-                <p className="text-xl font-bold tabular-nums text-foreground">
+              <div className="rounded-xl bg-card p-3">
+                <p className="text-xl font-semibold tabular-nums text-foreground">
                   {selected.productionGrowth.toFixed(2)}×
                 </p>
                 <p className="mt-1 text-xs text-muted-foreground">production</p>
               </div>
-              <div className="rounded-xl bg-muted/70 p-3">
-                <p className="text-xl font-bold tabular-nums text-foreground">
+              <div className="rounded-xl bg-card p-3">
+                <p className="text-xl font-semibold tabular-nums text-foreground">
                   {selected.areaGrowth.toFixed(2)}×
                 </p>
                 <p className="mt-1 text-xs text-muted-foreground">harvested area</p>
@@ -413,15 +404,15 @@ export function CropGrowthExplorer() {
             </div>
           </div>
 
-          <div className="rounded-2xl border border-border bg-background/70 p-5 sm:p-6">
+          <div className="rounded-2xl bg-muted p-5 sm:p-6">
             {selected.interpretable ? (
               <>
                 <div className="flex items-end justify-between gap-4">
                   <div>
-                    <p className="text-xs font-semibold uppercase tracking-[0.16em] text-muted-foreground">
+                    <p className="text-sm font-semibold text-muted-foreground">
                       Modeled route split
                     </p>
-                    <p className="mt-2 text-3xl font-bold tabular-nums text-foreground">
+                    <p className="mt-2 text-3xl font-semibold tabular-nums text-foreground">
                       {selected.mediated.toFixed(1)}%
                     </p>
                     <p className="text-sm text-muted-foreground">through harvested area</p>
@@ -435,8 +426,9 @@ export function CropGrowthExplorer() {
                   )}
                 </div>
 
-                <div className="mt-7 overflow-hidden rounded-full bg-muted" aria-label={`${selected.name}: ${landShare.toFixed(1)} percent land pathway and ${yieldShare.toFixed(1)} percent direct pathway`}>
-                  <div className="flex h-10 w-full text-xs font-semibold">
+                <div className="mt-7 overflow-hidden rounded-full" aria-label={`${selected.name}: ${landShare.toFixed(1)} percent land pathway and ${yieldShare.toFixed(1)} percent direct pathway`}>
+                  {/* A 2px gap keeps the two fills apart. */}
+                  <div className="flex h-10 w-full gap-0.5 text-xs font-semibold">
                     <div
                       className="flex items-center justify-center bg-field text-field-foreground"
                       style={{ width: `${landShare}%` }}
@@ -462,10 +454,10 @@ export function CropGrowthExplorer() {
               </>
             ) : (
               <div className="flex min-h-52 flex-col justify-center">
-                <span className="self-start rounded-full bg-decision-wash px-3 py-1 text-xs font-semibold uppercase tracking-wider text-decision">
+                <span className="self-start rounded-full border border-decision/20 bg-card px-3 py-1 text-xs font-semibold text-decision">
                   Outside the 0–100% zone
                 </span>
-                <p className="mt-4 text-4xl font-bold tabular-nums text-foreground">
+                <p className="mt-4 text-4xl font-semibold tabular-nums text-foreground">
                   {selected.mediated > 0 ? "+" : ""}{selected.mediated.toFixed(1)}%
                 </p>
                 <p className="mt-3 max-w-xl text-sm leading-relaxed text-muted-foreground">

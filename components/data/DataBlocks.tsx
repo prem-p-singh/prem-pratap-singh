@@ -94,7 +94,7 @@ export function Methods({
   children?: ReactNode;
 }) {
   return (
-    <div className="paper-panel not-prose mt-5 p-6 sm:p-8">
+    <div className="paper-panel not-prose mt-5 p-6 sm:px-10 sm:py-8">
       <p className="mb-3 text-sm font-semibold text-muted-foreground">
         How this was done
       </p>

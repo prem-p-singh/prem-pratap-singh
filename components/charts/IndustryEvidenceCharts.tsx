@@ -14,24 +14,24 @@ function EvidenceTable({
       <summary className="cursor-pointer text-sm font-semibold text-foreground marker:text-field">
         Evidence detail
       </summary>
-      <div className="mt-4 overflow-x-auto">
-        <table className="w-full min-w-[32rem] border-collapse text-sm">
+      <div className="mt-4 overflow-x-auto rounded-xl border border-border">
+        <table className="w-full min-w-[32rem] border-collapse text-sm leading-normal">
           <thead>
-            <tr className="border-b border-border text-left text-xs uppercase tracking-[0.12em] text-muted-foreground">
+            <tr className="border-b border-border text-left text-muted-foreground">
               {headers.map((header) => (
-                <th key={header} className="px-2 py-2 font-semibold first:pl-0">
+                <th key={header} className="px-4 py-3 font-semibold">
                   {header}
                 </th>
               ))}
             </tr>
           </thead>
-          <tbody className="divide-y divide-border/70">
+          <tbody className="divide-y divide-border">
             {rows.map((row, rowIndex) => (
               <tr key={`${row[0]}-${rowIndex}`}>
                 {row.map((cell, cellIndex) => (
                   <td
                     key={`${cellIndex}-${cell}`}
-                    className={`px-2 py-2.5 text-foreground/85 first:pl-0 ${cellIndex > 0 ? "tabular-nums" : "font-medium"}`}
+                    className={`px-4 py-3 text-foreground ${cellIndex > 0 ? "tabular-nums" : "font-semibold"}`}
                   >
                     {cell}
                   </td>
@@ -61,18 +61,13 @@ function EvidenceFrame({
   details?: ReactNode;
 }) {
   return (
-    <figure className="paper-panel not-prose my-8 overflow-hidden bg-card">
-      <div className="grid h-1 grid-cols-4" aria-hidden="true">
-        <span className="bg-field" />
-        <span className="bg-biology" />
-        <span className="bg-data" />
-        <span className="bg-decision" />
-      </div>
-      <div className="px-5 pb-3 pt-5 sm:px-7 sm:pt-7">
-        <p className="text-xs font-semibold uppercase tracking-[0.18em] text-field">
+    <figure className="paper-panel not-prose my-8">
+      <span className="absolute inset-x-0 top-0 h-1 bg-field" aria-hidden="true" />
+      <div className="px-5 pb-3 pt-6 sm:px-7 sm:pt-7">
+        <p className="w-fit rounded-full border border-field/20 bg-field-wash px-3 py-1 text-xs font-semibold text-field">
           {eyebrow}
         </p>
-        <h3 className="mt-2 max-w-3xl text-xl font-semibold leading-tight text-foreground sm:text-2xl">
+        <h3 className="mt-3 max-w-3xl text-xl leading-tight text-foreground sm:text-2xl">
           {title}
         </h3>
         <p className="mt-2 max-w-3xl text-sm leading-relaxed text-muted-foreground sm:text-base">
@@ -130,9 +125,10 @@ export function AttentionIntensityChart() {
           return (
             <div key={crop} className="grid grid-cols-[5.5rem_1fr_3.5rem] items-center gap-3 sm:grid-cols-[7rem_1fr_4rem]">
               <span className={`text-sm font-semibold ${staple ? "text-data" : "text-foreground"}`}>{crop}</span>
-              <div className="h-3 overflow-hidden rounded-full bg-muted">
+              {/* Shape as well as colour: pill bars for the first group, square bars for staples. */}
+              <div className={`h-3 overflow-hidden bg-muted ${staple ? "" : "rounded-full"}`}>
                 <div
-                  className={`h-full rounded-full ${staple ? "bg-data" : "bg-field"}`}
+                  className={`h-full ${staple ? "bg-data" : "rounded-full bg-field"}`}
                   style={{ width: `${Math.max(2, (value / max) * 100)}%` }}
                 />
               </div>
@@ -142,8 +138,8 @@ export function AttentionIntensityChart() {
         })}
       </div>
       <div className="mt-5 flex flex-wrap gap-x-5 gap-y-2 text-xs text-muted-foreground">
-        <span className="flex items-center gap-2"><span className="size-2.5 rounded-full bg-field" />Higher research intensity</span>
-        <span className="flex items-center gap-2"><span className="size-2.5 rounded-full bg-data" />Selected staple crops</span>
+        <span className="flex items-center gap-2"><span className="h-2.5 w-4 rounded-full bg-field" />Higher research intensity</span>
+        <span className="flex items-center gap-2"><span className="h-2.5 w-4 bg-data" />Selected staple crops</span>
       </div>
     </EvidenceFrame>
   );
@@ -182,7 +178,7 @@ export function ResearchOpportunityMatrix() {
         />
       }
     >
-      <div className="hidden overflow-hidden rounded-2xl border border-border bg-background/55 sm:block">
+      <div className="hidden overflow-hidden rounded-xl border border-border bg-muted sm:block">
         <svg viewBox={`0 0 ${width} ${height}`} className="h-auto w-full" role="img" aria-labelledby="opportunity-title opportunity-desc">
           <title id="opportunity-title">Crop research opportunity matrix</title>
           <desc id="opportunity-desc">Crop production scale on the horizontal axis and AI plant-disease paper count on the vertical axis.</desc>
@@ -198,7 +194,7 @@ export function ResearchOpportunityMatrix() {
             const risk = production >= 300 && papers < 700;
             return (
               <g key={crop}>
-                <circle cx={x(production)} cy={y(papers)} r={selected ? 5.5 : 3.5} fill={risk ? "var(--decision)" : "var(--data)"} stroke="var(--background)" strokeWidth="2">
+                <circle cx={x(production)} cy={y(papers)} r={selected ? 5.5 : 3.5} fill={risk ? "var(--decision)" : "var(--data)"} stroke="var(--muted)" strokeWidth="2">
                   <title>{`${crop}: ${papers.toLocaleString()} papers; ${production.toFixed(1)} million tonnes`}</title>
                 </circle>
                 {selected && (
@@ -220,7 +216,7 @@ export function ResearchOpportunityMatrix() {
           .filter(([crop]) => ["Sugarcane", "Maize", "Rice", "Cassava"].includes(crop))
           .reverse()
           .map(([crop, rate, papers, production]) => (
-            <div key={crop} className="rounded-xl border border-border bg-background/55 px-4 py-3">
+            <div key={crop} className="rounded-xl bg-muted px-4 py-3">
               <div className="flex items-baseline justify-between gap-3">
                 <span className="font-semibold text-foreground">{crop}</span>
                 <span className="text-sm font-semibold tabular-nums text-decision">{rate.toFixed(1)} papers / Mt</span>
@@ -262,7 +258,7 @@ export function AIAdoptionTrend() {
       source="Source: OpenAlex indexed literature. Annual AI papers shown as a share of all indexed plant-disease papers."
       details={<EvidenceTable headers={["Year", "AI share"]} rows={aiShare.filter(([year]) => year % 5 === 0 || year >= 2023).map(([year, share]) => [year, `${share.toFixed(1)}%`])} />}
     >
-      <div className="hidden overflow-hidden rounded-2xl border border-border bg-background/55 sm:block">
+      <div className="hidden overflow-hidden rounded-xl border border-border bg-muted sm:block">
         <svg viewBox={`0 0 ${width} ${height}`} className="h-auto w-full" role="img" aria-labelledby="trend-title trend-desc">
           <title id="trend-title">AI share of plant-disease research from 2005 to 2025</title>
           <desc id="trend-desc">The share rises from 3.1 percent in 2005 to 14.8 percent in 2025, with most growth after 2019.</desc>
@@ -276,7 +272,7 @@ export function AIAdoptionTrend() {
           <path d={line} fill="none" stroke="var(--field)" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" vectorEffect="non-scaling-stroke" />
           {[2005, 2015, 2019, 2025].map((year) => {
             const point = aiShare.find(([candidate]) => candidate === year)!;
-            return <circle key={year} cx={x(point[0])} cy={y(point[1])} r="5" fill="var(--field)" stroke="var(--background)" strokeWidth="2" />;
+            return <circle key={year} cx={x(point[0])} cy={y(point[1])} r="5" fill="var(--field)" stroke="var(--muted)" strokeWidth="2" />;
           })}
           <text x={x(2005)} y={y(3.14) - 14} fill="var(--foreground)" fontSize="12" fontWeight="700">3.1%</text>
           <text x={x(2025) - 4} y={y(14.77) - 14} textAnchor="end" fill="var(--field)" fontSize="18" fontWeight="700">14.8%</text>
@@ -285,7 +281,7 @@ export function AIAdoptionTrend() {
           ))}
         </svg>
       </div>
-      <div className="rounded-2xl border border-border bg-background/55 p-4 sm:hidden" aria-label="AI adoption increased from 3.1 percent in 2005 to 14.8 percent in 2025">
+      <div className="rounded-xl bg-muted p-4 sm:hidden" aria-label="AI adoption increased from 3.1 percent in 2005 to 14.8 percent in 2025">
         <div className="grid grid-cols-[auto_1fr_auto] items-center gap-3">
           <div>
             <p className="text-2xl font-semibold tabular-nums text-foreground">3.1%</p>
@@ -328,8 +324,9 @@ export function SurveillanceRankingChart() {
             <div key={country} className="grid grid-cols-[1.25rem_7.5rem_1fr_2.5rem] items-center gap-2 sm:grid-cols-[1.5rem_9rem_1fr_3rem] sm:gap-3">
               <span className="text-xs tabular-nums text-muted-foreground">{String(index + 1).padStart(2, "0")}</span>
               <span className={`text-sm font-semibold ${us ? "text-biology" : "text-foreground"}`}>{country}</span>
-              <div className="h-3 overflow-hidden rounded-full bg-muted">
-                <div className={`h-full rounded-full ${us ? "bg-biology" : "bg-field"}`} style={{ width: `${Math.max(2, (rate / max) * 100)}%` }} />
+              {/* Shape as well as colour: the highlighted row has a square bar. */}
+              <div className={`h-3 overflow-hidden bg-muted ${us ? "" : "rounded-full"}`}>
+                <div className={`h-full ${us ? "bg-biology" : "rounded-full bg-field"}`} style={{ width: `${Math.max(2, (rate / max) * 100)}%` }} />
               </div>
               <span className="text-right text-sm font-semibold tabular-nums text-foreground">{rate.toFixed(1)}</span>
             </div>
@@ -425,7 +422,7 @@ export function LandContributionChart() {
               <span className="text-sm font-semibold text-foreground">{crop}</span>
               <span className="text-sm font-semibold tabular-nums text-foreground">{land.toFixed(1)}% via land</span>
             </div>
-            <div className="flex h-9 overflow-hidden rounded-xl bg-muted" aria-label={`${crop}: ${land.toFixed(1)} percent through harvested area, ${(100 - land).toFixed(1)} percent remaining direct route`}>
+            <div className="flex h-9 gap-0.5 overflow-hidden rounded-xl" aria-label={`${crop}: ${land.toFixed(1)} percent through harvested area, ${(100 - land).toFixed(1)} percent remaining direct route`}>
               <div className="flex items-center justify-center bg-field text-xs font-semibold text-field-foreground" style={{ width: `${land}%` }}>
                 {land >= 28 ? "Land expansion" : ""}
               </div>
@@ -472,7 +469,7 @@ export function GrowthStrategyMatrix() {
       source="Source: FAOSTAT world totals, 1961–2023. Values compare the final year with 1961 and describe global observational trends."
       details={<EvidenceTable headers={["Crop", "Production growth", "Area growth", "Interpretation"]} rows={growth.map(([crop, area, production]) => [crop, `${production.toFixed(2)}×`, `${area.toFixed(2)}×`, area < 1 ? "More output, less land" : production / area > 2 ? "Output outpaced land" : "Land-intensive growth"])} />}
     >
-      <div className="hidden overflow-hidden rounded-2xl border border-border bg-background/55 sm:block">
+      <div className="hidden overflow-hidden rounded-xl border border-border bg-muted sm:block">
         <svg viewBox={`0 0 ${width} ${height}`} className="h-auto w-full" role="img" aria-labelledby="growth-title growth-desc">
           <title id="growth-title">Production growth compared with harvested-area growth</title>
           <desc id="growth-desc">Crops toward the upper-left produced more output with less land growth; crops toward the upper-right expanded both production and land.</desc>
@@ -493,7 +490,12 @@ export function GrowthStrategyMatrix() {
             const efficient = area <= 1.1 || production / area > 2;
             return (
               <g key={crop}>
-                <circle cx={x(area)} cy={y(production)} r="6" fill={efficient ? "var(--field)" : "var(--biology)"} stroke="var(--background)" strokeWidth="2" />
+                {/* Shape as well as colour: circles are efficient, squares are land-led. */}
+                {efficient ? (
+                  <circle cx={x(area)} cy={y(production)} r="6" fill="var(--field)" stroke="var(--muted)" strokeWidth="2" />
+                ) : (
+                  <rect x={x(area) - 5.5} y={y(production) - 5.5} width="11" height="11" fill="var(--biology)" stroke="var(--muted)" strokeWidth="2" />
+                )}
                 <text x={x(area) + dx} y={y(production) + dy} fill="var(--foreground)" fontSize="12" fontWeight="600">{crop}</text>
               </g>
             );
@@ -504,13 +506,17 @@ export function GrowthStrategyMatrix() {
           <text transform={`translate(16 ${(top + height - bottom) / 2}) rotate(-90)`} textAnchor="middle" fill="var(--muted-foreground)" fontSize="12">PRODUCTION GROWTH →</text>
         </svg>
       </div>
+      <div className="mt-4 hidden flex-wrap gap-x-5 gap-y-2 text-xs text-muted-foreground sm:flex">
+        <span className="flex items-center gap-2"><span className="size-2.5 rounded-full bg-field" />Efficient</span>
+        <span className="flex items-center gap-2"><span className="size-2.5 bg-biology" />Land-led</span>
+      </div>
       <div className="space-y-2 sm:hidden" aria-label="Selected crop production and harvested-area growth patterns">
         {growth
           .filter(([crop]) => ["Soybean", "Sugarcane", "Wheat", "Potato"].includes(crop))
           .map(([crop, area, production]) => {
             const efficient = area <= 1.1 || production / area > 2;
             return (
-              <div key={crop} className="grid grid-cols-[1fr_auto] gap-3 rounded-xl border border-border bg-background/55 px-4 py-3">
+              <div key={crop} className="grid grid-cols-[1fr_auto] gap-3 rounded-xl bg-muted px-4 py-3">
                 <div>
                   <p className="font-semibold text-foreground">{crop}</p>
                   <p className="mt-1 text-xs text-muted-foreground">Production {production.toFixed(2)}× · Land {area.toFixed(2)}×</p>
@@ -548,14 +554,16 @@ type VarianceRows = readonly (readonly [string, number, string])[];
 
 function VarianceBar({ rows }: { rows: VarianceRows }) {
   return (
-    <div className="flex h-8 overflow-hidden rounded-lg">
+    <div className="flex h-8 gap-0.5 overflow-hidden rounded-lg">
       {rows.map(([label, value, tone]) => (
         <span
           key={label}
-          className={`${tone} grid place-items-center text-xs font-semibold text-background`}
+          className={`${tone} flex items-center justify-center text-xs font-semibold text-background`}
           style={{ width: `${value}%` }}
           title={`${label} ${value}%`}
         >
+          {/* Wide segments name themselves where there is room; the legend below follows the bar order. */}
+          {value >= 12 && <span className="hidden lg:inline">{label}&nbsp;</span>}
           {value >= 12 ? `${value}%` : ""}
         </span>
       ))}
@@ -569,7 +577,7 @@ function VarianceLegend({ rows }: { rows: VarianceRows }) {
       {rows.map(([label, value, tone]) => (
         <span key={label} className="flex items-center gap-2 text-sm text-muted-foreground">
           <span className={`${tone} size-2.5 rounded-full`} aria-hidden="true" />
-          {label} <span className="tabular-nums text-foreground/85">{value}%</span>
+          {label} <span className="tabular-nums text-foreground">{value}%</span>
         </span>
       ))}
     </div>
@@ -653,7 +661,7 @@ export function CropVarianceRanking() {
             <span className="text-sm font-semibold text-foreground">{crop}</span>
             <div className="flex h-3 overflow-hidden rounded-full bg-muted">
               <span className="bg-field" style={{ width: `${country}%` }} />
-              <span className="bg-decision" style={{ width: `${year}%` }} />
+              <span className="border-l-2 border-card bg-decision" style={{ width: `${year}%` }} />
             </div>
             <span className="text-right text-sm tabular-nums text-muted-foreground">
               {year.toFixed(1)}%

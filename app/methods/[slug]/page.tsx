@@ -183,7 +183,7 @@ export default async function MethodPage({ params }: Props) {
 
         {/* Provenance: the original work and the code */}
         {(post.paperUrl || post.codePath) && (
-          <div className="paper-panel mt-5 px-6 sm:px-8">
+          <div className="paper-panel mt-5 px-6 py-2 sm:px-10">
             <dl className="divide-y divide-border text-sm leading-normal">
               {post.paperUrl && (
                 <div className="grid gap-x-4 gap-y-1 py-4 sm:grid-cols-[12rem_1fr]">

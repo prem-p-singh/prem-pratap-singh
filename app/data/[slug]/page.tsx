@@ -193,7 +193,7 @@ export default async function DataReportPage({ params }: Props) {
         )}
 
         {/* Dataset provenance and reproducibility details */}
-        <div className="paper-panel mt-5 p-6 sm:p-8">
+        <div className="paper-panel mt-5 p-6 sm:px-10 sm:py-8">
           <p className="max-w-[70ch] text-sm leading-relaxed text-muted-foreground">
             Every figure on this page was produced by the linked code from the raw
             public data. Numbers reflect the data as accessed on the date shown and may
