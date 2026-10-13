@@ -445,10 +445,10 @@ export function CropGrowthExplorer() {
                 </div>
                 <div className="mt-3 flex flex-wrap gap-x-5 gap-y-2 text-xs text-muted-foreground">
                   <span className="flex items-center gap-2">
-                    <span className="size-2.5 rounded-full bg-field" /> Through harvested area
+                    <span className="size-2.5 rounded-full bg-field" aria-hidden="true" /> Through harvested area
                   </span>
                   <span className="flex items-center gap-2">
-                    <span className="size-2.5 rounded-full bg-data" /> Remaining direct pathway
+                    <span className="size-2.5 bg-data" aria-hidden="true" /> Remaining direct pathway
                   </span>
                 </div>
               </>

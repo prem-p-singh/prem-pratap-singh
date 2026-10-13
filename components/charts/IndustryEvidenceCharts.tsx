@@ -19,7 +19,7 @@ function EvidenceTable({
           <thead>
             <tr className="border-b border-border text-left text-muted-foreground">
               {headers.map((header) => (
-                <th key={header} className="px-4 py-3 font-semibold">
+                <th key={header} scope="col" className="px-4 py-3 font-semibold">
                   {header}
                 </th>
               ))}
@@ -434,8 +434,8 @@ export function LandContributionChart() {
         ))}
       </div>
       <div className="mt-5 flex flex-wrap gap-x-5 gap-y-2 text-xs text-muted-foreground">
-        <span className="flex items-center gap-2"><span className="size-2.5 rounded-full bg-field" />Harvested-area route</span>
-        <span className="flex items-center gap-2"><span className="size-2.5 rounded-full bg-data" />Remaining direct route</span>
+        <span className="flex items-center gap-2"><span className="size-2.5 rounded-full bg-field" aria-hidden="true" />Harvested-area route</span>
+        <span className="flex items-center gap-2"><span className="size-2.5 bg-data" aria-hidden="true" />Remaining direct route</span>
       </div>
     </EvidenceFrame>
   );
@@ -574,9 +574,9 @@ function VarianceBar({ rows }: { rows: VarianceRows }) {
 function VarianceLegend({ rows }: { rows: VarianceRows }) {
   return (
     <div className="mt-3 flex flex-wrap gap-x-5 gap-y-1.5">
-      {rows.map(([label, value, tone]) => (
+      {rows.map(([label, value, tone], i) => (
         <span key={label} className="flex items-center gap-2 text-sm text-muted-foreground">
-          <span className={`${tone} size-2.5 rounded-full`} aria-hidden="true" />
+          <span className={`${tone} size-2.5 ${["rounded-full", "", "rotate-45", "rounded-full border-2 border-foreground !bg-transparent"][i % 4]}`} aria-hidden="true" />
           {label} <span className="tabular-nums text-foreground">{value}%</span>
         </span>
       ))}
@@ -671,7 +671,7 @@ export function CropVarianceRanking() {
         <p className="pt-1 text-xs text-muted-foreground">
           <span className="mr-1 inline-block size-2.5 rounded-full bg-field align-middle" aria-hidden="true" />
           Country
-          <span className="ml-4 mr-1 inline-block size-2.5 rounded-full bg-decision align-middle" aria-hidden="true" />
+          <span className="ml-4 mr-1 inline-block size-2.5 bg-decision align-middle" aria-hidden="true" />
           Year. The number on the right is the year share.
         </p>
       </div>

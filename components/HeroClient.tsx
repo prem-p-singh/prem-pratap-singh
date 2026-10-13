@@ -148,7 +148,7 @@ export default function HeroClient() {
                     </span>
                     {fact.label}
                   </dt>
-                  <dd className="tabular-nums text-muted-foreground sm:text-foreground">
+                  <dd className="tabular-nums text-foreground">
                     {fact.value}
                   </dd>
                 </div>
@@ -171,13 +171,13 @@ export default function HeroClient() {
                 />
               </div>
             </div>
-            <span className={`${portraitLabel} -left-2 top-10 border-field/30 text-field`}>
+            <span aria-hidden="true" className={`${portraitLabel} -left-2 top-10 border-field/30 text-field`}>
               Field
             </span>
-            <span className={`${portraitLabel} -right-2 top-1/2 border-biology/30 text-biology`}>
+            <span aria-hidden="true" className={`${portraitLabel} -right-2 top-1/2 border-biology/30 text-biology`}>
               Bench
             </span>
-            <span className={`${portraitLabel} bottom-6 left-4 border-data/30 text-data`}>
+            <span aria-hidden="true" className={`${portraitLabel} bottom-6 left-4 border-data/30 text-data`}>
               Code
             </span>
           </div>
