@@ -13,26 +13,26 @@ export default function VisualSummary({
   label = "Visual summary",
 }: VisualSummaryProps) {
   return (
-    <figure className="paper-panel not-prose my-6 overflow-hidden bg-card sm:my-8">
+    <figure className="paper-panel not-prose mt-5">
       <a
         href={src}
         target="_blank"
         rel="noopener noreferrer"
         aria-label={`Open the ${label.toLowerCase()} at full size`}
-        className="block bg-white"
+        className="block bg-card"
       >
         <Image
           src={src}
           alt={alt}
           width={1672}
           height={941}
-          sizes="(min-width: 768px) 768px, 100vw"
-          className="h-auto w-full transition-transform duration-300 hover:scale-[1.01]"
+          sizes="(min-width: 1280px) 1152px, 100vw"
+          className="h-auto w-full"
         />
       </a>
       <figcaption className="flex items-center justify-between gap-4 border-t border-border px-4 py-3 text-sm text-muted-foreground sm:px-5">
         <span>{label}</span>
-        <span className="inline-flex items-center gap-1.5 font-medium text-foreground">
+        <span className="inline-flex items-center gap-1.5 font-semibold text-foreground">
           Open full size <ExternalLink className="size-4" strokeWidth={1.7} aria-hidden="true" />
         </span>
       </figcaption>

@@ -10,22 +10,25 @@ export default function TldrCallout({ items }: TldrCalloutProps) {
   return (
     <aside
       aria-label="Key takeaways"
-      className="paper-panel not-prose mb-10 bg-card p-5 sm:p-6"
+      className="not-prose mb-10 rounded-2xl bg-field-wash p-5 sm:p-6"
     >
-      <div className="mb-4 flex items-center gap-2">
-        <Lightbulb className="size-4 text-foreground" strokeWidth={1.8} aria-hidden="true" />
-        <p className="text-xs font-bold text-foreground tracking-wide uppercase">
+      <div className="mb-4 flex items-center gap-3">
+        {/* On a wash the tile takes the card colour. */}
+        <span className="flex size-11 shrink-0 items-center justify-center rounded-xl bg-card text-field">
+          <Lightbulb size={22} strokeWidth={1.8} aria-hidden="true" />
+        </span>
+        <p className="text-sm font-semibold text-field">
           Quick visual read
         </p>
       </div>
-      <ol className="grid gap-3 sm:grid-cols-3">
+      <ol className="grid gap-3 sm:grid-cols-2">
         {items.map((item, i) => (
           <li
             key={i}
-            className="rounded-xl border border-border bg-background/70 p-4 text-left"
+            className="rounded-xl bg-card p-4 text-left"
           >
-            <span className="text-2xl font-black tabular-nums text-foreground/15">0{i + 1}</span>
-            <span className="mt-2 block text-sm leading-relaxed text-foreground/90">{item}</span>
+            <span className="text-2xl font-semibold tabular-nums text-field">0{i + 1}</span>
+            <span className="mt-2 block text-sm leading-relaxed text-foreground">{item}</span>
           </li>
         ))}
       </ol>

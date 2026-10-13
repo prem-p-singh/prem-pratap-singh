@@ -20,12 +20,12 @@ export default function DataGuess({
   const options = choices.split("|").map((option) => option.trim());
 
   return (
-    <section className="paper-panel not-prose my-8 overflow-hidden bg-card">
-      <div className="border-b border-border bg-card p-5 sm:p-6">
-        <p className="text-xs font-semibold uppercase tracking-[0.18em] text-data">
+    <section className="paper-panel not-prose my-8">
+      <div className="border-b border-border p-5 sm:p-6">
+        <p className="w-fit rounded-full border border-data/20 bg-data-wash px-3 py-1 text-xs font-semibold text-data">
           Guess before the graph
         </p>
-        <h2 className="mt-2 text-xl font-bold leading-snug text-foreground sm:text-2xl">
+        <h2 className="mt-3 text-xl leading-snug text-foreground sm:text-2xl">
           {question}
         </h2>
       </div>
@@ -41,15 +41,22 @@ export default function DataGuess({
                 type="button"
                 aria-pressed={selected}
                 onClick={() => setChoice(option)}
-                className={`rounded-xl border px-4 py-3 text-left text-sm font-medium transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground/40 ${
+                // .paper-control fixes its own colours, so the two marked states swap it for utilities.
+                className={`flex items-center justify-between gap-3 px-4 py-3 text-left text-sm font-semibold ${
                   isAnswer
-                    ? "border-field/60 bg-field-wash text-foreground"
+                    ? "rounded-[0.875rem] border border-field bg-field-wash text-foreground"
                     : selected
-                      ? "border-decision/60 bg-decision-wash text-foreground"
-                      : "border-border bg-background/60 text-muted-foreground hover:-translate-y-0.5 hover:text-foreground"
+                      ? "rounded-[0.875rem] border border-decision bg-decision-wash text-foreground"
+                      : "paper-control"
                 }`}
               >
                 {option}
+                {/* A mark as well as a colour: tick on the answer, cross on a wrong pick. */}
+                {(isAnswer || selected) && (
+                  <svg className={`size-4 shrink-0 ${isAnswer ? "text-field" : "text-decision"}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5} aria-hidden="true">
+                    <path strokeLinecap="round" strokeLinejoin="round" d={isAnswer ? "M5 13l4 4L19 7" : "M6 18L18 6M6 6l12 12"} />
+                  </svg>
+                )}
               </button>
             );
           })}
@@ -57,11 +64,7 @@ export default function DataGuess({
 
         {choice ? (
           <div
-            className={`mt-5 rounded-2xl border p-5 ${
-              correct
-                ? "border-field/30 bg-field-wash"
-                : "border-decision/30 bg-decision-wash"
-            }`}
+            className={`mt-5 rounded-2xl p-5 ${correct ? "bg-field-wash" : "bg-decision-wash"}`}
             aria-live="polite"
           >
             <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
@@ -73,7 +76,7 @@ export default function DataGuess({
                   {explanation}
                 </p>
               </div>
-              <p className="shrink-0 text-3xl font-bold tabular-nums text-foreground">
+              <p className={`shrink-0 text-4xl font-semibold leading-none tabular-nums ${correct ? "text-field" : "text-decision"}`}>
                 {revealStat}
               </p>
             </div>

@@ -147,7 +147,7 @@ export default async function MethodPage({ params }: Props) {
         </header>
 
         <div className="paper-panel mt-5 p-6 sm:p-10">
-          {post.keyStats && post.keyStats.length > 0 && <KeyStats stats={post.keyStats} />}
+          {post.keyStats && post.keyStats.length > 0 && <KeyStats stats={post.keyStats} tone="decision" />}
 
           <div className="prose text-base text-foreground">
             <MDXRemote

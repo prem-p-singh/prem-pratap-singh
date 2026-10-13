@@ -38,25 +38,23 @@ export default function PathogenTable() {
   return (
     <div className="not-prose my-8">
       {/* Controls */}
-      <div className="flex flex-col sm:flex-row gap-3 mb-4">
+      <div className="mb-4 flex flex-col gap-3 sm:flex-row sm:items-center">
         <input
           type="search"
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           placeholder="Search a pathogen or disease..."
           aria-label="Search pathogens"
-          className="flex-grow bg-card border border-border rounded-lg px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-primary/60 transition-colors"
+          className="paper-control w-full px-3 py-2 text-sm placeholder:text-muted-foreground sm:flex-1"
         />
-        <div className="flex gap-1.5 flex-wrap">
+        <div className="flex flex-wrap gap-1.5" role="group" aria-label="Filter by pathogen group">
           {groups.map((g) => (
             <button
               key={g}
+              type="button"
+              aria-pressed={group === g}
               onClick={() => setGroup(g)}
-              className={`px-3 py-1.5 text-xs font-medium rounded-lg border transition-colors ${
-                group === g
-                  ? "bg-primary/10 text-primary border-primary/30"
-                  : "border-border text-muted-foreground hover:text-foreground"
-              }`}
+              className="rounded-full border border-border bg-card px-3.5 py-1.5 text-xs font-semibold text-muted-foreground transition-colors hover:border-field hover:text-foreground aria-pressed:border-primary aria-pressed:bg-primary aria-pressed:text-primary-foreground"
             >
               {g}
             </button>
@@ -66,24 +64,29 @@ export default function PathogenTable() {
 
       {/* Table */}
       <div className="overflow-x-auto rounded-xl border border-border">
-        <table className="w-full text-sm">
+        <table className="w-full border-collapse text-sm leading-normal">
           <thead>
-            <tr className="bg-muted/60 text-left">
+            <tr className="border-b border-border text-left">
               {([
                 ["pathogen", "Pathogen"],
                 ["assemblies", "Genomes"],
                 ["pctWell", "Good quality"],
               ] as [SortKey, string][]).map(([key, label]) => (
-                <th key={key} className="px-4 py-2.5">
+                <th
+                  key={key}
+                  className="px-4 py-3"
+                  aria-sort={sort === key ? (key === "pathogen" ? "ascending" : "descending") : "none"}
+                >
                   <button
+                    type="button"
                     onClick={() => setSort(key)}
-                    className={`inline-flex items-center gap-1 text-xs font-semibold uppercase tracking-wider transition-colors ${
-                      sort === key ? "text-primary" : "text-muted-foreground hover:text-foreground"
+                    className={`inline-flex items-center gap-1 text-sm font-semibold transition-colors ${
+                      sort === key ? "text-foreground" : "text-muted-foreground hover:text-foreground"
                     }`}
                   >
                     {label}
                     {sort === key && (
-                      <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                      <svg className="size-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5} aria-hidden="true">
                         <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
                       </svg>
                     )}
@@ -94,21 +97,21 @@ export default function PathogenTable() {
           </thead>
           <tbody className="divide-y divide-border">
             {rows.map((r) => (
-              <tr key={r.pathogen} className="hover:bg-muted/40 transition-colors">
+              <tr key={r.pathogen}>
                 <td className="px-4 py-3">
-                  <span className="italic text-foreground font-medium">{r.pathogen}</span>
-                  <span className="block text-xs text-muted-foreground mt-0.5">
+                  <span className="font-semibold italic text-foreground">{r.pathogen}</span>
+                  <span className="mt-0.5 block text-xs text-muted-foreground">
                     {r.disease}
                   </span>
                   <span
-                    className={`inline-block mt-1.5 px-2 py-0.5 text-xs font-semibold uppercase tracking-wide rounded ${
+                    className={`mt-1.5 inline-block rounded-full px-2.5 py-0.5 text-xs font-semibold ${
                       GROUP_STYLE[r.group] ?? "bg-muted text-muted-foreground"
                     }`}
                   >
                     {r.group}
                   </span>
                 </td>
-                <td className="px-4 py-3 align-top tabular-nums font-semibold text-foreground">
+                <td className="px-4 py-3 align-top font-semibold tabular-nums text-foreground">
                   {r.assemblies.toLocaleString()}
                   {r.assemblies === 0 && (
                     <span className="block text-xs font-normal text-danger">none</span>
@@ -118,7 +121,7 @@ export default function PathogenTable() {
                   {r.assemblies > 0 ? (
                     <>
                       <span className="tabular-nums text-foreground">{r.pctWell.toFixed(0)}%</span>
-                      <span className="block text-xs text-muted-foreground">
+                      <span className="block text-xs tabular-nums text-muted-foreground">
                         {r.wellAssembled.toLocaleString()} of {r.assemblies.toLocaleString()}
                       </span>
                     </>
