@@ -288,7 +288,7 @@ export function AIAdoptionTrend() {
             <p className="text-xs text-muted-foreground">2005</p>
           </div>
           <div className="relative h-2 rounded-full bg-field-wash">
-            <span className="absolute inset-y-0 left-0 w-full rounded-full bg-gradient-to-r from-field/35 to-field" />
+            <span className="absolute inset-y-0 left-0 w-full rounded-full bg-field" />
           </div>
           <div className="text-right">
             <p className="text-2xl font-semibold tabular-nums text-field">14.8%</p>
@@ -571,12 +571,20 @@ function VarianceBar({ rows }: { rows: VarianceRows }) {
   );
 }
 
+// One fixed marker per series, so a series looks the same in every legend.
+const varianceMarker: Record<string, string> = {
+  Crop: "bg-biology rotate-45",
+  Country: "bg-field rounded-full",
+  Unexplained: "border-2 border-muted-foreground",
+  Year: "bg-decision",
+};
+
 function VarianceLegend({ rows }: { rows: VarianceRows }) {
   return (
     <div className="mt-3 flex flex-wrap gap-x-5 gap-y-1.5">
-      {rows.map(([label, value, tone], i) => (
+      {rows.map(([label, value]) => (
         <span key={label} className="flex items-center gap-2 text-sm text-muted-foreground">
-          <span className={`${tone} size-2.5 ${["rounded-full", "", "rotate-45", "rounded-full border-2 border-foreground !bg-transparent"][i % 4]}`} aria-hidden="true" />
+          <span className={`${varianceMarker[label]} size-2.5`} aria-hidden="true" />
           {label} <span className="tabular-nums text-foreground">{value}%</span>
         </span>
       ))}
