@@ -108,7 +108,7 @@ export default function BlogPage() {
                     fill
                     priority
                     sizes="(max-width: 1024px) 100vw, 660px"
-                    className="object-cover"
+                    className="object-contain"
                   />
                 </div>
               </div>

@@ -151,7 +151,7 @@ export default function BlogSearchList({ posts }: BlogSearchListProps) {
                           alt={post.title}
                           fill
                           sizes="(max-width: 768px) 100vw, 360px"
-                          className="object-cover"
+                          className="object-contain"
                         />
                       </div>
                     ) : (

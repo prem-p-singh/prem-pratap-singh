@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import VisualGallery, { type GalleryItem } from "@/components/gallery/VisualGallery";
+import { AnalysisIcon, DataScienceIcon, FieldIcon } from "@/components/icons/PortfolioIcons";
 import { getAllPosts } from "@/lib/mdx";
 import { getAllMethodPosts } from "@/lib/methods";
 
@@ -10,6 +11,13 @@ export const metadata: Metadata = {
     canonical: "/gallery",
   },
 };
+
+// The three collections, with the families their tags use in the gallery below.
+const collections = [
+  { label: "Research illustrations", icon: FieldIcon, tile: "bg-field-wash text-field" },
+  { label: "Data stories", icon: DataScienceIcon, tile: "bg-data-wash text-data" },
+  { label: "Methods", icon: AnalysisIcon, tile: "bg-decision-wash text-decision" },
+];
 
 export default function GalleryPage() {
   const blogPresentations: GalleryItem[] = getAllPosts()
@@ -39,14 +47,35 @@ export default function GalleryPage() {
   return (
     <div className="min-h-screen pt-16">
       <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
-        <header className="pb-10 pt-10 sm:pt-12 lg:pb-14 lg:pt-14">
-          <p className="section-kicker">Charts, maps, mechanisms and research illustrations</p>
-          <h1 className="mt-3 text-4xl leading-tight text-foreground sm:text-5xl lg:text-6xl">
-            The Visual Lab
-          </h1>
-          <p className="mt-5 max-w-[60ch] text-base leading-relaxed text-muted-foreground">
-            A presentation wall for every blog and method visual, alongside the charts and maps that support the underlying evidence.
-          </p>
+        <header className="grid gap-x-8 gap-y-8 pb-10 pt-10 sm:pt-12 lg:grid-cols-12 lg:items-end lg:pb-14 lg:pt-14">
+          <div className="lg:col-span-7">
+            <p className="section-kicker">Charts, maps, mechanisms and research illustrations</p>
+            <h1 className="mt-3 text-4xl leading-tight text-foreground sm:text-5xl lg:text-6xl">
+              The Visual Lab
+            </h1>
+            <p className="mt-5 max-w-[60ch] text-base leading-relaxed text-muted-foreground">
+              A presentation wall for every blog and method visual, alongside the charts and maps that support the underlying evidence.
+            </p>
+          </div>
+
+          <ul className="paper-panel grid grid-cols-3 gap-2 p-5 sm:p-6 lg:col-span-5">
+            {collections.map((collection) => {
+              const Icon = collection.icon;
+              return (
+                <li
+                  key={collection.label}
+                  className="flex flex-col items-center gap-2 text-center text-sm font-semibold leading-snug text-foreground"
+                >
+                  <span
+                    className={`flex size-11 shrink-0 items-center justify-center rounded-xl ${collection.tile}`}
+                  >
+                    <Icon size={22} />
+                  </span>
+                  {collection.label}
+                </li>
+              );
+            })}
+          </ul>
         </header>
 
         {/* The gallery section opens with its own top rule, which also closes the header. */}
