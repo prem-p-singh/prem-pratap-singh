@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
-import VisualGallery, { type GalleryItem } from "@/components/gallery/VisualGallery";
-import { AnalysisIcon, DataScienceIcon, FieldIcon } from "@/components/icons/PortfolioIcons";
+import VisualGallery, {
+  GalleryCollections,
+  type GalleryItem,
+} from "@/components/gallery/VisualGallery";
 import { getAllPosts } from "@/lib/mdx";
 import { getAllMethodPosts } from "@/lib/methods";
 
@@ -11,13 +13,6 @@ export const metadata: Metadata = {
     canonical: "/gallery",
   },
 };
-
-// The three collections, with the families their tags use in the gallery below.
-const collections = [
-  { label: "Research illustrations", icon: FieldIcon, tile: "bg-field-wash text-field" },
-  { label: "Data stories", icon: DataScienceIcon, tile: "bg-data-wash text-data" },
-  { label: "Methods", icon: AnalysisIcon, tile: "bg-decision-wash text-decision" },
-];
 
 export default function GalleryPage() {
   const blogPresentations: GalleryItem[] = getAllPosts()
@@ -59,22 +54,7 @@ export default function GalleryPage() {
           </div>
 
           <ul className="paper-panel grid grid-cols-3 gap-2 p-5 sm:p-6 lg:col-span-5">
-            {collections.map((collection) => {
-              const Icon = collection.icon;
-              return (
-                <li
-                  key={collection.label}
-                  className="flex flex-col items-center gap-2 text-center text-sm font-semibold leading-snug text-foreground"
-                >
-                  <span
-                    className={`flex size-11 shrink-0 items-center justify-center rounded-xl ${collection.tile}`}
-                  >
-                    <Icon size={22} />
-                  </span>
-                  {collection.label}
-                </li>
-              );
-            })}
+            <GalleryCollections />
           </ul>
         </header>
 

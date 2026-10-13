@@ -32,6 +32,8 @@ const tagClass =
   "rounded-full border border-field/20 bg-field-wash px-3 py-1 text-xs font-semibold text-field";
 
 const DEFAULT_VISIBLE = 6;
+// Cards show this many tags; search and trails still read every tag.
+const MAX_TAGS = 3;
 
 function searchableText(post: BlogPostMeta) {
   return [post.title, post.description, ...(post.tags ?? [])].join(" ").toLowerCase();
@@ -190,11 +192,17 @@ export default function BlogSearchList({ posts }: BlogSearchListProps) {
                       )}
                       {tags.length > 0 && (
                         <ul className="mt-auto flex flex-wrap gap-2">
-                          {tags.map((tag) => (
+                          {tags.slice(0, MAX_TAGS).map((tag) => (
                             <li key={tag} className={tagClass}>
                               {tag}
                             </li>
                           ))}
+                          {tags.length > MAX_TAGS && (
+                            <li className="rounded-full border border-border px-3 py-1 text-xs font-semibold tabular-nums text-muted-foreground">
+                              +{tags.length - MAX_TAGS}
+                              <span className="sr-only"> more tags</span>
+                            </li>
+                          )}
                         </ul>
                       )}
                     </div>

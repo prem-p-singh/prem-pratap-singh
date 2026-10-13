@@ -2,7 +2,13 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState, type ComponentType } from "react";
+import {
+  AnalysisIcon,
+  DataScienceIcon,
+  FieldIcon,
+  type IconProps,
+} from "@/components/icons/PortfolioIcons";
 
 type GalleryCategory = "All" | "Research illustrations" | "Data stories" | "Methods";
 
@@ -92,6 +98,39 @@ const categoryTags: Record<Exclude<GalleryCategory, "All">, string> = {
 };
 
 const tagClass = "rounded-full border px-3 py-1 text-xs font-semibold";
+
+const categoryTiles: Record<
+  Exclude<GalleryCategory, "All">,
+  { icon: ComponentType<IconProps>; tile: string }
+> = {
+  "Research illustrations": { icon: FieldIcon, tile: "bg-field-wash text-field" },
+  "Data stories": { icon: DataScienceIcon, tile: "bg-data-wash text-data" },
+  Methods: { icon: AnalysisIcon, tile: "bg-decision-wash text-decision" },
+};
+
+/** The collections as list items for the page header, read from the same list as the filters.
+    A server page cannot read a plain array out of a client module, so this is a component. */
+export function GalleryCollections() {
+  return (
+    <>
+      {categories.map((category) => {
+        if (category === "All") return null;
+        const { icon: Icon, tile } = categoryTiles[category];
+        return (
+          <li
+            key={category}
+            className="flex flex-col items-center gap-2 text-center text-sm font-semibold leading-snug text-foreground"
+          >
+            <span className={`flex size-11 shrink-0 items-center justify-center rounded-xl ${tile}`}>
+              <Icon size={22} />
+            </span>
+            {category}
+          </li>
+        );
+      })}
+    </>
+  );
+}
 
 interface VisualGalleryProps {
   presentationItems: GalleryItem[];

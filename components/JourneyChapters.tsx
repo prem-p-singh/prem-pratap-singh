@@ -55,7 +55,7 @@ type Chapter = {
   tone: Tone;
 };
 
-// Families as the previous design had them: field, biology, decision, data.
+// Families follow the homepage: the postdoc chapter is field, as the same role is there.
 const chapters: Chapter[] = [
   {
     id: "foundations",
@@ -91,7 +91,7 @@ const chapters: Chapter[] = [
     thread: "Observe, measure, model, decide.",
     markers: ["300+ samples", "1.3B+ sequencing reads", "10+ vineyard blocks"],
     icon: CropIcon,
-    tone: "decision",
+    tone: "field",
   },
   {
     id: "reasoning",
@@ -110,7 +110,7 @@ const chapters: Chapter[] = [
 // A real sequence of places and years, so the arrows stay.
 const route: Array<{ place: string; year: string; icon: ComponentType<IconProps>; tone: Tone }> = [
   { place: "Varanasi", year: "2012", icon: CropBiologyIcon, tone: "field" },
-  { place: "Davis", year: "2023", icon: CropIcon, tone: "decision" },
+  { place: "Davis", year: "2023", icon: CropIcon, tone: "field" },
   { place: "Scientific AI", year: "2025", icon: AnalysisIcon, tone: "data" },
 ];
 

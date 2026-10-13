@@ -41,6 +41,9 @@ const topicNodes = [
   { label: "Models", icon: DataScienceIcon, tile: "bg-data-wash text-data" },
 ];
 
+// The card shows this many tags, then a count of the rest.
+const MAX_TAGS = 3;
+
 const tagClass =
   "rounded-full border border-field/20 bg-field-wash px-3 py-1 text-xs font-semibold text-field";
 
@@ -152,11 +155,17 @@ export default function BlogPage() {
               )}
               {featuredTags.length > 0 && (
                 <ul className="mt-5 flex flex-wrap gap-2">
-                  {featuredTags.map((tag) => (
+                  {featuredTags.slice(0, MAX_TAGS).map((tag) => (
                     <li key={tag} className={tagClass}>
                       {tag}
                     </li>
                   ))}
+                  {featuredTags.length > MAX_TAGS && (
+                    <li className="rounded-full border border-border px-3 py-1 text-xs font-semibold tabular-nums text-muted-foreground">
+                      +{featuredTags.length - MAX_TAGS}
+                      <span className="sr-only"> more tags</span>
+                    </li>
+                  )}
                 </ul>
               )}
             </div>
