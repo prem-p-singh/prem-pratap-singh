@@ -169,8 +169,8 @@ wrapper, or the article rules restyle it.
 
 ### Shared surface treatment
 
-`.paper-panel`, `.paper-button`, `.paper-control`, `.btn-primary` and
-`.btn-outline` share one rule set in `globals.css`: a 1px border and card
+`.paper-panel`, `.paper-control`, `.btn-primary` and `.btn-outline` share
+one rule set in `globals.css`: a 1px border and card
 background. Panels float: a 20px radius and the deep shadow held in
 `--shadow-float`, which each mode sets once. Buttons are pills and controls have
 a 14px radius; neither has a shadow. `.btn-primary` is a solid green fill and

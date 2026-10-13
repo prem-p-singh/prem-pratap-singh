@@ -153,7 +153,6 @@ export default function ResearchPathway() {
   return (
     <section
       id="how-i-work"
-      data-guided-scroll-section
       className="guided-scroll-section"
       aria-labelledby="research-pathway-title"
     >

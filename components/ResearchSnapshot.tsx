@@ -83,7 +83,6 @@ export default function ResearchSnapshot() {
   return (
     <section
       id="capabilities"
-      data-guided-scroll-section
       className="guided-scroll-section"
       aria-labelledby="research-snapshot-title"
     >

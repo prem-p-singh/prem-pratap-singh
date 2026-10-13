@@ -53,7 +53,6 @@ export default function WorkExperience() {
   return (
     <section
       id="experience"
-      data-guided-scroll-section
       className="guided-scroll-section"
       aria-labelledby="work-experience-title"
     >

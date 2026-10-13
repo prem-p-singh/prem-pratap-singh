@@ -245,22 +245,6 @@ h1, h2, h3 {
   text-wrap: balance;
 }
 
-/* 8px baseline spacing system */
-:root {
-  --space-1: 0.5rem;   /* 8px */
-  --space-2: 1rem;     /* 16px */
-  --space-3: 1.5rem;   /* 24px */
-  --space-4: 2rem;     /* 32px */
-  --space-6: 3rem;     /* 48px */
-  --space-8: 4rem;     /* 64px */
-  --space-10: 5rem;    /* 80px */
-}
-
-/* Constrained reading width for prose sections */
-.content-readable {
-  max-width: 720px;
-}
-
 /* Smooth transitions for theme */
 * {
   transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
@@ -344,19 +328,6 @@ h1, h2, h3 {
   }
 }
 
-/* Section divider */
-.section-divider {
-  border-top: none;
-}
-
-/* ═══════════════════════════════════════════════════════════════════════════
-   Section styling
-   ═══════════════════════════════════════════════════════════════════════════ */
-
-.section-alt {
-  background: var(--section-bg);
-}
-
 /* ═══════════════════════════════════════════════════════════════════════════
    Card hover effect
    ═══════════════════════════════════════════════════════════════════════════ */
@@ -392,7 +363,6 @@ h1, h2, h3 {
    ═══════════════════════════════════════════════════════════════════════════ */
 
 .paper-panel,
-.paper-button,
 .paper-control,
 .btn-primary,
 .btn-outline {
@@ -409,7 +379,6 @@ h1, h2, h3 {
   box-shadow: var(--shadow-float);
 }
 
-.paper-button,
 .btn-primary,
 .btn-outline {
   display: inline-flex;
@@ -421,7 +390,6 @@ h1, h2, h3 {
   font-weight: 600;
 }
 
-.paper-button,
 .paper-control,
 .btn-primary,
 .btn-outline {
@@ -432,7 +400,6 @@ h1, h2, h3 {
   border-radius: 0.875rem;
 }
 
-.paper-button:hover,
 .btn-outline:hover,
 :is(a, button, input).paper-control:hover {
   border-color: var(--primary);
@@ -447,73 +414,6 @@ h1, h2, h3 {
 /* Mixing toward ink darkens the fill in light mode and lightens it in dark. */
 .btn-primary:hover {
   background: color-mix(in oklab, var(--primary) 86%, var(--foreground));
-}
-
-/* ═══════════════════════════════════════════════════════════════════════════
-   Timeline styles (legacy)
-   ═══════════════════════════════════════════════════════════════════════════ */
-
-.timeline-item {
-  position: relative;
-  padding-left: 2rem;
-  padding-bottom: 2rem;
-}
-
-.timeline-item::before {
-  content: '';
-  position: absolute;
-  left: 0;
-  top: 0.5rem;
-  width: 12px;
-  height: 12px;
-  border-radius: 50%;
-  background: var(--foreground);
-  border: 2px solid var(--background);
-  z-index: 1;
-}
-
-.timeline-item::after {
-  content: '';
-  position: absolute;
-  left: 5px;
-  top: 1.5rem;
-  width: 2px;
-  height: calc(100% - 1rem);
-  background: var(--border);
-}
-
-.timeline-item:last-child::after {
-  display: none;
-}
-
-.timeline-item:last-child {
-  padding-bottom: 0;
-}
-
-/* ═══════════════════════════════════════════════════════════════════════════
-   Experience section
-   ═══════════════════════════════════════════════════════════════════════════ */
-
-/* Mobile timeline connector */
-@media (max-width: 1023px) {
-  #experience .space-y-8 > div {
-    position: relative;
-    padding-left: 2.5rem;
-  }
-
-  #experience .space-y-8 > div::before {
-    content: '';
-    position: absolute;
-    left: 0.5rem;
-    top: 2.5rem;
-    width: 2px;
-    height: calc(100% + 2rem);
-    background: linear-gradient(to bottom, var(--foreground), var(--border));
-  }
-
-  #experience .space-y-8 > div:last-child::before {
-    display: none;
-  }
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════
@@ -737,32 +637,8 @@ h1, h2, h3 {
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════
-   Image gallery grid
-   ═══════════════════════════════════════════════════════════════════════════ */
-
-.gallery-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-  gap: 1rem;
-}
-
-/* ═══════════════════════════════════════════════════════════════════════════
    Global Interactive States
    ═══════════════════════════════════════════════════════════════════════════ */
-
-/* Footer social icons with rounded bg */
-.rounded-full[aria-label]:hover {
-  border-color: var(--muted-foreground);
-}
-
-/* Publication / list items press */
-.border.rounded-lg {
-  transition: all 0.2s ease;
-}
-
-.border.rounded-lg:hover {
-  border-color: var(--muted-foreground);
-}
 
 /* Ripple-like feedback for all clickable elements */
 a, button {

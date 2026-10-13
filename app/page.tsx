@@ -40,7 +40,6 @@ export default function Home() {
 
       <section
         id="research"
-        data-guided-scroll-section
         className="guided-scroll-section"
         aria-labelledby="research-title"
       >
@@ -103,7 +102,6 @@ export default function Home() {
 
       <section
         id="projects"
-        data-guided-scroll-section
         className="guided-scroll-section"
         aria-labelledby="projects-title"
       >
@@ -128,7 +126,6 @@ export default function Home() {
       {latestPosts.length > 0 && (
         <section
           id="blog"
-          data-guided-scroll-section
           className="guided-scroll-section"
           aria-labelledby="blog-title"
         >
@@ -210,7 +207,6 @@ export default function Home() {
 
       <section
         id="contact"
-        data-guided-scroll-section
         className="guided-scroll-section"
         aria-labelledby="contact-title"
       >
