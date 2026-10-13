@@ -107,7 +107,7 @@ export default function BlogPage() {
                 <div className="relative aspect-video overflow-hidden rounded-xl border border-border bg-card">
                   <Image
                     src={featuredImage}
-                    alt={featured.title}
+                    alt=""
                     fill
                     priority
                     sizes="(max-width: 1024px) 100vw, 660px"

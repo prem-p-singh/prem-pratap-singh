@@ -40,7 +40,7 @@ export default function DataPage() {
                     <div className="relative aspect-video overflow-hidden rounded-xl border border-border bg-card">
                       <Image
                         src={post.image}
-                        alt={post.title}
+                        alt=""
                         fill
                         priority={index === 0}
                         sizes="(max-width: 1024px) 100vw, 440px"

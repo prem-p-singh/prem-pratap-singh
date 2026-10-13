@@ -231,7 +231,6 @@ export default function ResearchPathway() {
               role="tabpanel"
               tabIndex={0}
               aria-labelledby={`research-pathway-tab-${active.id}`}
-              aria-live="polite"
               className="paper-panel mt-8 p-6 sm:p-8"
             >
               <span className={`absolute inset-x-0 top-0 h-1 ${activeTone.edge}`} aria-hidden="true" />

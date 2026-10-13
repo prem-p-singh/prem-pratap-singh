@@ -64,7 +64,7 @@ const facts: Array<{
 // The third tag of the previous design repeated the open-to-roles sentence below, so it stays out.
 const tags = [
   { label: "UC Davis", className: "border-field/20 bg-field-wash text-field-strong" },
-  { label: "Grapevine virology", className: "border-biology/20 bg-biology-wash text-biology" },
+  { label: "Grapevine virology", className: "border-biology/20 bg-biology-wash text-biology-strong" },
 ];
 
 const links: Array<{ label: string; href: string; icon: LucideIcon }> = [

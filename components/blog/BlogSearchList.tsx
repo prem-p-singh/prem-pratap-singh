@@ -71,7 +71,7 @@ export default function BlogSearchList({ posts }: BlogSearchListProps) {
 
   return (
     <section
-      className="grid gap-x-8 gap-y-10 border-t border-border py-16 lg:grid-cols-12 lg:py-24"
+      className="grid gap-x-8 gap-y-10 py-16 lg:grid-cols-12 lg:py-24"
       aria-labelledby="blog-trails-title"
     >
       <div className="lg:col-span-4">
@@ -150,7 +150,7 @@ export default function BlogSearchList({ posts }: BlogSearchListProps) {
                       <div className="relative aspect-video border-b border-border">
                         <Image
                           src={image}
-                          alt={post.title}
+                          alt=""
                           fill
                           sizes="(max-width: 768px) 100vw, 360px"
                           className="object-contain"

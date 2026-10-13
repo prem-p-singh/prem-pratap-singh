@@ -271,15 +271,15 @@ export default async function BlogPostPage({ params }: Props) {
           {nextPost && (
             <Link
               href={`/blog/${nextPost.slug}`}
-              className={`paper-panel group block p-6 text-right ${!prevPost ? "sm:col-start-2" : ""}`}
+              className={`paper-panel group block p-6 sm:text-right ${!prevPost ? "sm:col-start-2" : ""}`}
             >
-              <span className="flex items-center justify-end gap-1 text-sm font-semibold text-muted-foreground">
+              <span className="flex items-center gap-1 text-sm font-semibold text-muted-foreground sm:justify-end">
                 Next
                 <svg className="size-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                 </svg>
               </span>
-              <span className="mt-2 line-clamp-2 font-serif text-xl leading-snug text-foreground underline-offset-4 group-hover:underline">
+              <span className="mt-2 font-serif text-xl leading-snug text-foreground underline-offset-4 group-hover:underline sm:line-clamp-2">
                 {nextPost.title}
               </span>
             </Link>

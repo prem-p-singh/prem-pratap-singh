@@ -1,5 +1,3 @@
-"use client";
-
 import Link from "next/link";
 import { FlaskConical, Github, GraduationCap, Linkedin, Mail } from "lucide-react";
 import { personal } from "@/profile/personal";

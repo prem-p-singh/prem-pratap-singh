@@ -18,6 +18,7 @@ export default function FloatingNavWrapper() {
   const [exploreOpen, setExploreOpen] = useState(false);
   const exploreMenuRef = useRef<HTMLDivElement>(null);
   const exploreButtonRef = useRef<HTMLButtonElement>(null);
+  const mobileButtonRef = useRef<HTMLButtonElement>(null);
   const headerRef = useRef<HTMLElement>(null);
   const mobileMenuRef = useRef<HTMLDivElement>(null);
   const pathname = usePathname();
@@ -40,9 +41,13 @@ export default function FloatingNavWrapper() {
 
     const closeOnEscape = (event: KeyboardEvent) => {
       if (event.key !== "Escape") return;
+      // The effect runs once, so read what is open from the buttons themselves.
+      const exploreWasOpen = exploreButtonRef.current?.getAttribute("aria-expanded") === "true";
+      const mobileWasOpen = mobileButtonRef.current?.getAttribute("aria-expanded") === "true";
       setExploreOpen(false);
       setMobileOpen(false);
-      exploreButtonRef.current?.focus();
+      if (exploreWasOpen) exploreButtonRef.current?.focus();
+      else if (mobileWasOpen) mobileButtonRef.current?.focus();
     };
 
     document.addEventListener("pointerdown", closeOnOutsideClick);
@@ -123,6 +128,7 @@ export default function FloatingNavWrapper() {
             <div className="flex items-center gap-1">
               <ThemeToggle />
               <button
+                ref={mobileButtonRef}
                 type="button"
                 onClick={() => setMobileOpen((open) => !open)}
                 className="flex size-10 items-center justify-center rounded-full text-foreground hover:bg-muted lg:hidden"
