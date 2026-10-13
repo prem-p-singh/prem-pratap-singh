@@ -263,7 +263,7 @@ export default async function BlogPostPage({ params }: Props) {
                 </svg>
                 Previous
               </span>
-              <span className="mt-2 line-clamp-2 font-serif text-xl leading-snug text-foreground underline-offset-4 group-hover:underline">
+              <span className="mt-2 font-serif text-xl leading-snug text-foreground underline-offset-4 group-hover:underline sm:line-clamp-2">
                 {prevPost.title}
               </span>
             </Link>
