@@ -124,7 +124,7 @@ export default async function BlogPostPage({ params }: Props) {
   };
 
   return (
-    <article className="pt-16">
+    <article className="min-h-screen pt-16">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(articleJsonLd) }}
@@ -133,69 +133,61 @@ export default async function BlogPostPage({ params }: Props) {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
       />
-      {/* Hero */}
-      <section className="bg-gradient-to-b from-muted to-background pb-6 pt-12 sm:pb-8 sm:pt-14">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          {/* Back Link */}
+      <div className="mx-auto max-w-6xl px-4 pb-16 sm:px-6 lg:px-8 lg:pb-24">
+        {/* The header sits on the page wash; only the cards below are opaque. */}
+        <header className="pt-10 sm:pt-12 lg:pt-14">
           <Link
             href="/blog"
-            className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors mb-8 group"
+            className="inline-flex items-center gap-2 text-sm font-semibold text-muted-foreground underline-offset-4 hover:text-foreground hover:underline"
           >
-            <svg className="h-4 w-4 group-hover:-translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
             </svg>
             All Articles
           </Link>
-
-          {/* Tags */}
-          {post.tags && post.tags.length > 0 && (
-            <div className="flex flex-wrap gap-2 mb-4">
-              {post.tags.slice(0, 3).map((tag) => (
-                <span
-                  key={tag}
-                  className="px-3 py-1 text-xs font-medium bg-primary/10 text-primary rounded-full"
-                >
-                  {tag}
-                </span>
-              ))}
-              {post.tags.length > 3 && (
-                <span className="px-3 py-1 text-xs font-medium text-muted-foreground">
-                  +{post.tags.length - 3}
-                </span>
-              )}
-            </div>
-          )}
-
-          {/* Title */}
-          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-foreground mb-6 leading-tight">
+          <h1 className="mt-5 max-w-4xl text-4xl leading-tight text-foreground sm:text-5xl">
             {post.title}
           </h1>
-
-          {/* Description */}
           {post.description && (
-            <p className="text-xl text-muted-foreground leading-relaxed mb-8">
+            <p className="mt-5 max-w-[65ch] text-lg leading-relaxed text-muted-foreground">
               {post.description}
             </p>
           )}
 
-          {/* Meta & Actions */}
-          <div className="flex flex-col gap-4 border-t border-border pt-6 sm:flex-row sm:items-center sm:justify-between">
-            <div className="flex items-center gap-4 text-sm text-muted-foreground">
-              <div className="flex items-center gap-2">
+          {/* gap-px over the border colour draws the dividers between cells. */}
+          <div className="paper-panel mt-8">
+            <div className="flex flex-wrap gap-px bg-border">
+              <div className="flex min-w-64 flex-1 items-center gap-3 bg-card px-5 py-4 sm:px-6">
                 <Image
                   src="/images/headshot-1.jpg"
                   alt="Prem Pratap Singh"
                   width={40}
                   height={40}
-                  className="w-10 h-10 rounded-full object-cover"
+                  className="size-10 rounded-full object-cover"
                 />
-                <div>
-                  <p className="font-medium text-foreground">Prem Pratap Singh</p>
-                  <p className="text-xs">{formattedDate} · {post.readingTime}</p>
+                <div className="text-sm leading-normal">
+                  <p className="font-semibold text-foreground">Prem Pratap Singh</p>
+                  <p className="tabular-nums text-muted-foreground">{formattedDate} · {post.readingTime}</p>
                 </div>
               </div>
+              {post.tags && post.tags.length > 0 && (
+                <div className="flex min-w-64 flex-[2] flex-wrap items-center gap-2 bg-card px-5 py-4 sm:px-6">
+                  {post.tags.slice(0, 3).map((tag) => (
+                    <span
+                      key={tag}
+                      className="rounded-full border border-field/20 bg-field-wash px-3 py-1 text-xs font-semibold text-field"
+                    >
+                      {tag}
+                    </span>
+                  ))}
+                  {post.tags.length > 3 && (
+                    <span className="px-1 py-1 text-xs font-semibold text-muted-foreground">
+                      +{post.tags.length - 3}
+                    </span>
+                  )}
+                </div>
+              )}
             </div>
-            <ShareButtons title={post.title} slug={slug} description={post.description} />
           </div>
 
           {post.visualSummary && (
@@ -204,107 +196,96 @@ export default async function BlogPostPage({ params }: Props) {
               alt={`Illustrated visual summary of ${post.title}`}
             />
           )}
-        </div>
-      </section>
+        </header>
 
-      {/* Content */}
-      <section className="pb-8 pt-6 sm:pb-10 sm:pt-8">
-        <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="prose prose-lg prose-invert max-w-none text-left
-            prose-headings:font-bold prose-headings:tracking-tight prose-headings:text-left
-            prose-h2:text-2xl prose-h2:mt-12 prose-h2:mb-4 prose-h2:pb-2 prose-h2:border-b prose-h2:border-border
-            prose-h3:text-xl prose-h3:mt-8 prose-h3:mb-3
-            prose-p:leading-relaxed prose-p:text-foreground/90
-            prose-a:text-primary prose-a:no-underline hover:prose-a:underline
-            prose-code:text-sm prose-code:bg-muted prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded prose-code:before:content-none prose-code:after:content-none
-            prose-pre:bg-muted prose-pre:border prose-pre:border-border prose-pre:rounded-xl
-            prose-img:rounded-xl prose-img:shadow-lg
-            prose-blockquote:border-l-primary prose-blockquote:bg-muted/50 prose-blockquote:rounded-r-lg prose-blockquote:py-1
-            prose-table:border prose-table:border-border prose-th:bg-muted prose-th:px-4 prose-th:py-2 prose-td:px-4 prose-td:py-2 prose-td:border-t prose-td:border-border
-            prose-strong:text-foreground prose-strong:font-semibold
-            prose-ul:my-4 prose-ol:my-4 prose-li:my-1
-          ">
-            {post.tldr && post.tldr.length > 0 && (
-              <TldrCallout items={post.tldr} />
-            )}
-            <MDXRemote
-              source={post.content}
-              components={components}
-              options={{
-                mdxOptions: {
-                  remarkPlugins: [remarkMath, remarkGfm],
-                  rehypePlugins: [rehypeKatex],
-                },
-              }}
-            />
-          </div>
-
-          {/* Post Navigation */}
-          <div className="mt-12 grid sm:grid-cols-2 gap-4">
-            {prevPost && (
-              <Link
-                href={`/blog/${prevPost.slug}`}
-                className="group p-4 rounded-xl border border-border hover:border-primary/50 hover:bg-muted/50 transition-all"
-              >
-                <span className="text-xs text-muted-foreground mb-1 flex items-center gap-1">
-                  <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-                  </svg>
-                  Previous
-                </span>
-                <p className="font-medium text-foreground group-hover:text-primary transition-colors line-clamp-2">
-                  {prevPost.title}
-                </p>
-              </Link>
-            )}
-            {nextPost && (
-              <Link
-                href={`/blog/${nextPost.slug}`}
-                className={`group p-4 rounded-xl border border-border hover:border-primary/50 hover:bg-muted/50 transition-all text-right ${!prevPost ? "sm:col-start-2" : ""}`}
-              >
-                <span className="text-xs text-muted-foreground mb-1 flex items-center justify-end gap-1">
-                  Next
-                  <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                  </svg>
-                </span>
-                <p className="font-medium text-foreground group-hover:text-primary transition-colors line-clamp-2">
-                  {nextPost.title}
-                </p>
-              </Link>
-            )}
-          </div>
-
-          {/* Related Posts */}
-          {relatedPosts.length > 0 && (
-            <div className="mt-16">
-              <h3 className="text-xl font-semibold text-foreground mb-6 flex items-center gap-2">
-                <svg className="w-5 h-5 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
-                </svg>
-                Related Articles
-              </h3>
-              <div className="grid sm:grid-cols-3 gap-4">
-                {relatedPosts.map((relatedPost) => (
-                  <Link
-                    key={relatedPost.slug}
-                    href={`/blog/${relatedPost.slug}`}
-                    className="group p-4 rounded-xl border border-border hover:border-primary/50 hover:bg-muted/50 transition-all"
-                  >
-                    <p className="font-medium text-foreground group-hover:text-primary transition-colors line-clamp-2 mb-2">
-                      {relatedPost.title}
-                    </p>
-                    <p className="text-xs text-muted-foreground">
-                      {relatedPost.readingTime}
-                    </p>
-                  </Link>
-                ))}
-              </div>
+        {/* The card is as wide as the reading measure; share and related links sit beside it on desktop. */}
+        <div className="mt-5 grid gap-5 lg:grid-cols-12 lg:items-start">
+          <div className="paper-panel p-6 sm:p-10 lg:col-span-8">
+            <div className="prose text-base text-foreground">
+              {post.tldr && post.tldr.length > 0 && (
+                <TldrCallout items={post.tldr} />
+              )}
+              <MDXRemote
+                source={post.content}
+                components={components}
+                options={{
+                  mdxOptions: {
+                    remarkPlugins: [remarkMath, remarkGfm],
+                    rehypePlugins: [rehypeKatex],
+                  },
+                }}
+              />
             </div>
-          )}
+          </div>
 
+          <aside className="grid gap-5 lg:col-span-4">
+            <div className="paper-panel p-6">
+              <ShareButtons title={post.title} slug={slug} description={post.description} />
+            </div>
+
+            {relatedPosts.length > 0 && (
+              <div className="paper-panel p-6">
+                <div className="flex items-center gap-3">
+                  <span className="flex size-11 shrink-0 items-center justify-center rounded-xl bg-field-wash text-field">
+                    <svg className="size-5.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+                    </svg>
+                  </span>
+                  <h2 className="text-xl leading-tight text-foreground">Related Articles</h2>
+                </div>
+                <ul className="mt-4 divide-y divide-border">
+                  {relatedPosts.map((relatedPost) => (
+                    <li key={relatedPost.slug} className="py-4 last:pb-0">
+                      <Link
+                        href={`/blog/${relatedPost.slug}`}
+                        className="line-clamp-3 font-serif text-lg leading-snug text-foreground underline-offset-4 hover:underline"
+                      >
+                        {relatedPost.title}
+                      </Link>
+                      <p className="mt-1 text-sm tabular-nums text-muted-foreground">
+                        {relatedPost.readingTime}
+                      </p>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+          </aside>
         </div>
-      </section>
+
+        {/* Post navigation */}
+        <nav className="mt-5 grid gap-5 sm:grid-cols-2" aria-label="More articles">
+          {prevPost && (
+            <Link href={`/blog/${prevPost.slug}`} className="paper-panel group block p-6">
+              <span className="flex items-center gap-1 text-sm font-semibold text-muted-foreground">
+                <svg className="size-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                </svg>
+                Previous
+              </span>
+              <span className="mt-2 font-serif text-xl leading-snug text-foreground underline-offset-4 group-hover:underline sm:line-clamp-2">
+                {prevPost.title}
+              </span>
+            </Link>
+          )}
+          {nextPost && (
+            <Link
+              href={`/blog/${nextPost.slug}`}
+              className={`paper-panel group block p-6 sm:text-right ${!prevPost ? "sm:col-start-2" : ""}`}
+            >
+              <span className="flex items-center gap-1 text-sm font-semibold text-muted-foreground sm:justify-end">
+                Next
+                <svg className="size-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                </svg>
+              </span>
+              <span className="mt-2 font-serif text-xl leading-snug text-foreground underline-offset-4 group-hover:underline sm:line-clamp-2">
+                {nextPost.title}
+              </span>
+            </Link>
+          )}
+        </nav>
+      </div>
     </article>
   );
 }

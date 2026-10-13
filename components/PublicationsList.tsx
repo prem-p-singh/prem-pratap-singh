@@ -1,8 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { BookOpen, ExternalLink } from "lucide-react";
-import type { Publication } from "@/components/PublicationCard";
+import PublicationCard, { type Publication } from "@/components/PublicationCard";
 
 const INITIAL_COUNT = 8;
 
@@ -37,7 +36,7 @@ export default function PublicationsList({ publications }: { publications: Publi
 
   return (
     <>
-      <div className="paper-panel mb-7 flex flex-col gap-4 bg-card p-4 sm:flex-row sm:items-center sm:justify-between">
+      <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div className="flex flex-wrap gap-2" role="group" aria-label="Filter publications by type">
           {(["all", "journal", "book"] as FilterType[]).map((type) => {
             const label = type === "all" ? "All" : type === "journal" ? "Articles" : "Chapters";
@@ -48,19 +47,15 @@ export default function PublicationsList({ publications }: { publications: Publi
                 type="button"
                 aria-pressed={typeFilter === type}
                 onClick={() => selectType(type)}
-                className={`rounded-full px-3 py-1.5 text-xs font-semibold transition-colors ${
-                  typeFilter === type
-                    ? "bg-primary text-primary-foreground"
-                    : "border border-border bg-muted/40 text-muted-foreground hover:text-foreground"
-                }`}
+                className="rounded-full border border-border bg-card px-3.5 py-1.5 text-xs font-semibold text-muted-foreground transition-colors hover:border-field hover:text-foreground aria-pressed:border-primary aria-pressed:bg-primary aria-pressed:text-primary-foreground"
               >
-                {label} <span className="ml-1 opacity-70">{count}</span>
+                {label} <span className="ml-1 font-normal tabular-nums">{count}</span>
               </button>
             );
           })}
         </div>
 
-        <label className="flex items-center gap-2 text-xs font-semibold text-muted-foreground">
+        <label className="flex items-center gap-3 text-sm text-muted-foreground">
           Method
           <select
             value={methodFilter}
@@ -68,7 +63,7 @@ export default function PublicationsList({ publications }: { publications: Publi
               setMethodFilter(event.target.value);
               setShowAll(false);
             }}
-            className="max-w-56 rounded-lg border border-border bg-background px-3 py-2 text-sm font-medium text-foreground focus:border-primary focus:outline-none"
+            className="paper-control max-w-56 px-3 py-2 text-sm"
           >
             <option value="all">All methods</option>
             {allMethods.map((method) => (
@@ -79,66 +74,21 @@ export default function PublicationsList({ publications }: { publications: Publi
       </div>
 
       {displayed.length > 0 ? (
-        <div className="grid gap-4 md:grid-cols-2">
+        <ul className="paper-panel mt-5 divide-y divide-border px-5 sm:px-7">
           {displayed.map((publication, index) => (
-            <article key={`${publication.title}-${index}`} className="paper-panel group relative overflow-hidden bg-card p-5 transition-colors hover:border-field/60">
-              <div className="flex items-start justify-between gap-4">
-                <span className={`flex size-11 shrink-0 items-center justify-center rounded-xl ${
-                  publication.type === "book"
-                    ? "bg-decision-wash text-decision"
-                    : "bg-data-wash text-data"
-                }`}>
-                  <BookOpen className="size-5" strokeWidth={1.7} aria-hidden="true" />
-                </span>
-                <span className="text-2xl font-black tabular-nums text-foreground/15">{publication.year}</span>
-              </div>
-
-              <h3 className="mt-4 line-clamp-3 font-semibold leading-snug text-foreground">
-                {publication.title}
-              </h3>
-              <div className="mt-4 flex items-center justify-between gap-3 border-t border-border pt-3">
-                <span className="line-clamp-1 text-xs font-medium text-primary">{publication.venue}</span>
-                {publication.links?.paper && publication.links.paper !== "#" && (
-                  <a
-                    href={publication.links.paper}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex size-8 shrink-0 items-center justify-center rounded-full border border-border text-muted-foreground transition-colors hover:border-primary/40 hover:text-primary"
-                    aria-label={`Open ${publication.title}`}
-                  >
-                    <ExternalLink className="size-3.5" strokeWidth={1.8} aria-hidden="true" />
-                  </a>
-                )}
-              </div>
-
-              <details className="group/details mt-3">
-                <summary className="cursor-pointer list-none text-xs font-semibold text-muted-foreground hover:text-foreground marker:content-none">
-                  Authors & methods <span className="inline-block transition-transform group-open/details:rotate-45" aria-hidden="true">+</span>
-                </summary>
-                <div className="mt-3 rounded-xl bg-muted/40 p-3">
-                  <p className="text-xs leading-relaxed text-muted-foreground">{publication.authors.join(", ")}</p>
-                  {publication.methods && publication.methods.length > 0 && (
-                    <div className="mt-3 flex flex-wrap gap-1.5">
-                      {publication.methods.map((method) => (
-                        <span key={method} className="rounded-full border border-border bg-background px-2 py-1 text-xs font-medium text-foreground/75">
-                          {method}
-                        </span>
-                      ))}
-                    </div>
-                  )}
-                </div>
-              </details>
-            </article>
+            <li key={`${publication.title}-${index}`} className="py-5">
+              <PublicationCard publication={publication} />
+            </li>
           ))}
-        </div>
+        </ul>
       ) : (
-        <p className="rounded-2xl border border-dashed border-border py-12 text-center text-muted-foreground">
+        <p className="paper-panel mt-5 px-6 py-8 text-sm text-muted-foreground">
           No publications match these filters.
         </p>
       )}
 
       {filtered.length > INITIAL_COUNT && (
-        <div className="mt-8 text-center">
+        <div className="mt-5">
           <button type="button" onClick={() => setShowAll((value) => !value)} className="btn-outline">
             {showAll ? "Show less" : `Show ${filtered.length - INITIAL_COUNT} more`}
           </button>

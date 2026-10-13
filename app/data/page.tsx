@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import Image from "next/image";
-import { ArrowRight } from "lucide-react";
 import { getAllDataPosts } from "@/lib/data";
 import { formatContentDate } from "@/lib/date";
 
@@ -16,96 +15,111 @@ export default function DataPage() {
   const posts = getAllDataPosts();
 
   return (
-    <div className="pt-16 min-h-screen">
-      {/* Hero */}
-      <section className="bg-gradient-to-b from-muted to-background pb-6 pt-14 sm:pb-8 sm:pt-16">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="max-w-3xl">
-            <p className="section-kicker mb-3">
-              Open Data, Decoded
-            </p>
-            <h1 className="text-4xl sm:text-5xl font-bold text-foreground mb-4">
-              What public data actually says
-            </h1>
-            <p className="text-lg text-muted-foreground leading-relaxed">
-              Public plant-science datasets, turned into maps, charts, and reproducible conclusions.
+    <div className="min-h-screen pt-16">
+      <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+        <header className="pb-10 pt-10 sm:pt-12 lg:pt-14">
+          <p className="section-kicker">Open Data, Decoded</p>
+          <h1 className="mt-3 text-4xl leading-tight text-foreground sm:text-5xl lg:text-6xl">
+            What public data actually says
+          </h1>
+          <p className="mt-5 max-w-[60ch] text-base leading-relaxed text-muted-foreground">
+            Public plant-science datasets, turned into maps, charts, and reproducible conclusions.
+          </p>
+        </header>
+
+        {posts.length > 0 ? (
+          <ul className="grid gap-5 pb-16 lg:pb-24">
+            {posts.map((post, index) => (
+              <li
+                key={post.slug}
+                className="paper-panel grid gap-x-8 gap-y-6 p-6 sm:p-7 lg:grid-cols-12"
+              >
+                <span className="absolute inset-x-0 top-0 h-1 bg-data" aria-hidden="true" />
+                <div className="lg:col-span-5">
+                  {post.image && (
+                    <div className="relative aspect-video overflow-hidden rounded-xl border border-border bg-card">
+                      <Image
+                        src={post.image}
+                        alt=""
+                        fill
+                        priority={index === 0}
+                        sizes="(max-width: 1024px) 100vw, 440px"
+                        className="object-contain"
+                      />
+                    </div>
+                  )}
+                  <dl className={`divide-y divide-border text-sm leading-normal ${post.image ? "mt-4" : ""}`}>
+                    <div className="grid grid-cols-[7rem_1fr] gap-x-4 py-3">
+                      <dt className="font-semibold text-foreground">Published</dt>
+                      <dd className="tabular-nums text-muted-foreground">
+                        <time dateTime={post.date}>
+                          {formatContentDate(post.date, { year: "numeric", month: "short", day: "numeric" })}
+                        </time>
+                      </dd>
+                    </div>
+                    {typeof post.records === "number" && (
+                      <div className="grid grid-cols-[7rem_1fr] gap-x-4 py-3">
+                        <dt className="font-semibold text-foreground">Records</dt>
+                        <dd className="tabular-nums text-muted-foreground">
+                          {post.records.toLocaleString()}
+                        </dd>
+                      </div>
+                    )}
+                  </dl>
+                </div>
+                <div className="flex flex-col lg:col-span-7">
+                  {post.source && (
+                    <p className="self-start rounded-full border border-data/20 bg-data-wash px-3 py-1 text-xs font-semibold text-data">
+                      {post.source}
+                    </p>
+                  )}
+                  <h2 className="mt-3 text-2xl leading-snug text-foreground">
+                    {/* The link's ::after covers the card, so the figure is clickable too. */}
+                    <Link
+                      href={`/data/${post.slug}`}
+                      className="underline-offset-4 after:absolute after:inset-0 hover:underline"
+                    >
+                      {post.title}
+                    </Link>
+                  </h2>
+                  {post.description && (
+                    <p className="mt-3 max-w-[60ch] text-base leading-relaxed text-muted-foreground">
+                      {post.description}
+                    </p>
+                  )}
+                  {post.keyStats && post.keyStats.length > 0 && (
+                    <dl className="mt-5 grid grid-cols-2 gap-3 sm:grid-cols-4 lg:mt-auto lg:pt-5">
+                      {post.keyStats.map((stat) => (
+                        <div
+                          key={stat.label}
+                          className="flex flex-col-reverse justify-end rounded-xl bg-data-wash px-4 py-3"
+                        >
+                          <dt className="text-sm font-semibold leading-snug text-foreground">
+                            {stat.label}
+                          </dt>
+                          <dd className="text-2xl font-semibold tabular-nums text-data">
+                            {stat.value}
+                          </dd>
+                        </div>
+                      ))}
+                    </dl>
+                  )}
+                  <p className="mt-5 text-sm font-semibold text-data underline underline-offset-4">
+                    Open visual story
+                  </p>
+                </div>
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <div className="paper-panel mb-16 p-6 sm:p-8 lg:mb-24">
+            <h2 className="text-3xl leading-tight text-foreground">First analyses coming soon</h2>
+            <p className="mt-3 max-w-[60ch] text-base leading-relaxed text-muted-foreground">
+              Reproducible reads of public plant-science datasets are on the way.
             </p>
           </div>
-        </div>
-      </section>
-
-      <section className="py-6 sm:py-8">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-          {posts.length > 0 ? (
-            <div className="grid sm:grid-cols-1 lg:grid-cols-2 gap-6">
-              {posts.map((post, index) => {
-                const formattedDate = formatContentDate(post.date, {
-                  year: "numeric",
-                  month: "short",
-                  day: "numeric",
-                });
-                return (
-                  <Link
-                    key={post.slug}
-                    href={`/data/${post.slug}`}
-                    className="paper-panel group flex flex-col bg-card transition-all overflow-hidden hover:border-field/60"
-                  >
-                    <div className="relative aspect-[16/9] w-full overflow-hidden bg-muted">
-                      {post.image ? (
-                        <Image
-                          src={post.image}
-                          alt={post.title}
-                          fill
-                          priority={index === 0}
-                          sizes="(max-width: 1024px) 100vw, 50vw"
-                          className="object-contain p-3 group-hover:scale-[1.02] transition-transform duration-500"
-                        />
-                      ) : (
-                        <div className="w-full h-full bg-gradient-to-br from-primary/10 to-accent/10" />
-                      )}
-                    </div>
-                    <div className="flex flex-col flex-grow p-6">
-                      <div className="flex flex-wrap items-center gap-2 text-xs text-muted-foreground mb-2">
-                        <time dateTime={post.date}>{formattedDate}</time>
-                        {post.source && (
-                          <>
-                            <span>·</span>
-                            <span className="px-2 py-0.5 rounded-md bg-primary/10 text-primary font-medium">
-                              {post.source}
-                            </span>
-                          </>
-                        )}
-                        {typeof post.records === "number" && (
-                          <>
-                            <span>·</span>
-                            <span>{post.records.toLocaleString()} records</span>
-                          </>
-                        )}
-                      </div>
-                      <h2 className="text-lg sm:text-xl font-semibold text-foreground group-hover:text-primary transition-colors mb-2 leading-snug">
-                        {post.title}
-                      </h2>
-                      <span className="mt-4 inline-flex items-center gap-1 text-sm font-medium text-primary">
-                        Open visual story
-                        <ArrowRight className="size-4 transition-transform group-hover:translate-x-1" strokeWidth={1.8} aria-hidden="true" />
-                      </span>
-                    </div>
-                  </Link>
-                );
-              })}
-            </div>
-          ) : (
-            <div className="text-center py-20">
-              <h2 className="text-2xl font-semibold text-foreground mb-3">
-                First analyses coming soon
-              </h2>
-              <p className="text-muted-foreground max-w-md mx-auto">
-                Reproducible reads of public plant-science datasets are on the way.
-              </p>
-            </div>
-          )}
-        </div>
-      </section>
+        )}
+      </div>
     </div>
   );
 }

@@ -43,21 +43,27 @@ export default function JourneyImpact() {
   }, []);
 
   const cells = [
-    { v: STATIC.journalArticles, l: "Journal articles" },
-    { v: STATIC.bookChapters, l: "Book chapters" },
-    { v: live?.citations ?? FALLBACK.citations, l: "Citations" },
-    { v: live?.indices ?? FALLBACK.indices, l: "Indices" },
+    // Articles data and chapters decision, as on the homepage; citations field, indices biology.
+    { v: STATIC.journalArticles, l: "Journal articles", wash: "bg-data-wash", text: "text-data" },
+    { v: STATIC.bookChapters, l: "Book chapters", wash: "bg-decision-wash", text: "text-decision" },
+    { v: live?.citations ?? FALLBACK.citations, l: "Citations", wash: "bg-field-wash", text: "text-field" },
+    { v: live?.indices ?? FALLBACK.indices, l: "Indices", wash: "bg-biology-wash", text: "text-biology" },
   ];
 
   return (
-    <div className="mt-14 grid grid-cols-2 sm:grid-cols-4 gap-4 max-w-3xl mx-auto">
-      {cells.map((s) => (
-        <div key={s.l} className="text-center">
-          <p className="text-xl font-bold text-foreground">{s.v}</p>
-          <p className="text-xs text-muted-foreground mt-1">{s.l}</p>
-        </div>
-      ))}
-      <p className="col-span-2 sm:col-span-4 text-center text-xs text-muted-foreground/70 mt-2">
+    <div className="paper-panel p-6 sm:p-7">
+      <dl className="grid grid-cols-2 gap-3">
+        {cells.map((s) => (
+          <div
+            key={s.l}
+            className={`flex flex-col-reverse justify-end rounded-xl px-4 py-3 ${s.wash}`}
+          >
+            <dt className="text-sm font-semibold leading-snug text-foreground">{s.l}</dt>
+            <dd className={`text-2xl font-semibold tabular-nums ${s.text}`}>{s.v}</dd>
+          </div>
+        ))}
+      </dl>
+      <p className="mt-4 text-xs text-muted-foreground">
         Citations and indices update automatically from OpenAlex.
       </p>
     </div>

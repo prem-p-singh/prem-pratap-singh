@@ -5,25 +5,20 @@ import { useSyncExternalStore } from "react";
 type Theme = "light" | "dark";
 
 const THEME_CHANGE_EVENT = "portfolio-theme-change";
-const DAY_START_HOUR = 7;
-const NIGHT_START_HOUR = 19;
 let sessionTheme: Theme | null = null;
 
 function getStoredTheme(): Theme | null {
-  const stored = localStorage.getItem("theme");
-  return stored === "light" || stored === "dark" ? stored : null;
-}
-
-function getAutomaticTheme(): Theme {
-  const hour = new Date().getHours();
-  const isNight = hour < DAY_START_HOUR || hour >= NIGHT_START_HOUR;
-  const devicePrefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
-
-  return devicePrefersDark || isNight ? "dark" : "light";
+  try {
+    const stored = localStorage.getItem("theme");
+    return stored === "light" || stored === "dark" ? stored : null;
+  } catch {
+    // Blocked storage falls back to the light default.
+    return null;
+  }
 }
 
 function getResolvedTheme(): Theme {
-  return sessionTheme ?? getStoredTheme() ?? getAutomaticTheme();
+  return sessionTheme ?? getStoredTheme() ?? "light";
 }
 
 function applyTheme(theme: Theme) {
@@ -37,12 +32,10 @@ function getThemeSnapshot() {
 }
 
 function getServerThemeSnapshot() {
-  return false;
+  return true;
 }
 
 function subscribeToTheme(onChange: () => void) {
-  const colorScheme = window.matchMedia("(prefers-color-scheme: dark)");
-
   const syncTheme = () => {
     applyTheme(getResolvedTheme());
     onChange();
@@ -54,19 +47,12 @@ function subscribeToTheme(onChange: () => void) {
   };
 
   syncTheme();
-  colorScheme.addEventListener("change", syncTheme);
   window.addEventListener("storage", syncStoredTheme);
   window.addEventListener(THEME_CHANGE_EVENT, syncTheme);
 
-  // Recheck local time so the automatic theme changes at the day/night boundary
-  // without requiring a reload.
-  const clock = window.setInterval(syncTheme, 60_000);
-
   return () => {
-    colorScheme.removeEventListener("change", syncTheme);
     window.removeEventListener("storage", syncStoredTheme);
     window.removeEventListener(THEME_CHANGE_EVENT, syncTheme);
-    window.clearInterval(clock);
   };
 }
 
@@ -95,7 +81,6 @@ export default function ThemeToggle() {
       onClick={toggleTheme}
       className="rounded-md p-2 text-muted-foreground transition-colors hover:bg-decision-wash hover:text-decision"
       aria-label={isLight ? "Switch to dark mode" : "Switch to light mode"}
-      title="Theme follows your device and local time until you choose one"
     >
       {isLight ? (
         <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} aria-hidden="true">

@@ -14,10 +14,6 @@ export interface Publication {
   abstract?: string;
 }
 
-interface PublicationCardProps {
-  publication: Publication;
-}
-
 const typeLabels = {
   journal: "Journal",
   conference: "Conference",
@@ -26,80 +22,53 @@ const typeLabels = {
   book: "Book Chapter",
 };
 
-export default function PublicationCard({ publication }: PublicationCardProps) {
-  const { title, authors, venue, year, type, links } = publication;
+// The previous design coloured two types: data for articles, decision for chapters.
+const typeTags: Record<Publication["type"], string> = {
+  journal: "border-data/20 bg-data-wash text-data",
+  conference: "border-field/20 bg-field-wash text-field",
+  preprint: "border-biology/20 bg-biology-wash text-biology",
+  thesis: "border-field/20 bg-field-wash text-field",
+  book: "border-decision/20 bg-decision-wash text-decision",
+};
+
+/** One publication as a row in the archive panel: year and type tag, then title, authors, venue, methods. */
+export default function PublicationCard({ publication }: { publication: Publication }) {
+  const { title, authors, venue, year, type, methods, links } = publication;
+  const href = links?.paper && links.paper !== "#" ? links.paper : undefined;
 
   return (
-    <div className="group p-5 bg-card border border-border rounded-lg card-hover">
-      <div className="flex items-center gap-2 mb-2">
-        <span className="px-2 py-0.5 text-xs font-medium bg-muted text-muted-foreground rounded">
+    <div className="grid gap-x-6 gap-y-3 sm:grid-cols-[8.5rem_1fr]">
+      <p className="flex items-center gap-3 sm:flex-col sm:items-start sm:gap-2">
+        <span className="text-base font-semibold leading-normal tabular-nums text-foreground">
+          {year}
+        </span>
+        <span className={`rounded-full border px-3 py-1 text-xs font-semibold ${typeTags[type]}`}>
           {typeLabels[type]}
         </span>
-        <span className="text-xs text-muted-foreground">{year}</span>
+      </p>
+
+      <div>
+        {/* The base h3 rule is unlayered, so the sans needs the important flag to win. */}
+        <h3 className="font-sans! text-wrap! text-base font-semibold leading-snug text-foreground">
+          {href ? (
+            <a
+              href={href}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="underline decoration-border underline-offset-4 transition-colors hover:text-field hover:decoration-field"
+            >
+              {title}
+            </a>
+          ) : (
+            title
+          )}
+        </h3>
+        <p className="mt-2 text-sm text-muted-foreground">{authors.join(", ")}</p>
+        <p className="mt-1 text-sm text-foreground">{venue}</p>
+        {methods && methods.length > 0 && (
+          <p className="mt-1 text-sm text-muted-foreground">{methods.join(", ")}</p>
+        )}
       </div>
-
-      <h3 className="text-base font-medium text-foreground leading-snug group-hover:text-accent transition-colors">
-        {title}
-      </h3>
-
-      <p className="mt-1.5 text-sm text-muted-foreground">
-        {authors.join(", ")}
-      </p>
-
-      <p className="mt-1 text-sm text-muted-foreground">
-        {venue}
-      </p>
-
-      {links && Object.keys(links).length > 0 && (
-        <div className="mt-3 pt-3 border-t border-border flex flex-wrap gap-2">
-          {links.paper && (
-            <a
-              href={links.paper}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground transition-colors"
-            >
-              <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m.75 12l3 3m0 0l3-3m-3 3v-6m-1.5-9H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" />
-              </svg>
-              PDF
-            </a>
-          )}
-          {links.code && (
-            <a
-              href={links.code}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground transition-colors"
-            >
-              <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M17.25 6.75L22.5 12l-5.25 5.25m-10.5 0L1.5 12l5.25-5.25m7.5-3l-4.5 16.5" />
-              </svg>
-              Code
-            </a>
-          )}
-          {links.doi && (
-            <a
-              href={`https://doi.org/${links.doi}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground transition-colors"
-            >
-              DOI
-            </a>
-          )}
-          {links.slides && (
-            <a
-              href={links.slides}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground transition-colors"
-            >
-              Slides
-            </a>
-          )}
-        </div>
-      )}
     </div>
   );
 }

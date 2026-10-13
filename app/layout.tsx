@@ -1,12 +1,20 @@
 import type { Metadata } from "next";
-import { Urbanist } from "next/font/google";
+import { IBM_Plex_Sans, STIX_Two_Text } from "next/font/google";
 import "./globals.css";
 import FloatingNavWrapper from "@/components/FloatingNavWrapper";
 import Footer from "@/components/Footer";
 import MicrosoftClarity from "@/components/analytics/MicrosoftClarity";
 
-const urbanist = Urbanist({
-  variable: "--font-urbanist",
+const stix = STIX_Two_Text({
+  variable: "--font-stix",
+  subsets: ["latin"],
+  weight: "variable",
+  style: ["normal", "italic"],
+  display: "swap",
+});
+
+const plex = IBM_Plex_Sans({
+  variable: "--font-plex",
   subsets: ["latin"],
   weight: "variable",
   style: ["normal", "italic"],
@@ -160,18 +168,12 @@ const profilePageJsonLd = {
 
 const themeScript = `
 (function(){
-  var saved = null;
-  try { saved = localStorage.getItem('theme'); } catch(e) {}
-
-  var hour = new Date().getHours();
-  var isNight = hour < 7 || hour >= 19;
-  var devicePrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-  var theme = saved === 'light' || saved === 'dark'
-    ? saved
-    : (devicePrefersDark || isNight ? 'dark' : 'light');
-
-  document.documentElement.classList.toggle('light', theme === 'light');
-  document.documentElement.style.colorScheme = theme;
+  try {
+    if (localStorage.getItem('theme') === 'dark') {
+      document.documentElement.classList.remove('light');
+      document.documentElement.style.colorScheme = 'dark';
+    }
+  } catch(e) {}
 })()
 `;
 
@@ -181,7 +183,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning data-scroll-behavior="smooth">
+    <html lang="en" className="light" suppressHydrationWarning data-scroll-behavior="smooth">
       <head>
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
         <script
@@ -199,14 +201,9 @@ export default function RootLayout({
         <link rel="alternate" type="application/rss+xml" title="Prem Pratap Singh's Blog" href="/feed.xml" />
       </head>
       <body
-        className={`${urbanist.variable} antialiased min-h-screen flex flex-col`}
+        className={`${stix.variable} ${plex.variable} antialiased min-h-screen flex flex-col`}
         suppressHydrationWarning
       >
-        {/* A restrained field-to-data wash gives both themes a shared identity. */}
-        <div className="fixed inset-0 -z-10 overflow-hidden">
-          <div className="absolute -right-32 -top-40 size-[38rem] rounded-full bg-field-wash blur-[140px]" />
-          <div className="absolute -bottom-40 -left-32 size-[34rem] rounded-full bg-data-wash blur-[140px]" />
-        </div>
         <FloatingNavWrapper />
         <main className="flex-grow relative z-10">
           {children}

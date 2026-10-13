@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import Image from "next/image";
-import { ArrowRight } from "lucide-react";
 import { getAllMethodPosts } from "@/lib/methods";
 
 export const metadata: Metadata = {
@@ -22,83 +21,100 @@ export default function MethodsPage() {
   const posts = getAllMethodPosts();
 
   return (
-    <div className="pt-16 min-h-screen">
-      <section className="bg-gradient-to-b from-muted to-background pb-6 pt-14 sm:pb-8 sm:pt-16">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="max-w-3xl">
-            <p className="section-kicker mb-3">
-              Methods
-            </p>
-            <h1 className="text-4xl sm:text-5xl font-bold text-foreground mb-4">
-              Methods, made visible.
-            </h1>
-            <p className="text-lg text-muted-foreground leading-relaxed">
-              {methodCount(posts.length)} to turn biological and public data into a decision you
-              can inspect.
-            </p>
-          </div>
-        </div>
-      </section>
+    <div className="min-h-screen pt-16">
+      <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+        <header className="pb-10 pt-10 sm:pt-12 lg:pt-14">
+          <h1 className="text-4xl leading-tight text-foreground sm:text-5xl lg:text-6xl">
+            Methods, made visible.
+          </h1>
+          <p className="mt-5 max-w-[60ch] text-base leading-relaxed text-muted-foreground">
+            {methodCount(posts.length)} to turn biological and public data into a decision you
+            can inspect.
+          </p>
+        </header>
 
-      <section className="py-6 sm:py-8">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-          {posts.length > 0 ? (
-            <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
-              {posts.map((post, index) => (
-                <Link
-                  key={post.slug}
-                  href={`/methods/${post.slug}`}
-                  className="paper-panel group flex flex-col bg-card transition-all overflow-hidden hover:border-field/60"
-                >
-                  <div className="relative aspect-[16/9] w-full overflow-hidden bg-muted">
-                    {post.image ? (
+        {posts.length > 0 ? (
+          <ul className="grid gap-5 pb-16 lg:pb-24">
+            {posts.map((post, index) => (
+              <li
+                key={post.slug}
+                className="paper-panel grid gap-x-8 gap-y-6 p-6 sm:p-7 lg:grid-cols-12"
+              >
+                <span className="absolute inset-x-0 top-0 h-1 bg-decision" aria-hidden="true" />
+                <div className="lg:col-span-5">
+                  {post.image && (
+                    <div className="relative aspect-video overflow-hidden rounded-xl border border-border bg-card">
                       <Image
                         src={post.image}
                         alt={post.title}
                         fill
                         priority={index === 0}
-                        sizes="(max-width: 768px) 100vw, (max-width: 1280px) 50vw, 33vw"
-                        className="object-contain p-3 group-hover:scale-[1.02] transition-transform duration-500"
+                        sizes="(max-width: 1024px) 100vw, 440px"
+                        className="object-contain"
                       />
-                    ) : (
-                      <div className="w-full h-full bg-gradient-to-br from-primary/10 to-accent/10" />
-                    )}
-                  </div>
-                  <div className="flex flex-col flex-grow p-6">
-                    {post.method && (
-                      <span className="inline-flex self-start px-2 py-0.5 mb-2 text-xs font-semibold uppercase tracking-wider rounded-md bg-primary/10 text-primary">
-                        {post.method}
-                      </span>
-                    )}
-                    <h2 className="text-lg sm:text-xl font-semibold text-foreground group-hover:text-primary transition-colors mb-2 leading-snug">
-                      {post.title}
-                    </h2>
-                    {(post.origin || post.reappliedTo) && (
-                      <div className="mt-4 grid grid-cols-[1fr_auto_1fr] items-center gap-3 border-t border-border pt-4">
-                        <div className="min-w-0">
-                          <p className="text-xs font-semibold uppercase tracking-wider text-biology">Built in</p>
-                          <p className="mt-1 truncate text-xs font-medium text-foreground">{post.origin || "Original study"}</p>
-                        </div>
-                        <ArrowRight className="size-4 text-muted-foreground/50" aria-hidden="true" />
-                        <div className="min-w-0">
-                          <p className="text-xs font-semibold uppercase tracking-wider text-data">Re-tested on</p>
-                          <p className="mt-1 truncate text-xs font-medium text-foreground">{post.reappliedTo || "Public data"}</p>
-                        </div>
+                    </div>
+                  )}
+                  {(post.origin || post.reappliedTo) && (
+                    <dl className={`divide-y divide-border text-sm leading-normal ${post.image ? "mt-4" : ""}`}>
+                      {/* Label colours as the previous design had them: origin biology, re-test data. */}
+                      <div className="grid grid-cols-[7rem_1fr] gap-x-4 py-3">
+                        <dt className="font-semibold text-biology">Built in</dt>
+                        <dd className="tabular-nums text-foreground">{post.origin || "Original study"}</dd>
                       </div>
-                    )}
-                  </div>
-                </Link>
-              ))}
-            </div>
-          ) : (
-            <div className="text-center py-20">
-              <h2 className="text-2xl font-semibold text-foreground mb-3">
-                Case studies coming soon
-              </h2>
-            </div>
-          )}
-        </div>
-      </section>
+                      <div className="grid grid-cols-[7rem_1fr] gap-x-4 py-3">
+                        <dt className="font-semibold text-data">Re-tested on</dt>
+                        <dd className="tabular-nums text-foreground">{post.reappliedTo || "Public data"}</dd>
+                      </div>
+                    </dl>
+                  )}
+                </div>
+                <div className="flex flex-col lg:col-span-7">
+                  {post.method && (
+                    <p className="self-start rounded-full border border-decision/20 bg-decision-wash px-3 py-1 text-xs font-semibold text-decision">
+                      {post.method}
+                    </p>
+                  )}
+                  <h2 className="mt-3 text-2xl leading-snug text-foreground">
+                    {/* The link's ::after covers the card, so the figure is clickable too. */}
+                    <Link
+                      href={`/methods/${post.slug}`}
+                      className="underline-offset-4 after:absolute after:inset-0 hover:underline"
+                    >
+                      {post.title}
+                    </Link>
+                  </h2>
+                  {post.description && (
+                    <p className="mt-3 max-w-[60ch] text-base leading-relaxed text-muted-foreground">
+                      {post.description}
+                    </p>
+                  )}
+                  {post.keyStats && post.keyStats.length > 0 && (
+                    <dl className="mt-5 grid grid-cols-2 gap-3 sm:grid-cols-4 lg:mt-auto lg:pt-5">
+                      {post.keyStats.map((stat) => (
+                        <div
+                          key={stat.label}
+                          className="flex flex-col-reverse justify-end rounded-xl bg-decision-wash px-4 py-3"
+                        >
+                          <dt className="text-sm font-semibold leading-snug text-foreground">
+                            {stat.label}
+                          </dt>
+                          <dd className="text-2xl font-semibold tabular-nums text-decision">
+                            {stat.value}
+                          </dd>
+                        </div>
+                      ))}
+                    </dl>
+                  )}
+                </div>
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <div className="paper-panel mb-16 p-6 sm:p-8 lg:mb-24">
+            <h2 className="text-3xl leading-tight text-foreground">Case studies coming soon</h2>
+          </div>
+        )}
+      </div>
     </div>
   );
 }

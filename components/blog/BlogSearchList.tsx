@@ -4,8 +4,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useMemo, useState } from "react";
-import { ArrowRight, BookOpen, Search, Shuffle } from "lucide-react";
 import { formatContentDate } from "@/lib/date";
+import { FieldIcon } from "@/components/icons/PortfolioIcons";
 import type { BlogPostMeta } from "@/lib/mdx";
 
 interface BlogSearchListProps {
@@ -18,16 +18,22 @@ const researchTrails: Array<{
   id: TrailId;
   label: string;
   keywords: string[];
-  dotClass: string;
+  dot: string;
 }> = [
-  { id: "all", label: "Everything", keywords: [], dotClass: "bg-foreground" },
-  { id: "vineyard", label: "Vineyard", keywords: ["grapevine", "vineyard", "vine ", "grbv"], dotClass: "bg-field" },
-  { id: "signals", label: "Omics & RNA", keywords: ["omics", "rna", "gene", "genom", "molecular", "mass spectrometry"], dotClass: "bg-biology" },
-  { id: "sensing", label: "Sensing & 3D", keywords: ["3d", "sensing", "point cloud", "imaging", "geometry", "biomarker", "detection"], dotClass: "bg-data" },
-  { id: "defense", label: "Disease defense", keywords: ["pathogen", "disease", "defense", "resistance", "fusarium", "xylella", "phytophthora"], dotClass: "bg-decision" },
+  // Dot colours as the previous design had them, one family per trail.
+  { id: "all", label: "Everything", keywords: [], dot: "bg-foreground" },
+  { id: "vineyard", label: "Vineyard", keywords: ["grapevine", "vineyard", "vine ", "grbv"], dot: "bg-field" },
+  { id: "signals", label: "Omics & RNA", keywords: ["omics", "rna", "gene", "genom", "molecular", "mass spectrometry"], dot: "bg-biology" },
+  { id: "sensing", label: "Sensing & 3D", keywords: ["3d", "sensing", "point cloud", "imaging", "geometry", "biomarker", "detection"], dot: "bg-data" },
+  { id: "defense", label: "Disease defense", keywords: ["pathogen", "disease", "defense", "resistance", "fusarium", "xylella", "phytophthora"], dot: "bg-decision" },
 ];
 
+const tagClass =
+  "rounded-full border border-field/20 bg-field-wash px-3 py-1 text-xs font-semibold text-field";
+
 const DEFAULT_VISIBLE = 6;
+// Cards show this many tags; search and trails still read every tag.
+const MAX_TAGS = 3;
 
 function searchableText(post: BlogPostMeta) {
   return [post.title, post.description, ...(post.tags ?? [])].join(" ").toLowerCase();
@@ -64,58 +70,60 @@ export default function BlogSearchList({ posts }: BlogSearchListProps) {
   }
 
   return (
-    <>
-      <div className="paper-panel mb-8 bg-card p-5 sm:p-6">
-        <div className="flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
-          <div>
-            <p className="section-kicker">Research radar</p>
-            <h2 className="mt-2 text-2xl font-bold text-foreground sm:text-3xl">Pick a trail</h2>
-          </div>
-          <button
-            type="button"
-            onClick={surpriseMe}
-            className="paper-button px-5 py-2.5 text-sm font-semibold"
-          >
-            <Shuffle className="size-4" strokeWidth={1.8} aria-hidden="true" />
-            Surprise me
-          </button>
-        </div>
+    <section
+      className="grid gap-x-8 gap-y-10 py-16 lg:grid-cols-12 lg:py-24"
+      aria-labelledby="blog-trails-title"
+    >
+      <div className="lg:col-span-4">
+        <p className="section-kicker">Research radar</p>
+        <h2 id="blog-trails-title" className="mt-3 text-3xl leading-tight text-foreground sm:text-4xl">
+          Pick a trail
+        </h2>
 
-        <div className="mt-6 flex flex-wrap gap-2" role="group" aria-label="Research trails">
+        <div
+          className="mt-6 flex flex-wrap gap-2"
+          role="group"
+          aria-label="Research trails"
+        >
           {researchTrails.map((trail) => {
             const count = posts.filter((post) => {
               const haystack = searchableText(post);
               return trail.keywords.length === 0 || trail.keywords.some((keyword) => haystack.includes(keyword));
             }).length;
-            const selected = activeTrail === trail.id;
             return (
               <button
                 key={trail.id}
                 type="button"
-                aria-pressed={selected}
+                aria-pressed={activeTrail === trail.id}
                 onClick={() => chooseTrail(trail.id)}
-                className={`inline-flex items-center gap-2 rounded-full border px-3.5 py-2 text-sm font-semibold transition-colors ${
-                  selected
-                    ? "border-primary/50 bg-primary/10 text-foreground"
-                    : "border-border bg-background text-muted-foreground hover:text-foreground"
-                }`}
+                className="group inline-flex items-center rounded-full border border-border bg-card px-3.5 py-1.5 text-xs font-semibold text-muted-foreground transition-colors hover:border-field hover:text-foreground aria-pressed:border-primary aria-pressed:bg-primary aria-pressed:text-primary-foreground"
               >
-                <span className={`size-2 rounded-full ${trail.dotClass}`} />
-                {trail.label}
-                <span className="text-xs tabular-nums opacity-60">{count}</span>
+                <span
+                  className={`mr-2 size-2 rounded-full group-aria-pressed:bg-primary-foreground ${trail.dot}`}
+                  aria-hidden="true"
+                />
+                {trail.label} <span className="ml-1 font-normal tabular-nums">{count}</span>
               </button>
             );
           })}
         </div>
+
+        <button
+          type="button"
+          onClick={surpriseMe}
+          className="btn-outline mt-6"
+        >
+          Surprise me
+        </button>
       </div>
 
-      <div className="mb-7 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-        <div className="flex items-center gap-3">
-          <h3 className="text-xl font-bold text-foreground">Visual index</h3>
-          <span className="rounded-full bg-muted px-2.5 py-1 text-xs font-medium text-muted-foreground">{filtered.length}</span>
-        </div>
-        <div className="relative w-full sm:w-72">
-          <Search className="absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" strokeWidth={1.8} aria-hidden="true" />
+      <div className="lg:col-span-8">
+        <div className="paper-panel flex flex-col gap-4 px-5 py-4 sm:flex-row sm:items-center sm:justify-between sm:px-6">
+          {/* The base h3 rule is unlayered, so the sans needs the important flag to win. */}
+          <h3 className="font-sans! text-base font-semibold text-foreground">
+            Visual index{" "}
+            <span className="font-normal tabular-nums text-muted-foreground">{filtered.length}</span>
+          </h3>
           <input
             type="search"
             value={query}
@@ -125,85 +133,108 @@ export default function BlogSearchList({ posts }: BlogSearchListProps) {
             }}
             placeholder="Search this trail..."
             aria-label="Search articles"
-            className="w-full rounded-xl border border-border bg-card py-2.5 pl-9 pr-3 text-sm text-foreground placeholder:text-muted-foreground focus:border-primary/60 focus:outline-none"
+            className="paper-control w-full px-3 py-2 text-sm placeholder:text-muted-foreground sm:w-72"
           />
         </div>
-      </div>
 
-      {filtered.length > 0 ? (
-        <>
-          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-            {visible.map((post, index) => (
-              <Link
-                key={post.slug}
-                href={`/blog/${post.slug}`}
-                className="paper-panel group overflow-hidden bg-card transition-all hover:-translate-y-0.5 hover:border-field/60"
-              >
-                <div className="relative aspect-[16/10] overflow-hidden bg-muted">
-                  {post.visualSummary || post.image ? (
-                    <Image
-                      src={post.visualSummary || post.image!}
-                      alt={post.title}
-                      fill
-                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                      className="object-cover transition-transform duration-500 group-hover:scale-105"
-                    />
-                  ) : (
-                    <div className={`relative flex h-full items-center justify-center overflow-hidden ${
-                      index % 4 === 0
-                        ? "bg-gradient-to-br from-field-wash to-data-wash"
-                        : index % 4 === 1
-                          ? "bg-gradient-to-br from-biology-wash to-data-wash"
-                          : index % 4 === 2
-                            ? "bg-gradient-to-br from-decision-wash to-biology-wash"
-                            : "bg-gradient-to-br from-data-wash to-field-wash"
-                    }`}>
-                      <span className="absolute -right-10 -top-10 size-40 rounded-full border border-foreground/10" />
-                      <span className="absolute -bottom-12 -left-8 size-32 rounded-full border border-foreground/10" />
-                      <BookOpen className="size-12 text-foreground/15" strokeWidth={1.3} aria-hidden="true" />
+        {filtered.length > 0 ? (
+          <>
+            <ul className="mt-5 grid gap-5 md:grid-cols-2">
+              {visible.map((post) => {
+                const image = post.visualSummary || post.image;
+                // Without an image the first tag sits in the tinted band, so the list starts at the second.
+                const tags = image ? post.tags : post.tags.slice(1);
+                return (
+                  <li key={post.slug} className="paper-panel flex flex-col">
+                    {image ? (
+                      <div className="relative aspect-video border-b border-border">
+                        <Image
+                          src={image}
+                          alt=""
+                          fill
+                          sizes="(max-width: 768px) 100vw, 360px"
+                          className="object-contain"
+                        />
+                      </div>
+                    ) : (
+                      // No image: a tinted band with the notebook's field icon and the post's first tag.
+                      <div className="flex items-center justify-between gap-4 border-b border-border bg-field-wash px-6 py-5">
+                        <span className="flex size-11 shrink-0 items-center justify-center rounded-xl bg-card text-field">
+                          <FieldIcon size={22} />
+                        </span>
+                        {post.tags[0] && (
+                          <span className="rounded-full border border-field/20 bg-card px-3 py-1 text-xs font-semibold text-field">
+                            {post.tags[0]}
+                          </span>
+                        )}
+                      </div>
+                    )}
+                    <div className="flex flex-1 flex-col p-6">
+                      <p className="flex justify-between gap-4 text-sm tabular-nums text-muted-foreground">
+                        <time dateTime={post.date}>
+                          {formatContentDate(post.date, { month: "short", day: "numeric", year: "numeric" })}
+                        </time>
+                        <span>{post.readingTime}</span>
+                      </p>
+                      <h3 className="mt-3 text-xl leading-snug text-foreground">
+                        {/* The link's ::after covers the card, so the image or band is clickable too. */}
+                        <Link
+                          href={`/blog/${post.slug}`}
+                          className="underline-offset-4 after:absolute after:inset-0 hover:underline"
+                        >
+                          {post.title}
+                        </Link>
+                      </h3>
+                      {post.description && (
+                        <p className="mb-5 mt-3 line-clamp-3 text-sm leading-relaxed text-muted-foreground">
+                          {post.description}
+                        </p>
+                      )}
+                      {tags.length > 0 && (
+                        <ul className="mt-auto flex flex-wrap gap-2">
+                          {tags.slice(0, MAX_TAGS).map((tag) => (
+                            <li key={tag} className={tagClass}>
+                              {tag}
+                            </li>
+                          ))}
+                          {tags.length > MAX_TAGS && (
+                            <li className="rounded-full border border-border px-3 py-1 text-xs font-semibold tabular-nums text-muted-foreground">
+                              +{tags.length - MAX_TAGS}
+                              <span className="sr-only"> more tags</span>
+                            </li>
+                          )}
+                        </ul>
+                      )}
                     </div>
-                  )}
-                </div>
-                <div className="p-5">
-                  <h3 className="line-clamp-3 font-semibold leading-snug text-foreground transition-colors group-hover:text-primary">
-                    {post.title}
-                  </h3>
-                  <div className="mt-4 flex items-center gap-2 border-t border-border pt-3 text-xs text-muted-foreground">
-                    <time dateTime={post.date}>
-                      {formatContentDate(post.date, { month: "short", day: "numeric", year: "numeric" })}
-                    </time>
-                    <span>·</span>
-                    <span>{post.readingTime}</span>
-                    <ArrowRight className="ml-auto size-4 transition-transform group-hover:translate-x-1" aria-hidden="true" />
-                  </div>
-                </div>
-              </Link>
-            ))}
-          </div>
+                  </li>
+                );
+              })}
+            </ul>
 
-          {hiddenCount > 0 && (
-            <div className="mt-8 text-center">
-              <button type="button" onClick={() => setShowAll((value) => !value)} className="btn-outline">
-                {showAll ? "Show less" : `Show ${hiddenCount} more`}
-              </button>
-            </div>
-          )}
-        </>
-      ) : (
-        <div className="rounded-2xl border border-dashed border-border py-12 text-center">
-          <p className="text-muted-foreground">No matching notes.</p>
-          <button
-            type="button"
-            onClick={() => {
-              setQuery("");
-              setActiveTrail("all");
-            }}
-            className="mt-3 text-sm font-semibold text-primary hover:underline"
-          >
-            Clear filters
-          </button>
-        </div>
-      )}
-    </>
+            {hiddenCount > 0 && (
+              <div className="mt-6">
+                <button type="button" onClick={() => setShowAll((value) => !value)} className="btn-outline">
+                  {showAll ? "Show less" : `Show ${hiddenCount} more`}
+                </button>
+              </div>
+            )}
+          </>
+        ) : (
+          <div className="paper-panel mt-5 p-6">
+            <p className="text-base text-muted-foreground">No matching notes.</p>
+            <button
+              type="button"
+              onClick={() => {
+                setQuery("");
+                setActiveTrail("all");
+              }}
+              className="mt-3 text-sm font-semibold text-field underline underline-offset-4"
+            >
+              Clear filters
+            </button>
+          </div>
+        )}
+      </div>
+    </section>
   );
 }

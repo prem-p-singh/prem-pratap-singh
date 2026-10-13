@@ -20,26 +20,26 @@ const videos = [
 
 export function MethodVisualSummary() {
   return (
-    <figure className="paper-panel my-8 overflow-hidden bg-card">
+    <figure className="paper-panel not-prose mt-5">
         <a
           href="/methods/causal-mediation/causal-mediation-visual-guide.jpg"
           target="_blank"
           rel="noopener noreferrer"
           aria-label="Open the causal mediation visual guide at full size"
-          className="block bg-white"
+          className="block bg-card"
         >
           <Image
             src="/methods/causal-mediation/causal-mediation-visual-guide.jpg"
             alt="Illustrated guide showing how causal mediation separates a response into direct and mediator-driven paths"
             width={2752}
             height={1536}
-            sizes="(min-width: 768px) 768px, 100vw"
-            className="h-auto w-full transition-transform duration-300 hover:scale-[1.01]"
+            sizes="(min-width: 1280px) 1152px, 100vw"
+            className="h-auto w-full"
           />
         </a>
         <figcaption className="flex items-center justify-between gap-4 border-t border-border px-4 py-3 text-sm text-muted-foreground sm:px-5">
           <span>One-page visual summary</span>
-          <span className="inline-flex items-center gap-1.5 font-medium text-foreground">
+          <span className="inline-flex items-center gap-1.5 font-semibold text-foreground">
             Open full size <ExternalLink className="size-4" strokeWidth={1.7} aria-hidden="true" />
           </span>
         </figcaption>
@@ -57,7 +57,7 @@ export function MethodVideos() {
           </p>
           <h2
             id="method-videos-title"
-            className="mt-2 text-2xl font-bold tracking-tight text-foreground"
+            className="mt-2 text-2xl leading-tight text-foreground"
           >
             See the signal split
           </h2>
@@ -68,7 +68,7 @@ export function MethodVideos() {
         {videos.map((video) => (
           <figure
             key={video.src}
-            className="paper-panel bg-card p-3 sm:p-4"
+            className="rounded-2xl border border-border bg-muted p-3 sm:p-4"
           >
             <video
               controls

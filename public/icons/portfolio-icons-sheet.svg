@@ -1,0 +1,190 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1248" height="208" viewBox="0 0 1248 208">
+  <title>Portfolio icon set</title>
+  <rect width="1248" height="208" fill="#ffffff" />
+  <g fill="none" stroke="#1e2227" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+    <g id="FieldIcon" transform="translate(36 24)">
+      <svg width="96" height="96" viewBox="0 0 24 24">
+        <path d="M2 21H22M3 4V21M21 4V21M3 9H21" />
+        <path d="M10 21V14C10 11 11.5 9 14.5 9" />
+        <path d="M7 9C7 6 8.5 4.5 11 4C11 7 9.5 8.5 7 9Z" />
+        <path d="M14 9C14 6 15.5 4.5 18 4C18 7 16.5 8.5 14 9Z" />
+      </svg>
+    </g>
+    <g id="BenchIcon" transform="translate(156 24)">
+      <svg width="96" height="96" viewBox="0 0 24 24">
+        <rect x="2" y="4.5" width="20" height="15" rx="1.5" />
+        <path d="M8 9A1.5 1.5 0 1 0 5 9A1.5 1.5 0 1 0 8 9M13.5 9A1.5 1.5 0 1 0 10.5 9A1.5 1.5 0 1 0 13.5 9M19 9A1.5 1.5 0 1 0 16 9A1.5 1.5 0 1 0 19 9" />
+        <path d="M8 15A1.5 1.5 0 1 0 5 15A1.5 1.5 0 1 0 8 15M13.5 15A1.5 1.5 0 1 0 10.5 15A1.5 1.5 0 1 0 13.5 15M19 15A1.5 1.5 0 1 0 16 15A1.5 1.5 0 1 0 19 15" />
+        <circle cx="12" cy="9" r="1" fill="#1e2227" stroke="none" />
+        <circle cx="17.5" cy="15" r="1" fill="#1e2227" stroke="none" />
+      </svg>
+    </g>
+    <g id="AnalysisIcon" transform="translate(276 24)">
+      <svg width="96" height="96" viewBox="0 0 24 24">
+        <path d="M2 4H22" />
+        <path d="M2 8H9M12 8H20" />
+        <path d="M5 12H14M17 12H22" />
+        <path d="M2 16H6M9 16H19" />
+        <path d="M4 20H11M14 20H21" />
+      </svg>
+    </g>
+    <g id="CropIcon" transform="translate(396 24)">
+      <svg width="96" height="96" viewBox="0 0 24 24">
+        <path d="M7 6H12V10" />
+        <path d="M12 6C13 3 16.5 2 20 2.5C19.5 6 16 7.5 12 6Z" />
+        <circle cx="8" cy="12" r="2" />
+        <circle cx="12" cy="12" r="2" />
+        <circle cx="16" cy="12" r="2" />
+        <circle cx="10" cy="15.5" r="2" />
+        <circle cx="14" cy="15.5" r="2" />
+        <circle cx="12" cy="19" r="2" />
+      </svg>
+    </g>
+    <g id="CropBiologyIcon" transform="translate(516 24)">
+      <svg width="96" height="96" viewBox="0 0 24 24">
+        <path d="M12 15.5C13.5 21 22 21.5 18.5 13L21.5 8L15.5 7L12 2L8.5 7L2.5 8L5.5 13C2 21.5 10.5 21 12 15.5Z" />
+        <path d="M12 22V9" />
+        <circle cx="15.5" cy="10.5" r="1" fill="#1e2227" stroke="none" />
+        <circle cx="16" cy="14.5" r="1" fill="#1e2227" stroke="none" />
+        <circle cx="8.5" cy="11.5" r="1" fill="#1e2227" stroke="none" />
+      </svg>
+    </g>
+    <g id="DiagnosticsIcon" transform="translate(636 24)">
+      <svg width="96" height="96" viewBox="0 0 24 24">
+        <path d="M10 2H14M12 2V4.5M15 6H17.5V8.5" />
+        <rect x="9" y="4.5" width="6" height="5.5" rx="1.5" />
+        <path d="M10 10L11 15H13L14 10" />
+        <circle cx="12" cy="18.5" r="1" fill="#1e2227" stroke="none" />
+        <path d="M4 17.5H6.5M17.5 17.5H20M6.5 17.5V20A2 2 0 0 0 8.5 22H15.5A2 2 0 0 0 17.5 20V17.5" />
+      </svg>
+    </g>
+    <g id="OmicsIcon" transform="translate(756 24)">
+      <svg width="96" height="96" viewBox="0 0 24 24">
+        <path d="M2 20H3C5 20 5 12 6 12C7 12 7 20 9 20C11 20 11 4 12 4C13 4 13 20 15 20C17 20 17 15 18 15C19 15 19 20 21 20H22" />
+      </svg>
+    </g>
+    <g id="DataScienceIcon" transform="translate(876 24)">
+      <svg width="96" height="96" viewBox="0 0 24 24">
+        <path d="M3 3V21H21" />
+        <path d="M6 18L21 5" />
+        <circle cx="8.5" cy="12.5" r="1" fill="#1e2227" stroke="none" />
+        <circle cx="11.5" cy="16.5" r="1" fill="#1e2227" stroke="none" />
+        <circle cx="14.5" cy="7.5" r="1" fill="#1e2227" stroke="none" />
+        <circle cx="18" cy="11" r="1" fill="#1e2227" stroke="none" />
+      </svg>
+    </g>
+    <g id="ResearchDeliveryIcon" transform="translate(996 24)">
+      <svg width="96" height="96" viewBox="0 0 24 24">
+        <rect x="4" y="2" width="16" height="20" rx="1.5" />
+        <path d="M8 2V22" />
+        <path d="M11 7H17" />
+        <path d="M11 11H17" />
+        <path d="M11 16.5L13 18.5L17 14.5" />
+      </svg>
+    </g>
+    <g id="SiteMark" transform="translate(1116 24)">
+      <svg width="96" height="96" viewBox="0 0 24 24">
+        <path d="M12 15.5C13.5 21 22 21.5 18.5 13L21.5 8L15.5 7L12 2L8.5 7L2.5 8L5.5 13C2 21.5 10.5 21 12 15.5Z" />
+        <path d="M12 22V9" />
+      </svg>
+    </g>
+    <g id="FieldIcon-24" transform="translate(72 160)">
+      <svg width="24" height="24" viewBox="0 0 24 24">
+        <path d="M2 21H22M3 4V21M21 4V21M3 9H21" />
+        <path d="M10 21V14C10 11 11.5 9 14.5 9" />
+        <path d="M7 9C7 6 8.5 4.5 11 4C11 7 9.5 8.5 7 9Z" />
+        <path d="M14 9C14 6 15.5 4.5 18 4C18 7 16.5 8.5 14 9Z" />
+      </svg>
+    </g>
+    <g id="BenchIcon-24" transform="translate(192 160)">
+      <svg width="24" height="24" viewBox="0 0 24 24">
+        <rect x="2" y="4.5" width="20" height="15" rx="1.5" />
+        <path d="M8 9A1.5 1.5 0 1 0 5 9A1.5 1.5 0 1 0 8 9M13.5 9A1.5 1.5 0 1 0 10.5 9A1.5 1.5 0 1 0 13.5 9M19 9A1.5 1.5 0 1 0 16 9A1.5 1.5 0 1 0 19 9" />
+        <path d="M8 15A1.5 1.5 0 1 0 5 15A1.5 1.5 0 1 0 8 15M13.5 15A1.5 1.5 0 1 0 10.5 15A1.5 1.5 0 1 0 13.5 15M19 15A1.5 1.5 0 1 0 16 15A1.5 1.5 0 1 0 19 15" />
+        <circle cx="12" cy="9" r="1" fill="#1e2227" stroke="none" />
+        <circle cx="17.5" cy="15" r="1" fill="#1e2227" stroke="none" />
+      </svg>
+    </g>
+    <g id="AnalysisIcon-24" transform="translate(312 160)">
+      <svg width="24" height="24" viewBox="0 0 24 24">
+        <path d="M2 4H22" />
+        <path d="M2 8H9M12 8H20" />
+        <path d="M5 12H14M17 12H22" />
+        <path d="M2 16H6M9 16H19" />
+        <path d="M4 20H11M14 20H21" />
+      </svg>
+    </g>
+    <g id="CropIcon-24" transform="translate(432 160)">
+      <svg width="24" height="24" viewBox="0 0 24 24">
+        <path d="M7 6H12V10" />
+        <path d="M12 6C13 3 16.5 2 20 2.5C19.5 6 16 7.5 12 6Z" />
+        <circle cx="8" cy="12" r="2" />
+        <circle cx="12" cy="12" r="2" />
+        <circle cx="16" cy="12" r="2" />
+        <circle cx="10" cy="15.5" r="2" />
+        <circle cx="14" cy="15.5" r="2" />
+        <circle cx="12" cy="19" r="2" />
+      </svg>
+    </g>
+    <g id="CropBiologyIcon-24" transform="translate(552 160)">
+      <svg width="24" height="24" viewBox="0 0 24 24">
+        <path d="M12 15.5C13.5 21 22 21.5 18.5 13L21.5 8L15.5 7L12 2L8.5 7L2.5 8L5.5 13C2 21.5 10.5 21 12 15.5Z" />
+        <path d="M12 22V9" />
+        <circle cx="15.5" cy="10.5" r="1" fill="#1e2227" stroke="none" />
+        <circle cx="16" cy="14.5" r="1" fill="#1e2227" stroke="none" />
+        <circle cx="8.5" cy="11.5" r="1" fill="#1e2227" stroke="none" />
+      </svg>
+    </g>
+    <g id="DiagnosticsIcon-24" transform="translate(672 160)">
+      <svg width="24" height="24" viewBox="0 0 24 24">
+        <path d="M10 2H14M12 2V4.5M15 6H17.5V8.5" />
+        <rect x="9" y="4.5" width="6" height="5.5" rx="1.5" />
+        <path d="M10 10L11 15H13L14 10" />
+        <circle cx="12" cy="18.5" r="1" fill="#1e2227" stroke="none" />
+        <path d="M4 17.5H6.5M17.5 17.5H20M6.5 17.5V20A2 2 0 0 0 8.5 22H15.5A2 2 0 0 0 17.5 20V17.5" />
+      </svg>
+    </g>
+    <g id="OmicsIcon-24" transform="translate(792 160)">
+      <svg width="24" height="24" viewBox="0 0 24 24">
+        <path d="M2 20H3C5 20 5 12 6 12C7 12 7 20 9 20C11 20 11 4 12 4C13 4 13 20 15 20C17 20 17 15 18 15C19 15 19 20 21 20H22" />
+      </svg>
+    </g>
+    <g id="DataScienceIcon-24" transform="translate(912 160)">
+      <svg width="24" height="24" viewBox="0 0 24 24">
+        <path d="M3 3V21H21" />
+        <path d="M6 18L21 5" />
+        <circle cx="8.5" cy="12.5" r="1" fill="#1e2227" stroke="none" />
+        <circle cx="11.5" cy="16.5" r="1" fill="#1e2227" stroke="none" />
+        <circle cx="14.5" cy="7.5" r="1" fill="#1e2227" stroke="none" />
+        <circle cx="18" cy="11" r="1" fill="#1e2227" stroke="none" />
+      </svg>
+    </g>
+    <g id="ResearchDeliveryIcon-24" transform="translate(1032 160)">
+      <svg width="24" height="24" viewBox="0 0 24 24">
+        <rect x="4" y="2" width="16" height="20" rx="1.5" />
+        <path d="M8 2V22" />
+        <path d="M11 7H17" />
+        <path d="M11 11H17" />
+        <path d="M11 16.5L13 18.5L17 14.5" />
+      </svg>
+    </g>
+    <g id="SiteMark-24" transform="translate(1152 160)">
+      <svg width="24" height="24" viewBox="0 0 24 24">
+        <path d="M12 15.5C13.5 21 22 21.5 18.5 13L21.5 8L15.5 7L12 2L8.5 7L2.5 8L5.5 13C2 21.5 10.5 21 12 15.5Z" />
+        <path d="M12 22V9" />
+      </svg>
+    </g>
+  </g>
+  <g fill="#1e2227" font-family="system-ui, -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="10" text-anchor="middle">
+    <text x="84" y="138">FieldIcon</text>
+    <text x="204" y="138">BenchIcon</text>
+    <text x="324" y="138">AnalysisIcon</text>
+    <text x="444" y="138">CropIcon</text>
+    <text x="564" y="138">CropBiologyIcon</text>
+    <text x="684" y="138">DiagnosticsIcon</text>
+    <text x="804" y="138">OmicsIcon</text>
+    <text x="924" y="138">DataScienceIcon</text>
+    <text x="1044" y="138">ResearchDeliveryIcon</text>
+    <text x="1164" y="138">SiteMark</text>
+  </g>
+</svg>

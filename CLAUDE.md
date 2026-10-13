@@ -13,13 +13,15 @@ behind that claim, not as a separate publication venue.
 
 | Route | What it is | Items |
 |:---|:---|:---|
-| `/` | Portfolio: hero, research pathway, snapshot, experience, career map, publications, projects, latest posts, contact | n/a |
-| `/blog` | Research notes, semi-automated, grouped into curated sets | 22 |
+| `/` | Portfolio: hero, research pathway, snapshot (with the skills matrix), experience, publications, projects, latest posts, contact | n/a |
+| `/blog` | Research notes, semi-automated, with a featured post and a searchable library | 24 |
 | `/data` | "Open Data, Decoded", public datasets read honestly | 3 |
 | `/methods` | "Methods That Travel", my own models re-applied to public data | 4 |
-| `/journey` | Career infographic | n/a |
-| `/gallery` | Field and laboratory images | n/a |
+| `/journey` | Career chapters and impact summary | n/a |
+| `/gallery` | "The Visual Lab": visual summaries from every blog post and method, plus the charts and maps from the data stories, filterable by collection | n/a |
 | `/privacy` | Privacy notice | n/a |
+
+`components/CareerMap.tsx` exists but is not mounted on any route.
 
 Navigation lives in `profile/navigation.ts`, not in the nav component.
 It exports `primaryNavigation` (About, Experience, Research, Methods, Data,
@@ -75,8 +77,14 @@ If you find an `@/data/...` import anywhere, it is stale.
 | `components/methods/MethodResources.tsx` | **MethodVisualSummary** and **MethodVideos** |
 | `components/content/VisualSummary.tsx` | VisualSummary (used by all three slug pages) |
 | `components/charts/IndustryEvidenceCharts.tsx` | **nine** chart components, listed below |
+| `components/icons/PortfolioIcons.tsx` | FieldIcon, BenchIcon, AnalysisIcon, CropIcon, CropBiologyIcon, DiagnosticsIcon, OmicsIcon, DataScienceIcon, ResearchDeliveryIcon, SiteMark |
 
-Two of those files export a pair of differently-named components, and neither
+`PortfolioIcons.tsx` is the custom icon set. Subject icons (a crop, the bench,
+omics) come from it; `lucide-react` is used only for functional controls such
+as arrows and chevrons, and for social marks. `docs/design/portfolio-icons.ai`
+is the Illustrator master of the set.
+
+Two of the MDX files export a pair of differently-named components, and neither
 filename announces either name. Grep the exports rather than guessing from the
 path.
 
@@ -96,10 +104,23 @@ follows the theme into dark mode without extra work.
 
 ## Theme and type
 
-`app/globals.css` holds a field-notebook colour system. `:root` is **dark by
-default**; a `.light` class overrides it. Alongside the usual background and
-foreground tokens there are four semantic families, each with a base, `-strong`,
-`-foreground` and `-wash` variant:
+`app/globals.css` holds the "Vineyard dusk" colour system. The owner chose it in
+`docs/design/theme-playground.html`, a standalone playground kept for reference.
+`:root` holds the dark values and a `.light` class overrides them. Light is the
+default for visitors: the class is server-rendered on `<html>`, and a saved
+`dark` choice removes it.
+
+The light page is a sage-grey (`#dfe0d7`) under a fixed green-to-merlot wash.
+The wash is drawn by `body::before`, so `body` itself has no background. Cards
+are lighter than the page. The main colour is green (`--primary`, the same as
+`field`, `#2f6b3f`) and the accent is merlot (`--accent`, the same as
+`biology`, `#7a1f3d`). `data` is blue (`#2c5282`) and `decision` is ochre. The
+page, green, merlot and blue values are the owner's and are exact; the ochre,
+the surface steps and the whole dark mode are derived from them. The name in the
+hero uses `.name-gradient` (main colour to accent, clipped to the text).
+
+Alongside the usual background and foreground tokens there are four semantic
+families, each with a base, `-strong`, `-foreground` and `-wash` variant:
 
 | Family | Stands for |
 |:---|:---|
@@ -108,7 +129,14 @@ foreground tokens there are four semantic families, each with a base, `-strong`,
 | `data` | computation and evidence |
 | `decision` | translation and outcomes |
 
-`danger` exists as a fifth, smaller family.
+`-strong` is the variant that passes as 14px text on the page, on cards and on
+its own wash, in both modes: darker than the base in light, lighter than the
+base in dark. Use it for small family-coloured text that sits directly on the
+page. `danger` exists as a fifth, smaller family.
+
+The four family colours are close in lightness. A chart must never rely on
+colour alone: label series directly, add a second cue such as marker shape, and
+leave a gap or a stroke between adjacent fills.
 
 **The Tailwind text tokens are redefined**, so the class names do not mean what
 they normally do. Every body tier sits 2px above stock while keeping its old
@@ -123,24 +151,62 @@ So `text-xs` is the 14px floor, not 12px. Nothing on the site renders below it.
 Adding an arbitrary size such as `text-[11px]` reintroduces the small-text
 problem this scale exists to prevent.
 
-Headings run 30 / 36 / 48 for sections and 36 / 48 / 60 for the page title, one
-step apart at every breakpoint. Keep that gap when adding a section.
+Section headings run 30 / 36 and stop there, because they sit in the narrow
+left column of the two-column section pattern. The page title runs 36 / 48 / 60.
 
-Homepage scroll chapters come from `components/GuidedSectionScroll.tsx` plus the
-`.guided-scroll-section` class and the `--guided-scroll-offset` variable.
+Homepage sections clear the fixed nav through the `.guided-scroll-section` class
+and the `--guided-scroll-offset` variable. The page scrolls natively; there is
+no wheel handler or scroll snapping.
+
+### Article typography
+
+`@tailwindcss/typography` is not installed, so `prose-*` modifiers such as
+`prose-lg` do nothing. Article typography is a hand-written `.prose` block in
+`app/globals.css` that skips anything inside `not-prose`. Its rules are
+unlayered, so they beat utility classes on prose elements (`p`, `li`, `h2` and
+so on). Any component placed inside an article must sit in a `not-prose`
+wrapper, or the article rules restyle it.
 
 ### Shared surface treatment
 
-`.paper-panel`, `.paper-button`, `.paper-control`, `.btn-primary` and
-`.btn-outline` share one rule set in `globals.css`: border, card background,
-inset highlight, and a top-right corner accent drawn with `::after` in the
-`field` colour. `.paper-panel` is used in about twenty files, so a change there
-is a change to most surfaces on the site.
+`.paper-panel`, `.paper-control`, `.btn-primary` and `.btn-outline` share
+one rule set in `globals.css`: a 1px border and card
+background. Panels float: a 20px radius and the deep shadow held in
+`--shadow-float`, which each mode sets once. Buttons are pills and controls have
+a 14px radius; neither has a shadow. `.btn-primary` is a solid green fill and
+`.btn-outline` sits on the card colour. Hover changes colour only: nothing
+lifts, scales or animates. `.paper-panel` is used in about twenty files, so a
+change there is a change to most surfaces on the site.
 
-The corner accent is why any element that also carries its own perimeter effect
-has to opt out. The navigation does exactly that through
-`.nav-moving-border + nav::after { content: none }`, because a travelling
-highlight plus a fixed corner reads as an accidental partial border.
+These rules are unlayered, so they beat Tailwind utilities on the same element:
+a `rounded-*`, `bg-*`, `shadow-*`, `overflow-*` or position class on a
+`.paper-panel` has no effect.
+
+### Layout patterns
+
+Homepage sections share one pattern: a container `mx-auto max-w-6xl` with the
+usual `px-4 sm:px-6 lg:px-8`, then a 12-column grid with a top rule. The heading
+and a short lede sit in the left 4 columns (`lg:col-span-4`) and the content in
+the right 8 (`lg:col-span-8`). See `components/ResearchSnapshot.tsx` and the
+sections in `app/page.tsx`.
+
+Inner pages (`/blog`, `/gallery`, `/journey`) open with a header in the same
+container: a `.section-kicker`, an `h1` at 36 / 48 / 60, and a lede capped at
+`max-w-[60ch]`. `/blog` and `/gallery` put a `.paper-panel` summary card beside
+it in a 12-column grid (7 and 5 columns). Each section below the header opens
+with its own top rule.
+
+Cards are `.paper-panel`. Around them sit icon tiles (a rounded square in the
+family wash with an icon from `PortfolioIcons`), coloured tags (a pill with a
+family border, wash and text colour) and stat chips (a wash-filled box with a
+family-coloured value, as in the publications count in `app/page.tsx`).
+
+The family tone maps, which pair a family with its literal classes such as
+`border-field/20 bg-field-wash text-field`, are currently duplicated across the
+files that use them (for example `components/ResearchSnapshot.tsx` and
+`components/ProjectCaseFiles.tsx`). They must stay complete literals: Tailwind
+cannot see a class built from a variable such as `` `bg-${tone}-wash` ``, and
+the class is silently missing from the build.
 
 ## Analysis pipeline (`data-interpretations/`)
 
@@ -224,7 +290,7 @@ note on the homepage was a blockquote until August 2026 for this reason.
 
 - `var(--font-sans)` does not resolve in hand-written CSS. Tailwind v4's
   `@theme inline` feeds the utility classes without publishing the variable, so
-  the base rules reference `var(--font-urbanist)` directly. Point them back at
+  the base rules reference `var(--font-plex)` and `var(--font-stix)` directly. Point them back at
   `--font-sans` and every page silently falls back to the visitor's system font.
 - The publish workflow must pick drafts by **filename timestamp**, not mtime.
   `actions/checkout` resets every file's mtime, so `ls -t` returns the wrong draft.
