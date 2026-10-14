@@ -220,21 +220,24 @@ export default function Home() {
             </div>
 
             <div className="grid gap-5 md:grid-cols-2 lg:col-span-8">
-              <ul className="paper-panel divide-y divide-border px-5 sm:px-6 md:col-span-2">
+              <ul className="grid gap-5 md:col-span-2 md:grid-cols-3">
                 {opportunities.map((opportunity) => {
                   const Icon = opportunity.icon;
                   return (
-                    <li key={opportunity.title} className="flex items-center gap-4 py-5">
-                      <span
-                        className={`flex size-11 shrink-0 items-center justify-center rounded-xl ${opportunity.tile}`}
-                      >
-                        <Icon size={22} strokeWidth={1.5} aria-hidden="true" />
-                      </span>
-                      <div>
-                        <h3 className="text-xl leading-tight text-foreground">{opportunity.title}</h3>
-                        <p className="mt-1 text-sm leading-relaxed text-muted-foreground">
-                          {opportunity.detail}
-                        </p>
+                    <li key={opportunity.title} className="paper-panel">
+                      {/* Square from md up; the inner box carries the ratio so long text can still grow it. */}
+                      <div className="flex h-full flex-col gap-5 p-6 md:aspect-square">
+                        <span
+                          className={`flex size-11 shrink-0 items-center justify-center rounded-xl ${opportunity.tile}`}
+                        >
+                          <Icon size={22} strokeWidth={1.5} aria-hidden="true" />
+                        </span>
+                        <div className="md:mt-auto">
+                          <h3 className="text-xl leading-tight text-foreground">{opportunity.title}</h3>
+                          <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+                            {opportunity.detail}
+                          </p>
+                        </div>
                       </div>
                     </li>
                   );

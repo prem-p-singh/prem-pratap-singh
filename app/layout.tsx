@@ -86,7 +86,7 @@ const personJsonLd = {
     url: "https://www.ucdavis.edu",
     department: {
       "@type": "Organization",
-      name: "Department of Viticulture and Enology",
+      name: "Department of Plant Pathology",
     },
   },
   affiliation: {

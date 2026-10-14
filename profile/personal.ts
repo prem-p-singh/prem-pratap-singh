@@ -1,6 +1,6 @@
 export const personal = {
   name: "Prem Pratap Singh",
-  title: "Postdoctoral Scholar & Plant Scientist · Viticulture & Enology, UC Davis",
+  title: "Postdoctoral Scholar & Plant Scientist · Plant Pathology, UC Davis",
   subtitle: "Molecular Diagnostics & Multi-Omics Scientist · Ag-Bio R&D · Genomics Tools",
   heroRole: "Plant Scientist · Data Scientist · Molecular Diagnostics",
   heroBio:
