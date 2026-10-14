@@ -133,30 +133,6 @@ export default function HeroClient() {
               );
             })}
           </ul>
-
-          <dl className="paper-panel mt-10 divide-y divide-border px-5 text-sm leading-normal sm:px-6">
-            {facts.map((fact) => {
-              const Icon = fact.icon;
-              return (
-                <div
-                  key={fact.label}
-                  className="relative grid min-h-19 content-center gap-x-4 py-4 pl-15 sm:grid-cols-[5.5rem_1fr]"
-                >
-                  <dt className="font-semibold text-foreground">
-                    <span
-                      className={`absolute inset-y-0 left-0 my-auto flex size-11 items-center justify-center rounded-xl ${tile[fact.tone]}`}
-                    >
-                      <Icon size={22} />
-                    </span>
-                    {fact.label}
-                  </dt>
-                  <dd className="tabular-nums text-foreground">
-                    {fact.value}
-                  </dd>
-                </div>
-              );
-            })}
-          </dl>
         </div>
 
         <div className="flex justify-center lg:col-span-5 lg:justify-end">
@@ -184,6 +160,26 @@ export default function HeroClient() {
             </span>
           </div>
         </div>
+
+        <dl className="paper-panel grid divide-y divide-border text-sm leading-normal lg:col-span-12 lg:grid-cols-4 lg:divide-x lg:divide-y-0">
+          {facts.map((fact) => {
+            const Icon = fact.icon;
+            return (
+              <div key={fact.label} className="flex items-start gap-4 p-5">
+                <span
+                  className={`flex size-11 shrink-0 items-center justify-center rounded-xl ${tile[fact.tone]}`}
+                  aria-hidden="true"
+                >
+                  <Icon size={22} />
+                </span>
+                <div>
+                  <dt className="font-semibold text-foreground">{fact.label}</dt>
+                  <dd className="mt-1 tabular-nums text-foreground">{fact.value}</dd>
+                </div>
+              </div>
+            );
+          })}
+        </dl>
       </div>
     </section>
   );

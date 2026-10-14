@@ -21,6 +21,7 @@ import HeroClient from "@/components/HeroClient";
 import { formatContentDate } from "@/lib/date";
 import ResearchPathway from "@/components/ResearchPathway";
 import ProjectCaseFiles from "@/components/ProjectCaseFiles";
+import SoftwareShowcase from "@/components/SoftwareShowcase";
 import ResearchSnapshot from "@/components/ResearchSnapshot";
 import WorkExperience from "@/components/WorkExperience";
 import NewsletterSignup from "@/components/NewsletterSignup";
@@ -95,6 +96,37 @@ export default function Home() {
                   <PublicationsList publications={[...publications, ...bookChapters]} />
                 </div>
               </details>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section
+        id="software"
+        className="guided-scroll-section"
+        aria-labelledby="software-title"
+      >
+        <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+          <div className="grid gap-x-8 gap-y-10 border-t border-border py-10 lg:grid-cols-12 lg:py-14">
+            <div className="lg:col-span-4">
+              <h2 id="software-title" className="text-3xl leading-tight text-foreground sm:text-4xl">
+                Open-source tools
+              </h2>
+              <p className="mt-5 max-w-[60ch] text-base leading-relaxed text-muted-foreground">
+                Pipelines and analysis code from my research, published on GitHub.
+              </p>
+              <a
+                href={personal.social.github}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="mt-5 inline-block text-sm font-semibold text-field-strong underline underline-offset-4"
+              >
+                All repositories on GitHub
+              </a>
+            </div>
+
+            <div className="lg:col-span-8">
+              <SoftwareShowcase />
             </div>
           </div>
         </div>
