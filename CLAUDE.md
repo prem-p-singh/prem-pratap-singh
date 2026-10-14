@@ -253,7 +253,7 @@ skill validator before changing any colour.
 
 ## Blog automation (`blog_automation/`)
 
-Draft generated on odd ISO weeks, Thursday 13:00 UTC, emailed for review, then
+Draft generated once a month, on the 1st at 13:00 UTC, emailed for review, then
 published manually through a GitHub Action.
 
 - Model `gpt-6.1-sol`, set in `config/config.yaml`. No `temperature` parameter
@@ -266,8 +266,9 @@ published manually through a GitHub Action.
 - `voice_profile.md` is injected into the generation prompt. The humanizer step
   is punctuation only, since the voice profile does the heavier work.
 
-Workflows: `.github/workflows/daily-blog-draft.yml` (named "Biweekly Blog
-Draft") and `publish-draft.yml`. `social-post.yml.disabled` is parked.
+Workflows: `.github/workflows/daily-blog-draft.yml` (named "Monthly Blog
+Draft"; the filename is older than the schedule) and `publish-draft.yml`.
+`social-post.yml.disabled` is parked.
 
 ## Writing rules
 
