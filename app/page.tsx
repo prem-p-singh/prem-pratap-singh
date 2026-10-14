@@ -21,6 +21,7 @@ import HeroClient from "@/components/HeroClient";
 import { formatContentDate } from "@/lib/date";
 import ResearchPathway from "@/components/ResearchPathway";
 import ProjectCaseFiles from "@/components/ProjectCaseFiles";
+import SoftwareShowcase from "@/components/SoftwareShowcase";
 import ResearchSnapshot from "@/components/ResearchSnapshot";
 import WorkExperience from "@/components/WorkExperience";
 import NewsletterSignup from "@/components/NewsletterSignup";
@@ -44,7 +45,7 @@ export default function Home() {
         aria-labelledby="research-title"
       >
         <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
-          <div className="grid gap-x-8 gap-y-10 border-t border-border py-16 lg:grid-cols-12 lg:py-24">
+          <div className="grid gap-x-8 gap-y-10 border-t border-border py-10 lg:grid-cols-12 lg:py-14">
             <div className="lg:col-span-4">
               <h2 id="research-title" className="text-3xl leading-tight text-foreground sm:text-4xl">
                 Evidence that has passed peer review.
@@ -101,12 +102,43 @@ export default function Home() {
       </section>
 
       <section
+        id="software"
+        className="guided-scroll-section"
+        aria-labelledby="software-title"
+      >
+        <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+          <div className="grid gap-x-8 gap-y-10 border-t border-border py-10 lg:grid-cols-12 lg:py-14">
+            <div className="lg:col-span-4">
+              <h2 id="software-title" className="text-3xl leading-tight text-foreground sm:text-4xl">
+                Open-source tools
+              </h2>
+              <p className="mt-5 max-w-[60ch] text-base leading-relaxed text-muted-foreground">
+                Pipelines and analysis code from my research, published on GitHub.
+              </p>
+              <a
+                href={personal.social.github}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="mt-5 inline-block text-sm font-semibold text-field-strong underline underline-offset-4"
+              >
+                All repositories on GitHub
+              </a>
+            </div>
+
+            <div className="lg:col-span-8">
+              <SoftwareShowcase />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section
         id="projects"
         className="guided-scroll-section"
         aria-labelledby="projects-title"
       >
         <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
-          <div className="grid gap-x-8 gap-y-10 border-t border-border py-16 lg:grid-cols-12 lg:py-24">
+          <div className="grid gap-x-8 gap-y-10 border-t border-border py-10 lg:grid-cols-12 lg:py-14">
             <div className="lg:col-span-4">
               <h2 id="projects-title" className="text-3xl leading-tight text-foreground sm:text-4xl">
                 Research projects
@@ -130,7 +162,7 @@ export default function Home() {
           aria-labelledby="blog-title"
         >
           <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
-            <div className="grid gap-x-8 gap-y-10 border-t border-border py-16 lg:grid-cols-12 lg:py-24">
+            <div className="grid gap-x-8 gap-y-10 border-t border-border py-10 lg:grid-cols-12 lg:py-14">
               <div className="lg:col-span-4">
                 <p className="section-kicker">Field notes</p>
                 <h2 id="blog-title" className="mt-3 text-3xl leading-tight text-foreground sm:text-4xl">
@@ -211,7 +243,7 @@ export default function Home() {
         aria-labelledby="contact-title"
       >
         <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
-          <div className="grid gap-x-8 gap-y-10 border-t border-border py-16 lg:grid-cols-12 lg:py-24">
+          <div className="grid gap-x-8 gap-y-10 border-t border-border py-10 lg:grid-cols-12 lg:py-14">
             <div className="lg:col-span-4">
               <p className="section-kicker">Where the work can grow next</p>
               <h2 id="contact-title" className="mt-3 text-3xl leading-tight text-foreground sm:text-4xl">
@@ -220,21 +252,24 @@ export default function Home() {
             </div>
 
             <div className="grid gap-5 md:grid-cols-2 lg:col-span-8">
-              <ul className="paper-panel divide-y divide-border px-5 sm:px-6 md:col-span-2">
+              <ul className="grid gap-5 md:col-span-2 md:grid-cols-3">
                 {opportunities.map((opportunity) => {
                   const Icon = opportunity.icon;
                   return (
-                    <li key={opportunity.title} className="flex items-center gap-4 py-5">
-                      <span
-                        className={`flex size-11 shrink-0 items-center justify-center rounded-xl ${opportunity.tile}`}
-                      >
-                        <Icon size={22} strokeWidth={1.5} aria-hidden="true" />
-                      </span>
-                      <div>
-                        <h3 className="text-xl leading-tight text-foreground">{opportunity.title}</h3>
-                        <p className="mt-1 text-sm leading-relaxed text-muted-foreground">
-                          {opportunity.detail}
-                        </p>
+                    <li key={opportunity.title} className="paper-panel">
+                      {/* At least square from md up; a long title can still make the row taller. */}
+                      <div className="flex h-full flex-col gap-5 p-6 md:min-h-56">
+                        <span
+                          className={`flex size-11 shrink-0 items-center justify-center rounded-xl ${opportunity.tile}`}
+                        >
+                          <Icon size={22} strokeWidth={1.5} aria-hidden="true" />
+                        </span>
+                        <div className="md:mt-auto">
+                          <h3 className="text-lg font-semibold leading-snug text-foreground">{opportunity.title}</h3>
+                          <p className="mt-2 text-sm leading-snug text-muted-foreground">
+                            {opportunity.detail}
+                          </p>
+                        </div>
                       </div>
                     </li>
                   );

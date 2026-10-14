@@ -9,6 +9,7 @@ export const primaryNavigation = [
 
 export const exploreNavigation = [
   { name: "Projects", detail: "Selected research cases", link: "/#projects" },
+  { name: "Software", detail: "Open-source tools on GitHub", link: "/#software" },
   { name: "Skills", detail: "Capability index", link: "/#skills" },
   { name: "Journey", detail: "Career progression", link: "/journey" },
   { name: "Gallery", detail: "Field and laboratory", link: "/gallery" },

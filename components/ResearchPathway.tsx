@@ -7,10 +7,11 @@ import {
   BenchIcon,
   CropIcon,
   FieldIcon,
+  ResearchDeliveryIcon,
   type IconProps,
 } from "@/components/icons/PortfolioIcons";
 
-type StageId = "crop" | "signal" | "intelligence" | "improvement";
+type StageId = "design" | "collect" | "analyse" | "improvement";
 type Tone = "field" | "biology" | "data" | "decision";
 
 // Family colours, written out in full so Tailwind can see every class.
@@ -57,37 +58,37 @@ type Stage = {
 
 const stages: Stage[] = [
   {
-    id: "crop",
-    label: "Start in the field",
-    cue: "Observe before measuring",
-    evidence: "327 vine samples followed across two growing seasons",
+    id: "design",
+    label: "Design the project",
+    cue: "Start from the question",
+    evidence: "Questions, sampling plans and controls set before the first sample",
     translation: "Define the plant response and the trait worth improving.",
+    href: "/#projects",
+    linkLabel: "See the research projects",
+    icon: ResearchDeliveryIcon,
+    tone: "data",
+  },
+  {
+    id: "collect",
+    label: "Collect the samples",
+    cue: "Observe before measuring",
+    evidence: "Field and laboratory samples, tracked from collection to the bench",
+    translation: "Capture the plant response where the disease happens.",
     href: "/#experience",
     linkLabel: "See the field program",
     icon: FieldIcon,
     tone: "field",
   },
   {
-    id: "signal",
-    label: "Measure the signal",
-    cue: "See what symptoms miss",
-    evidence: "dPCR, RNA sequencing, and metabolite profiles",
-    translation: "Find infection and stress responses before the eye can.",
-    href: "/#skills",
-    linkLabel: "See the laboratory toolkit",
-    icon: BenchIcon,
-    tone: "biology",
-  },
-  {
-    id: "intelligence",
-    label: "Make sense of it",
+    id: "analyse",
+    label: "Measure and analyse",
     cue: "Let biology guide the model",
-    evidence: "Multi-omics, causal analysis, and machine learning",
+    evidence: "dPCR, RNA sequencing, metabolites and multi-omics models",
     translation: "Separate strong biological signals from statistical noise.",
     href: "/methods/causal-mediation",
     linkLabel: "Visit the methods lab",
-    icon: AnalysisIcon,
-    tone: "data",
+    icon: BenchIcon,
+    tone: "biology",
   },
   {
     id: "improvement",
@@ -108,7 +109,8 @@ const fieldNotes: Array<{
   icon: ComponentType<IconProps>;
   tone: Tone;
 }> = [
-  { label: "Field", value: "327 vine samples, two seasons", icon: FieldIcon, tone: "field" },
+  { label: "Design", value: "Questions, sampling plans and controls", icon: ResearchDeliveryIcon, tone: "data" },
+  { label: "Field", value: "Samples across sites, seasons and growth stages", icon: FieldIcon, tone: "field" },
   { label: "Bench", value: "dPCR, RNA-seq and metabolites", icon: BenchIcon, tone: "biology" },
   {
     label: "Analysis",
@@ -119,7 +121,7 @@ const fieldNotes: Array<{
 ];
 
 export default function ResearchPathway() {
-  const [activeId, setActiveId] = useState<StageId>("crop");
+  const [activeId, setActiveId] = useState<StageId>("design");
   const active = stages.find((stage) => stage.id === activeId) ?? stages[0];
   const ActiveIcon = active.icon;
   const activeTone = tones[active.tone];
@@ -157,7 +159,7 @@ export default function ResearchPathway() {
       aria-labelledby="research-pathway-title"
     >
       <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
-        <div className="grid gap-x-8 gap-y-10 border-t border-border py-16 lg:grid-cols-12 lg:py-24">
+        <div className="grid gap-x-8 gap-y-10 border-t border-border py-10 lg:grid-cols-12 lg:py-14">
           <div className="lg:col-span-4">
             <p className="section-kicker">How I work</p>
             <h2
@@ -170,25 +172,6 @@ export default function ResearchPathway() {
               I do not begin with a model. I begin with what changed in the plant.
             </p>
             <p className="mt-3 text-sm text-muted-foreground">Davis, California</p>
-
-            <dl className="paper-panel mt-8 divide-y divide-border px-5 text-sm leading-normal">
-              {fieldNotes.map((note) => {
-                const Icon = note.icon;
-                return (
-                  <div key={note.label} className="relative py-4 pl-15">
-                    <dt className="text-muted-foreground">
-                      <span
-                        className={`absolute inset-y-0 left-0 my-auto ${iconTile} ${tones[note.tone].tile}`}
-                      >
-                        <Icon size={22} />
-                      </span>
-                      {note.label}
-                    </dt>
-                    <dd className="font-medium tabular-nums text-foreground">{note.value}</dd>
-                  </div>
-                );
-              })}
-            </dl>
           </div>
 
           <div className="lg:col-span-8">
@@ -268,6 +251,23 @@ export default function ResearchPathway() {
               </Link>
             </div>
           </div>
+
+          <dl className="grid gap-5 text-sm leading-normal sm:grid-cols-2 lg:col-span-12 lg:grid-cols-4">
+            {fieldNotes.map((note) => {
+              const Icon = note.icon;
+              return (
+                <div key={note.label} className="paper-panel flex items-start gap-4 p-5">
+                  <span className={`${iconTile} ${tones[note.tone].tile}`} aria-hidden="true">
+                    <Icon size={22} />
+                  </span>
+                  <div>
+                    <dt className="text-muted-foreground">{note.label}</dt>
+                    <dd className="mt-1 font-medium text-foreground">{note.value}</dd>
+                  </div>
+                </div>
+              );
+            })}
+          </dl>
         </div>
       </div>
     </section>

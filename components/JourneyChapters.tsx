@@ -149,7 +149,7 @@ export default function JourneyChapters() {
 
   return (
     <section
-      className="grid gap-x-8 gap-y-10 border-t border-border py-16 lg:grid-cols-12 lg:py-24"
+      className="grid gap-x-8 gap-y-10 border-t border-border py-10 lg:grid-cols-12 lg:py-14"
       aria-labelledby="journey-chapters-title"
     >
       <div className="lg:col-span-4">

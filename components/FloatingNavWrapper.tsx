@@ -68,7 +68,7 @@ export default function FloatingNavWrapper() {
         <div className="pointer-events-auto mx-auto mt-3 flex h-13 w-full items-center justify-between gap-6 rounded-full border border-border bg-card pl-5 pr-2 [box-shadow:var(--shadow-float)] lg:w-max lg:max-w-full lg:gap-8 lg:pl-6 lg:pr-3">
           <Link href="/" onClick={closeMobileMenu} className="shrink-0 text-foreground" aria-label="Prem P. Singh, home">
             <span className="block font-serif text-lg font-semibold leading-tight">Prem P. Singh</span>
-            <span className="block text-xs leading-snug text-muted-foreground lg:hidden xl:block">
+            <span className="block font-serif text-xs font-semibold leading-snug text-muted-foreground lg:hidden xl:block">
               Plant scientist · Data scientist
             </span>
           </Link>

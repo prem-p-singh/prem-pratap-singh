@@ -44,11 +44,9 @@ const facts: Array<{
         },
       ]
     : []),
-  // Wording from the study description in profile/projects.ts.
   {
     label: "Study",
-    value:
-      "Grapevine Red Blotch Virus, 327 vine samples across two growing seasons and four ripening stages",
+    value: "California field crop diseases, including Grapevine Red Blotch Virus",
     icon: FieldIcon,
     tone: "field",
   },
@@ -64,7 +62,8 @@ const facts: Array<{
 // The third tag of the previous design repeated the open-to-roles sentence below, so it stays out.
 const tags = [
   { label: "UC Davis", className: "border-field/20 bg-field-wash text-field-strong" },
-  { label: "Grapevine virology", className: "border-biology/20 bg-biology-wash text-biology-strong" },
+  { label: "Plant pathology", className: "border-biology/20 bg-biology-wash text-biology-strong" },
+  { label: "Computational biologist", className: "border-data/20 bg-data-wash text-data-strong" },
 ];
 
 const links: Array<{ label: string; href: string; icon: LucideIcon }> = [
@@ -86,6 +85,9 @@ export default function HeroClient() {
             {personal.name}
           </h1>
           <p className="mt-4 text-lg font-medium text-foreground">{personal.heroRole}</p>
+          <p className="name-gradient mt-6 max-w-[24ch] font-serif text-3xl font-semibold leading-tight sm:text-4xl">
+            {personal.heroStatement}
+          </p>
           <p className="mt-5 max-w-[60ch] font-serif text-base leading-relaxed text-foreground">
             {personal.heroBio}
           </p>
@@ -131,30 +133,6 @@ export default function HeroClient() {
               );
             })}
           </ul>
-
-          <dl className="paper-panel mt-10 divide-y divide-border px-5 text-sm leading-normal sm:px-6">
-            {facts.map((fact) => {
-              const Icon = fact.icon;
-              return (
-                <div
-                  key={fact.label}
-                  className="relative grid min-h-19 content-center gap-x-4 py-4 pl-15 sm:grid-cols-[5.5rem_1fr]"
-                >
-                  <dt className="font-semibold text-foreground">
-                    <span
-                      className={`absolute inset-y-0 left-0 my-auto flex size-11 items-center justify-center rounded-xl ${tile[fact.tone]}`}
-                    >
-                      <Icon size={22} />
-                    </span>
-                    {fact.label}
-                  </dt>
-                  <dd className="tabular-nums text-foreground">
-                    {fact.value}
-                  </dd>
-                </div>
-              );
-            })}
-          </dl>
         </div>
 
         <div className="flex justify-center lg:col-span-5 lg:justify-end">
@@ -182,6 +160,26 @@ export default function HeroClient() {
             </span>
           </div>
         </div>
+
+        <dl className="paper-panel grid divide-y divide-border text-sm leading-normal lg:col-span-12 lg:grid-cols-4 lg:divide-x lg:divide-y-0">
+          {facts.map((fact) => {
+            const Icon = fact.icon;
+            return (
+              <div key={fact.label} className="flex items-start gap-4 p-5">
+                <span
+                  className={`flex size-11 shrink-0 items-center justify-center rounded-xl ${tile[fact.tone]}`}
+                  aria-hidden="true"
+                >
+                  <Icon size={22} />
+                </span>
+                <div>
+                  <dt className="font-semibold text-foreground">{fact.label}</dt>
+                  <dd className="mt-1 tabular-nums text-foreground">{fact.value}</dd>
+                </div>
+              </div>
+            );
+          })}
+        </dl>
       </div>
     </section>
   );

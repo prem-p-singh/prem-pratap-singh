@@ -71,7 +71,7 @@ export default function BlogSearchList({ posts }: BlogSearchListProps) {
 
   return (
     <section
-      className="grid gap-x-8 gap-y-10 py-16 lg:grid-cols-12 lg:py-24"
+      className="grid gap-x-8 gap-y-10 py-10 lg:grid-cols-12 lg:py-14"
       aria-labelledby="blog-trails-title"
     >
       <div className="lg:col-span-4">

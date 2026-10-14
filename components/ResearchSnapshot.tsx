@@ -87,7 +87,7 @@ export default function ResearchSnapshot() {
       aria-labelledby="research-snapshot-title"
     >
       <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
-        <div className="grid gap-x-8 gap-y-10 border-t border-border py-16 lg:grid-cols-12 lg:py-24">
+        <div className="grid gap-x-8 gap-y-10 border-t border-border py-10 lg:grid-cols-12 lg:py-14">
           <div className="lg:col-span-4">
             <p className="section-kicker">Capabilities</p>
             <h2

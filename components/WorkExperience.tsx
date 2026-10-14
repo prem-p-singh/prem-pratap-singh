@@ -1,4 +1,5 @@
 import Link from "next/link";
+import type { MentorLink } from "@/components/Timeline";
 import { workExperience } from "@/profile/experience";
 
 type Tone = "field" | "biology" | "data";
@@ -28,7 +29,7 @@ const roleDetails: Record<
 > = {
   "Postdoctoral Scholar": {
     summary:
-      "I lead the field, laboratory, and computational work for a grapevine-virus program, from vineyard sampling and dPCR through RNA sequencing and biological interpretation.",
+      "I lead the field, laboratory, and computational work on California field crop diseases, including Grapevine Red Blotch Virus, from field sampling and dPCR through RNA sequencing and biological interpretation.",
     evidence: ["300+ crop samples", "1.3B+ sequencing reads", "Reusable analysis pipelines"],
     label: "Field + data",
     tone: "field",
@@ -49,6 +50,67 @@ const roleDetails: Record<
   },
 };
 
+// Splits a role's mentors into current and former, keeping only the affiliation from each note.
+function groupMentors(mentors: string | MentorLink[] | undefined) {
+  if (!mentors || typeof mentors === "string") return { current: [], former: [] };
+  const withAffiliation = (mentor: MentorLink) => ({
+    ...mentor,
+    affiliation: (mentor.note ?? "")
+      .split(",")
+      .map((part) => part.trim())
+      .filter((part) => part && !/^(current|former|deceased)/i.test(part))
+      .join(", "),
+  });
+  return {
+    current: mentors.filter((m) => !/former/i.test(m.note ?? "")).map(withAffiliation),
+    former: mentors.filter((m) => /former/i.test(m.note ?? "")).map(withAffiliation),
+  };
+}
+
+// Pills in the hero tag style: current PIs in green, former PIs in a neutral tone.
+const pillTones = {
+  current: "border-field/20 bg-field-wash text-field-strong",
+  former: "border-border bg-card text-foreground",
+};
+
+function MentorPills({
+  mentors,
+  tone,
+}: {
+  mentors: ReturnType<typeof groupMentors>["current"];
+  tone: keyof typeof pillTones;
+}) {
+  return (
+    <ul className="mt-2 flex flex-wrap gap-2">
+      {mentors.map((mentor) => {
+        const label = (
+          <>
+            {mentor.name}
+            {mentor.affiliation && <span className="font-normal">, {mentor.affiliation}</span>}
+          </>
+        );
+        const pill = `inline-block rounded-full border px-3 py-1 text-xs font-semibold ${pillTones[tone]}`;
+        return (
+          <li key={mentor.name}>
+            {mentor.url ? (
+              <a
+                href={mentor.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={`${pill} underline-offset-4 hover:underline`}
+              >
+                {label}
+              </a>
+            ) : (
+              <span className={pill}>{label}</span>
+            )}
+          </li>
+        );
+      })}
+    </ul>
+  );
+}
+
 export default function WorkExperience() {
   return (
     <section
@@ -57,7 +119,7 @@ export default function WorkExperience() {
       aria-labelledby="work-experience-title"
     >
       <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
-        <div className="grid gap-x-8 gap-y-10 border-t border-border py-16 lg:grid-cols-12 lg:py-24">
+        <div className="grid gap-x-8 gap-y-10 border-t border-border py-10 lg:grid-cols-12 lg:py-14">
           <div className="lg:col-span-4">
             <h2
               id="work-experience-title"
@@ -76,6 +138,8 @@ export default function WorkExperience() {
                 const detail = roleDetails[role.title];
                 if (!detail) return null;
                 const tone = tones[detail.tone];
+                const mentors = groupMentors(role.mentor);
+                const currentLabel = role.endDate === "Present" ? "Current PIs" : "Supervisor";
 
                 return (
                   <li key={role.title} className="paper-panel p-6 pl-7 sm:p-7 sm:pl-9">
@@ -101,6 +165,27 @@ export default function WorkExperience() {
                     <p className="mt-4 max-w-[60ch] text-base leading-relaxed text-foreground">
                       {detail.summary}
                     </p>
+
+                    {(mentors.current.length > 0 || mentors.former.length > 0) && (
+                      <dl className="mt-5 grid gap-x-6 gap-y-4 border-t border-border pt-4 text-sm leading-normal">
+                        {mentors.current.length > 0 && (
+                          <div>
+                            <dt className="text-muted-foreground">{currentLabel}</dt>
+                            <dd>
+                              <MentorPills mentors={mentors.current} tone="current" />
+                            </dd>
+                          </div>
+                        )}
+                        {mentors.former.length > 0 && (
+                          <div>
+                            <dt className="text-muted-foreground">Former PIs</dt>
+                            <dd>
+                              <MentorPills mentors={mentors.former} tone="former" />
+                            </dd>
+                          </div>
+                        )}
+                      </dl>
+                    )}
 
                     <ul
                       className="mt-5 grid gap-3 sm:grid-cols-3"

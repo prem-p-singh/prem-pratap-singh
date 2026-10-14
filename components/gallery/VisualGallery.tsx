@@ -173,7 +173,7 @@ export default function VisualGallery({ presentationItems }: VisualGalleryProps)
   return (
     <>
       <section
-        className="border-t border-border py-16 lg:py-24"
+        className="border-t border-border py-10 lg:py-14"
         aria-labelledby="visual-gallery-title"
       >
         <div className="grid gap-x-8 gap-y-10 lg:grid-cols-12">
