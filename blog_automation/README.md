@@ -188,7 +188,7 @@ Key settings:
 ```yaml
 llm:
   use_openai: true
-  model: "gpt-5.4"        # LLM used for ranking + generation
+  model: "gpt-6.1-sol"    # LLM used for ranking + generation
   max_retries: 3
   retry_base_delay: 2.0
 
