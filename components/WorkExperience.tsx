@@ -1,4 +1,5 @@
 import Link from "next/link";
+import type { MentorLink } from "@/components/Timeline";
 import { workExperience } from "@/profile/experience";
 
 type Tone = "field" | "biology" | "data";
@@ -49,6 +50,48 @@ const roleDetails: Record<
   },
 };
 
+// Splits a role's mentors into current and former, keeping only the affiliation from each note.
+function groupMentors(mentors: string | MentorLink[] | undefined) {
+  if (!mentors || typeof mentors === "string") return { current: [], former: [] };
+  const withAffiliation = (mentor: MentorLink) => ({
+    ...mentor,
+    affiliation: (mentor.note ?? "")
+      .split(",")
+      .map((part) => part.trim())
+      .filter((part) => part && !/^(current|former|deceased)/i.test(part))
+      .join(", "),
+  });
+  return {
+    current: mentors.filter((m) => !/former/i.test(m.note ?? "")).map(withAffiliation),
+    former: mentors.filter((m) => /former/i.test(m.note ?? "")).map(withAffiliation),
+  };
+}
+
+function MentorNames({ mentors }: { mentors: ReturnType<typeof groupMentors>["current"] }) {
+  return (
+    <>
+      {mentors.map((mentor, index) => (
+        <span key={mentor.name}>
+          {index > 0 && ", "}
+          {mentor.url ? (
+            <a
+              href={mentor.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="underline decoration-border underline-offset-4 hover:text-field"
+            >
+              {mentor.name}
+            </a>
+          ) : (
+            mentor.name
+          )}
+          {mentor.affiliation && <span className="text-muted-foreground"> ({mentor.affiliation})</span>}
+        </span>
+      ))}
+    </>
+  );
+}
+
 export default function WorkExperience() {
   return (
     <section
@@ -76,6 +119,8 @@ export default function WorkExperience() {
                 const detail = roleDetails[role.title];
                 if (!detail) return null;
                 const tone = tones[detail.tone];
+                const mentors = groupMentors(role.mentor);
+                const currentLabel = role.endDate === "Present" ? "Current PIs" : "Supervisor";
 
                 return (
                   <li key={role.title} className="paper-panel p-6 pl-7 sm:p-7 sm:pl-9">
@@ -101,6 +146,27 @@ export default function WorkExperience() {
                     <p className="mt-4 max-w-[60ch] text-base leading-relaxed text-foreground">
                       {detail.summary}
                     </p>
+
+                    {(mentors.current.length > 0 || mentors.former.length > 0) && (
+                      <dl className="mt-5 grid gap-x-6 gap-y-3 border-t border-border pt-4 text-sm leading-normal sm:grid-cols-2">
+                        {mentors.current.length > 0 && (
+                          <div>
+                            <dt className="text-muted-foreground">{currentLabel}</dt>
+                            <dd className="mt-1 font-medium text-foreground">
+                              <MentorNames mentors={mentors.current} />
+                            </dd>
+                          </div>
+                        )}
+                        {mentors.former.length > 0 && (
+                          <div>
+                            <dt className="text-muted-foreground">Former PIs</dt>
+                            <dd className="mt-1 font-medium text-foreground">
+                              <MentorNames mentors={mentors.former} />
+                            </dd>
+                          </div>
+                        )}
+                      </dl>
+                    )}
 
                     <ul
                       className="mt-5 grid gap-3 sm:grid-cols-3"

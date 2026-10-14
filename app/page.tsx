@@ -225,16 +225,16 @@ export default function Home() {
                   const Icon = opportunity.icon;
                   return (
                     <li key={opportunity.title} className="paper-panel">
-                      {/* Square from md up; the inner box carries the ratio so long text can still grow it. */}
-                      <div className="flex h-full flex-col gap-5 p-6 md:aspect-square">
+                      {/* At least square from md up; a long title can still make the row taller. */}
+                      <div className="flex h-full flex-col gap-5 p-6 md:min-h-56">
                         <span
                           className={`flex size-11 shrink-0 items-center justify-center rounded-xl ${opportunity.tile}`}
                         >
                           <Icon size={22} strokeWidth={1.5} aria-hidden="true" />
                         </span>
                         <div className="md:mt-auto">
-                          <h3 className="text-xl leading-tight text-foreground">{opportunity.title}</h3>
-                          <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+                          <h3 className="text-lg font-semibold leading-snug text-foreground">{opportunity.title}</h3>
+                          <p className="mt-2 text-sm leading-snug text-muted-foreground">
                             {opportunity.detail}
                           </p>
                         </div>

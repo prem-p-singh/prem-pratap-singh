@@ -84,6 +84,9 @@ export default function HeroClient() {
             {personal.name}
           </h1>
           <p className="mt-4 text-lg font-medium text-foreground">{personal.heroRole}</p>
+          <p className="name-gradient mt-6 max-w-[24ch] font-serif text-3xl font-semibold leading-tight sm:text-4xl">
+            {personal.heroStatement}
+          </p>
           <p className="mt-5 max-w-[60ch] font-serif text-base leading-relaxed text-foreground">
             {personal.heroBio}
           </p>
