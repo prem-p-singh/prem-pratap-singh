@@ -1,4 +1,3 @@
-import Image from "next/image";
 import { Github } from "lucide-react";
 import { AnalysisIcon, DataScienceIcon, ResearchDeliveryIcon, type IconProps } from "@/components/icons/PortfolioIcons";
 import { featuredSoftware as featured, software } from "@/profile/software";
@@ -55,14 +54,19 @@ export default function SoftwareShowcase() {
           </ul>
         </div>
 
-        <div className="border-y border-border bg-white">
-          <Image
-            src={featured.image.src}
-            alt={featured.image.alt}
-            width={featured.image.width}
-            height={featured.image.height}
-            sizes="(min-width: 1024px) 46rem, 100vw"
-            className="h-auto w-full"
+        <div className="border-y border-border bg-black">
+          {/* Muted and looping like a product spot; the controls let visitors pause it. */}
+          <video
+            className="aspect-video h-auto w-full"
+            src={featured.video.src}
+            poster={featured.video.poster}
+            aria-label={featured.video.label}
+            autoPlay
+            muted
+            loop
+            playsInline
+            controls
+            preload="metadata"
           />
         </div>
 

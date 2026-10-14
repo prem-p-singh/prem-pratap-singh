@@ -21,11 +21,11 @@ export const featuredSoftware = {
     { value: "3", label: "DE backends: limma-voom, edgeR, DESeq2" },
   ],
   features: ["Excel intake", "Salmon or STAR", "Preflight design check", "Snakemake + SLURM", "GO and WGCNA"],
-  image: {
-    src: "/projects/rnaseq-pipeline/workflow.png",
-    alt: "Workflow map: study intake, setup and review, preflight, reference, read preparation, fastp, quantification with Salmon or STAR, QC report, gene counts and the DE model, with optional read screening, WGCNA and GO or KEGG enrichment",
-    width: 1590,
-    height: 852,
+  video: {
+    src: "/projects/rnaseq-pipeline/overview.mp4",
+    poster: "/projects/rnaseq-pipeline/overview-poster.jpg",
+    label:
+      "22-second overview of v2.1.1: the strict release checks, the Excel intake and the commands that run the pipeline",
   },
   url: "https://github.com/prem-p-singh/RNASeq-pipeline",
   releaseUrl: "https://github.com/prem-p-singh/RNASeq-pipeline/releases/tag/v2.1.1",
