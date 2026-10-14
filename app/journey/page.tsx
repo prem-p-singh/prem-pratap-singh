@@ -27,7 +27,7 @@ export default function JourneyPage() {
         <JourneyChapters />
 
         <section
-          className="grid gap-x-8 gap-y-10 border-t border-border py-16 lg:grid-cols-12 lg:py-24"
+          className="grid gap-x-8 gap-y-10 border-t border-border py-10 lg:grid-cols-12 lg:py-14"
           aria-labelledby="journey-impact-title"
         >
           <div className="lg:col-span-4">
@@ -41,7 +41,7 @@ export default function JourneyPage() {
         </section>
 
         {/* Gratitude */}
-        <section className="grid gap-x-8 border-t border-border py-16 lg:grid-cols-12 lg:py-24">
+        <section className="grid gap-x-8 border-t border-border py-10 lg:grid-cols-12 lg:py-14">
           <div className="paper-panel p-6 sm:p-8 lg:col-span-8 lg:col-start-5">
             <span className="absolute inset-x-0 top-0 h-1 bg-field" aria-hidden="true" />
             <p className="max-w-[60ch] font-serif text-base leading-relaxed text-foreground">

@@ -44,7 +44,7 @@ export default function Home() {
         aria-labelledby="research-title"
       >
         <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
-          <div className="grid gap-x-8 gap-y-10 border-t border-border py-16 lg:grid-cols-12 lg:py-24">
+          <div className="grid gap-x-8 gap-y-10 border-t border-border py-10 lg:grid-cols-12 lg:py-14">
             <div className="lg:col-span-4">
               <h2 id="research-title" className="text-3xl leading-tight text-foreground sm:text-4xl">
                 Evidence that has passed peer review.
@@ -106,7 +106,7 @@ export default function Home() {
         aria-labelledby="projects-title"
       >
         <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
-          <div className="grid gap-x-8 gap-y-10 border-t border-border py-16 lg:grid-cols-12 lg:py-24">
+          <div className="grid gap-x-8 gap-y-10 border-t border-border py-10 lg:grid-cols-12 lg:py-14">
             <div className="lg:col-span-4">
               <h2 id="projects-title" className="text-3xl leading-tight text-foreground sm:text-4xl">
                 Research projects
@@ -130,7 +130,7 @@ export default function Home() {
           aria-labelledby="blog-title"
         >
           <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
-            <div className="grid gap-x-8 gap-y-10 border-t border-border py-16 lg:grid-cols-12 lg:py-24">
+            <div className="grid gap-x-8 gap-y-10 border-t border-border py-10 lg:grid-cols-12 lg:py-14">
               <div className="lg:col-span-4">
                 <p className="section-kicker">Field notes</p>
                 <h2 id="blog-title" className="mt-3 text-3xl leading-tight text-foreground sm:text-4xl">
@@ -211,7 +211,7 @@ export default function Home() {
         aria-labelledby="contact-title"
       >
         <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
-          <div className="grid gap-x-8 gap-y-10 border-t border-border py-16 lg:grid-cols-12 lg:py-24">
+          <div className="grid gap-x-8 gap-y-10 border-t border-border py-10 lg:grid-cols-12 lg:py-14">
             <div className="lg:col-span-4">
               <p className="section-kicker">Where the work can grow next</p>
               <h2 id="contact-title" className="mt-3 text-3xl leading-tight text-foreground sm:text-4xl">

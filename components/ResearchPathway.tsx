@@ -159,7 +159,7 @@ export default function ResearchPathway() {
       aria-labelledby="research-pathway-title"
     >
       <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
-        <div className="grid gap-x-8 gap-y-10 border-t border-border py-16 lg:grid-cols-12 lg:py-24">
+        <div className="grid gap-x-8 gap-y-10 border-t border-border py-10 lg:grid-cols-12 lg:py-14">
           <div className="lg:col-span-4">
             <p className="section-kicker">How I work</p>
             <h2
@@ -172,25 +172,6 @@ export default function ResearchPathway() {
               I do not begin with a model. I begin with what changed in the plant.
             </p>
             <p className="mt-3 text-sm text-muted-foreground">Davis, California</p>
-
-            <dl className="paper-panel mt-8 divide-y divide-border px-5 text-sm leading-normal">
-              {fieldNotes.map((note) => {
-                const Icon = note.icon;
-                return (
-                  <div key={note.label} className="relative py-4 pl-15">
-                    <dt className="text-muted-foreground">
-                      <span
-                        className={`absolute inset-y-0 left-0 my-auto ${iconTile} ${tones[note.tone].tile}`}
-                      >
-                        <Icon size={22} />
-                      </span>
-                      {note.label}
-                    </dt>
-                    <dd className="font-medium tabular-nums text-foreground">{note.value}</dd>
-                  </div>
-                );
-              })}
-            </dl>
           </div>
 
           <div className="lg:col-span-8">
@@ -270,6 +251,23 @@ export default function ResearchPathway() {
               </Link>
             </div>
           </div>
+
+          <dl className="grid gap-5 text-sm leading-normal sm:grid-cols-2 lg:col-span-12 lg:grid-cols-4">
+            {fieldNotes.map((note) => {
+              const Icon = note.icon;
+              return (
+                <div key={note.label} className="paper-panel flex items-start gap-4 p-5">
+                  <span className={`${iconTile} ${tones[note.tone].tile}`} aria-hidden="true">
+                    <Icon size={22} />
+                  </span>
+                  <div>
+                    <dt className="text-muted-foreground">{note.label}</dt>
+                    <dd className="mt-1 font-medium text-foreground">{note.value}</dd>
+                  </div>
+                </div>
+              );
+            })}
+          </dl>
         </div>
       </div>
     </section>
