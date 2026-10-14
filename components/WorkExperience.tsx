@@ -29,7 +29,7 @@ const roleDetails: Record<
 > = {
   "Postdoctoral Scholar": {
     summary:
-      "I lead the field, laboratory, and computational work for a grapevine-virus program, from vineyard sampling and dPCR through RNA sequencing and biological interpretation.",
+      "I lead the field, laboratory, and computational work on California field crop diseases, including Grapevine Red Blotch Virus, from field sampling and dPCR through RNA sequencing and biological interpretation.",
     evidence: ["300+ crop samples", "1.3B+ sequencing reads", "Reusable analysis pipelines"],
     label: "Field + data",
     tone: "field",

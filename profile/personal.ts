@@ -2,7 +2,7 @@ export const personal = {
   name: "Prem Pratap Singh",
   title: "Postdoctoral Scholar & Plant Scientist · Plant Pathology, UC Davis",
   subtitle: "Molecular Diagnostics & Multi-Omics Scientist · Ag-Bio R&D · Genomics Tools",
-  heroRole: "Plant Scientist · Computational Biologist · Data Scientist · Molecular Diagnostics",
+  heroRole: "Plant Scientist · Data Scientist · Molecular Diagnostics",
   heroStatement: "Translating noisy ag-bio data into actionable R&D insights.",
   heroBio:
     "I study crop disease from the field sample to the final model. My work brings molecular diagnostics, multi-omics, and reproducible data analysis together to find signals that can improve crop decisions.",

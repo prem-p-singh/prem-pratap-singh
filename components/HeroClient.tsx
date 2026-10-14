@@ -63,6 +63,7 @@ const facts: Array<{
 const tags = [
   { label: "UC Davis", className: "border-field/20 bg-field-wash text-field-strong" },
   { label: "Plant pathology", className: "border-biology/20 bg-biology-wash text-biology-strong" },
+  { label: "Computational biologist", className: "border-data/20 bg-data-wash text-data-strong" },
 ];
 
 const links: Array<{ label: string; href: string; icon: LucideIcon }> = [

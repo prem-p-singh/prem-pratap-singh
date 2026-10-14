@@ -35,7 +35,7 @@ export const workExperience: TimelineItem[] = [
     startDate: "Sep 2023",
     endDate: "Present",
     mentor: [
-      { name: "Dr. Frank Zalom", note: "current" },
+      { name: "Dr. Frank Zalom", url: "https://entnem.ucdavis.edu/people/frank-zalom", note: "current" },
       { name: "Dr. Mysore R. Sudarshana", url: "https://www.ars.usda.gov/people-locations/person/?person-id=42584", note: "current, USDA-ARS, UC Davis" },
       { name: "Dr. David E. Block", url: "https://wineserver.ucdavis.edu/people/david-block", note: "former" },
       { name: "Dr. Anita Oberholster", url: "https://wineserver.ucdavis.edu/people/anita-oberholster", note: "former, deceased Jan 2025" },
