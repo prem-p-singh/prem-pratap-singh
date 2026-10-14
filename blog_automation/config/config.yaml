@@ -53,18 +53,18 @@ feeds:
 
 llm:
   use_openai: true
-  # Product name "GPT-5.6 Sol". Verify the exact API id at
-  # platform.openai.com/docs/models. Override without editing code by setting
-  # the OPENAI_MODEL env var (takes precedence over this value).
-  model: "gpt-5.6"
+  # GPT-6.1 Sol, the newest Sol-tier model (October 2026). It supports Chat
+  # Completions without tool calling, which is all this pipeline uses. Override
+  # without editing code by setting the OPENAI_MODEL env var (takes precedence).
+  model: "gpt-6.1-sol"
   max_retries: 3
   retry_base_delay: 2.0
   # USD price per 1,000,000 tokens, used to estimate per-run cost in the email.
   # Fill in from platform.openai.com/docs/pricing for your model. Leave at 0 to
   # show token counts without a dollar estimate.
   pricing:
-    input_per_1m: 0
-    output_per_1m: 0
+    input_per_1m: 2
+    output_per_1m: 10
 
 author:
   name: "Prem Pratap Singh"

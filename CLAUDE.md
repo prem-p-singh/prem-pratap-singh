@@ -256,8 +256,8 @@ skill validator before changing any colour.
 Draft generated on odd ISO weeks, Thursday 13:00 UTC, emailed for review, then
 published manually through a GitHub Action.
 
-- Model `gpt-5.6`. It rejects a non-default `temperature`, so no temperature
-  parameter is sent on any call.
+- Model `gpt-6.1-sol`, set in `config/config.yaml`. No `temperature` parameter
+  is sent on any call; the gpt-5.x models rejected a non-default value.
 - 104-keyword bank in `config/keywords.yaml`, triangulated selection: two fixed
   anchors (plant pathology, synthetic biology) plus one rotating theme.
 - Sources: OpenAlex, Europe PMC, arXiv, Google News.
