@@ -159,7 +159,7 @@ export default async function BlogPostPage({ params }: Props) {
             <div className="flex flex-wrap gap-px bg-border">
               <div className="flex min-w-64 flex-1 items-center gap-3 bg-card px-5 py-4 sm:px-6">
                 <Image
-                  src="/images/headshot-1.jpg"
+                  src="/images/avatar.jpg"
                   alt="Prem Pratap Singh"
                   width={40}
                   height={40}
