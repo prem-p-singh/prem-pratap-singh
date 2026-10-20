@@ -140,7 +140,7 @@ export default function HeroClient() {
             <div className="size-full rounded-full border-2 border-field p-1.5 shadow-xl">
               <div className="relative size-full overflow-hidden rounded-full">
                 <Image
-                  src="/images/avatar.jpg"
+                  src="/images/portrait.jpg"
                   alt={personal.name}
                   fill
                   sizes="(min-width: 1280px) 24rem, (min-width: 640px) 20rem, 18rem"

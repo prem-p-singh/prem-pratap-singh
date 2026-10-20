@@ -77,7 +77,7 @@ const personJsonLd = {
   jobTitle: "Plant Scientist and Data Scientist",
   description:
     "Plant scientist and data scientist at UC Davis combining field biology, molecular diagnostics, multi-omics, and reproducible analysis on commercial crop systems.",
-  image: `${siteUrl}/images/avatar.jpg`,
+  image: `${siteUrl}/images/portrait.jpg`,
   url: siteUrl,
   email: "ppssingh@ucdavis.edu",
   worksFor: {
