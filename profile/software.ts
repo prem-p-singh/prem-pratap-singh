@@ -10,25 +10,25 @@ export type SoftwareProject = {
 
 export const featuredSoftware = {
   name: "RNASeq pipeline",
-  version: "v2.1.1",
-  released: "October 2026",
+  version: "v3.0.0",
+  released: "November 2026",
   headline: "Your study design. Your reads. A traceable analysis.",
   summary:
-    "Turns raw bulk RNA-seq reads into quality reports, gene counts and differential-expression results. Describe the study in an Excel intake, review the configuration, then run it with Snakemake on Linux or through SLURM.",
+    "Turns raw RNA-seq reads into quality reports, gene counts and differential-expression results: bulk libraries, small RNA, Lexogen QuantSeq 3′ end-tag libraries, or a host and a pathogen sequenced together. Describe the study in an Excel intake, review the configuration, then run it with Snakemake on Linux or through SLURM.",
   stats: [
-    { value: "35", label: "strict release checks passed" },
-    { value: "580", label: "packages in a locked runtime" },
+    { value: "41", label: "strict release checks passed" },
+    { value: "580", label: "packages in the locked core runtime" },
     { value: "3", label: "DE backends: limma-voom, edgeR, DESeq2" },
   ],
-  features: ["Excel intake", "Salmon or STAR", "Preflight design check", "Snakemake + SLURM", "GO and WGCNA"],
+  features: ["Excel intake", "Salmon or STAR", "Small RNA", "QuantSeq 3′ end-tag", "Host + pathogen", "Preflight design check", "Snakemake + SLURM", "GO and WGCNA"],
   video: {
     src: "/projects/rnaseq-pipeline/overview.mp4",
     poster: "/projects/rnaseq-pipeline/overview-poster.jpg",
     label:
-      "22-second overview of v2.1.1: the strict release checks, the Excel intake and the commands that run the pipeline",
+      "22-second overview of v3.0.0: the apt install command, the four library types, the Excel intake, the six stages with Salmon or STAR, 41 strict checks passed and the locked runtimes",
   },
   url: "https://github.com/prem-p-singh/RNASeq-pipeline",
-  releaseUrl: "https://github.com/prem-p-singh/RNASeq-pipeline/releases/tag/v2.1.1",
+  releaseUrl: "https://github.com/prem-p-singh/RNASeq-pipeline/releases/tag/v3.0.0",
 };
 
 export const software: SoftwareProject[] = [
