@@ -206,7 +206,7 @@ export default function WorkExperience() {
             </ul>
 
             <Link
-              href="/cv.pdf"
+              href="/Prem_Pratap_Singh_Resume.pdf"
               target="_blank"
               rel="noopener noreferrer"
               className="mt-6 inline-block text-sm font-semibold text-field-strong underline underline-offset-4"
