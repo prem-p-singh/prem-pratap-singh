@@ -110,7 +110,7 @@ export default function HeroClient() {
             <a href="#capabilities" className="btn-primary">
               Explore research
             </a>
-            <a href="/cv.pdf" target="_blank" rel="noopener noreferrer" className="btn-outline">
+            <a href="/Prem_Pratap_Singh_Resume.pdf" target="_blank" rel="noopener noreferrer" className="btn-outline">
               CV
             </a>
           </div>

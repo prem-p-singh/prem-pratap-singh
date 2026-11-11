@@ -45,6 +45,10 @@ const securityHeaders = [
 
 const nextConfig: NextConfig = {
   pageExtensions: ["js", "jsx", "md", "mdx", "ts", "tsx"],
+  async redirects() {
+    // The CV used to live at /cv.pdf; keep old links (LinkedIn, search results) working.
+    return [{ source: "/cv.pdf", destination: "/Prem_Pratap_Singh_Resume.pdf", permanent: true }];
+  },
   async headers() {
     return [
       {

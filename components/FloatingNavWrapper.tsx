@@ -117,7 +117,7 @@ export default function FloatingNavWrapper() {
                 )}
               </div>
 
-              <a href="/cv.pdf" target="_blank" rel="noopener noreferrer" className={linkClass}>
+              <a href="/Prem_Pratap_Singh_Resume.pdf" target="_blank" rel="noopener noreferrer" className={linkClass}>
                 CV
               </a>
               <Link href="/#contact" className={linkClass}>
@@ -175,7 +175,7 @@ export default function FloatingNavWrapper() {
               </Link>
             ))}
             <a
-              href="/cv.pdf"
+              href="/Prem_Pratap_Singh_Resume.pdf"
               target="_blank"
               rel="noopener noreferrer"
               onClick={closeMobileMenu}
