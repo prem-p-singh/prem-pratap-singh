@@ -1,9 +1,16 @@
 import { ImageResponse } from "next/og";
+import { bookChapters, publications } from "@/profile/publications";
 
 export const runtime = "edge";
 export const alt = "Prem Pratap Singh — plant scientist and data scientist";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
+
+// Counted from the publication list, the same way the homepage counts them,
+// so the image cannot fall out of step with the site.
+const articleCount = publications.filter(
+  (publication) => publication.venue !== "In Preparation"
+).length;
 
 export default async function OGImage() {
   return new ImageResponse(
@@ -92,7 +99,9 @@ export default async function OGImage() {
               color: "#d3e4d9",
             }}
           >
-            <span>25+ Publications</span>
+            <span>{articleCount} peer-reviewed articles</span>
+            <span>·</span>
+            <span>{bookChapters.length} book chapters</span>
             <span>·</span>
             <span>2300+ Citations</span>
             <span>·</span>
