@@ -54,7 +54,7 @@ export default function PathogenTable() {
               type="button"
               aria-pressed={group === g}
               onClick={() => setGroup(g)}
-              className="rounded-full border border-border bg-card px-3.5 py-1.5 text-xs font-semibold text-muted-foreground transition-colors hover:border-field hover:text-foreground aria-pressed:border-primary aria-pressed:bg-primary aria-pressed:text-primary-foreground"
+              className="rounded-[3px] border border-border bg-card px-3.5 py-1.5 text-xs font-semibold text-muted-foreground transition-colors hover:border-field hover:text-foreground aria-pressed:border-primary aria-pressed:bg-primary aria-pressed:text-primary-foreground"
             >
               {g}
             </button>
@@ -63,7 +63,7 @@ export default function PathogenTable() {
       </div>
 
       {/* Table */}
-      <div className="overflow-x-auto rounded-xl border border-border">
+      <div className="overflow-x-auto rounded-[6px] border border-border">
         <table className="w-full border-collapse text-sm leading-normal">
           <thead>
             <tr className="border-b border-border text-left">
@@ -104,7 +104,7 @@ export default function PathogenTable() {
                     {r.disease}
                   </span>
                   <span
-                    className={`mt-1.5 inline-block rounded-full px-2.5 py-0.5 text-xs font-semibold ${
+                    className={`mt-1.5 inline-block rounded-[3px] px-2.5 py-0.5 text-xs font-semibold ${
                       GROUP_STYLE[r.group] ?? "bg-muted text-muted-foreground"
                     }`}
                   >

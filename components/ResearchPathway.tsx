@@ -42,7 +42,7 @@ const tones: Record<Tone, { tile: string; edge: string; selected: string; link: 
   },
 };
 
-const iconTile = "flex size-11 shrink-0 items-center justify-center rounded-xl";
+const iconTile = "icon-stamp";
 
 type Stage = {
   id: StageId;
@@ -158,9 +158,9 @@ export default function ResearchPathway() {
       className="guided-scroll-section"
       aria-labelledby="research-pathway-title"
     >
-      <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+      <div className="mx-auto max-w-[100rem] px-4 sm:px-6 lg:px-8">
         <div className="grid gap-x-8 gap-y-10 border-t border-border py-10 lg:grid-cols-12 lg:py-14">
-          <div className="lg:col-span-4">
+          <div className="room-title lg:col-span-12">
             <p className="section-kicker">How I work</p>
             <h2
               id="research-pathway-title"
@@ -174,7 +174,7 @@ export default function ResearchPathway() {
             <p className="mt-3 text-sm text-muted-foreground">Davis, California</p>
           </div>
 
-          <div className="lg:col-span-8">
+          <div className="lg:col-span-12">
             <div
               role="tablist"
               aria-label="Research pathway"
@@ -215,7 +215,6 @@ export default function ResearchPathway() {
               aria-labelledby={`research-pathway-tab-${active.id}`}
               className="paper-panel mt-8 p-6 sm:p-8"
             >
-              <span className={`absolute inset-x-0 top-0 h-1 ${activeTone.edge}`} aria-hidden="true" />
               <div className="flex items-start justify-between gap-5">
                 <div>
                   <h3 className="text-2xl leading-tight text-foreground sm:text-3xl">

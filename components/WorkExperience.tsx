@@ -89,7 +89,7 @@ function MentorPills({
             {mentor.affiliation && <span className="font-normal">, {mentor.affiliation}</span>}
           </>
         );
-        const pill = `inline-block rounded-full border px-3 py-1 text-xs font-semibold ${pillTones[tone]}`;
+        const pill = `inline-block rounded-[3px] border px-3 py-1 text-xs font-semibold ${pillTones[tone]}`;
         return (
           <li key={mentor.name}>
             {mentor.url ? (
@@ -118,9 +118,9 @@ export default function WorkExperience() {
       className="guided-scroll-section"
       aria-labelledby="work-experience-title"
     >
-      <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+      <div className="mx-auto max-w-[100rem] px-4 sm:px-6 lg:px-8">
         <div className="grid gap-x-8 gap-y-10 border-t border-border py-10 lg:grid-cols-12 lg:py-14">
-          <div className="lg:col-span-4">
+          <div className="room-title lg:col-span-12">
             <h2
               id="work-experience-title"
               className="text-3xl leading-tight text-foreground sm:text-4xl"
@@ -132,8 +132,8 @@ export default function WorkExperience() {
             </p>
           </div>
 
-          <div className="lg:col-span-8">
-            <ul className="grid gap-5">
+          <div className="lg:col-span-12">
+            <ul className="grid gap-5 xl:grid-cols-2 xl:items-start">
               {workExperience.map((role) => {
                 const detail = roleDetails[role.title];
                 if (!detail) return null;
@@ -142,29 +142,29 @@ export default function WorkExperience() {
                 const currentLabel = role.endDate === "Present" ? "Current PIs" : "Supervisor";
 
                 return (
-                  <li key={role.title} className="paper-panel p-6 pl-7 sm:p-7 sm:pl-9">
-                    <span
-                      className={`absolute inset-y-0 left-0 w-1.5 ${tone.edge}`}
-                      aria-hidden="true"
-                    />
-                    <div className="flex flex-wrap items-center justify-between gap-x-4 gap-y-2">
-                      <p className="text-sm leading-normal tabular-nums text-muted-foreground">
-                        {role.startDate}–{role.endDate}, {role.location}
-                      </p>
-                      <span
-                        className={`rounded-full border px-3 py-1 text-xs font-semibold ${tone.tag}`}
-                      >
-                        {detail.label}
-                      </span>
+                  <li key={role.title} className="paper-panel p-6 sm:p-7">
+                    <div className="grid gap-x-8 gap-y-4 sm:grid-cols-[10rem_1fr]">
+                      <div className="text-sm leading-normal">
+                        <p className="font-serif text-lg font-bold leading-tight tabular-nums text-foreground">
+                          {role.startDate}–{role.endDate}
+                        </p>
+                        <p className="mt-1 text-muted-foreground">{role.location}</p>
+                        <span
+                          className={`mt-3 inline-block rounded-[3px] border px-3 py-1 text-xs font-semibold ${tone.tag}`}
+                        >
+                          {detail.label}
+                        </span>
+                      </div>
+                      <div>
+                        <h3 className="text-2xl leading-tight text-foreground sm:text-3xl">{role.title}</h3>
+                        <p className="mt-2 text-base font-semibold text-muted-foreground">
+                          {role.organization}
+                        </p>
+                        <p className="mt-4 max-w-[60ch] text-base leading-relaxed text-foreground">
+                          {detail.summary}
+                        </p>
+                      </div>
                     </div>
-
-                    <p className="mt-4 text-sm font-semibold text-muted-foreground">
-                      {role.organization}
-                    </p>
-                    <h3 className="mt-1 text-2xl leading-tight text-foreground">{role.title}</h3>
-                    <p className="mt-4 max-w-[60ch] text-base leading-relaxed text-foreground">
-                      {detail.summary}
-                    </p>
 
                     {(mentors.current.length > 0 || mentors.former.length > 0) && (
                       <dl className="mt-5 grid gap-x-6 gap-y-4 border-t border-border pt-4 text-sm leading-normal">
@@ -194,7 +194,7 @@ export default function WorkExperience() {
                       {detail.evidence.map((item) => (
                         <li
                           key={item}
-                          className={`flex items-center rounded-xl px-4 py-3 text-sm font-semibold leading-snug tabular-nums text-foreground ${tone.chip}`}
+                          className="border-t-2 border-foreground pt-2 text-sm font-semibold leading-snug tabular-nums text-foreground"
                         >
                           {item}
                         </li>

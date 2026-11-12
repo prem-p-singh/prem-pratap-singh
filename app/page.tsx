@@ -35,8 +35,10 @@ export default function Home() {
   return (
     <>
       <HeroClient />
-      <ResearchPathway />
-      <ResearchSnapshot />
+      <div className="room-green">
+        <ResearchPathway />
+        <ResearchSnapshot />
+      </div>
       <WorkExperience />
 
       <section
@@ -44,9 +46,9 @@ export default function Home() {
         className="guided-scroll-section"
         aria-labelledby="research-title"
       >
-        <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-[100rem] px-4 sm:px-6 lg:px-8">
           <div className="grid gap-x-8 gap-y-10 border-t border-border py-10 lg:grid-cols-12 lg:py-14">
-            <div className="lg:col-span-4">
+            <div className="room-title lg:col-span-12">
               <h2 id="research-title" className="text-3xl leading-tight text-foreground sm:text-4xl">
                 Evidence that has passed peer review.
               </h2>
@@ -55,7 +57,7 @@ export default function Home() {
               </p>
             </div>
 
-            <div className="lg:col-span-8">
+            <div className="lg:col-span-12">
               <div className="paper-panel grid gap-6 p-6 sm:grid-cols-[auto_1fr] sm:items-center sm:gap-8 sm:p-7">
                 <p className="text-sm font-semibold leading-normal text-muted-foreground">
                   <span className="block font-serif text-6xl leading-none tabular-nums text-field">
@@ -64,13 +66,13 @@ export default function Home() {
                   <span className="mt-2 block">published works</span>
                 </p>
                 <dl className="grid grid-cols-2 gap-3">
-                  <div className="flex flex-col-reverse justify-end rounded-xl bg-data-wash px-4 py-3">
+                  <div className="flex flex-col-reverse justify-end rounded-[6px] bg-data-wash px-4 py-3">
                     <dt className="text-sm font-semibold leading-snug text-foreground">Journal articles</dt>
                     <dd className="text-2xl font-semibold tabular-nums text-data">
                       {publishedJournalCount}
                     </dd>
                   </div>
-                  <div className="flex flex-col-reverse justify-end rounded-xl bg-decision-wash px-4 py-3">
+                  <div className="flex flex-col-reverse justify-end rounded-[6px] bg-decision-wash px-4 py-3">
                     <dt className="text-sm font-semibold leading-snug text-foreground">Book chapters</dt>
                     <dd className="text-2xl font-semibold tabular-nums text-decision">
                       {bookChapters.length}
@@ -101,14 +103,15 @@ export default function Home() {
         </div>
       </section>
 
+      <div className="room-green">
       <section
         id="software"
         className="guided-scroll-section"
         aria-labelledby="software-title"
       >
-        <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-[100rem] px-4 sm:px-6 lg:px-8">
           <div className="grid gap-x-8 gap-y-10 border-t border-border py-10 lg:grid-cols-12 lg:py-14">
-            <div className="lg:col-span-4">
+            <div className="room-title lg:col-span-12">
               <h2 id="software-title" className="text-3xl leading-tight text-foreground sm:text-4xl">
                 Open-source tools
               </h2>
@@ -125,7 +128,7 @@ export default function Home() {
               </a>
             </div>
 
-            <div className="lg:col-span-8">
+            <div className="lg:col-span-12">
               <SoftwareShowcase />
             </div>
           </div>
@@ -137,9 +140,9 @@ export default function Home() {
         className="guided-scroll-section"
         aria-labelledby="projects-title"
       >
-        <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-[100rem] px-4 sm:px-6 lg:px-8">
           <div className="grid gap-x-8 gap-y-10 border-t border-border py-10 lg:grid-cols-12 lg:py-14">
-            <div className="lg:col-span-4">
+            <div className="room-title lg:col-span-12">
               <h2 id="projects-title" className="text-3xl leading-tight text-foreground sm:text-4xl">
                 Research projects
               </h2>
@@ -148,12 +151,14 @@ export default function Home() {
               </p>
             </div>
 
-            <div className="lg:col-span-8">
+            <div className="lg:col-span-12">
               <ProjectCaseFiles projects={projects} initialVisible={3} />
             </div>
           </div>
         </div>
       </section>
+
+      </div>
 
       {latestPosts.length > 0 && (
         <section
@@ -161,9 +166,9 @@ export default function Home() {
           className="guided-scroll-section"
           aria-labelledby="blog-title"
         >
-          <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+          <div className="mx-auto max-w-[100rem] px-4 sm:px-6 lg:px-8">
             <div className="grid gap-x-8 gap-y-10 border-t border-border py-10 lg:grid-cols-12 lg:py-14">
-              <div className="lg:col-span-4">
+              <div className="room-title lg:col-span-12">
                 <p className="section-kicker">Field notes</p>
                 <h2 id="blog-title" className="mt-3 text-3xl leading-tight text-foreground sm:text-4xl">
                   Ideas moving between crop and data
@@ -175,7 +180,7 @@ export default function Home() {
                 </div>
               </div>
 
-              <ul className="grid gap-5 md:grid-cols-2 lg:col-span-8">
+              <ul className="grid gap-5 md:grid-cols-2 lg:col-span-12">
                 {latestPosts.map((post) => {
                   const image = post.visualSummary || post.image;
                   return (
@@ -193,11 +198,11 @@ export default function Home() {
                       ) : (
                         // No image: a tinted band with the notebook's field icon and the post's first tag.
                         <div className="flex items-center justify-between gap-4 border-b border-border bg-field-wash px-6 py-5">
-                          <span className="flex size-11 shrink-0 items-center justify-center rounded-xl bg-card text-field">
+                          <span className="icon-stamp bg-card text-field">
                             <FieldIcon size={22} />
                           </span>
                           {post.tags[0] && (
-                            <span className="rounded-full border border-field/20 bg-card px-3 py-1 text-xs font-semibold text-field">
+                            <span className="rounded-[3px] border border-field/20 bg-card px-3 py-1 text-xs font-semibold text-field">
                               {post.tags[0]}
                             </span>
                           )}
@@ -239,19 +244,19 @@ export default function Home() {
 
       <section
         id="contact"
-        className="guided-scroll-section"
+        className="guided-scroll-section room-merlot"
         aria-labelledby="contact-title"
       >
-        <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-[100rem] px-4 sm:px-6 lg:px-8">
           <div className="grid gap-x-8 gap-y-10 border-t border-border py-10 lg:grid-cols-12 lg:py-14">
-            <div className="lg:col-span-4">
+            <div className="room-title lg:col-span-12">
               <p className="section-kicker">Where the work can grow next</p>
               <h2 id="contact-title" className="mt-3 text-3xl leading-tight text-foreground sm:text-4xl">
                 Better crop decisions, built on stronger biological data.
               </h2>
             </div>
 
-            <div className="grid gap-5 md:grid-cols-2 lg:col-span-8">
+            <div className="grid gap-5 md:grid-cols-2 lg:col-span-12">
               <ul className="grid gap-5 md:col-span-2 md:grid-cols-3">
                 {opportunities.map((opportunity) => {
                   const Icon = opportunity.icon;
@@ -260,9 +265,9 @@ export default function Home() {
                       {/* At least square from md up; a long title can still make the row taller. */}
                       <div className="flex h-full flex-col gap-5 p-6 md:min-h-56">
                         <span
-                          className={`flex size-11 shrink-0 items-center justify-center rounded-xl ${opportunity.tile}`}
+                          className={`icon-stamp ${opportunity.tile}`}
                         >
-                          <Icon size={22} strokeWidth={1.5} aria-hidden="true" />
+                          <Icon size={22} strokeWidth={2.5} aria-hidden="true" />
                         </span>
                         <div className="md:mt-auto">
                           <h3 className="text-lg font-semibold leading-snug text-foreground">{opportunity.title}</h3>
@@ -277,8 +282,8 @@ export default function Home() {
               </ul>
 
               <div className="paper-panel flex flex-col p-6">
-                <span className="flex size-11 shrink-0 items-center justify-center rounded-xl bg-field-wash text-field">
-                  <Mail size={22} strokeWidth={1.5} aria-hidden="true" />
+                <span className="icon-stamp bg-field-wash text-field">
+                  <Mail size={22} strokeWidth={2.5} aria-hidden="true" />
                 </span>
                 <p className="mt-5 text-sm font-semibold text-muted-foreground">Start a conversation</p>
                 <a

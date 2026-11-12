@@ -56,7 +56,7 @@ const KeywordsScroll = ({
                   className="flex basis-auto justify-center pl-0"
                 >
                   <div className="mx-2 flex shrink-0 items-center justify-center">
-                    <span className="px-4 py-2 text-sm font-medium text-[var(--muted-foreground)] border border-[var(--border)] rounded-full whitespace-nowrap hover:text-[var(--foreground)] hover:border-[var(--muted-foreground)] transition-colors">
+                    <span className="px-4 py-2 text-sm font-medium text-[var(--muted-foreground)] border border-[var(--border)] rounded-[3px] whitespace-nowrap hover:text-[var(--foreground)] hover:border-[var(--muted-foreground)] transition-colors">
                       {keyword}
                     </span>
                   </div>

@@ -46,7 +46,7 @@ const categoryTones: Record<string, keyof typeof tones> = {
   Mechanism: "biology",
 };
 
-const tagClass = "rounded-full border px-3 py-1 text-xs font-semibold";
+const tagClass = "rounded-[3px] border px-3 py-1 text-xs font-semibold";
 const detailRowClass = "grid gap-x-4 gap-y-2 py-4 sm:grid-cols-[12rem_1fr]";
 
 export default function ProjectCaseFiles({
@@ -63,7 +63,7 @@ export default function ProjectCaseFiles({
 
   return (
     <div>
-      <div className="grid gap-5">
+      <div className="grid gap-5 xl:grid-cols-2 xl:items-start">
         {visibleProjects.map((project, index) => {
           const open = openIndex === index;
           const tone = tones[categoryTones[project.category ?? ""] ?? "field"];
@@ -74,8 +74,7 @@ export default function ProjectCaseFiles({
           const linkClass = `text-sm font-semibold underline underline-offset-4 ${tone.text}`;
 
           return (
-            <article key={project.title} className="paper-panel p-6 pl-7 sm:p-7 sm:pl-9">
-              <span className={`absolute inset-y-0 left-0 w-1.5 ${tone.edge}`} aria-hidden="true" />
+            <article key={project.title} className="paper-panel p-6 sm:p-7">
 
               {/* The button holds only the title. Its ::after covers the header, above the
                   positioned result block, so the whole summary toggles. */}
@@ -112,10 +111,10 @@ export default function ProjectCaseFiles({
                   </ul>
                 </div>
 
-                <div className={`relative flex flex-col justify-center rounded-xl p-5 pr-10 ${tone.wash}`}>
+                <div className="relative flex flex-col justify-start border-t-2 border-foreground pt-3 pr-8 sm:border-l sm:border-t-0 sm:border-border sm:pl-6 sm:pt-0">
                   <p>
                     <span
-                      className={`block text-3xl font-semibold leading-tight tabular-nums ${tone.text}`}
+                      className={`block font-serif text-4xl font-bold leading-none tabular-nums ${tone.text}`}
                     >
                       {project.resultStat || "Evidence"}
                     </span>
@@ -187,7 +186,7 @@ export default function ProjectCaseFiles({
                     {/* Scrolls sideways on narrow screens. Shrinking a dense figure
                         to phone width makes axis labels unreadable, so it keeps a
                         legible minimum and the reader pans instead. */}
-                    <div className="overflow-x-auto rounded-xl border border-border bg-card">
+                    <div className="overflow-x-auto rounded-[6px] border border-border bg-card">
                       <Image
                         src={project.image}
                         alt={project.imageCaption || `Figure from ${project.title}`}

@@ -45,7 +45,7 @@ export function VineyardCaseFile() {
     <section className="paper-panel not-prose my-10">
       <div className="border-b border-border px-5 py-6 sm:px-7">
         <div className="flex flex-wrap items-center gap-2 text-sm font-semibold text-muted-foreground">
-          <span className="rounded-full border border-biology/20 bg-biology-wash px-3 py-1 text-xs font-semibold text-biology">
+          <span className="rounded-[3px] border border-biology/20 bg-biology-wash px-3 py-1 text-xs font-semibold text-biology">
             Case file 01
           </span>
           Vineyard mystery
@@ -92,25 +92,25 @@ export function VineyardCaseFile() {
           })}
         </div>
 
-        <div className="rounded-2xl bg-muted p-5 sm:p-6">
+        <div className="rounded-[6px] bg-muted p-5 sm:p-6">
           {!response ? (
             <div className="flex min-h-72 flex-col items-center justify-center text-center">
               <div className="flex w-full max-w-md items-center text-sm font-semibold text-foreground">
-                <span className="rounded-full bg-biology-wash px-3 py-2 text-biology">
+                <span className="rounded-[3px] bg-biology-wash px-3 py-2 text-biology">
                   Heat
                 </span>
                 <span className="mx-2 flex min-w-5 flex-1 items-center" aria-hidden="true">
                   <span className="h-px flex-1 bg-biology/35" />
                   <span className="size-1.5 rounded-full bg-data" />
                 </span>
-                <span className="rounded-full bg-data-wash px-3 py-2 text-data">
+                <span className="rounded-[3px] bg-data-wash px-3 py-2 text-data">
                   ?
                 </span>
                 <span className="mx-2 flex min-w-5 flex-1 items-center" aria-hidden="true">
                   <span className="h-px flex-1 bg-data/35" />
                   <span className="size-1.5 rounded-full bg-field" />
                 </span>
-                <span className="rounded-full bg-field-wash px-3 py-2 text-field">
+                <span className="rounded-[3px] bg-field-wash px-3 py-2 text-field">
                   Vine response
                 </span>
               </div>
@@ -154,13 +154,13 @@ export function VineyardCaseFile() {
               </div>
 
               <div className="mt-6 grid grid-cols-2 gap-3">
-                <div className="rounded-xl bg-card p-3">
+                <div className="rounded-[6px] bg-card p-3">
                   <p className="text-2xl font-semibold tabular-nums text-foreground">39</p>
                   <p className="mt-1 text-xs leading-snug text-muted-foreground">
                     significant mediating genes
                   </p>
                 </div>
-                <div className="rounded-xl bg-card p-3">
+                <div className="rounded-[6px] bg-card p-3">
                   <p className="text-2xl font-semibold tabular-nums text-foreground">2,000</p>
                   <p className="mt-1 text-xs leading-snug text-muted-foreground">
                     bootstrap resamples
@@ -300,7 +300,7 @@ export function CropGrowthExplorer() {
     <section className="paper-panel not-prose my-10">
       <div className="border-b border-border px-5 py-6 sm:px-7">
         <div className="flex flex-wrap items-center gap-2 text-sm font-semibold text-muted-foreground">
-          <span className="rounded-full border border-field/20 bg-field-wash px-3 py-1 text-xs font-semibold text-field">
+          <span className="rounded-[3px] border border-field/20 bg-field-wash px-3 py-1 text-xs font-semibold text-field">
             Case file 02
           </span>
           The method goes travelling
@@ -327,7 +327,7 @@ export function CropGrowthExplorer() {
                 setGuess(option);
                 setSelectedName(option);
               }}
-              className="rounded-full border border-border bg-card px-3.5 py-1.5 text-xs font-semibold text-muted-foreground transition-colors hover:border-field hover:text-foreground aria-pressed:border-primary aria-pressed:bg-primary aria-pressed:text-primary-foreground"
+              className="rounded-[3px] border border-border bg-card px-3.5 py-1.5 text-xs font-semibold text-muted-foreground transition-colors hover:border-field hover:text-foreground aria-pressed:border-primary aria-pressed:bg-primary aria-pressed:text-primary-foreground"
             >
               {option}
             </button>
@@ -335,7 +335,7 @@ export function CropGrowthExplorer() {
         </div>
         {guess && (
           <div
-            className={`mt-4 rounded-xl p-4 text-sm leading-relaxed text-foreground ${
+            className={`mt-4 rounded-[6px] p-4 text-sm leading-relaxed text-foreground ${
               guess === "Sugarcane" ? "bg-field-wash" : "bg-decision-wash"
             }`}
             aria-live="polite"
@@ -370,7 +370,7 @@ export function CropGrowthExplorer() {
               role="tab"
               aria-selected={selected.name === crop.name}
               onClick={() => setSelectedName(crop.name)}
-              className="shrink-0 rounded-full border border-border bg-card px-3.5 py-1.5 text-xs font-semibold text-muted-foreground transition-colors hover:border-field hover:text-foreground aria-selected:border-primary aria-selected:bg-primary aria-selected:text-primary-foreground"
+              className="shrink-0 rounded-[3px] border border-border bg-card px-3.5 py-1.5 text-xs font-semibold text-muted-foreground transition-colors hover:border-field hover:text-foreground aria-selected:border-primary aria-selected:bg-primary aria-selected:text-primary-foreground"
             >
               {crop.name}
             </button>
@@ -378,7 +378,7 @@ export function CropGrowthExplorer() {
         </div>
 
         <div className="mt-4 grid gap-5 lg:grid-cols-[0.75fr_1.25fr]">
-          <div className="rounded-2xl bg-muted p-5">
+          <div className="rounded-[6px] bg-muted p-5">
             <p className="text-sm font-semibold tabular-nums text-muted-foreground">
               1961–2023
             </p>
@@ -389,13 +389,13 @@ export function CropGrowthExplorer() {
             </p>
 
             <div className="mt-5 grid grid-cols-2 gap-3">
-              <div className="rounded-xl bg-card p-3">
+              <div className="rounded-[6px] bg-card p-3">
                 <p className="text-xl font-semibold tabular-nums text-foreground">
                   {selected.productionGrowth.toFixed(2)}×
                 </p>
                 <p className="mt-1 text-xs text-muted-foreground">production</p>
               </div>
-              <div className="rounded-xl bg-card p-3">
+              <div className="rounded-[6px] bg-card p-3">
                 <p className="text-xl font-semibold tabular-nums text-foreground">
                   {selected.areaGrowth.toFixed(2)}×
                 </p>
@@ -404,7 +404,7 @@ export function CropGrowthExplorer() {
             </div>
           </div>
 
-          <div className="rounded-2xl bg-muted p-5 sm:p-6">
+          <div className="rounded-[6px] bg-muted p-5 sm:p-6">
             {selected.interpretable ? (
               <>
                 <div className="flex items-end justify-between gap-4">
@@ -454,7 +454,7 @@ export function CropGrowthExplorer() {
               </>
             ) : (
               <div className="flex min-h-52 flex-col justify-center">
-                <span className="self-start rounded-full border border-decision/20 bg-card px-3 py-1 text-xs font-semibold text-decision">
+                <span className="self-start rounded-[3px] border border-decision/20 bg-card px-3 py-1 text-xs font-semibold text-decision">
                   Outside the 0–100% zone
                 </span>
                 <p className="mt-4 text-4xl font-semibold tabular-nums text-foreground">

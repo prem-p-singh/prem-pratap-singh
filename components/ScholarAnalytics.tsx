@@ -55,7 +55,7 @@ export default function ScholarAnalytics() {
         : openAlex?.profileUrl;
 
   return (
-    <div className="min-w-0 overflow-hidden rounded-[2rem] border border-border bg-card">
+    <div className="min-w-0 overflow-hidden rounded-[6px] border border-border bg-card">
       <div className="flex flex-col gap-5 border-b border-border p-5 sm:p-7 lg:flex-row lg:items-center lg:justify-between">
         <div>
           <p className="text-xs font-semibold uppercase tracking-[0.22em] text-field">
@@ -65,7 +65,7 @@ export default function ScholarAnalytics() {
             Evidence that keeps traveling
           </h3>
         </div>
-        <div className="grid grid-cols-3 gap-1 rounded-2xl border border-border bg-background/65 p-1">
+        <div className="grid grid-cols-3 gap-1 rounded-[6px] border border-border bg-background/65 p-1">
           {([
             ["scholar", "Scholar"],
             ["scopus", "Scopus"],
@@ -75,7 +75,7 @@ export default function ScholarAnalytics() {
               key={tab}
               type="button"
               onClick={() => setActiveTab(tab)}
-              className={`rounded-xl px-3 py-2 text-xs font-semibold transition-colors sm:px-4 ${
+              className={`rounded-[6px] px-3 py-2 text-xs font-semibold transition-colors sm:px-4 ${
                 activeTab === tab
                   ? "bg-foreground text-background"
                   : "text-muted-foreground hover:text-foreground"
@@ -83,7 +83,7 @@ export default function ScholarAnalytics() {
             >
               {label}
               {tab === "openalex" && (
-                <span className="ml-1.5 hidden rounded-full bg-field-wash px-1.5 py-0.5 text-xs text-field sm:inline">
+                <span className="ml-1.5 hidden rounded-[3px] bg-field-wash px-1.5 py-0.5 text-xs text-field sm:inline">
                   LIVE
                 </span>
               )}
@@ -96,7 +96,7 @@ export default function ScholarAnalytics() {
         {activeTab === "scholar" && (
           <div className="grid min-w-0 gap-5 lg:grid-cols-[0.78fr_1.22fr]">
             <div className="grid min-w-0 gap-4 sm:grid-cols-2 lg:grid-cols-1">
-              <div className="relative min-w-0 overflow-hidden rounded-3xl border border-field/30 bg-field-wash p-5 sm:p-6">
+              <div className="relative min-w-0 overflow-hidden rounded-[6px] border border-field/30 bg-field-wash p-5 sm:p-6">
                 <span className="absolute -right-8 -top-8 size-32 rounded-full border border-field/20" />
                 <TrendingUp className="size-5 text-field" aria-hidden="true" />
                 <p className="mt-8 text-5xl font-black tracking-[-0.06em] text-foreground sm:text-6xl">
@@ -105,7 +105,7 @@ export default function ScholarAnalytics() {
                 <p className="mt-2 text-sm font-semibold text-muted-foreground">citations and counting</p>
               </div>
 
-              <div className="min-w-0 rounded-3xl border border-border bg-background/60 p-4 sm:p-5">
+              <div className="min-w-0 rounded-[6px] border border-border bg-background/60 p-4 sm:p-5">
                 <div className="grid grid-cols-2 gap-3">
                   <MetricTile label="h-index" value={googleScholar.metrics.hIndex.toString()} />
                   <MetricTile label="i10-index" value={googleScholar.metrics.i10Index.toString()} />
@@ -139,7 +139,7 @@ export default function ScholarAnalytics() {
 
         {activeTab === "scopus" && (
           <div className="grid min-w-0 gap-5 lg:grid-cols-[0.8fr_1.2fr]">
-            <div className="relative min-w-0 overflow-hidden rounded-3xl border border-data/30 bg-data-wash p-5 sm:p-6">
+            <div className="relative min-w-0 overflow-hidden rounded-[6px] border border-data/30 bg-data-wash p-5 sm:p-6">
               <Network className="size-5 text-data" aria-hidden="true" />
               <p className="mt-10 text-5xl font-black tracking-[-0.06em] text-foreground sm:text-6xl">
                 {scopus.metrics.citations.toLocaleString()}
@@ -151,7 +151,7 @@ export default function ScholarAnalytics() {
               </div>
             </div>
 
-            <div className="min-w-0 rounded-3xl border border-border bg-background/60 p-5 sm:p-8">
+            <div className="min-w-0 rounded-[6px] border border-border bg-background/60 p-5 sm:p-8">
               <p className="text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">
                 Research network
               </p>
@@ -174,7 +174,7 @@ export default function ScholarAnalytics() {
             {!openAlex && !openAlexError && (
               <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
                 {[0, 1, 2, 3].map((i) => (
-                  <div key={i} className="rounded-2xl border border-border bg-background/60 p-5">
+                  <div key={i} className="rounded-[6px] border border-border bg-background/60 p-5">
                     <div className="h-8 w-16 animate-pulse rounded bg-muted" />
                     <div className="mt-3 h-3 w-24 animate-pulse rounded bg-muted" />
                   </div>
@@ -183,14 +183,14 @@ export default function ScholarAnalytics() {
             )}
 
             {openAlexError && (
-              <div className="rounded-3xl border border-border bg-background/60 px-6 py-12 text-center text-sm text-muted-foreground">
+              <div className="rounded-[6px] border border-border bg-background/60 px-6 py-12 text-center text-sm text-muted-foreground">
                 Live data is temporarily unavailable ({openAlexError}). Scholar and Scopus remain available above.
               </div>
             )}
 
             {openAlex && (
               <div className="grid min-w-0 gap-5 lg:grid-cols-[0.78fr_1.22fr]">
-                <div className="min-w-0 rounded-3xl border border-data/30 bg-data-wash p-5 sm:p-6">
+                <div className="min-w-0 rounded-[6px] border border-data/30 bg-data-wash p-5 sm:p-6">
                   <BookOpen className="size-5 text-data" aria-hidden="true" />
                   <p className="mt-8 text-5xl font-black tracking-[-0.06em] text-foreground sm:text-6xl">
                     {openAlex.citations.toLocaleString()}
@@ -209,7 +209,7 @@ export default function ScholarAnalytics() {
                 {openAlex.citationsByYear.length > 0 ? (
                   <CitationPanel data={openAlex.citationsByYear} />
                 ) : (
-                  <div className="flex min-h-72 items-center justify-center rounded-3xl border border-border bg-background/60 text-sm text-muted-foreground">
+                  <div className="flex min-h-72 items-center justify-center rounded-[6px] border border-border bg-background/60 text-sm text-muted-foreground">
                     Annual citation data is not available yet.
                   </div>
                 )}
@@ -242,7 +242,7 @@ export default function ScholarAnalytics() {
 
 function CitationPanel({ data }: { data: { year: number; count: number }[] }) {
   return (
-    <div className="min-w-0 overflow-hidden rounded-3xl border border-border bg-background/60 p-4 sm:p-7">
+    <div className="min-w-0 overflow-hidden rounded-[6px] border border-border bg-background/60 p-4 sm:p-7">
       <div className="flex items-center justify-between gap-4">
         <div>
           <p className="text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">
@@ -263,7 +263,7 @@ function CitationPanel({ data }: { data: { year: number; count: number }[] }) {
 
 function MetricTile({ label, value }: { label: string; value: string }) {
   return (
-    <div className="rounded-2xl border border-border bg-card/70 p-4">
+    <div className="rounded-[6px] border border-border bg-card/70 p-4">
       <p className="text-2xl font-black tracking-tight text-foreground">{value}</p>
       <p className="mt-1 text-xs font-semibold uppercase tracking-wider text-muted-foreground">{label}</p>
     </div>
@@ -272,7 +272,7 @@ function MetricTile({ label, value }: { label: string; value: string }) {
 
 function FlowMetric({ label, value }: { label: string; value: string }) {
   return (
-    <div className="rounded-2xl border border-border bg-card p-4 text-center">
+    <div className="rounded-[6px] border border-border bg-card p-4 text-center">
       <p className="text-2xl font-black text-foreground">{value}</p>
       <p className="mt-1 text-xs font-semibold uppercase tracking-wider text-muted-foreground">{label}</p>
     </div>

@@ -97,7 +97,7 @@ const categoryTags: Record<Exclude<GalleryCategory, "All">, string> = {
   Methods: "border-decision/20 bg-decision-wash text-decision",
 };
 
-const tagClass = "rounded-full border px-3 py-1 text-xs font-semibold";
+const tagClass = "rounded-[3px] border px-3 py-1 text-xs font-semibold";
 
 const categoryTiles: Record<
   Exclude<GalleryCategory, "All">,
@@ -121,7 +121,7 @@ export function GalleryCollections() {
             key={category}
             className="flex flex-col items-center gap-2 text-center text-sm font-semibold leading-snug text-foreground"
           >
-            <span className={`flex size-11 shrink-0 items-center justify-center rounded-xl ${tile}`}>
+            <span className={`icon-stamp ${tile}`}>
               <Icon size={22} />
             </span>
             {category}
@@ -177,13 +177,13 @@ export default function VisualGallery({ presentationItems }: VisualGalleryProps)
         aria-labelledby="visual-gallery-title"
       >
         <div className="grid gap-x-8 gap-y-10 lg:grid-cols-12">
-          <div className="lg:col-span-4">
+          <div className="room-title lg:col-span-12">
             <p className="section-kicker">Research, seen differently</p>
             <h2 id="visual-gallery-title" className="mt-3 text-3xl leading-tight text-foreground sm:text-4xl">
               Browse the evidence wall
             </h2>
           </div>
-          <div className="lg:col-span-8">
+          <div className="lg:col-span-12">
             <p className="max-w-[60ch] text-base leading-relaxed text-muted-foreground">
               Filter the collection, open any visual for a closer look, then follow it back to the full story.
             </p>
@@ -198,7 +198,7 @@ export default function VisualGallery({ presentationItems }: VisualGalleryProps)
                     type="button"
                     aria-pressed={activeCategory === category}
                     onClick={() => setActiveCategory(category)}
-                    className="rounded-full border border-border bg-card px-3.5 py-1.5 text-xs font-semibold text-muted-foreground transition-colors hover:border-field hover:text-foreground aria-pressed:border-primary aria-pressed:bg-primary aria-pressed:text-primary-foreground"
+                    className="rounded-[3px] border border-border bg-card px-3.5 py-1.5 text-xs font-semibold text-muted-foreground transition-colors hover:border-field hover:text-foreground aria-pressed:border-primary aria-pressed:bg-primary aria-pressed:text-primary-foreground"
                   >
                     {category} <span className="ml-1 font-normal tabular-nums">{count}</span>
                   </button>
@@ -216,7 +216,7 @@ export default function VisualGallery({ presentationItems }: VisualGalleryProps)
                 <button
                   type="button"
                   onClick={() => setSelected(item)}
-                  className="relative block aspect-[4/3] w-full cursor-pointer overflow-hidden rounded-xl border border-border bg-card"
+                  className="relative block aspect-[4/3] w-full cursor-pointer overflow-hidden rounded-[6px] border border-border bg-card"
                 >
                   <span className="sr-only">Enlarge: </span>
                   <Image
@@ -252,7 +252,7 @@ export default function VisualGallery({ presentationItems }: VisualGalleryProps)
         onClick={(event) => {
           if (event.target === event.currentTarget) closeDialog();
         }}
-        className="m-auto max-h-[92vh] w-[calc(100%-2rem)] max-w-5xl overflow-auto rounded-[20px] border border-border bg-card p-0 text-foreground [box-shadow:var(--shadow-float)] backdrop:bg-black/80"
+        className="m-auto max-h-[92vh] w-[calc(100%-2rem)] max-w-5xl overflow-auto rounded-[6px] border border-border bg-card p-0 text-foreground [box-shadow:var(--shadow-float)] backdrop:bg-black/80"
       >
         {selected && (
           <>

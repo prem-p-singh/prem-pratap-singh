@@ -50,7 +50,7 @@ export default function Timeline({ items }: TimelineProps) {
       {items.map((item, index) => (
         <div
           key={index}
-          className="group p-5 bg-card border border-border rounded-lg card-hover"
+          className="group p-5 bg-card border border-border rounded-[6px] card-hover"
         >
           <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-1 sm:gap-4">
             <div>

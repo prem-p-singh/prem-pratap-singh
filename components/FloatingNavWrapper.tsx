@@ -4,7 +4,6 @@ import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { ChevronDown, Menu, X } from "lucide-react";
-import ThemeToggle from "@/components/ThemeToggle";
 import { exploreNavigation, primaryNavigation } from "@/profile/navigation";
 
 const linkClass =
@@ -61,14 +60,17 @@ export default function FloatingNavWrapper() {
 
   return (
     <>
-      {/* The fixed wrapper keeps the 4rem that pages reserve with pt-16. The pill
-          floats inside it: a 0.75rem gap, then 3.25rem of pill. Clicks pass
-          through the empty space on either side. */}
-      <header ref={headerRef} className="pointer-events-none fixed inset-x-0 top-0 z-[5001] h-16 px-4 sm:px-6 lg:px-8">
-        <div className="pointer-events-auto mx-auto mt-3 flex h-13 w-full items-center justify-between gap-6 rounded-full border border-border bg-card pl-5 pr-2 [box-shadow:var(--shadow-float)] lg:w-max lg:max-w-full lg:gap-8 lg:pl-6 lg:pr-3">
+      {/* The index sign: one strip of ink across the top of every room, with
+          paper-white lettering. It fills the 4rem that pages reserve with pt-16.
+          .sign-bar sets its own tokens, so it reads the same over any wall. */}
+      <header
+        ref={headerRef}
+        className="sign-bar fixed inset-x-0 top-0 z-[5001] h-16"
+      >
+        <div className="mx-auto flex h-full max-w-[100rem] items-center justify-between gap-6 px-4 sm:px-6 lg:gap-8 lg:px-8">
           <Link href="/" onClick={closeMobileMenu} className="shrink-0 text-foreground" aria-label="Prem P. Singh, home">
-            <span className="block font-serif text-lg font-semibold leading-tight">Prem P. Singh</span>
-            <span className="block font-serif text-xs font-semibold leading-snug text-muted-foreground lg:hidden xl:block">
+            <span className="block font-serif text-xl font-bold leading-tight">Prem P. Singh</span>
+            <span className="block text-xs font-semibold leading-snug text-muted-foreground lg:hidden xl:block">
               Plant scientist · Data scientist
             </span>
           </Link>
@@ -106,7 +108,7 @@ export default function FloatingNavWrapper() {
                           role="menuitem"
                           aria-current={current(item.link)}
                           onClick={() => setExploreOpen(false)}
-                          className="block rounded-2xl px-3 py-2 hover:bg-muted aria-[current=page]:bg-muted"
+                          className="block rounded-[4px] px-3 py-2 hover:bg-muted aria-[current=page]:bg-muted"
                         >
                           <span className="block text-sm font-medium text-foreground">{item.name}</span>
                           <span className="block text-xs text-muted-foreground">{item.detail}</span>
@@ -120,18 +122,20 @@ export default function FloatingNavWrapper() {
               <a href="/Prem_Pratap_Singh_Resume.pdf" target="_blank" rel="noopener noreferrer" className={linkClass}>
                 CV
               </a>
-              <Link href="/#contact" className={linkClass}>
+              <Link
+                href="/#contact"
+                className="whitespace-nowrap rounded-[10px] bg-accent px-4 py-2 text-sm font-semibold text-primary-foreground hover:bg-foreground"
+              >
                 Let&apos;s talk
               </Link>
             </nav>
 
             <div className="flex items-center gap-1">
-              <ThemeToggle />
               <button
                 ref={mobileButtonRef}
                 type="button"
                 onClick={() => setMobileOpen((open) => !open)}
-                className="flex size-10 items-center justify-center rounded-full text-foreground hover:bg-muted lg:hidden"
+                className="flex size-10 items-center justify-center rounded-[10px] text-foreground hover:bg-muted lg:hidden"
                 aria-label={mobileOpen ? "Close navigation menu" : "Open navigation menu"}
                 aria-expanded={mobileOpen}
                 aria-controls="mobile-navigation"
@@ -149,7 +153,7 @@ export default function FloatingNavWrapper() {
               overflow: hidden and this list has to scroll on short screens. */}
           <nav
             aria-label="Mobile navigation"
-            className="max-h-[calc(100dvh-5.5rem)] overflow-y-auto overscroll-contain rounded-[20px] border border-border bg-card px-5 py-2 [box-shadow:var(--shadow-float)]"
+            className="max-h-[calc(100dvh-5.5rem)] overflow-y-auto overscroll-contain rounded-[6px] border border-border bg-card px-5 py-2 [box-shadow:var(--shadow-float)]"
           >
             {primaryNavigation.map((item) => (
               <Link

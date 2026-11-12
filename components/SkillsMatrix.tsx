@@ -23,7 +23,7 @@ const categoryTones: Record<string, Tone> = {
   "Documentation, Communication & Cross-Functional Work": "decision",
 };
 
-const tagClass = "rounded-full border px-3 py-1 text-xs font-semibold";
+const tagClass = "rounded-[3px] border px-3 py-1 text-xs font-semibold";
 
 export default function SkillsMatrix() {
   return (
@@ -32,7 +32,6 @@ export default function SkillsMatrix() {
         const tone = tones[categoryTones[skill.category] ?? "field"];
         return (
           <li key={skill.category} className="paper-panel p-6">
-            <span className={`absolute inset-x-0 top-0 h-1 ${tone.edge}`} aria-hidden="true" />
             <div className="flex items-start justify-between gap-4">
               <h3 className="text-xl leading-tight text-foreground">{skill.category}</h3>
               <span className={`shrink-0 tabular-nums ${tagClass} ${tone.tag}`}>

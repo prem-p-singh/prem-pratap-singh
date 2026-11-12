@@ -133,9 +133,9 @@ export default async function BlogPostPage({ params }: Props) {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
       />
-      <div className="mx-auto max-w-6xl px-4 pb-16 sm:px-6 lg:px-8 lg:pb-24">
+      <div className="mx-auto max-w-[100rem] px-4 pb-16 sm:px-6 lg:px-8 lg:pb-24">
         {/* The header sits on the page wash; only the cards below are opaque. */}
-        <header className="pt-10 sm:pt-12 lg:pt-14">
+        <header className="room-green room-bleed mb-10 pb-10 pt-10 sm:pt-12 lg:pt-14">
           <Link
             href="/blog"
             className="inline-flex items-center gap-2 text-sm font-semibold text-muted-foreground underline-offset-4 hover:text-foreground hover:underline"
@@ -175,7 +175,7 @@ export default async function BlogPostPage({ params }: Props) {
                   {post.tags.slice(0, 3).map((tag) => (
                     <span
                       key={tag}
-                      className="rounded-full border border-field/20 bg-field-wash px-3 py-1 text-xs font-semibold text-field"
+                      className="rounded-[3px] border border-field/20 bg-field-wash px-3 py-1 text-xs font-semibold text-field"
                     >
                       {tag}
                     </span>
@@ -226,7 +226,7 @@ export default async function BlogPostPage({ params }: Props) {
             {relatedPosts.length > 0 && (
               <div className="paper-panel p-6">
                 <div className="flex items-center gap-3">
-                  <span className="flex size-11 shrink-0 items-center justify-center rounded-xl bg-field-wash text-field">
+                  <span className="icon-stamp bg-field-wash text-field">
                     <svg className="size-5.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
                     </svg>
