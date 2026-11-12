@@ -12,8 +12,8 @@ export const metadata: Metadata = {
 export default function JourneyPage() {
   return (
     <div className="min-h-screen pt-16">
-      <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
-        <header className="pb-10 pt-10 sm:pt-12 lg:pb-14 lg:pt-14">
+      <div className="mx-auto max-w-[100rem] px-4 sm:px-6 lg:px-8">
+        <header className="room-merlot room-bleed mb-10 pb-10 pt-10 sm:pt-12 lg:pb-14 lg:pt-14">
           <p className="section-kicker">Curiosity, Method, Evidence and Impact</p>
           <h1 className="mt-3 text-4xl leading-tight text-foreground sm:text-5xl lg:text-6xl">
             A Research Journey
@@ -30,19 +30,19 @@ export default function JourneyPage() {
           className="grid gap-x-8 gap-y-10 border-t border-border py-10 lg:grid-cols-12 lg:py-14"
           aria-labelledby="journey-impact-title"
         >
-          <div className="lg:col-span-4">
+          <div className="room-title lg:col-span-12">
             <h2 id="journey-impact-title" className="text-3xl leading-tight text-foreground sm:text-4xl">
               The work kept accumulating
             </h2>
           </div>
-          <div className="lg:col-span-8">
+          <div className="lg:col-span-12">
             <JourneyImpact />
           </div>
         </section>
 
         {/* Gratitude */}
         <section className="grid gap-x-8 border-t border-border py-10 lg:grid-cols-12 lg:py-14">
-          <div className="paper-panel p-6 sm:p-8 lg:col-span-8 lg:col-start-5">
+          <div className="paper-panel p-6 sm:p-8 lg:col-span-12">
             <span className="absolute inset-x-0 top-0 h-1 bg-field" aria-hidden="true" />
             <p className="max-w-[60ch] font-serif text-base leading-relaxed text-foreground">
               Every chapter was made possible by mentors, collaborators, and lab communities that opened their doors.

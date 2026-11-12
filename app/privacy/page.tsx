@@ -10,8 +10,8 @@ export const metadata: Metadata = {
 export default function PrivacyPage() {
   return (
     <main className="min-h-screen pt-16">
-      <div className="mx-auto max-w-6xl px-4 pb-16 sm:px-6 lg:px-8 lg:pb-24">
-        <header className="pb-10 pt-10 sm:pt-12 lg:pt-14">
+      <div className="mx-auto max-w-[100rem] px-4 pb-16 sm:px-6 lg:px-8 lg:pb-24">
+        <header className="room-merlot room-bleed mb-10 pb-10 pt-10 sm:pt-12 lg:pt-14">
           <p className="section-kicker">Privacy</p>
           <h1 className="mt-3 text-4xl leading-tight text-foreground sm:text-5xl lg:text-6xl">
             A small site with a small data footprint.

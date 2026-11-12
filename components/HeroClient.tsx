@@ -73,22 +73,22 @@ const links: Array<{ label: string; href: string; icon: LucideIcon }> = [
   { label: "Google Scholar", href: personal.social.googleScholar, icon: GraduationCap },
 ];
 
-const portraitLabel =
-  "absolute rounded-full border bg-card px-4 py-2 text-sm font-semibold leading-none shadow-sm";
+// The three lines on the label card beside the portrait.
+const practice = ["Field", "Bench", "Code"];
 
 export default function HeroClient() {
   return (
-    <section id="about" className="guided-scroll-section pt-16">
-      <div className="mx-auto grid max-w-6xl gap-x-8 gap-y-12 px-4 pb-10 pt-10 sm:px-6 sm:pt-12 lg:grid-cols-12 lg:px-8 lg:pb-14 lg:pt-14">
+    <section id="about" className="guided-scroll-section room-merlot pt-16">
+      <div className="mx-auto grid max-w-[100rem] gap-x-10 gap-y-12 px-4 pb-10 pt-10 sm:px-6 lg:grid-cols-12 lg:px-8 lg:pb-8 lg:pt-10">
         <div className="lg:col-span-7">
-          <h1 className="name-gradient text-4xl leading-tight text-foreground sm:text-5xl lg:text-6xl">
+          <h1 className="text-[clamp(3rem,6.6vw,7rem)] leading-[0.94] text-foreground">
             {personal.name}
           </h1>
-          <p className="mt-4 text-lg font-medium text-foreground">{personal.heroRole}</p>
-          <p className="name-gradient mt-6 max-w-[24ch] font-serif text-3xl font-semibold leading-tight sm:text-4xl">
+          <p className="mt-6 text-lg font-semibold text-accent">{personal.heroRole}</p>
+          <p className="mt-5 max-w-[22ch] font-serif text-3xl leading-[1.12] text-foreground sm:text-4xl">
             {personal.heroStatement}
           </p>
-          <p className="mt-5 max-w-[60ch] font-serif text-base leading-relaxed text-foreground">
+          <p className="mt-5 max-w-[60ch] text-base leading-relaxed text-muted-foreground">
             {personal.heroBio}
           </p>
 
@@ -96,7 +96,7 @@ export default function HeroClient() {
             {tags.map((tag) => (
               <li
                 key={tag.label}
-                className={`rounded-full border px-3 py-1 text-xs font-semibold ${tag.className}`}
+                className={`rounded-[4px] border px-3 py-1 text-xs font-semibold ${tag.className}`}
               >
                 {tag.label}
               </li>
@@ -106,7 +106,7 @@ export default function HeroClient() {
             {personal.openTo}
           </p>
 
-          <div className="mt-7 flex flex-wrap gap-3">
+          <div className="mt-8 flex flex-wrap gap-4">
             <a href="#capabilities" className="btn-primary">
               Explore research
             </a>
@@ -114,7 +114,7 @@ export default function HeroClient() {
               CV
             </a>
           </div>
-          <ul className="mt-5 flex flex-wrap gap-2 text-sm">
+          <ul className="mt-7 flex flex-wrap gap-2 text-sm">
             {links.map((link) => {
               const external = !link.href.startsWith("mailto:");
               const Icon = link.icon;
@@ -135,51 +135,65 @@ export default function HeroClient() {
           </ul>
         </div>
 
-        <div className="flex justify-center lg:col-span-5 lg:justify-end">
-          <div className="relative size-72 sm:size-80 xl:size-96">
-            <div className="size-full rounded-full border-2 border-field p-1.5 shadow-xl">
-              <div className="relative size-full overflow-hidden rounded-full">
-                <Image
-                  src="/images/portrait.jpg"
-                  alt={personal.name}
-                  fill
-                  sizes="(min-width: 1280px) 24rem, (min-width: 640px) 20rem, 18rem"
-                  className="object-cover"
-                  priority
-                />
-              </div>
+        {/* The portrait hangs framed on the wall, with its caption plate under it. */}
+        <figure className="mx-auto w-full max-w-md self-start lg:col-span-5 lg:mx-0 lg:justify-self-end">
+          <div className="bg-card p-4 [box-shadow:var(--shadow-float),0_0_0_12px_#2a0b15] sm:p-6">
+            <div className="relative aspect-[4/5] w-full">
+              <Image
+                src="/images/portrait.jpg"
+                alt={personal.name}
+                fill
+                sizes="(min-width: 1024px) 26rem, 90vw"
+                className="object-cover"
+                priority
+              />
             </div>
-            <span aria-hidden="true" className={`${portraitLabel} -left-2 top-10 border-field/30 text-field`}>
-              Field
-            </span>
-            <span aria-hidden="true" className={`${portraitLabel} -right-2 top-1/2 border-biology/30 text-biology`}>
-              Bench
-            </span>
-            <span aria-hidden="true" className={`${portraitLabel} bottom-6 left-4 border-data/30 text-data`}>
-              Code
-            </span>
           </div>
-        </div>
+          <figcaption
+            aria-hidden="true"
+            className="mt-8 flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1 border-t border-border pt-3 text-sm"
+          >
+            <span className="font-semibold text-foreground">{personal.name}</span>
+            <span className="text-muted-foreground">{practice.join(" · ")}</span>
+          </figcaption>
+        </figure>
+      </div>
 
-        <dl className="paper-panel grid divide-y divide-border text-sm leading-normal lg:col-span-12 lg:grid-cols-4 lg:divide-x lg:divide-y-0">
-          {facts.map((fact) => {
-            const Icon = fact.icon;
-            return (
-              <div key={fact.label} className="flex items-start gap-4 p-5">
-                <span
-                  className={`flex size-11 shrink-0 items-center justify-center rounded-xl ${tile[fact.tone]}`}
-                  aria-hidden="true"
-                >
-                  <Icon size={22} />
-                </span>
-                <div>
-                  <dt className="font-semibold text-foreground">{fact.label}</dt>
-                  <dd className="mt-1 tabular-nums text-foreground">{fact.value}</dd>
+      {/* The top of the next room: the first three exhibits, one step from the door. */}
+      <div className="room-green">
+        <ul className="mx-auto grid max-w-[100rem] gap-4 px-4 pt-8 sm:grid-cols-3 sm:px-6 lg:px-8">
+          {projects.slice(0, 3).map((project) => (
+            <li key={project.title}>
+              <a
+                href="#projects"
+                className="paper-panel block h-full p-4 text-base font-semibold leading-snug text-foreground hover:text-primary"
+              >
+                {project.title}
+              </a>
+            </li>
+          ))}
+        </ul>
+        <div className="mx-auto max-w-[100rem] px-4 pt-6 sm:px-6 lg:px-8">
+          <dl className="paper-panel grid divide-y divide-border text-sm leading-normal lg:grid-cols-4 lg:divide-x lg:divide-y-0">
+            {facts.map((fact) => {
+              const Icon = fact.icon;
+              return (
+                <div key={fact.label} className="flex items-start gap-4 p-5">
+                  <span
+                    className={`icon-stamp ${tile[fact.tone]}`}
+                    aria-hidden="true"
+                  >
+                    <Icon size={22} />
+                  </span>
+                  <div>
+                    <dt className="font-semibold text-foreground">{fact.label}</dt>
+                    <dd className="mt-1 tabular-nums text-foreground">{fact.value}</dd>
+                  </div>
                 </div>
-              </div>
-            );
-          })}
-        </dl>
+              );
+            })}
+          </dl>
+        </div>
       </div>
     </section>
   );

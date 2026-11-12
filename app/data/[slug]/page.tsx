@@ -91,9 +91,9 @@ export default async function DataReportPage({ params }: Props) {
     <article className="min-h-screen pt-16">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(datasetJsonLd) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }} />
-      <div className="mx-auto max-w-6xl px-4 pb-16 sm:px-6 lg:px-8 lg:pb-24">
+      <div className="mx-auto max-w-[100rem] px-4 pb-16 sm:px-6 lg:px-8 lg:pb-24">
         {/* The header sits on the page wash; only the cards below are opaque. */}
-        <header className="pt-10 sm:pt-12 lg:pt-14">
+        <header className="room-green room-bleed mb-10 pb-10 pt-10 sm:pt-12 lg:pt-14">
           <Link
             href="/data"
             className="inline-flex items-center gap-2 text-sm font-semibold text-muted-foreground underline-offset-4 hover:text-foreground hover:underline"
@@ -106,7 +106,7 @@ export default async function DataReportPage({ params }: Props) {
 
           {/* On the bare page the tag text takes the -strong variant. */}
           {post.source && (
-            <p className="mt-5 w-fit rounded-full border border-data/20 bg-data-wash px-3 py-1 text-xs font-semibold text-data-strong">
+            <p className="mt-5 w-fit rounded-[3px] border border-data/20 bg-data-wash px-3 py-1 text-xs font-semibold text-data-strong">
               {post.source}
             </p>
           )}

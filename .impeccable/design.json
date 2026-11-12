@@ -1,0 +1,99 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-11-11T19:30:00-08:00",
+  "title": "Design System: prempsingh.com",
+  "extensions": {
+    "colorMeta": {
+      "merlot-wall": { "role": "primary", "displayName": "Merlot Wall", "canonical": "#6b1d35" },
+      "vine-green-wall": { "role": "secondary", "displayName": "Vine Green Wall", "canonical": "#1f4d3a" },
+      "brass": { "role": "tertiary", "displayName": "Brass", "canonical": "#e9c46a" },
+      "rose-plaster": { "role": "neutral", "displayName": "Rose Plaster", "canonical": "#e7dad8" },
+      "label-card": { "role": "neutral", "displayName": "Label Card", "canonical": "#fbf6ee" },
+      "ink": { "role": "neutral", "displayName": "Ink", "canonical": "#1d1418" }
+    },
+    "typographyMeta": {
+      "display": { "displayName": "Display", "purpose": "The name on the opening wall only." },
+      "headline": { "displayName": "Headline", "purpose": "One per room." },
+      "body": { "displayName": "Body", "purpose": "Running text, capped at 60ch in articles." },
+      "label": { "displayName": "Label", "purpose": "Tags and meta lines. The 14px floor." }
+    },
+    "shadows": [
+      { "name": "hung-label", "value": "0 18px 30px -18px rgba(29,20,24,.5), 0 2px 4px -2px rgba(29,20,24,.2)", "purpose": "Cards on plaster." },
+      { "name": "button-edge", "value": "0 5px 0 #3d0f1d", "purpose": "The hard lower edge a button stands on." },
+      { "name": "sign-edge", "value": "0 3px 0 #c9bfae", "purpose": "The lower edge of the sign bar." }
+    ],
+    "motion": [
+      { "name": "press", "value": "0.12s cubic-bezier(0.16, 1, 0.3, 1)", "purpose": "A button moving down 4px while pressed." }
+    ],
+    "breakpoints": [
+      { "name": "sm", "value": "640px" },
+      { "name": "lg", "value": "1024px" },
+      { "name": "xl", "value": "1280px" }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "The main action in a plaster room.",
+      "html": "<button class=\"ds-btn-primary\">Explore research</button>",
+      "css": ".ds-btn-primary { background: #6b1d35; color: #fbf6ee; border: 1px solid transparent; border-radius: 14px; padding: 0.8rem 1.6rem; font-weight: 600; box-shadow: 0 5px 0 #3d0f1d; transition: transform 0.12s cubic-bezier(0.16,1,0.3,1), box-shadow 0.12s cubic-bezier(0.16,1,0.3,1), background-color 0.2s ease; } .ds-btn-primary:hover { background: #7a2c43; } .ds-btn-primary:focus-visible { outline: 2px solid #6b1d35; outline-offset: 2px; } .ds-btn-primary:active { transform: translateY(4px); box-shadow: 0 1px 0 #3d0f1d; }"
+    },
+    {
+      "name": "Outline Button",
+      "kind": "button",
+      "refersTo": "button-outline",
+      "description": "The second action, on label stock.",
+      "html": "<button class=\"ds-btn-outline\">CV</button>",
+      "css": ".ds-btn-outline { background: #fbf6ee; color: #1d1418; border: 1px solid rgba(29,20,24,.16); border-radius: 14px; padding: 0.8rem 1.6rem; font-weight: 600; box-shadow: 0 5px 0 #c9bfae; transition: transform 0.12s cubic-bezier(0.16,1,0.3,1), box-shadow 0.12s cubic-bezier(0.16,1,0.3,1), border-color 0.2s ease; } .ds-btn-outline:hover { border-color: #1d1418; } .ds-btn-outline:focus-visible { outline: 2px solid #6b1d35; outline-offset: 2px; } .ds-btn-outline:active { transform: translateY(4px); box-shadow: 0 1px 0 #c9bfae; }"
+    },
+    {
+      "name": "Label Card",
+      "kind": "card",
+      "refersTo": "label-card",
+      "description": "The one card stock every exhibit hangs on.",
+      "html": "<div class=\"ds-label-card\"><strong>What Red Blotch Virus Costs a Vineyard</strong></div>",
+      "css": ".ds-label-card { background: #fbf6ee; color: #1d1418; border: 1px solid rgba(29,20,24,.16); border-radius: 6px; padding: 1.25rem; box-shadow: 0 18px 30px -18px rgba(29,20,24,.5), 0 2px 4px -2px rgba(29,20,24,.2); }"
+    },
+    {
+      "name": "Chip",
+      "kind": "chip",
+      "refersTo": "label-card",
+      "description": "A category tag in a family colour.",
+      "html": "<span class=\"ds-chip\">Plant pathology</span>",
+      "css": ".ds-chip { display: inline-block; border: 1px solid rgba(138,35,70,.2); background: rgba(138,35,70,.11); color: #6b1d35; border-radius: 4px; padding: 0.25rem 0.75rem; font-size: 0.875rem; font-weight: 600; }"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Exhibition",
+    "overview": "The site is hung as a solo exhibition about one scientist. The person is the opening wall. Each project, method and data story is an exhibit in the rooms that follow. A section is a room, and a room is one flat coat of wall colour.",
+    "keyCharacteristics": [
+      "Wall colour is used at room scale, never as a small accent.",
+      "One flat coat per room. No gradients, washes or glass.",
+      "Every card is the same label stock, wherever it hangs.",
+      "Buttons stand proud of the wall and press in when clicked.",
+      "One theme. There is no dark mode."
+    ],
+    "rules": [
+      { "name": "The One Coat Rule", "body": "A room is one flat colour from edge to edge. If a surface needs a gradient to look finished, it is the wrong surface.", "section": "colors" },
+      { "name": "The Ink On Paper Rule", "body": "A card always reads as ink on label stock. Cards re-declare the ink tokens for their own subtree, so this holds on any wall.", "section": "colors" },
+      { "name": "The Second Cue Rule", "body": "The four family colours are close in lightness. A chart never relies on colour alone: label series directly and add a second cue.", "section": "colors" },
+      { "name": "The 14 Pixel Floor", "body": "The Tailwind text tokens are redefined so text-xs is 14px. An arbitrary smaller size is a defect.", "section": "typography" },
+      { "name": "The Press Rule", "body": "A button moves down 4px and its edge shrinks to 1px while pressed. Nothing else on the site moves on hover.", "section": "elevation" }
+    ],
+    "dos": [
+      "Do give a new section a room class (room-merlot, room-green or room-paper) and let the tokens do the rest.",
+      "Do put bg-card on any element that takes the card colour, so its text turns to ink.",
+      "Do keep article text at 60ch or less.",
+      "Do keep the four family colours for categories only, with a second cue in charts."
+    ],
+    "donts": [
+      "Don't add gradients, washes, glass or gradient text.",
+      "Don't use brass on plaster or on a card.",
+      "Don't set any text below 14px.",
+      "Don't make cards lift, scale or animate on hover. Only buttons move, and only when pressed.",
+      "Don't dress a statement up as a quotation, a record or a signed document."
+    ]
+  }
+}

@@ -86,9 +86,9 @@ export default function ResearchSnapshot() {
       className="guided-scroll-section"
       aria-labelledby="research-snapshot-title"
     >
-      <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+      <div className="mx-auto max-w-[100rem] px-4 sm:px-6 lg:px-8">
         <div className="grid gap-x-8 gap-y-10 border-t border-border py-10 lg:grid-cols-12 lg:py-14">
-          <div className="lg:col-span-4">
+          <div className="room-title lg:col-span-12">
             <p className="section-kicker">Capabilities</p>
             <h2
               id="research-snapshot-title"
@@ -101,7 +101,7 @@ export default function ResearchSnapshot() {
             </p>
           </div>
 
-          <ul className="grid gap-5 sm:grid-cols-2 lg:col-span-8">
+          <ul className="grid gap-5 sm:grid-cols-2 lg:col-span-12">
             {capabilityPillars.map((pillar) => {
               const Icon = pillar.icon;
               const tone = tones[pillar.tone];
@@ -110,27 +110,21 @@ export default function ResearchSnapshot() {
                   key={pillar.title}
                   className="paper-panel flex flex-col p-6 sm:last:col-span-2"
                 >
-                  <span className={`absolute inset-x-0 top-0 h-1 ${tone.edge}`} aria-hidden="true" />
-                  <span
-                    className={`flex size-11 shrink-0 items-center justify-center rounded-xl ${tone.tile}`}
-                  >
-                    <Icon size={22} />
-                  </span>
-                  <h3 className="mt-5 text-xl leading-tight text-foreground">{pillar.title}</h3>
-                  <p className="mb-5 mt-2 max-w-[60ch] text-sm leading-relaxed text-muted-foreground">
+                  <div className="flex items-start justify-between gap-6">
+                    <h3 className="text-2xl leading-tight text-foreground sm:text-3xl">{pillar.title}</h3>
+                    <span className={`icon-stamp ${tone.tile}`}>
+                      <Icon size={22} />
+                    </span>
+                  </div>
+                  <p className="mb-6 mt-3 max-w-[52ch] text-base leading-relaxed text-foreground">
                     {pillar.description}
                   </p>
                   <ul
-                    className="mt-auto flex flex-wrap gap-2"
+                    className="mt-auto flex flex-wrap gap-x-6 gap-y-1 border-t border-border pt-4 text-sm font-semibold text-muted-foreground"
                     aria-label={`${pillar.title} methods`}
                   >
                     {pillar.methods.map((method) => (
-                      <li
-                        key={method}
-                        className={`rounded-full border px-3 py-1 text-xs font-semibold ${tone.tag}`}
-                      >
-                        {method}
-                      </li>
+                      <li key={method}>{method}</li>
                     ))}
                   </ul>
                 </li>
@@ -140,7 +134,7 @@ export default function ResearchSnapshot() {
 
           <details id="skills" className="scroll-mt-24 lg:col-span-12">
             <summary className="cursor-pointer list-none text-sm text-muted-foreground marker:content-none lg:grid lg:grid-cols-12 lg:gap-x-8">
-              <span className="paper-panel block px-6 py-4 lg:col-span-8 lg:col-start-5">
+              <span className="paper-panel block px-6 py-4 lg:col-span-12">
                 Eight technical domains, 96 methods and research practices.{" "}
                 <span className="font-semibold text-field underline underline-offset-4">
                   Open the full capability index

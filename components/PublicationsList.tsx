@@ -47,7 +47,7 @@ export default function PublicationsList({ publications }: { publications: Publi
                 type="button"
                 aria-pressed={typeFilter === type}
                 onClick={() => selectType(type)}
-                className="rounded-full border border-border bg-card px-3.5 py-1.5 text-xs font-semibold text-muted-foreground transition-colors hover:border-field hover:text-foreground aria-pressed:border-primary aria-pressed:bg-primary aria-pressed:text-primary-foreground"
+                className="rounded-[3px] border border-border bg-card px-3.5 py-1.5 text-xs font-semibold text-muted-foreground transition-colors hover:border-field hover:text-foreground aria-pressed:border-primary aria-pressed:bg-primary aria-pressed:text-primary-foreground"
               >
                 {label} <span className="ml-1 font-normal tabular-nums">{count}</span>
               </button>

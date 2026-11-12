@@ -1,20 +1,19 @@
 import type { Metadata } from "next";
-import { IBM_Plex_Sans, STIX_Two_Text } from "next/font/google";
+import { Bricolage_Grotesque, Public_Sans } from "next/font/google";
 import "./globals.css";
 import FloatingNavWrapper from "@/components/FloatingNavWrapper";
 import Footer from "@/components/Footer";
 import MicrosoftClarity from "@/components/analytics/MicrosoftClarity";
 
-const stix = STIX_Two_Text({
-  variable: "--font-stix",
+const display = Bricolage_Grotesque({
+  variable: "--font-display",
   subsets: ["latin"],
   weight: "variable",
-  style: ["normal", "italic"],
   display: "swap",
 });
 
-const plex = IBM_Plex_Sans({
-  variable: "--font-plex",
+const text = Public_Sans({
+  variable: "--font-text",
   subsets: ["latin"],
   weight: "variable",
   style: ["normal", "italic"],
@@ -166,17 +165,6 @@ const profilePageJsonLd = {
   dateModified: "2026-08-11T00:00:00+00:00",
 };
 
-const themeScript = `
-(function(){
-  try {
-    if (localStorage.getItem('theme') === 'dark') {
-      document.documentElement.classList.remove('light');
-      document.documentElement.style.colorScheme = 'dark';
-    }
-  } catch(e) {}
-})()
-`;
-
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -185,7 +173,6 @@ export default function RootLayout({
   return (
     <html lang="en" className="light" suppressHydrationWarning data-scroll-behavior="smooth">
       <head>
-        <script dangerouslySetInnerHTML={{ __html: themeScript }} />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd) }}
@@ -201,7 +188,7 @@ export default function RootLayout({
         <link rel="alternate" type="application/rss+xml" title="Prem Pratap Singh's Blog" href="/feed.xml" />
       </head>
       <body
-        className={`${stix.variable} ${plex.variable} antialiased min-h-screen flex flex-col`}
+        className={`${display.variable} ${text.variable} antialiased min-h-screen flex flex-col`}
         suppressHydrationWarning
       >
         <FloatingNavWrapper />

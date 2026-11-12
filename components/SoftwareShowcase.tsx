@@ -17,10 +17,10 @@ export default function SoftwareShowcase() {
         <span className="absolute inset-x-0 top-0 h-1.5 bg-primary" aria-hidden="true" />
         <div className="p-6 sm:p-8">
           <ul className="flex flex-wrap gap-2">
-            <li className="rounded-full border border-decision/30 bg-decision-wash px-3 py-1 text-xs font-semibold text-decision">
+            <li className="rounded-[3px] border border-decision/30 bg-decision-wash px-3 py-1 text-xs font-semibold text-decision">
               New release
             </li>
-            <li className="rounded-full border border-border bg-card px-3 py-1 text-xs font-semibold text-foreground">
+            <li className="rounded-[3px] border border-border bg-card px-3 py-1 text-xs font-semibold text-foreground">
               {featured.name} {featured.version}, {featured.released}
             </li>
           </ul>
@@ -35,7 +35,7 @@ export default function SoftwareShowcase() {
 
           <dl className="mt-6 grid gap-3 sm:grid-cols-3">
             {featured.stats.map((stat) => (
-              <div key={stat.label} className="flex flex-col-reverse rounded-xl bg-field-wash px-4 py-3">
+              <div key={stat.label} className="flex flex-col-reverse rounded-[6px] bg-field-wash px-4 py-3">
                 <dt className="text-sm leading-snug text-foreground">{stat.label}</dt>
                 <dd className="font-serif text-3xl font-semibold tabular-nums text-field">{stat.value}</dd>
               </div>
@@ -46,7 +46,7 @@ export default function SoftwareShowcase() {
             {featured.features.map((feature) => (
               <li
                 key={feature}
-                className="rounded-full border border-data/20 bg-data-wash px-3 py-1 text-xs font-semibold text-data"
+                className="rounded-[3px] border border-data/20 bg-data-wash px-3 py-1 text-xs font-semibold text-data"
               >
                 {feature}
               </li>
@@ -88,7 +88,7 @@ export default function SoftwareShowcase() {
           return (
             <li key={repo.name} className="paper-panel">
               <div className="flex h-full flex-col gap-4 p-6">
-                <span className={`flex size-11 shrink-0 items-center justify-center rounded-xl ${style.tile}`}>
+                <span className={`icon-stamp ${style.tile}`}>
                   <Icon size={22} />
                 </span>
                 <div>
@@ -96,9 +96,9 @@ export default function SoftwareShowcase() {
                   <p className="mt-2 text-sm leading-snug text-muted-foreground">{repo.summary}</p>
                 </div>
                 <ul className="flex flex-wrap gap-2">
-                  <li className={`rounded-full border px-3 py-1 text-xs font-semibold ${style.tag}`}>{repo.language}</li>
+                  <li className={`rounded-[3px] border px-3 py-1 text-xs font-semibold ${style.tag}`}>{repo.language}</li>
                   {repo.status && (
-                    <li className="rounded-full border border-border bg-card px-3 py-1 text-xs font-semibold text-foreground">
+                    <li className="rounded-[3px] border border-border bg-card px-3 py-1 text-xs font-semibold text-foreground">
                       {repo.status}
                     </li>
                   )}

@@ -12,8 +12,8 @@ export function SocialIcons({ socials }: { socials: SocialItem[] }) {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
 
   return (
-    <div className="relative flex items-center gap-0.5 px-1.5 py-1.5 rounded-2xl bg-[var(--muted)] border border-[var(--border)]">
-      <div className="absolute inset-0 rounded-2xl bg-gradient-to-b from-[var(--foreground)]/[0.03] to-transparent pointer-events-none" />
+    <div className="relative flex items-center gap-0.5 px-1.5 py-1.5 rounded-[6px] bg-[var(--muted)] border border-[var(--border)]">
+      <div className="absolute inset-0 rounded-[6px] bg-gradient-to-b from-[var(--foreground)]/[0.03] to-transparent pointer-events-none" />
 
       {socials.map((social, index) => (
         <a
@@ -21,13 +21,13 @@ export function SocialIcons({ socials }: { socials: SocialItem[] }) {
           href={social.href}
           target="_blank"
           rel="noopener noreferrer"
-          className="group relative flex items-center justify-center size-10 rounded-xl transition-colors duration-200"
+          className="group relative flex items-center justify-center size-10 rounded-[6px] transition-colors duration-200"
           onMouseEnter={() => setHoveredIndex(index)}
           onMouseLeave={() => setHoveredIndex(null)}
           aria-label={social.name}
         >
           <span
-            className={`absolute inset-1 rounded-lg bg-[var(--foreground)]/[0.08] transition-all duration-300 ease-out ${
+            className={`absolute inset-1 rounded-[6px] bg-[var(--foreground)]/[0.08] transition-all duration-300 ease-out ${
               hoveredIndex === index ? "opacity-100 scale-100" : "opacity-0 scale-90"
             }`}
           />
@@ -47,7 +47,7 @@ export function SocialIcons({ socials }: { socials: SocialItem[] }) {
           />
 
           <span
-            className={`absolute -top-10 left-1/2 -translate-x-1/2 px-2.5 py-1 rounded-lg bg-[var(--foreground)] text-[var(--background)] text-xs font-medium whitespace-nowrap transition-all duration-300 ease-out ${
+            className={`absolute -top-10 left-1/2 -translate-x-1/2 px-2.5 py-1 rounded-[6px] bg-[var(--foreground)] text-[var(--background)] text-xs font-medium whitespace-nowrap transition-all duration-300 ease-out ${
               hoveredIndex === index ? "opacity-100 translate-y-0" : "opacity-0 translate-y-1 pointer-events-none"
             }`}
           >

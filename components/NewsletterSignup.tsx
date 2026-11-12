@@ -143,7 +143,7 @@ export default function NewsletterSignup() {
 
   return (
     <div className="paper-panel flex flex-col p-6">
-      <span className="flex size-11 shrink-0 items-center justify-center rounded-xl bg-decision-wash text-decision">
+      <span className="icon-stamp bg-decision-wash text-decision">
         <ResearchDeliveryIcon size={22} />
       </span>
       <h3 className="mt-5 text-xl leading-tight text-foreground">Occasional field notes</h3>

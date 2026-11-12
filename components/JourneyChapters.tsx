@@ -40,7 +40,7 @@ const tones: Record<Tone, { tile: string; edge: string; selected: string; tag: s
   },
 };
 
-const iconTile = "flex size-11 shrink-0 items-center justify-center rounded-xl";
+const iconTile = "icon-stamp";
 
 type Chapter = {
   id: string;
@@ -152,7 +152,7 @@ export default function JourneyChapters() {
       className="grid gap-x-8 gap-y-10 border-t border-border py-10 lg:grid-cols-12 lg:py-14"
       aria-labelledby="journey-chapters-title"
     >
-      <div className="lg:col-span-4">
+      <div className="room-title lg:col-span-12">
         <p className="section-kicker">From Varanasi to Davis, now evaluating scientific AI</p>
         <h2 id="journey-chapters-title" className="mt-3 text-3xl leading-tight text-foreground sm:text-4xl">
           Four chapters, one research habit
@@ -187,7 +187,7 @@ export default function JourneyChapters() {
         </ol>
       </div>
 
-      <div className="lg:col-span-8">
+      <div className="lg:col-span-12">
         <div
           role="tablist"
           aria-label="Research journey chapters"
@@ -232,7 +232,6 @@ export default function JourneyChapters() {
           aria-labelledby={`journey-chapter-tab-${active.id}`}
           className="paper-panel mt-8 p-6 sm:p-8"
         >
-          <span className={`absolute inset-x-0 top-0 h-1 ${activeTone.edge}`} aria-hidden="true" />
           <div className="flex items-start justify-between gap-5">
             <div>
               <p className="text-sm tabular-nums text-muted-foreground">
@@ -249,7 +248,7 @@ export default function JourneyChapters() {
             {active.markers.map((marker) => (
               <li
                 key={marker}
-                className={`rounded-full border px-3 py-1 text-xs font-semibold tabular-nums ${activeTone.tag}`}
+                className={`rounded-[3px] border px-3 py-1 text-xs font-semibold tabular-nums ${activeTone.tag}`}
               >
                 {marker}
               </li>

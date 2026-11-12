@@ -42,7 +42,7 @@ export default function PublicationCard({ publication }: { publication: Publicat
         <span className="text-base font-semibold leading-normal tabular-nums text-foreground">
           {year}
         </span>
-        <span className={`rounded-full border px-3 py-1 text-xs font-semibold ${typeTags[type]}`}>
+        <span className={`rounded-[3px] border px-3 py-1 text-xs font-semibold ${typeTags[type]}`}>
           {typeLabels[type]}
         </span>
       </p>

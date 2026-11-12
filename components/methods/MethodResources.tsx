@@ -68,14 +68,14 @@ export function MethodVideos() {
         {videos.map((video) => (
           <figure
             key={video.src}
-            className="rounded-2xl border border-border bg-muted p-3 sm:p-4"
+            className="rounded-[6px] border border-border bg-muted p-3 sm:p-4"
           >
             <video
               controls
               playsInline
               preload="none"
               aria-label={video.title}
-              className="mx-auto aspect-[9/16] w-full max-w-72 rounded-xl bg-black object-contain"
+              className="mx-auto aspect-[9/16] w-full max-w-72 rounded-[6px] bg-black object-contain"
             >
               <source src={video.src} type="video/mp4" />
               Your browser does not support embedded video.

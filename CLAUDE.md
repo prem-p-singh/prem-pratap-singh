@@ -79,7 +79,9 @@ If you find an `@/data/...` import anywhere, it is stale.
 | `components/charts/IndustryEvidenceCharts.tsx` | **nine** chart components, listed below |
 | `components/icons/PortfolioIcons.tsx` | FieldIcon, BenchIcon, AnalysisIcon, CropIcon, CropBiologyIcon, DiagnosticsIcon, OmicsIcon, DataScienceIcon, ResearchDeliveryIcon, SiteMark |
 
-`PortfolioIcons.tsx` is the custom icon set. Subject icons (a crop, the bench,
+`PortfolioIcons.tsx` is the custom icon set, redrawn in November 2026 as solid
+pictograms (filled shapes, detail cut out with `fillRule="evenodd"`, heavy 2.5
+strokes for parts that are lines in life). Subject icons (a crop, the bench,
 omics) come from it; `lucide-react` is used only for functional controls such
 as arrows and chevrons, and for social marks. `docs/design/portfolio-icons.ai`
 is the Illustrator master of the set.
@@ -100,24 +102,30 @@ gets duplicated.
 
 Charts are hand-built SVG and flexbox, with no charting library. Colours come
 from the semantic tokens, so a chart written with `bg-field` and `bg-decision`
-follows the theme into dark mode without extra work.
+follows the room it hangs in without extra work.
 
 ## Theme and type
 
-`app/globals.css` holds the "Vineyard dusk" colour system. The owner chose it in
-`docs/design/theme-playground.html`, a standalone playground kept for reference.
-`:root` holds the dark values and a `.light` class overrides them. Light is the
-default for visitors: the class is server-rendered on `<html>`, and a saved
-`dark` choice removes it.
+`app/globals.css` holds the "Exhibition" colour system, chosen by the owner in
+November 2026 through the Impeccable redesign flow. `DESIGN.md` is the full
+record; `PRODUCT.md` holds who the site is for. There is one theme and no dark
+mode. `components/ThemeToggle.tsx` is no longer mounted.
 
-The light page is a sage-grey (`#dfe0d7`) under a fixed green-to-merlot wash.
-The wash is drawn by `body::before`, so `body` itself has no background. Cards
-are lighter than the page. The main colour is green (`--primary`, the same as
-`field`, `#2f6b3f`) and the accent is merlot (`--accent`, the same as
-`biology`, `#7a1f3d`). `data` is blue (`#2c5282`) and `decision` is ochre. The
-page, green, merlot and blue values are the owner's and are exact; the ochre,
-the surface steps and the whole dark mode are derived from them. The name in the
-hero uses `.name-gradient` (main colour to accent, clipped to the text).
+The site is hung as a solo exhibition. A section is a room, and a room is one
+flat coat of wall colour. Tokens are scoped by container:
+
+| Selector | Wall | Text |
+|:---|:---|:---|
+| `:root`, `.room-paper` | rose plaster `#e7dad8` (the default) | ink `#1d1418` |
+| `.room-merlot` | merlot `#6b1d35` | paper-white `#fbf6ee`, brass accent |
+| `.room-green` | vine green `#1f4d3a` | paper-white, brass accent |
+| `.paper-panel`, `.paper-control`, `.btn-outline`, `.bg-card` | label-card stock `#fbf6ee` | ink |
+
+A card re-declares the ink tokens for its own subtree, so a card hung on a dark
+wall still reads as ink on paper. Any element that takes the card colour
+without one of those classes will inherit the wall's white text; give it
+`bg-card`. `.room-bleed` lets a room inside the page container paint wall to
+wall; the inner page headers use it. There are no gradients or washes.
 
 Alongside the usual background and foreground tokens there are four semantic
 families, each with a base, `-strong`, `-foreground` and `-wash` variant:
@@ -171,11 +179,11 @@ wrapper, or the article rules restyle it.
 
 `.paper-panel`, `.paper-control`, `.btn-primary` and `.btn-outline` share
 one rule set in `globals.css`: a 1px border and card
-background. Panels float: a 20px radius and the deep shadow held in
-`--shadow-float`, which each mode sets once. Buttons are pills and controls have
-a 14px radius; neither has a shadow. `.btn-primary` is a solid green fill and
-`.btn-outline` sits on the card colour. Hover changes colour only: nothing
-lifts, scales or animates. `.paper-panel` is used in about twenty files, so a
+background. Panels are exhibit labels: a 2px radius, a 4px top rule and the soft offset shadow
+held in `--shadow-float`, which each room sets once. Buttons have a 14px radius
+and stand on a hard 5px lower edge; they press down 4px on click. Controls have
+a 10px radius and no shadow. `.btn-primary` takes the room's `--primary` and
+`.btn-outline` sits on the card colour. Hover changes colour only. `.paper-panel` is used in about twenty files, so a
 change there is a change to most surfaces on the site.
 
 These rules are unlayered, so they beat Tailwind utilities on the same element:
@@ -184,10 +192,11 @@ a `rounded-*`, `bg-*`, `shadow-*`, `overflow-*` or position class on a
 
 ### Layout patterns
 
-Homepage sections share one pattern: a container `mx-auto max-w-6xl` with the
+Homepage sections share one pattern: a container `mx-auto max-w-[100rem]` with the
 usual `px-4 sm:px-6 lg:px-8`, then a 12-column grid with a top rule. The heading
-and a short lede sit in the left 4 columns (`lg:col-span-4`) and the content in
-the right 8 (`lg:col-span-8`). See `components/ResearchSnapshot.tsx` and the
+block is `room-title lg:col-span-12`: `globals.css` sets the title large on the
+left and the lede on the right. The content follows full width
+(`lg:col-span-12`). See `components/ResearchSnapshot.tsx` and the
 sections in `app/page.tsx`.
 
 Inner pages (`/blog`, `/gallery`, `/journey`) open with a header in the same
@@ -196,9 +205,10 @@ container: a `.section-kicker`, an `h1` at 36 / 48 / 60, and a lede capped at
 it in a 12-column grid (7 and 5 columns). Each section below the header opens
 with its own top rule.
 
-Cards are `.paper-panel`. Around them sit icon tiles (a rounded square in the
-family wash with an icon from `PortfolioIcons`), coloured tags (a pill with a
-family border, wash and text colour) and stat chips (a wash-filled box with a
+Cards are `.paper-panel`. Around them sit icon stamps (`.icon-stamp`: a ruled
+square in the family colour with an icon from `PortfolioIcons`, no tinted
+tile), coloured tags (a 3px-cornered label with a family border, wash and text
+colour, never a pill) and stat chips (a wash-filled box with a
 family-coloured value, as in the publications count in `app/page.tsx`).
 
 The family tone maps, which pair a family with its literal classes such as
@@ -291,7 +301,7 @@ note on the homepage was a blockquote until August 2026 for this reason.
 
 - `var(--font-sans)` does not resolve in hand-written CSS. Tailwind v4's
   `@theme inline` feeds the utility classes without publishing the variable, so
-  the base rules reference `var(--font-plex)` and `var(--font-stix)` directly. Point them back at
+  the base rules reference `var(--font-text)` (Public Sans) and `var(--font-display)` (Bricolage Grotesque) directly. Point them back at
   `--font-sans` and every page silently falls back to the visitor's system font.
 - The publish workflow must pick drafts by **filename timestamp**, not mtime.
   `actions/checkout` resets every file's mtime, so `ls -t` returns the wrong draft.

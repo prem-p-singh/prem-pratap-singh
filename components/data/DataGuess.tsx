@@ -22,7 +22,7 @@ export default function DataGuess({
   return (
     <section className="paper-panel not-prose my-8">
       <div className="border-b border-border p-5 sm:p-6">
-        <p className="w-fit rounded-full border border-data/20 bg-data-wash px-3 py-1 text-xs font-semibold text-data">
+        <p className="w-fit rounded-[3px] border border-data/20 bg-data-wash px-3 py-1 text-xs font-semibold text-data">
           Guess before the graph
         </p>
         <h2 className="mt-3 text-xl leading-snug text-foreground sm:text-2xl">
@@ -64,7 +64,7 @@ export default function DataGuess({
 
         {choice ? (
           <div
-            className={`mt-5 rounded-2xl p-5 ${correct ? "bg-field-wash" : "bg-decision-wash"}`}
+            className={`mt-5 rounded-[6px] p-5 ${correct ? "bg-field-wash" : "bg-decision-wash"}`}
             aria-live="polite"
           >
             <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">

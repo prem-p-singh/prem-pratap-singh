@@ -18,7 +18,7 @@ export default function Footer() {
 
   return (
     // A floating card at the container width, so the page wash runs behind it.
-    <footer className="relative z-10 mx-auto w-full max-w-6xl px-4 pb-8 text-sm sm:px-6 lg:px-8">
+    <footer className="relative z-10 mx-auto w-full max-w-[100rem] px-4 pb-8 text-sm sm:px-6 lg:px-8">
       <div className="paper-panel p-6 sm:p-7">
         <div className="flex flex-col gap-4 lg:flex-row lg:items-baseline lg:justify-between">
           <Link href="/" className="font-serif text-xl font-semibold text-foreground">

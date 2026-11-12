@@ -10,115 +10,145 @@ img[alt="Vercel Logo"] {
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════
-   Vineyard dusk colour system
-   :root = dark, .light = light override (light is the default for visitors)
+   Exhibition colour system
 
-   The light values were chosen by the site owner in
-   docs/design/theme-playground.html: a sage-grey page, vine green as the main
-   colour, merlot as the accent, blue as the third colour. Those four hex
-   values are exact. Everything else is derived from them.
+   The site is hung as a solo exhibition. Every section is a room, and a room
+   is one flat coat of wall colour. Tokens are scoped by container:
 
-   The four families encode categories (charts, the "How I work" steps):
+   :root / .room-paper   rose plaster wall, tinted from the merlot, ink text
+                         (the default room)
+   .room-merlot          merlot wall, paper-white lettering (opening wall)
+   .room-green           vine-green wall, paper-white lettering (the work)
+   .paper-panel, .bg-card and the controls
+                         label-card stock, ink text, wherever they hang
+
+   A card re-declares the ink tokens for its own subtree, so a card hung on a
+   dark wall still reads as ink on paper. There is one theme; no dark mode.
+
+   The four families still encode categories (charts, the "How I work" steps):
    field = crop and observation · biology = bench and mechanism
    data = computation and evidence · decision = translation and outcomes
-
-   -strong is the variant that passes as 14px text on the page, the card and
-   its own wash, in both modes. It is darker than the base in light and
-   lighter than the base in dark. Use it for small family-coloured text that
-   sits directly on the page: there the light green and ochre bases drop to
-   about 3.9:1 where the wash is strongest.
+   -strong is the variant that is safe as 14px text.
    ═══════════════════════════════════════════════════════════════════════════ */
 
-:root {
-  color-scheme: dark;
-  --background: #131a16;
-  --foreground: #eef2ee;
-  --muted: #323935;
-  --muted-foreground: #a9b3ab;
-  --primary: #8fd89e;
-  --primary-foreground: #101612;
-  --accent: #e0879b;
-  --accent-muted: rgba(224, 135, 155, 0.1);
-  --border: rgba(255, 255, 255, 0.14);
-  /* color-mix(in oklab, #131a16 90%, white) */
-  --card: #262d29;
-  --card-foreground: #eef2ee;
-  --section-bg: #1b221e;
-  --surface: #262d29;
-  /* color-mix(in oklab, #131a16 84%, white) */
-  --elevated: #323935;
-  /* The owner's three hues, lightened in OKLCH at a chroma above 0.10 and
-     stepped apart in lightness so green and merlot stay distinct under
-     red-green colour blindness. Each -strong is one step lighter again, so
-     it is text-safe here as it is in light. */
-  --field: #8fd89e;
-  --field-strong: #aae5b5;
-  --field-foreground: #101612;
-  --field-wash: rgba(143, 216, 158, 0.12);
-  --biology: #e0879b;
-  --biology-strong: #ec9eae;
-  --biology-foreground: #101612;
-  --biology-wash: rgba(224, 135, 155, 0.1);
-  --data: #7aaeef;
-  --data-strong: #97c1f7;
-  --data-foreground: #101612;
-  --data-wash: rgba(122, 174, 239, 0.12);
-  --decision: #edbb64;
-  --decision-strong: #f5ce87;
-  --decision-foreground: #101612;
-  --decision-wash: rgba(237, 187, 100, 0.12);
-  --danger: #ff9d8f;
-  --danger-wash: rgba(255, 157, 143, 0.12);
-  --shadow-float: 0 30px 60px -30px rgba(0, 0, 0, 0.9);
-  --wash-primary: 10%;
-  --wash-accent: 9%;
-}
-
-.light {
+:root,
+.room-paper,
+.paper-panel,
+.paper-control,
+.btn-outline,
+.bg-card {
   color-scheme: light;
-  --background: #dfe0d7;
-  --foreground: #1c2024;
-  /* color-mix(in oklab, #dfe0d7 70%, white) */
-  --muted: #e9e9e3;
-  --muted-foreground: #4d545a;
-  --primary: #2f6b3f;
-  --primary-foreground: #ffffff;
-  --accent: #7a1f3d;
-  --accent-muted: rgba(122, 31, 61, 0.1);
-  --border: rgba(20, 30, 25, 0.13);
-  /* color-mix(in oklab, #dfe0d7 35%, white) */
-  --card: #f4f4f1;
-  --card-foreground: #1c2024;
-  /* color-mix(in oklab, #dfe0d7 85%, white) */
-  --section-bg: #e4e5dd;
-  --surface: #f4f4f1;
-  --elevated: #e9e9e3;
-  --field: #2f6b3f;
-  --field-strong: #235230;
+  --background: #e7dad8;
+  --foreground: #1d1418;
+  --muted: #dccbc8;
+  --muted-foreground: #54474a;
+  --primary: #6b1d35;
+  --primary-foreground: #fbf6ee;
+  --primary-edge: #3d0f1d;
+  --accent: #1f4d3a;
+  --accent-muted: rgba(31, 77, 58, 0.1);
+  --border: rgba(29, 20, 24, 0.16);
+  --card: #fbf6ee;
+  --card-foreground: #1d1418;
+  --card-edge: #c9bfae;
+  --section-bg: #dfd0cd;
+  --surface: #fbf6ee;
+  --elevated: #dccbc8;
+  --field: #1f5d3b;
+  --field-strong: #17472d;
   --field-foreground: #ffffff;
-  --field-wash: rgba(47, 107, 63, 0.12);
-  --biology: #7a1f3d;
-  --biology-strong: #5f1830;
+  --field-wash: rgba(31, 93, 59, 0.12);
+  --biology: #8a2346;
+  --biology-strong: #6b1d35;
   --biology-foreground: #ffffff;
-  --biology-wash: rgba(122, 31, 61, 0.11);
-  --data: #2c5282;
-  --data-strong: #213f66;
+  --biology-wash: rgba(138, 35, 70, 0.11);
+  --data: #1f4e79;
+  --data-strong: #173b5c;
   --data-foreground: #ffffff;
-  --data-wash: rgba(44, 82, 130, 0.11);
-  /* Ochre, derived. oklch(0.50 0.11 65): above the chroma floor and as far
-     from the green as 4.5:1 on the page allows. */
-  --decision: #8d5406;
-  --decision-strong: #6b3f04;
+  --data-wash: rgba(31, 78, 121, 0.11);
+  --decision: #8a5a0a;
+  --decision-strong: #6b4505;
   --decision-foreground: #ffffff;
-  --decision-wash: rgba(141, 84, 6, 0.13);
-  /* A warm red, 24 degrees of hue and a clear lightness step from merlot. */
+  --decision-wash: rgba(138, 90, 10, 0.13);
   --danger: #b3261e;
   --danger-wash: rgba(179, 38, 30, 0.1);
   --shadow-float:
-    0 30px 60px -32px rgba(20, 30, 25, 0.38),
-    0 6px 14px -10px rgba(20, 30, 25, 0.18);
-  --wash-primary: 14%;
-  --wash-accent: 13%;
+    0 18px 30px -18px rgba(29, 20, 24, 0.5),
+    0 2px 4px -2px rgba(29, 20, 24, 0.2);
+}
+
+/* Painted walls. Lettering is paper-white, the role line is brass, and the
+   family colours lift to tints that read on a dark wall. */
+.room-merlot,
+.room-green {
+  color-scheme: dark;
+  --foreground: #fbf6ee;
+  --primary: #fbf6ee;
+  --accent: #e9c46a;
+  --accent-muted: rgba(233, 196, 106, 0.14);
+  --border: rgba(251, 246, 238, 0.26);
+  --field: #a9dcb4;
+  --field-strong: #c4e9cc;
+  --field-foreground: #1d1418;
+  --field-wash: rgba(251, 246, 238, 0.1);
+  --biology: #f3b1c2;
+  --biology-strong: #f8c9d5;
+  --biology-foreground: #1d1418;
+  --biology-wash: rgba(251, 246, 238, 0.1);
+  --data: #b3d0f4;
+  --data-strong: #cbe0f8;
+  --data-foreground: #1d1418;
+  --data-wash: rgba(251, 246, 238, 0.1);
+  --decision: #e9c46a;
+  --decision-strong: #f1d68f;
+  --decision-foreground: #1d1418;
+  --decision-wash: rgba(251, 246, 238, 0.1);
+  --danger: #ffb4a8;
+  --danger-wash: rgba(255, 180, 168, 0.14);
+}
+
+.room-merlot {
+  --background: #6b1d35;
+  --muted: #7d2f47;
+  --muted-foreground: #ecd3d9;
+  --primary-foreground: #3d0f1d;
+  --primary-edge: #3d0f1d;
+  --section-bg: #5e182e;
+  --elevated: #7d2f47;
+  --shadow-float: 0 22px 34px -18px rgba(26, 6, 12, 0.75);
+}
+
+.room-green {
+  --background: #1f4d3a;
+  --muted: #2c5c48;
+  --muted-foreground: #d3e4d9;
+  --primary-foreground: #12301f;
+  --primary-edge: #10291d;
+  --section-bg: #1a4131;
+  --elevated: #2c5c48;
+  --shadow-float: 0 22px 34px -18px rgba(8, 24, 16, 0.75);
+}
+
+.room-paper,
+.room-merlot,
+.room-green {
+  background: var(--background);
+  color: var(--foreground);
+}
+
+/* In the base layer, so a text-colour utility on the same element still wins. */
+@layer base {
+  .bg-card {
+    color: var(--foreground);
+  }
+}
+
+/* A room that sits inside the page container but paints wall to wall. The
+   shadow carries the wall colour sideways; the clip keeps it off the rooms
+   above and below. */
+.room-bleed {
+  box-shadow: 0 0 0 100vmax var(--background);
+  clip-path: inset(0 -100vmax);
 }
 
 @theme inline {
@@ -154,8 +184,8 @@ img[alt="Vercel Logo"] {
   --color-decision-wash: var(--decision-wash);
   --color-danger: var(--danger);
   --color-danger-wash: var(--danger-wash);
-  --font-sans: var(--font-plex);
-  --font-serif: var(--font-stix);
+  --font-sans: var(--font-text);
+  --font-serif: var(--font-display);
 
   /*
    * Readability scale: every body tier moves up by exactly 2px while retaining
@@ -204,44 +234,32 @@ html {
   }
 }
 
-/* The solid page colour is the canvas and the fallback. */
+/* One flat coat. No wash, no gradient. */
 html {
   background: var(--background);
 }
 
-/* The page wash: one calm green-to-merlot gradient pinned to the viewport, so
-   it neither repeats nor bands on long pages. A fixed layer is used instead of
-   background-attachment: fixed, which mobile Safari ignores on the root. */
-body::before {
-  content: "";
-  position: fixed;
-  inset: 0;
-  z-index: -1;
-  pointer-events: none;
-  background: linear-gradient(
-    135deg,
-    color-mix(in oklab, var(--primary) var(--wash-primary), var(--background)) 0%,
-    var(--background) 50%,
-    color-mix(in oklab, var(--accent) var(--wash-accent), var(--background)) 100%
-  );
-}
-
 body {
   color: var(--foreground);
-  /* Reference --font-plex and --font-stix (the next/font variables) directly.
-     The @theme inline block above feeds the Tailwind font utilities, but it
-     does not publish --font-sans or --font-serif as custom properties, so
-     var(--font-sans) here resolves to Tailwind's default stack and the page
-     silently renders in the system font. */
-  font-family: var(--font-plex), "Helvetica Neue", Arial, sans-serif;
+  /* Reference --font-text and --font-display (the next/font variables)
+     directly. The @theme inline block above feeds the Tailwind font
+     utilities, but it does not publish --font-sans or --font-serif as custom
+     properties, so var(--font-sans) here resolves to Tailwind's default stack
+     and the page silently renders in the system font. */
+  font-family: var(--font-text), "Helvetica Neue", Arial, sans-serif;
   line-height: 1.6;
 }
 
-/* Serif for headings, sans (inherited from body) for interface text. */
+/* Pull a lone last word down beside a neighbour. */
+p {
+  text-wrap: pretty;
+}
+
+/* Wall lettering for headings, the text face (inherited from body) for the rest. */
 h1, h2, h3 {
-  font-family: var(--font-stix), "STIX Two Text", Georgia, "Times New Roman", serif;
-  font-weight: 600;
-  letter-spacing: -0.012em;
+  font-family: var(--font-display), "Helvetica Neue", Arial, sans-serif;
+  font-weight: 700;
+  letter-spacing: -0.03em;
   text-wrap: balance;
 }
 
@@ -296,36 +314,9 @@ h1, h2, h3 {
   border-color: var(--accent);
 }
 
-/* The name in the hero: main colour to accent, sized to the text so both
-   ends show. Solid ink where clipping to text is unsupported or the system
-   forces its own colours. */
+/* Kept as a hook for the name and statement; plain lettering, no gradient. */
 .name-gradient {
   width: fit-content;
-  color: var(--foreground);
-}
-
-@supports ((background-clip: text) or (-webkit-background-clip: text)) {
-  .name-gradient {
-    background: linear-gradient(90deg, var(--primary), var(--accent));
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-  }
-}
-
-@media (forced-colors: active) {
-  .name-gradient {
-    background: none;
-    color: CanvasText;
-  }
-}
-
-/* Printing with background graphics off would leave the name blank. */
-@media print {
-  .name-gradient {
-    background: none;
-    color: #000;
-  }
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════
@@ -357,9 +348,9 @@ h1, h2, h3 {
 /* ═══════════════════════════════════════════════════════════════════════════
    Shared surfaces
 
-   Cards float: card colour, a 1px line, 20px corners and one deep shadow that
-   each mode sets once in --shadow-float. Buttons are pills. Hover changes
-   colour only; nothing moves.
+   Cards are exhibit labels: label-card stock, crisp 6px corners, one soft
+   offset shadow that each room sets in --shadow-float. Buttons stand proud of
+   the wall on a hard lower edge and press in when clicked.
    ═══════════════════════════════════════════════════════════════════════════ */
 
 .paper-panel,
@@ -375,8 +366,48 @@ h1, h2, h3 {
 .paper-panel {
   position: relative;
   overflow: hidden;
-  border-radius: 20px;
+  border-radius: 2px;
+  border-top-width: 4px;
   box-shadow: var(--shadow-float);
+}
+
+/* The label's heavy top rule is ink by default. It sits in the base layer so a
+   family edge utility on the same card (border-t-field and so on) still wins. */
+@layer base {
+  .paper-panel {
+    border-top-color: var(--foreground);
+  }
+}
+
+/* An exhibit's mark: the icon alone, drawn large in the family colour the
+   element already carries. No tile, no frame. */
+.icon-stamp {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: flex-start;
+  background: transparent;
+}
+
+.icon-stamp svg {
+  width: 2.25rem;
+  height: 2.25rem;
+}
+
+/* The top bar. Ink with paper-white lettering and a brass action. */
+.sign-bar {
+  color-scheme: dark;
+  --background: #1d1418;
+  --foreground: #fbf6ee;
+  --muted: #33272c;
+  --muted-foreground: #d6cbcd;
+  --border: rgba(251, 246, 238, 0.2);
+  --accent: #e9c46a;
+  --primary: #fbf6ee;
+  --primary-foreground: #1d1418;
+  background: var(--background);
+  color: var(--foreground);
+  border-bottom: 3px solid var(--accent);
 }
 
 .btn-primary,
@@ -385,35 +416,48 @@ h1, h2, h3 {
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
-  padding: 0.75rem 1.5rem;
-  border-radius: 999px;
+  padding: 0.8rem 1.6rem;
+  border-radius: 14px;
   font-weight: 600;
+  box-shadow: 0 5px 0 var(--card-edge);
+  transition:
+    color 0.2s ease,
+    background-color 0.2s ease,
+    border-color 0.2s ease,
+    transform 0.12s cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 0.12s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.paper-control,
-.btn-primary,
-.btn-outline {
-  transition: color 0.2s ease, background-color 0.2s ease, border-color 0.2s ease;
+.btn-primary:active,
+.btn-outline:active {
+  transform: translateY(4px);
+  box-shadow: 0 1px 0 var(--card-edge);
 }
 
 .paper-control {
-  border-radius: 0.875rem;
+  border-radius: 10px;
+  transition: color 0.2s ease, background-color 0.2s ease, border-color 0.2s ease;
 }
 
 .btn-outline:hover,
 :is(a, button, input).paper-control:hover {
-  border-color: var(--primary);
+  border-color: var(--foreground);
 }
 
 .btn-primary {
   border-color: transparent;
   background: var(--primary);
   color: var(--primary-foreground);
+  box-shadow: 0 5px 0 var(--primary-edge);
 }
 
-/* Mixing toward ink darkens the fill in light mode and lightens it in dark. */
+.btn-primary:active {
+  box-shadow: 0 1px 0 var(--primary-edge);
+}
+
+/* Mixing toward the lettering colour shifts the fill a step in either room. */
 .btn-primary:hover {
-  background: color-mix(in oklab, var(--primary) 86%, var(--foreground));
+  background: color-mix(in oklab, var(--primary) 88%, var(--primary-foreground));
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════
@@ -429,11 +473,41 @@ h1, h2, h3 {
   display: inline-flex;
   max-width: 100%;
   align-items: center;
-  color: var(--muted-foreground);
-  font-size: 1rem;
+  width: fit-content;
+  padding: 0.2rem 0.65rem;
+  border-radius: 2px;
+  background: var(--foreground);
+  color: var(--background);
+  font-size: 0.875rem;
   font-weight: 600;
   line-height: 1.25rem;
   text-wrap: balance;
+}
+
+/* The wall text that opens a room: the plate, the title set large, then the
+   intro directly under it at a size that can be read from across the room. */
+.room-title {
+  display: grid;
+  justify-items: start;
+  row-gap: 1.25rem;
+  padding-bottom: 1.5rem;
+}
+
+.room-title > * {
+  margin-top: 0;
+}
+
+.room-title > h2 {
+  max-width: 20ch;
+  font-size: clamp(2.5rem, 5vw, 4.75rem);
+  line-height: 0.98;
+}
+
+.room-title > p:not(.section-kicker) {
+  max-width: 58ch;
+  color: var(--foreground);
+  font-size: 1.375rem;
+  line-height: 1.45;
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════
@@ -444,11 +518,10 @@ h1, h2, h3 {
    every rule below is hand-written. Each one skips not-prose islands (the
    in-article blocks and charts), which set their own type in the sans. */
 
-/* Body: serif for reading, capped measure. Tables, code and captions stay sans. */
+/* Body: the text face, capped measure. */
 .prose :is(p, li):not(:where([class~="not-prose"], [class~="not-prose"] *, table *, figcaption *, pre *)) {
-  font-family: var(--font-stix), "STIX Two Text", Georgia, "Times New Roman", serif;
   line-height: 1.65;
-  max-width: 70ch;
+  max-width: 60ch;
 }
 
 .prose :where(p, ul, ol, blockquote, pre, figure, details):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
@@ -477,14 +550,14 @@ h1, h2, h3 {
 
 .prose :where(h4):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
   margin: 1.6em 0 0.4em;
-  font-family: var(--font-plex), "Helvetica Neue", Arial, sans-serif;
+  font-family: var(--font-text), "Helvetica Neue", Arial, sans-serif;
   font-size: 1.125rem;
   font-weight: 600;
   line-height: 1.4;
 }
 
 .prose :where(h2, h3, h4):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
-  max-width: 70ch;
+  max-width: 60ch;
   color: var(--foreground);
 }
 
@@ -536,10 +609,9 @@ h1, h2, h3 {
 
 /* For real quotations only. */
 .prose :where(blockquote):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
-  max-width: 70ch;
+  max-width: 60ch;
   padding: 0.25em 1.1em;
-  border-left: 3px solid var(--accent);
-  border-radius: 0 10px 10px 0;
+  border-radius: 6px;
   background: var(--accent-muted);
   font-style: italic;
 }
@@ -579,7 +651,7 @@ h1, h2, h3 {
 .prose :where(table):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
   width: 100%;
   border-collapse: collapse;
-  font-family: var(--font-plex), "Helvetica Neue", Arial, sans-serif;
+  font-family: var(--font-text), "Helvetica Neue", Arial, sans-serif;
   font-size: 1rem;
   line-height: 1.5;
   font-variant-numeric: tabular-nums;
@@ -620,7 +692,7 @@ h1, h2, h3 {
 .prose :where(figcaption):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
   margin-top: 0.6em;
   color: var(--muted-foreground);
-  font-family: var(--font-plex), "Helvetica Neue", Arial, sans-serif;
+  font-family: var(--font-text), "Helvetica Neue", Arial, sans-serif;
   font-size: 0.875rem;
   line-height: 1.5;
 }

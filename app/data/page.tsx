@@ -16,8 +16,8 @@ export default function DataPage() {
 
   return (
     <div className="min-h-screen pt-16">
-      <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
-        <header className="pb-10 pt-10 sm:pt-12 lg:pt-14">
+      <div className="mx-auto max-w-[100rem] px-4 sm:px-6 lg:px-8">
+        <header className="room-green room-bleed mb-10 pb-10 pt-10 sm:pt-12 lg:pt-14">
           <p className="section-kicker">Open Data, Decoded</p>
           <h1 className="mt-3 text-4xl leading-tight text-foreground sm:text-5xl lg:text-6xl">
             What public data actually says
@@ -37,7 +37,7 @@ export default function DataPage() {
                 <span className="absolute inset-x-0 top-0 h-1 bg-data" aria-hidden="true" />
                 <div className="lg:col-span-5">
                   {post.image && (
-                    <div className="relative aspect-video overflow-hidden rounded-xl border border-border bg-card">
+                    <div className="relative aspect-video overflow-hidden rounded-[6px] border border-border bg-card">
                       <Image
                         src={post.image}
                         alt=""
@@ -69,7 +69,7 @@ export default function DataPage() {
                 </div>
                 <div className="flex flex-col lg:col-span-7">
                   {post.source && (
-                    <p className="self-start rounded-full border border-data/20 bg-data-wash px-3 py-1 text-xs font-semibold text-data">
+                    <p className="self-start rounded-[3px] border border-data/20 bg-data-wash px-3 py-1 text-xs font-semibold text-data">
                       {post.source}
                     </p>
                   )}
@@ -92,7 +92,7 @@ export default function DataPage() {
                       {post.keyStats.map((stat) => (
                         <div
                           key={stat.label}
-                          className="flex flex-col-reverse justify-end rounded-xl bg-data-wash px-4 py-3"
+                          className="flex flex-col-reverse justify-end rounded-[6px] bg-data-wash px-4 py-3"
                         >
                           <dt className="text-sm font-semibold leading-snug text-foreground">
                             {stat.label}

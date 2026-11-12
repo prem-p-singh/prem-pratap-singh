@@ -6,8 +6,10 @@ export type IconProps = Omit<SVGProps<SVGSVGElement>, "children" | "viewBox"> & 
 };
 
 // One base for the whole set. Every glyph sits on a 24 unit grid with a 20 unit
-// live area and is drawn in stroke only: 1.5 wide, round caps and joins. Solid
-// dots have radius 1. Colour comes from currentColor.
+// live area and is a solid pictogram: filled shapes, with detail cut out of the
+// fill (evenodd) rather than drawn on top. Parts that are lines in life (a wire,
+// a stem, an axis) are heavy 2.5 unit strokes so they carry the same weight.
+// Colour comes from currentColor.
 function Icon({ size = 24, title, className, children, ...rest }: IconProps & { children: ReactNode }) {
   return (
     <svg
@@ -15,11 +17,8 @@ function Icon({ size = 24, title, className, children, ...rest }: IconProps & { 
       viewBox="0 0 24 24"
       width={size}
       height={size}
-      fill="none"
-      stroke="currentColor"
-      strokeWidth={1.5}
-      strokeLinecap="round"
-      strokeLinejoin="round"
+      fill="currentColor"
+      stroke="none"
       role={title ? "img" : undefined}
       aria-hidden={title ? undefined : true}
       focusable={title ? undefined : false}
@@ -32,14 +31,29 @@ function Icon({ size = 24, title, className, children, ...rest }: IconProps & { 
   );
 }
 
-// Trellised vine row seen from the side: two posts, a wire, a trained trunk and two leaves.
+// The heavy stroke used for parts that are lines in life.
+const line = {
+  fill: "none",
+  stroke: "currentColor",
+  strokeWidth: 2.5,
+  strokeLinecap: "round",
+  strokeLinejoin: "round",
+} as const;
+
+const LEAF =
+  "M12 15.5C13.5 21 22 21.5 18.5 13L21.5 8L15.5 7L12 2L8.5 7L2.5 8L5.5 13C2 21.5 10.5 21 12 15.5Z";
+
+// A round hole of radius 1.9 centred on (cx, cy), for evenodd cutouts.
+const well = (cx: number, cy: number) =>
+  `M${cx - 1.9} ${cy}a1.9 1.9 0 1 0 3.8 0a1.9 1.9 0 1 0 -3.8 0Z`;
+
+// Trellised vine row seen from the side: two posts, a wire, a trunk and two leaves.
 export function FieldIcon(props: IconProps) {
   return (
     <Icon {...props}>
-      <path d="M2 21H22M3 4V21M21 4V21M3 9H21" />
-      <path d="M10 21V14C10 11 11.5 9 14.5 9" />
-      <path d="M7 9C7 6 8.5 4.5 11 4C11 7 9.5 8.5 7 9Z" />
-      <path d="M14 9C14 6 15.5 4.5 18 4C18 7 16.5 8.5 14 9Z" />
+      <path {...line} d="M3 4V20.5M21 4V20.5M3 10H21M12 20.5V10" />
+      <path d="M5.5 9.5C5.5 5.5 7.5 3.5 11.5 3C11.5 7 9.5 9 5.5 9.5Z" />
+      <path d="M12.5 9.5C12.5 5.5 14.5 3.5 18.5 3C18.5 7 16.5 9 12.5 9.5Z" />
     </Icon>
   );
 }
@@ -48,11 +62,12 @@ export function FieldIcon(props: IconProps) {
 export function BenchIcon(props: IconProps) {
   return (
     <Icon {...props}>
-      <rect x="2" y="4.5" width="20" height="15" rx="1.5" />
-      <path d="M8 9A1.5 1.5 0 1 0 5 9A1.5 1.5 0 1 0 8 9M13.5 9A1.5 1.5 0 1 0 10.5 9A1.5 1.5 0 1 0 13.5 9M19 9A1.5 1.5 0 1 0 16 9A1.5 1.5 0 1 0 19 9" />
-      <path d="M8 15A1.5 1.5 0 1 0 5 15A1.5 1.5 0 1 0 8 15M13.5 15A1.5 1.5 0 1 0 10.5 15A1.5 1.5 0 1 0 13.5 15M19 15A1.5 1.5 0 1 0 16 15A1.5 1.5 0 1 0 19 15" />
-      <circle cx="12" cy="9" r="1" fill="currentColor" stroke="none" />
-      <circle cx="17.5" cy="15" r="1" fill="currentColor" stroke="none" />
+      <path
+        fillRule="evenodd"
+        d={`M4.5 4H19.5A2.5 2.5 0 0 1 22 6.5V17.5A2.5 2.5 0 0 1 19.5 20H4.5A2.5 2.5 0 0 1 2 17.5V6.5A2.5 2.5 0 0 1 4.5 4Z${well(7, 9.5)}${well(12, 9.5)}${well(17, 9.5)}${well(7, 14.5)}${well(12, 14.5)}${well(17, 14.5)}`}
+      />
+      <circle cx="12" cy="9.5" r="0.95" />
+      <circle cx="17" cy="14.5" r="0.95" />
     </Icon>
   );
 }
@@ -61,11 +76,10 @@ export function BenchIcon(props: IconProps) {
 export function AnalysisIcon(props: IconProps) {
   return (
     <Icon {...props}>
-      <path d="M2 4H22" />
-      <path d="M2 8H9M12 8H20" />
-      <path d="M5 12H14M17 12H22" />
-      <path d="M2 16H6M9 16H19" />
-      <path d="M4 20H11M14 20H21" />
+      <path {...line} d="M3 4.5H21" />
+      <path {...line} d="M3 9.5H9M13 9.5H20" />
+      <path {...line} d="M5.5 14.5H13.5M17.5 14.5H21" />
+      <path {...line} d="M3 19.5H7M11 19.5H18" />
     </Icon>
   );
 }
@@ -74,27 +88,27 @@ export function AnalysisIcon(props: IconProps) {
 export function CropIcon(props: IconProps) {
   return (
     <Icon {...props}>
-      <path d="M7 6H12V10" />
-      <path d="M12 6C13 3 16.5 2 20 2.5C19.5 6 16 7.5 12 6Z" />
-      <circle cx="8" cy="12" r="2" />
-      <circle cx="12" cy="12" r="2" />
-      <circle cx="16" cy="12" r="2" />
-      <circle cx="10" cy="15.5" r="2" />
-      <circle cx="14" cy="15.5" r="2" />
-      <circle cx="12" cy="19" r="2" />
+      <path {...line} strokeWidth={2} d="M12 7.5V5.5H8.5" />
+      <path d="M12.5 6C13.5 3 16.5 1.8 20.5 2.3C20 6 16.5 7.6 12.5 6Z" />
+      <circle cx="7" cy="10.7" r="2.2" />
+      <circle cx="12" cy="10.7" r="2.2" />
+      <circle cx="17" cy="10.7" r="2.2" />
+      <circle cx="9.5" cy="14.9" r="2.2" />
+      <circle cx="14.5" cy="14.9" r="2.2" />
+      <circle cx="12" cy="19.1" r="2.2" />
     </Icon>
   );
 }
 
-// Grape leaf with lesions on the blade.
+// Grape leaf with lesions cut out of the blade.
 export function CropBiologyIcon(props: IconProps) {
   return (
     <Icon {...props}>
-      <path d="M12 15.5C13.5 21 22 21.5 18.5 13L21.5 8L15.5 7L12 2L8.5 7L2.5 8L5.5 13C2 21.5 10.5 21 12 15.5Z" />
-      <path d="M12 22V9" />
-      <circle cx="15.5" cy="10.5" r="1" fill="currentColor" stroke="none" />
-      <circle cx="16" cy="14.5" r="1" fill="currentColor" stroke="none" />
-      <circle cx="8.5" cy="11.5" r="1" fill="currentColor" stroke="none" />
+      <path
+        fillRule="evenodd"
+        d={`${LEAF}M14.2 10.5a1.3 1.3 0 1 0 2.6 0a1.3 1.3 0 1 0 -2.6 0ZM14.7 14.6a1.3 1.3 0 1 0 2.6 0a1.3 1.3 0 1 0 -2.6 0ZM7.2 11.5a1.3 1.3 0 1 0 2.6 0a1.3 1.3 0 1 0 -2.6 0Z`}
+      />
+      <path {...line} strokeWidth={2} d="M12 21.5V17" />
     </Icon>
   );
 }
@@ -103,20 +117,20 @@ export function CropBiologyIcon(props: IconProps) {
 export function DiagnosticsIcon(props: IconProps) {
   return (
     <Icon {...props}>
-      <path d="M10 2H14M12 2V4.5M15 6H17.5V8.5" />
-      <rect x="9" y="4.5" width="6" height="5.5" rx="1.5" />
-      <path d="M10 10L11 15H13L14 10" />
-      <circle cx="12" cy="18.5" r="1" fill="currentColor" stroke="none" />
-      <path d="M4 17.5H6.5M17.5 17.5H20M6.5 17.5V20A2 2 0 0 0 8.5 22H15.5A2 2 0 0 0 17.5 20V17.5" />
+      <path d="M10 1.5H14A1 1 0 0 1 14 3.5H13V4.5H11V3.5H10A1 1 0 0 1 10 1.5Z" />
+      <path d="M10 4.5H14A1.5 1.5 0 0 1 15.5 6V9A1.5 1.5 0 0 1 14 10.5L13 14.5H11L10 10.5A1.5 1.5 0 0 1 8.5 9V6A1.5 1.5 0 0 1 10 4.5Z" />
+      <path {...line} strokeWidth={2} d="M16.5 6.5H18.5V9" />
+      <path d="M12 15.4C13 16.7 13.5 17.4 13.5 18.1A1.5 1.5 0 0 1 10.5 18.1C10.5 17.4 11 16.7 12 15.4Z" />
+      <path {...line} d="M3.5 18H6.5V19.5A2 2 0 0 0 8.5 21.5H15.5A2 2 0 0 0 17.5 19.5V18H20.5" />
     </Icon>
   );
 }
 
-// Chromatogram trace with three peaks on one baseline.
+// Chromatogram: three solid peaks on one baseline.
 export function OmicsIcon(props: IconProps) {
   return (
     <Icon {...props}>
-      <path d="M2 20H3C5 20 5 12 6 12C7 12 7 20 9 20C11 20 11 4 12 4C13 4 13 20 15 20C17 20 17 15 18 15C19 15 19 20 21 20H22" />
+      <path d="M2 22V20C4.5 20 4.5 11 6.5 11C8.5 11 8.5 20 9.8 20C11 20 10.8 3 12.3 3C13.8 3 13.6 20 14.8 20C16 20 16 14 17.8 14C19.6 14 19.6 20 22 20V22Z" />
     </Icon>
   );
 }
@@ -125,35 +139,35 @@ export function OmicsIcon(props: IconProps) {
 export function DataScienceIcon(props: IconProps) {
   return (
     <Icon {...props}>
-      <path d="M3 3V21H21" />
-      <path d="M6 18L21 5" />
-      <circle cx="8.5" cy="12.5" r="1" fill="currentColor" stroke="none" />
-      <circle cx="11.5" cy="16.5" r="1" fill="currentColor" stroke="none" />
-      <circle cx="14.5" cy="7.5" r="1" fill="currentColor" stroke="none" />
-      <circle cx="18" cy="11" r="1" fill="currentColor" stroke="none" />
+      <path {...line} d="M3.5 3V20.5H21" />
+      <path {...line} d="M7.5 17L20.5 5.5" />
+      <circle cx="8" cy="9.5" r="1.6" />
+      <circle cx="14" cy="16.5" r="1.6" />
+      <circle cx="13" cy="6" r="1.6" />
+      <circle cx="19.5" cy="12" r="1.6" />
     </Icon>
   );
 }
 
-// Bound notebook page with ruled lines and a check.
+// Bound notebook: a spine and a page, with two ruled lines and a check cut out.
 export function ResearchDeliveryIcon(props: IconProps) {
   return (
     <Icon {...props}>
-      <rect x="4" y="2" width="16" height="20" rx="1.5" />
-      <path d="M8 2V22" />
-      <path d="M11 7H17" />
-      <path d="M11 11H17" />
-      <path d="M11 16.5L13 18.5L17 14.5" />
+      <path d="M6 2H7V22H6A2 2 0 0 1 4 20V4A2 2 0 0 1 6 2Z" />
+      <path
+        fillRule="evenodd"
+        d="M8.4 2H18A2 2 0 0 1 20 4V20A2 2 0 0 1 18 22H8.4ZM11 6.3H17V7.7H11ZM11 10.3H17V11.7H11ZM10.6 16.6L11.7 15.5L13 16.8L16.3 13.5L17.4 14.6L13 19Z"
+      />
     </Icon>
   );
 }
 
-// Site mark: a grape leaf outline with one vein.
+// Site mark: a solid grape leaf with its midvein cut out.
 export function SiteMark(props: IconProps) {
   return (
     <Icon {...props}>
-      <path d="M12 15.5C13.5 21 22 21.5 18.5 13L21.5 8L15.5 7L12 2L8.5 7L2.5 8L5.5 13C2 21.5 10.5 21 12 15.5Z" />
-      <path d="M12 22V9" />
+      <path fillRule="evenodd" d={`${LEAF}M11.4 6H12.6V14.5H11.4Z`} />
+      <path {...line} strokeWidth={2} d="M12 21.5V17" />
     </Icon>
   );
 }

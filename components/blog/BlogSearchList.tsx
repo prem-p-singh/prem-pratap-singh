@@ -29,7 +29,7 @@ const researchTrails: Array<{
 ];
 
 const tagClass =
-  "rounded-full border border-field/20 bg-field-wash px-3 py-1 text-xs font-semibold text-field";
+  "rounded-[3px] border border-field/20 bg-field-wash px-3 py-1 text-xs font-semibold text-field";
 
 const DEFAULT_VISIBLE = 6;
 // Cards show this many tags; search and trails still read every tag.
@@ -74,7 +74,7 @@ export default function BlogSearchList({ posts }: BlogSearchListProps) {
       className="grid gap-x-8 gap-y-10 py-10 lg:grid-cols-12 lg:py-14"
       aria-labelledby="blog-trails-title"
     >
-      <div className="lg:col-span-4">
+      <div className="room-title lg:col-span-12">
         <p className="section-kicker">Research radar</p>
         <h2 id="blog-trails-title" className="mt-3 text-3xl leading-tight text-foreground sm:text-4xl">
           Pick a trail
@@ -96,7 +96,7 @@ export default function BlogSearchList({ posts }: BlogSearchListProps) {
                 type="button"
                 aria-pressed={activeTrail === trail.id}
                 onClick={() => chooseTrail(trail.id)}
-                className="group inline-flex items-center rounded-full border border-border bg-card px-3.5 py-1.5 text-xs font-semibold text-muted-foreground transition-colors hover:border-field hover:text-foreground aria-pressed:border-primary aria-pressed:bg-primary aria-pressed:text-primary-foreground"
+                className="group inline-flex items-center rounded-[3px] border border-border bg-card px-3.5 py-1.5 text-xs font-semibold text-muted-foreground transition-colors hover:border-field hover:text-foreground aria-pressed:border-primary aria-pressed:bg-primary aria-pressed:text-primary-foreground"
               >
                 <span
                   className={`mr-2 size-2 rounded-full group-aria-pressed:bg-primary-foreground ${trail.dot}`}
@@ -117,7 +117,7 @@ export default function BlogSearchList({ posts }: BlogSearchListProps) {
         </button>
       </div>
 
-      <div className="lg:col-span-8">
+      <div className="lg:col-span-12">
         <div className="paper-panel flex flex-col gap-4 px-5 py-4 sm:flex-row sm:items-center sm:justify-between sm:px-6">
           {/* The base h3 rule is unlayered, so the sans needs the important flag to win. */}
           <h3 className="font-sans! text-base font-semibold text-foreground">
@@ -159,11 +159,11 @@ export default function BlogSearchList({ posts }: BlogSearchListProps) {
                     ) : (
                       // No image: a tinted band with the notebook's field icon and the post's first tag.
                       <div className="flex items-center justify-between gap-4 border-b border-border bg-field-wash px-6 py-5">
-                        <span className="flex size-11 shrink-0 items-center justify-center rounded-xl bg-card text-field">
+                        <span className="icon-stamp bg-card text-field">
                           <FieldIcon size={22} />
                         </span>
                         {post.tags[0] && (
-                          <span className="rounded-full border border-field/20 bg-card px-3 py-1 text-xs font-semibold text-field">
+                          <span className="rounded-[3px] border border-field/20 bg-card px-3 py-1 text-xs font-semibold text-field">
                             {post.tags[0]}
                           </span>
                         )}
@@ -198,7 +198,7 @@ export default function BlogSearchList({ posts }: BlogSearchListProps) {
                             </li>
                           ))}
                           {tags.length > MAX_TAGS && (
-                            <li className="rounded-full border border-border px-3 py-1 text-xs font-semibold tabular-nums text-muted-foreground">
+                            <li className="rounded-[3px] border border-border px-3 py-1 text-xs font-semibold tabular-nums text-muted-foreground">
                               +{tags.length - MAX_TAGS}
                               <span className="sr-only"> more tags</span>
                             </li>

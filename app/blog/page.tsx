@@ -45,7 +45,7 @@ const topicNodes = [
 const MAX_TAGS = 3;
 
 const tagClass =
-  "rounded-full border border-field/20 bg-field-wash px-3 py-1 text-xs font-semibold text-field";
+  "rounded-[3px] border border-field/20 bg-field-wash px-3 py-1 text-xs font-semibold text-field";
 
 export default function BlogPage() {
   const posts = getAllPosts();
@@ -57,8 +57,8 @@ export default function BlogPage() {
 
   return (
     <div className="min-h-screen pt-16">
-      <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
-        <header className="grid gap-x-8 gap-y-8 pb-10 pt-10 sm:pt-12 lg:grid-cols-12 lg:items-end lg:pt-14">
+      <div className="mx-auto max-w-[100rem] px-4 sm:px-6 lg:px-8">
+        <header className="room-green room-bleed mb-10 grid gap-x-8 gap-y-8 pb-10 pt-10 sm:pt-12 lg:grid-cols-12 lg:items-end lg:pt-14">
           <div className="lg:col-span-7">
             <p className="section-kicker">Research notebook</p>
             <h1 className="mt-3 text-4xl leading-tight text-foreground sm:text-5xl lg:text-6xl">
@@ -81,7 +81,7 @@ export default function BlogPage() {
                     )}
                     <span className="flex flex-col items-center gap-2 text-sm font-semibold text-foreground">
                       <span
-                        className={`flex size-11 shrink-0 items-center justify-center rounded-xl ${topic.tile}`}
+                        className={`icon-stamp ${topic.tile}`}
                       >
                         <Icon size={22} />
                       </span>
@@ -104,7 +104,7 @@ export default function BlogPage() {
           <article className={`paper-panel ${featuredImage ? "grid lg:grid-cols-5 lg:items-center" : ""}`}>
             {featuredImage ? (
               <div className="p-5 pb-0 sm:p-6 sm:pb-0 lg:col-span-3 lg:pb-6 lg:pr-0">
-                <div className="relative aspect-video overflow-hidden rounded-xl border border-border bg-card">
+                <div className="relative aspect-video overflow-hidden rounded-[6px] border border-border bg-card">
                   <Image
                     src={featuredImage}
                     alt=""
@@ -118,11 +118,11 @@ export default function BlogPage() {
             ) : (
               // No image: a tinted band with the notebook's field icon and the post's first tag.
               <div className="flex items-center justify-between gap-4 border-b border-border bg-field-wash px-6 py-5 sm:px-8">
-                <span className="flex size-11 shrink-0 items-center justify-center rounded-xl bg-card text-field">
+                <span className="icon-stamp bg-card text-field">
                   <FieldIcon size={22} />
                 </span>
                 {featured.tags[0] && (
-                  <span className="rounded-full border border-field/20 bg-card px-3 py-1 text-xs font-semibold text-field">
+                  <span className="rounded-[3px] border border-field/20 bg-card px-3 py-1 text-xs font-semibold text-field">
                     {featured.tags[0]}
                   </span>
                 )}
@@ -161,7 +161,7 @@ export default function BlogPage() {
                     </li>
                   ))}
                   {featuredTags.length > MAX_TAGS && (
-                    <li className="rounded-full border border-border px-3 py-1 text-xs font-semibold tabular-nums text-muted-foreground">
+                    <li className="rounded-[3px] border border-border px-3 py-1 text-xs font-semibold tabular-nums text-muted-foreground">
                       +{featuredTags.length - MAX_TAGS}
                       <span className="sr-only"> more tags</span>
                     </li>
