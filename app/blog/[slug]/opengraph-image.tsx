@@ -25,7 +25,7 @@ export default async function OGImage({ params }: { params: Promise<{ slug: stri
     (
       <div
         style={{
-          background: "linear-gradient(135deg, #111713 0%, #18211b 52%, #111713 100%)",
+          background: "#1f4d3a",
           width: "100%",
           height: "100%",
           display: "flex",
@@ -36,19 +36,6 @@ export default async function OGImage({ params }: { params: Promise<{ slug: stri
           position: "relative",
         }}
       >
-        {/* Accent circles */}
-        <div
-          style={{
-            position: "absolute",
-            top: "-100px",
-            right: "-100px",
-            width: "400px",
-            height: "400px",
-            borderRadius: "50%",
-            background: "radial-gradient(circle, rgba(166,180,223,0.16) 0%, transparent 70%)",
-          }}
-        />
-
         {/* Tags */}
         {tags.length > 0 && (
           <div style={{ display: "flex", gap: "12px", marginBottom: "24px" }}>
@@ -57,8 +44,8 @@ export default async function OGImage({ params }: { params: Promise<{ slug: stri
                 key={tag}
                 style={{
                   fontSize: 14,
-                  color: "#83c69e",
-                  border: "1px solid #354238",
+                  color: "#e9c46a",
+                  border: "1px solid rgba(251,246,238,0.26)",
                   borderRadius: "9999px",
                   padding: "6px 16px",
                   letterSpacing: "0.05em",
@@ -76,7 +63,7 @@ export default async function OGImage({ params }: { params: Promise<{ slug: stri
           style={{
             fontSize: title.length > 60 ? 48 : 56,
             fontWeight: 800,
-            color: "#f5f0e6",
+            color: "#fbf6ee",
             lineHeight: 1.2,
             marginBottom: "32px",
             letterSpacing: "-0.02em",
@@ -97,7 +84,7 @@ export default async function OGImage({ params }: { params: Promise<{ slug: stri
             display: "flex",
             gap: "16px",
             fontSize: 18,
-            color: "#b4b8b1",
+            color: "#d3e4d9",
           }}
         >
           {date && <span>{date}</span>}
@@ -115,7 +102,7 @@ export default async function OGImage({ params }: { params: Promise<{ slug: stri
             display: "flex",
             justifyContent: "space-between",
             alignItems: "center",
-            borderTop: "1px solid #354238",
+            borderTop: "1px solid rgba(251,246,238,0.26)",
             paddingTop: "24px",
           }}
         >
@@ -125,20 +112,20 @@ export default async function OGImage({ params }: { params: Promise<{ slug: stri
                 width: "40px",
                 height: "40px",
                 borderRadius: "50%",
-                background: "linear-gradient(135deg, #285f47, #46567d)",
+                background: "#6b1d35",
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
-                color: "#f5f0e6",
+                color: "#fbf6ee",
                 fontSize: 16,
                 fontWeight: 700,
               }}
             >
               PS
             </div>
-            <div style={{ fontSize: 18, color: "#b4b8b1" }}>Prem Pratap Singh</div>
+            <div style={{ fontSize: 18, color: "#d3e4d9" }}>Prem Pratap Singh</div>
           </div>
-          <div style={{ fontSize: 16, color: "#b4b8b1" }}>prempsingh.com/blog</div>
+          <div style={{ fontSize: 16, color: "#d3e4d9" }}>prempsingh.com/blog</div>
         </div>
       </div>
     ),

@@ -1,16 +1,23 @@
 import { ImageResponse } from "next/og";
+import { bookChapters, publications } from "@/profile/publications";
 
 export const runtime = "edge";
 export const alt = "Prem Pratap Singh — plant scientist and data scientist";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
+// Counted from the publication list, the same way the homepage counts them,
+// so the image cannot fall out of step with the site.
+const articleCount = publications.filter(
+  (publication) => publication.venue !== "In Preparation"
+).length;
+
 export default async function OGImage() {
   return new ImageResponse(
     (
       <div
         style={{
-          background: "linear-gradient(135deg, #111713 0%, #18211b 52%, #111713 100%)",
+          background: "#6b1d35",
           width: "100%",
           height: "100%",
           display: "flex",
@@ -21,39 +28,13 @@ export default async function OGImage() {
           position: "relative",
         }}
       >
-        {/* Subtle accent circle */}
-        <div
-          style={{
-            position: "absolute",
-            top: "-100px",
-            right: "-100px",
-            width: "400px",
-            height: "400px",
-            borderRadius: "50%",
-            background: "radial-gradient(circle, rgba(131,198,158,0.18) 0%, transparent 70%)",
-          }}
-        />
-        <div
-          style={{
-            position: "absolute",
-            bottom: "-80px",
-            left: "-80px",
-            width: "300px",
-            height: "300px",
-            borderRadius: "50%",
-            background: "radial-gradient(circle, rgba(166,180,223,0.13) 0%, transparent 70%)",
-          }}
-        />
-
         {/* Top label */}
         <div
           style={{
-            fontSize: 18,
-            color: "#83c69e",
-            letterSpacing: "0.15em",
-            textTransform: "uppercase",
-            marginBottom: "24px",
-            fontWeight: 500,
+            fontSize: 24,
+            color: "#e9c46a",
+            marginBottom: "20px",
+            fontWeight: 600,
           }}
         >
           Crop biology · molecular evidence · data science
@@ -62,12 +43,12 @@ export default async function OGImage() {
         {/* Name */}
         <div
           style={{
-            fontSize: 72,
+            fontSize: 104,
             fontWeight: 800,
-            color: "#f5f0e6",
-            lineHeight: 1.1,
-            marginBottom: "24px",
-            letterSpacing: "-0.02em",
+            color: "#fbf6ee",
+            lineHeight: 1,
+            marginBottom: "28px",
+            letterSpacing: "-0.03em",
           }}
         >
           Prem Pratap Singh
@@ -76,10 +57,11 @@ export default async function OGImage() {
         {/* Tagline */}
         <div
           style={{
-            fontSize: 24,
-            color: "#b4b8b1",
-            lineHeight: 1.5,
-            maxWidth: "800px",
+            fontSize: 26,
+            color: "#ecd3d9",
+            lineHeight: 1.45,
+            maxWidth: "860px",
+            marginBottom: "110px",
           }}
         >
           Plant-pathogen interactions · Multi-omics · Grapevine virology · Bioinformatics
@@ -89,9 +71,12 @@ export default async function OGImage() {
         <div
           style={{
             position: "absolute",
-            bottom: "60px",
-            left: "80px",
-            right: "80px",
+            bottom: 0,
+            left: 0,
+            right: 0,
+            height: "110px",
+            padding: "0 80px",
+            background: "#1f4d3a",
             display: "flex",
             justifyContent: "space-between",
             alignItems: "center",
@@ -99,8 +84,9 @@ export default async function OGImage() {
         >
           <div
             style={{
-              fontSize: 18,
-              color: "#b4b8b1",
+              fontSize: 24,
+              fontWeight: 700,
+              color: "#fbf6ee",
             }}
           >
             prempsingh.com
@@ -109,11 +95,13 @@ export default async function OGImage() {
             style={{
               display: "flex",
               gap: "24px",
-              fontSize: 16,
-              color: "#b4b8b1",
+              fontSize: 20,
+              color: "#d3e4d9",
             }}
           >
-            <span>25+ Publications</span>
+            <span>{articleCount} peer-reviewed articles</span>
+            <span>·</span>
+            <span>{bookChapters.length} book chapters</span>
             <span>·</span>
             <span>2300+ Citations</span>
             <span>·</span>
