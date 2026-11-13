@@ -3,7 +3,9 @@ import type { ComponentType } from "react";
 import { Github, GraduationCap, Linkedin, Mail, type LucideIcon } from "lucide-react";
 import {
   AnalysisIcon,
+  BenchIcon,
   CropIcon,
+  DataScienceIcon,
   FieldIcon,
   ResearchDeliveryIcon,
   type IconProps,
@@ -73,8 +75,12 @@ const links: Array<{ label: string; href: string; icon: LucideIcon }> = [
   { label: "Google Scholar", href: personal.social.googleScholar, icon: GraduationCap },
 ];
 
-// The three lines on the label card beside the portrait.
-const practice = ["Field", "Bench", "Code"];
+// The plate under the portrait: where the work happens, one family colour each.
+const practice = [
+  { label: "Field", icon: FieldIcon, tone: "text-field" },
+  { label: "Bench", icon: BenchIcon, tone: "text-biology" },
+  { label: "Code", icon: DataScienceIcon, tone: "text-data" },
+];
 
 export default function HeroClient() {
   return (
@@ -149,12 +155,23 @@ export default function HeroClient() {
               />
             </div>
           </div>
+          {/* The name is already the page title, so the plate carries only the three places the work happens. */}
           <figcaption
             aria-hidden="true"
-            className="mt-8 flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1 border-t border-border pt-3 text-sm"
+            className="mt-9 grid grid-cols-3 divide-x divide-border border-y border-border"
           >
-            <span className="font-semibold text-foreground">{personal.name}</span>
-            <span className="text-muted-foreground">{practice.join(" · ")}</span>
+            {practice.map((item) => {
+              const Icon = item.icon;
+              return (
+                <span
+                  key={item.label}
+                  className="flex items-center justify-center gap-2 py-3 text-lg font-bold text-foreground sm:text-xl"
+                >
+                  <Icon className={`size-6 sm:size-7 ${item.tone}`} />
+                  {item.label}
+                </span>
+              );
+            })}
           </figcaption>
         </figure>
       </div>
