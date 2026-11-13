@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight } from "lucide-react";
 import BlogSearchList from "@/components/blog/BlogSearchList";
 import { DataScienceIcon, FieldIcon, OmicsIcon } from "@/components/icons/PortfolioIcons";
 import { formatContentDate } from "@/lib/date";
@@ -36,9 +35,9 @@ export const metadata: Metadata = {
 
 // Families as the previous design had them: field, then biology, then data.
 const topicNodes = [
-  { label: "Field", icon: FieldIcon, tile: "bg-field-wash text-field" },
-  { label: "Signals", icon: OmicsIcon, tile: "bg-biology-wash text-biology" },
-  { label: "Models", icon: DataScienceIcon, tile: "bg-data-wash text-data" },
+  { label: "Field", icon: FieldIcon, tone: "text-field" },
+  { label: "Signals", icon: OmicsIcon, tone: "text-biology" },
+  { label: "Models", icon: DataScienceIcon, tone: "text-data" },
 ];
 
 // The card shows this many tags, then a count of the rest.
@@ -51,6 +50,8 @@ export default function BlogPage() {
   const posts = getAllPosts();
   const featured = posts[0];
   const library = posts.slice(1);
+  // The header picture: the newest note that has one. The newest note itself may have none.
+  const pictured = posts.find((post) => post.visualSummary || post.image);
   const featuredImage = featured?.visualSummary || featured?.image;
   // Without an image the first tag sits in the tinted band, so the list below starts at the second.
   const featuredTags = featured ? (featuredImage ? featured.tags : featured.tags.slice(1)) : [];
@@ -58,7 +59,7 @@ export default function BlogPage() {
   return (
     <div className="min-h-screen pt-16">
       <div className="mx-auto max-w-[100rem] px-4 sm:px-6 lg:px-8">
-        <header className="room-green room-bleed mb-10 grid gap-x-8 gap-y-8 pb-10 pt-10 sm:pt-12 lg:grid-cols-12 lg:items-end lg:pt-14">
+        <header className="room-green room-bleed mb-10 grid gap-x-12 gap-y-8 pb-8 pt-10 sm:pt-12 lg:grid-cols-12 lg:items-center lg:pt-14">
           <div className="lg:col-span-7">
             <p className="section-kicker">Research notebook</p>
             <h1 className="mt-3 text-4xl leading-tight text-foreground sm:text-5xl lg:text-6xl">
@@ -69,34 +70,49 @@ export default function BlogPage() {
             </p>
           </div>
 
-          <div className="paper-panel p-5 sm:p-6 lg:col-span-5">
-            {/* The arrows mark a real order: field observation, then signals, then models. */}
-            <ol className="flex items-center justify-between gap-2">
-              {topicNodes.map((topic, index) => {
+          {/* The newest note that has a picture, hung on the wall like a framed print. */}
+          {pictured && (
+            <figure className="lg:col-span-5">
+              <Link
+                href={`/blog/${pictured.slug}`}
+                className="group block border border-border bg-card p-2 shadow-[var(--shadow-float)]"
+              >
+                <span className="relative block aspect-video overflow-hidden">
+                  <Image
+                    src={(pictured.visualSummary || pictured.image)!}
+                    alt={`Visual summary of the note: ${pictured.title}`}
+                    fill
+                    priority
+                    sizes="(max-width: 1024px) 100vw, 600px"
+                    className="object-cover transition-transform duration-500 group-hover:scale-[1.03]"
+                  />
+                </span>
+              </Link>
+              <figcaption className="mt-3 line-clamp-2 text-sm text-muted-foreground">{pictured.title}</figcaption>
+            </figure>
+          )}
+
+          {/* One ruled line across the wall: the count as a poster figure, then the three kinds of note. */}
+          <div className="flex flex-wrap items-end justify-between gap-x-12 gap-y-6 border-t border-border pt-6 lg:col-span-12">
+            <p className="flex items-end gap-4 text-lg font-semibold leading-tight text-foreground">
+              <span className="font-serif text-7xl leading-[0.85] tabular-nums text-accent sm:text-8xl">{posts.length}</span>
+              <span>
+                published
+                <br />
+                notes
+              </span>
+            </p>
+            <ul className="flex flex-wrap items-center gap-x-5 gap-y-3 sm:gap-x-10">
+              {topicNodes.map((topic) => {
                 const Icon = topic.icon;
                 return (
-                  <li key={topic.label} className="contents">
-                    {index > 0 && (
-                      <ArrowRight className="size-4 shrink-0 text-muted-foreground" aria-hidden="true" />
-                    )}
-                    <span className="flex flex-col items-center gap-2 text-sm font-semibold text-foreground">
-                      <span
-                        className={`icon-stamp ${topic.tile}`}
-                      >
-                        <Icon size={22} />
-                      </span>
-                      {topic.label}
-                    </span>
+                  <li key={topic.label} className="flex items-center gap-2 text-base font-bold text-foreground sm:gap-3 sm:text-2xl">
+                    <Icon className={`size-6 sm:size-8 ${topic.tone}`} />
+                    {topic.label}
                   </li>
                 );
               })}
-            </ol>
-            <p className="mt-5 flex items-end justify-between gap-4 border-t border-border pt-4 text-sm font-semibold text-muted-foreground">
-              Published notes{" "}
-              <span className="font-serif text-4xl leading-none tabular-nums text-field">
-                {posts.length}
-              </span>
-            </p>
+            </ul>
           </div>
         </header>
 
