@@ -166,7 +166,7 @@ export default function ResearchPathway() {
               id="research-pathway-title"
               className="mt-3 text-3xl leading-tight text-foreground sm:text-4xl"
             >
-              Crop improvement is the destination. Data is how I get there.
+              <span>Crop improvement is the destination.</span> <span>Data is how I get there.</span>
             </h2>
             <p className="mt-5 max-w-[60ch] text-base leading-relaxed text-muted-foreground">
               I do not begin with a model. I begin with what changed in the plant.

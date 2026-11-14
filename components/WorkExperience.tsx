@@ -121,6 +121,7 @@ export default function WorkExperience() {
       <div className="mx-auto max-w-[100rem] px-4 sm:px-6 lg:px-8">
         <div className="grid gap-x-8 gap-y-10 border-t border-border py-10 lg:grid-cols-12 lg:py-14">
           <div className="room-title lg:col-span-12">
+            <p className="section-kicker">Experience</p>
             <h2
               id="work-experience-title"
               className="text-3xl leading-tight text-foreground sm:text-4xl"
