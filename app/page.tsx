@@ -273,9 +273,11 @@ export default function Home() {
                         </span>
                         <div>
                           <h3 className="text-lg font-semibold leading-snug text-foreground">{opportunity.title}</h3>
-                          <p className="mt-2 text-sm leading-snug text-muted-foreground">
-                            {opportunity.detail}
-                          </p>
+                          {"detail" in opportunity && (
+                            <p className="mt-2 text-sm leading-snug text-muted-foreground">
+                              {opportunity.detail}
+                            </p>
+                          )}
                         </div>
                         <ul className="mt-auto divide-y divide-border border-t border-border text-sm text-foreground">
                           {opportunity.points.map((point) => (
@@ -348,7 +350,6 @@ const contactFacts = [
 const opportunities = [
   {
     title: "Research Scientist and Data Scientist roles",
-    detail: "Ag-biotech, diagnostics and trait discovery",
     points: ["Ag-bio R&D", "Molecular diagnostics", "NGS workflows", "Trait discovery"],
     icon: BriefcaseBusiness,
     tile: "bg-field-wash text-field",
