@@ -49,8 +49,9 @@ export default function Home() {
         <div className="mx-auto max-w-[100rem] px-4 sm:px-6 lg:px-8">
           <div className="grid gap-x-8 gap-y-10 border-t border-border py-10 lg:grid-cols-12 lg:py-14">
             <div className="room-title lg:col-span-12">
+              <p className="section-kicker">Publications</p>
               <h2 id="research-title" className="text-3xl leading-tight text-foreground sm:text-4xl">
-                Evidence that has passed peer review.
+                Evidence that has passed peer review
               </h2>
               <p className="mt-5 max-w-[60ch] text-base leading-relaxed text-muted-foreground">
                 Journal articles and book chapters spanning plant disease, diagnostics, multi-omics, and food safety.
@@ -112,6 +113,7 @@ export default function Home() {
         <div className="mx-auto max-w-[100rem] px-4 sm:px-6 lg:px-8">
           <div className="grid gap-x-8 gap-y-10 border-t border-border py-10 lg:grid-cols-12 lg:py-14">
             <div className="room-title lg:col-span-12">
+              <p className="section-kicker">Code</p>
               <h2 id="software-title" className="text-3xl leading-tight text-foreground sm:text-4xl">
                 Open-source tools
               </h2>
@@ -143,6 +145,7 @@ export default function Home() {
         <div className="mx-auto max-w-[100rem] px-4 sm:px-6 lg:px-8">
           <div className="grid gap-x-8 gap-y-10 border-t border-border py-10 lg:grid-cols-12 lg:py-14">
             <div className="room-title lg:col-span-12">
+              <p className="section-kicker">Projects</p>
               <h2 id="projects-title" className="text-3xl leading-tight text-foreground sm:text-4xl">
                 Research projects
               </h2>
@@ -252,7 +255,7 @@ export default function Home() {
             <div className="room-title lg:col-span-12">
               <p className="section-kicker">Where the work can grow next</p>
               <h2 id="contact-title" className="mt-3 text-3xl leading-tight text-foreground sm:text-4xl">
-                Better crop decisions, built on stronger biological data.
+                Better crop decisions, built on stronger biological data
               </h2>
             </div>
 
@@ -262,19 +265,25 @@ export default function Home() {
                   const Icon = opportunity.icon;
                   return (
                     <li key={opportunity.title} className="paper-panel">
-                      {/* At least square from md up; a long title can still make the row taller. */}
-                      <div className="flex h-full flex-col gap-5 p-6 md:min-h-56">
+                      <div className="flex h-full flex-col gap-5 p-6">
                         <span
                           className={`icon-stamp ${opportunity.tile}`}
                         >
                           <Icon size={22} strokeWidth={2.5} aria-hidden="true" />
                         </span>
-                        <div className="md:mt-auto">
+                        <div>
                           <h3 className="text-lg font-semibold leading-snug text-foreground">{opportunity.title}</h3>
                           <p className="mt-2 text-sm leading-snug text-muted-foreground">
                             {opportunity.detail}
                           </p>
                         </div>
+                        <ul className="mt-auto divide-y divide-border border-t border-border text-sm text-foreground">
+                          {opportunity.points.map((point) => (
+                            <li key={point} className="py-2">
+                              {point}
+                            </li>
+                          ))}
+                        </ul>
                       </div>
                     </li>
                   );
@@ -292,6 +301,14 @@ export default function Home() {
                 >
                   {personal.email}
                 </a>
+                <dl className="mt-6 divide-y divide-border border-t border-border text-sm">
+                  {contactFacts.map((fact) => (
+                    <div key={fact.label} className="flex flex-wrap justify-between gap-x-6 gap-y-1 py-2">
+                      <dt className="text-muted-foreground">{fact.label}</dt>
+                      <dd className="font-semibold text-foreground">{fact.value}</dd>
+                    </div>
+                  ))}
+                </dl>
                 <ul className="mt-auto flex flex-wrap gap-2 pt-6 text-sm">
                   {socialLinks.map((link) => {
                     const Icon = link.icon;
@@ -321,23 +338,41 @@ export default function Home() {
   );
 }
 
+// The two facts under the email address, both taken from the profile.
+const contactFacts = [
+  { label: "Based in", value: personal.location },
+  { label: "Department", value: "Plant Pathology, UC Davis" },
+];
+
 // Icons and families as the previous design had them: roles field, collaborations biology, consulting data.
 const opportunities = [
   {
     title: "Research Scientist and Data Scientist roles",
     detail: "Ag-biotech, diagnostics and trait discovery",
+    points: ["Ag-bio R&D", "Molecular diagnostics", "NGS workflows", "Trait discovery"],
     icon: BriefcaseBusiness,
     tile: "bg-field-wash text-field",
   },
   {
     title: "Research collaborations",
     detail: "Field biology, multi-omics and reproducible analysis",
+    points: [
+      "Vineyard and field sampling",
+      "RT-qPCR and digital PCR assays",
+      "RNA sequencing on HPC",
+      "Pipelines in Snakemake, R and Python",
+    ],
     icon: Handshake,
     tile: "bg-biology-wash text-biology",
   },
   {
     title: "Scientific consulting",
     detail: "From experimental design to decision-ready evidence",
+    points: [
+      "Experimental and sampling design",
+      "Diagnostic assay validation",
+      "RNA-seq and metabolite data analysis",
+    ],
     icon: Compass,
     tile: "bg-data-wash text-data",
   },

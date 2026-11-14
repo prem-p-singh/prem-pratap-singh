@@ -94,7 +94,7 @@ export default function ResearchSnapshot() {
               id="research-snapshot-title"
               className="mt-3 text-3xl leading-tight text-foreground sm:text-4xl"
             >
-              Crop biology is my domain. Data science is how I investigate it.
+              <span>Crop biology is my domain.</span> <span>Data science is how I investigate it.</span>
             </h2>
             <p className="mt-5 max-w-[60ch] text-base leading-relaxed text-muted-foreground">
               I connect plant pathology and molecular measurement with computation, statistics, and reproducible research delivery.

@@ -498,13 +498,18 @@ h1, h2, h3 {
 }
 
 .room-title > h2 {
-  max-width: 20ch;
-  font-size: clamp(2.5rem, 5vw, 4.75rem);
-  line-height: 0.98;
+  font-size: clamp(2.25rem, 4.5vw, 4.5rem);
+  line-height: 1.02;
+  text-wrap: pretty;
+}
+
+/* A title made of two sentences gives each sentence its own line. */
+.room-title > h2 > span {
+  display: block;
 }
 
 .room-title > p:not(.section-kicker) {
-  max-width: 58ch;
+  max-width: 70ch;
   color: var(--foreground);
   font-size: 1.375rem;
   line-height: 1.45;
