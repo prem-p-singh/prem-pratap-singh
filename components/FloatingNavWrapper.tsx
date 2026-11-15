@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { ChevronDown, Menu, X } from "lucide-react";
@@ -68,10 +69,19 @@ export default function FloatingNavWrapper() {
         className="sign-bar fixed inset-x-0 top-0 z-[5001] h-16"
       >
         <div className="mx-auto flex h-full max-w-[100rem] items-center justify-between gap-6 px-4 sm:px-6 lg:gap-8 lg:px-8">
-          <Link href="/" onClick={closeMobileMenu} className="shrink-0 text-foreground" aria-label="Prem P. Singh, home">
-            <span className="block font-serif text-xl font-bold leading-tight">Prem P. Singh</span>
-            <span className="block text-xs font-semibold leading-snug text-muted-foreground lg:hidden xl:block">
-              Plant scientist · Data scientist
+          <Link
+            href="/"
+            onClick={closeMobileMenu}
+            className="flex shrink-0 items-center gap-3 text-foreground"
+            aria-label="Prem P. Singh, home"
+          >
+            {/* The mark is white on clear, so it only works on the ink bar. */}
+            <Image src="/images/logo-mark.png" alt="" width={36} height={36} className="size-9" priority />
+            <span>
+              <span className="block font-serif text-xl font-bold leading-tight">Prem P. Singh</span>
+              <span className="block text-xs font-semibold leading-snug text-muted-foreground lg:hidden xl:block">
+                Plant scientist · Data scientist
+              </span>
             </span>
           </Link>
 
