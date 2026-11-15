@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { FlaskConical, Github, GraduationCap, Linkedin, Mail } from "lucide-react";
 import { personal } from "@/profile/personal";
@@ -21,7 +22,11 @@ export default function Footer() {
     <footer className="relative z-10 mx-auto w-full max-w-[100rem] px-4 pb-8 text-sm sm:px-6 lg:px-8">
       <div className="paper-panel p-6 sm:p-7">
         <div className="flex flex-col gap-4 lg:flex-row lg:items-baseline lg:justify-between">
-          <Link href="/" className="font-serif text-xl font-semibold text-foreground">
+          <Link href="/" className="flex items-center gap-3 font-serif text-xl font-semibold text-foreground lg:self-center">
+            {/* The mark is white on clear, so it sits on a tile in the top bar's ink. */}
+            <span className="flex size-10 shrink-0 items-center justify-center rounded-[4px] bg-[#1d1418]">
+              <Image src="/images/logo-mark.png" alt="" width={32} height={32} className="size-8" />
+            </span>
             {personal.name}
           </Link>
           <nav aria-label="Footer" className="flex flex-wrap gap-x-5 gap-y-2 text-muted-foreground">

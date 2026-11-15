@@ -13,6 +13,11 @@ const articleCount = publications.filter(
 ).length;
 
 export default async function OGImage() {
+  // The round mark, read from the same file the top bar uses.
+  const mark = await fetch(new URL("../public/images/logo-mark.png", import.meta.url)).then((response) =>
+    response.arrayBuffer()
+  );
+
   return new ImageResponse(
     (
       <div
@@ -28,6 +33,15 @@ export default async function OGImage() {
           position: "relative",
         }}
       >
+        {/* Mark, top right */}
+        {/* eslint-disable-next-line jsx-a11y/alt-text */}
+        <img
+          src={mark as unknown as string}
+          width={132}
+          height={132}
+          style={{ position: "absolute", top: 64, right: 80 }}
+        />
+
         {/* Top label */}
         <div
           style={{
