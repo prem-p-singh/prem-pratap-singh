@@ -39,17 +39,17 @@ export default function PublicationCard({ publication }: { publication: Publicat
   return (
     <div className="grid gap-x-6 gap-y-3 sm:grid-cols-[8.5rem_1fr]">
       <p className="flex items-center gap-3 sm:flex-col sm:items-start sm:gap-2">
-        <span className="text-base font-semibold leading-normal tabular-nums text-foreground">
+        <span className="text-base font-medium leading-normal tabular-nums text-foreground">
           {year}
         </span>
-        <span className={`rounded-[3px] border px-3 py-1 text-xs font-semibold ${typeTags[type]}`}>
+        <span className={`rounded-none border px-3 py-1 text-xs font-medium ${typeTags[type]}`}>
           {typeLabels[type]}
         </span>
       </p>
 
       <div>
         {/* The base h3 rule is unlayered, so the sans needs the important flag to win. */}
-        <h3 className="font-sans! text-wrap! text-base font-semibold leading-snug text-foreground">
+        <h3 className="font-sans! text-wrap! text-base font-medium leading-snug text-foreground">
           {href ? (
             <a
               href={href}

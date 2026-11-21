@@ -133,12 +133,12 @@ export default async function BlogPostPage({ params }: Props) {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
       />
-      <div className="mx-auto max-w-[100rem] px-4 pb-16 sm:px-6 lg:px-8 lg:pb-24">
+      <div className="mx-auto max-w-[90rem] px-4 pb-16 sm:px-6 lg:px-8 lg:pb-24">
         {/* The header sits on the page wash; only the cards below are opaque. */}
         <header className="room-green room-bleed mb-10 pb-10 pt-10 sm:pt-12 lg:pt-14">
           <Link
             href="/blog"
-            className="inline-flex items-center gap-2 text-sm font-semibold text-muted-foreground underline-offset-4 hover:text-foreground hover:underline"
+            className="inline-flex items-center gap-2 text-sm font-medium text-muted-foreground underline-offset-4 hover:text-foreground hover:underline"
           >
             <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
@@ -166,7 +166,7 @@ export default async function BlogPostPage({ params }: Props) {
                   className="size-10 rounded-full object-cover"
                 />
                 <div className="text-sm leading-normal">
-                  <p className="font-semibold text-foreground">Prem Pratap Singh</p>
+                  <p className="font-medium text-foreground">Prem Pratap Singh</p>
                   <p className="tabular-nums text-muted-foreground">{formattedDate} · {post.readingTime}</p>
                 </div>
               </div>
@@ -175,13 +175,13 @@ export default async function BlogPostPage({ params }: Props) {
                   {post.tags.slice(0, 3).map((tag) => (
                     <span
                       key={tag}
-                      className="rounded-[3px] border border-field/20 bg-field-wash px-3 py-1 text-xs font-semibold text-field"
+                      className="rounded-none border border-field/20 bg-field-wash px-3 py-1 text-xs font-medium text-field"
                     >
                       {tag}
                     </span>
                   ))}
                   {post.tags.length > 3 && (
-                    <span className="px-1 py-1 text-xs font-semibold text-muted-foreground">
+                    <span className="px-1 py-1 text-xs font-medium text-muted-foreground">
                       +{post.tags.length - 3}
                     </span>
                   )}
@@ -226,11 +226,6 @@ export default async function BlogPostPage({ params }: Props) {
             {relatedPosts.length > 0 && (
               <div className="paper-panel p-6">
                 <div className="flex items-center gap-3">
-                  <span className="icon-stamp bg-field-wash text-field">
-                    <svg className="size-5.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
-                    </svg>
-                  </span>
                   <h2 className="text-xl leading-tight text-foreground">Related Articles</h2>
                 </div>
                 <ul className="mt-4 divide-y divide-border">
@@ -257,7 +252,7 @@ export default async function BlogPostPage({ params }: Props) {
         <nav className="mt-5 grid gap-5 sm:grid-cols-2" aria-label="More articles">
           {prevPost && (
             <Link href={`/blog/${prevPost.slug}`} className="paper-panel group block p-6">
-              <span className="flex items-center gap-1 text-sm font-semibold text-muted-foreground">
+              <span className="flex items-center gap-1 text-sm font-medium text-muted-foreground">
                 <svg className="size-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
                 </svg>
@@ -273,7 +268,7 @@ export default async function BlogPostPage({ params }: Props) {
               href={`/blog/${nextPost.slug}`}
               className={`paper-panel group block p-6 sm:text-right ${!prevPost ? "sm:col-start-2" : ""}`}
             >
-              <span className="flex items-center gap-1 text-sm font-semibold text-muted-foreground sm:justify-end">
+              <span className="flex items-center gap-1 text-sm font-medium text-muted-foreground sm:justify-end">
                 Next
                 <svg className="size-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />

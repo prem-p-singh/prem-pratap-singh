@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { useState, type ComponentType, type KeyboardEvent } from "react";
 import {
@@ -42,10 +43,13 @@ const tones: Record<Tone, { tile: string; edge: string; selected: string; link: 
   },
 };
 
-const iconTile = "icon-stamp";
-
 type Stage = {
   id: StageId;
+  /** The step's photograph, a stand-in until the owner's own picture replaces it. */
+  image: string;
+  imageAlt: string;
+  slotAlt: string;
+  imagePosition: string;
   label: string;
   cue: string;
   evidence: string;
@@ -59,6 +63,10 @@ type Stage = {
 const stages: Stage[] = [
   {
     id: "design",
+    image: "/images/photos/writing-in-a-notebook-with-a-feather-pen-while-enjoying-coff-1920.jpg",
+    imageAlt: "Hands writing in a notebook at a desk",
+    slotAlt: "Your own picture: a sampling plan, a field map or a lab notebook page",
+    imagePosition: "object-[50%_50%]",
     label: "Design the project",
     cue: "Start from the question",
     evidence: "Questions, sampling plans and controls set before the first sample",
@@ -70,6 +78,10 @@ const stages: Stage[] = [
   },
   {
     id: "collect",
+    image: "/images/photos/aerial-view-landschaft-markgraflerland1-1920.jpg",
+    imageAlt: "Curving rows of vines on terraced hills, seen from above",
+    slotAlt: "Your own picture: sampling in a vineyard block",
+    imagePosition: "object-[50%_50%]",
     label: "Collect the samples",
     cue: "Observe before measuring",
     evidence: "Field and laboratory samples, tracked from collection to the bench",
@@ -81,6 +93,10 @@ const stages: Stage[] = [
   },
   {
     id: "analyse",
+    image: "/images/photos/csiro-scienceimage-11401-csiro-researcher-with-pipette-1280.jpg",
+    imageAlt: "A gloved hand holding a pipette in a dim laboratory",
+    slotAlt: "Your own picture: the bench, a dPCR run or a sequencing prep",
+    imagePosition: "object-[50%_35%]",
     label: "Measure and analyse",
     cue: "Let biology guide the model",
     evidence: "dPCR, RNA sequencing, metabolites and multi-omics models",
@@ -92,6 +108,10 @@ const stages: Stage[] = [
   },
   {
     id: "improvement",
+    image: "/images/photos/ripe-zinfandel-grapes-in-dry-creek-valley-8958-1920.jpg",
+    imageAlt: "Ripe grapes hanging under red autumn vine leaves",
+    slotAlt: "Your own picture: healthy fruit or vines at harvest",
+    imagePosition: "object-[50%_60%]",
     label: "Return to the crop",
     cue: "Evidence should change a decision",
     evidence: "Earlier detection, validated assays, and candidate traits",
@@ -123,7 +143,6 @@ const fieldNotes: Array<{
 export default function ResearchPathway() {
   const [activeId, setActiveId] = useState<StageId>("design");
   const active = stages.find((stage) => stage.id === activeId) ?? stages[0];
-  const ActiveIcon = active.icon;
   const activeTone = tones[active.tone];
 
   // Arrow keys, Home and End move focus and selection together, from the focused step.
@@ -158,10 +177,9 @@ export default function ResearchPathway() {
       className="guided-scroll-section"
       aria-labelledby="research-pathway-title"
     >
-      <div className="mx-auto max-w-[100rem] px-4 sm:px-6 lg:px-8">
-        <div className="grid gap-x-8 gap-y-10 border-t border-border py-10 lg:grid-cols-12 lg:py-14">
+      <div className="shell">
+        <div className="grid gap-x-8 gap-y-10 py-[var(--section-gap-s)] lg:grid-cols-12">
           <div className="room-title lg:col-span-12">
-            <p className="section-kicker">How I work</p>
             <h2
               id="research-pathway-title"
               className="mt-3 text-3xl leading-tight text-foreground sm:text-4xl"
@@ -182,7 +200,6 @@ export default function ResearchPathway() {
               className="grid border-l border-border md:grid-cols-4 md:border-l-0 md:border-t"
             >
               {stages.map((stage, index) => {
-                const Icon = stage.icon;
                 const tone = tones[stage.tone];
                 return (
                   <button
@@ -196,13 +213,8 @@ export default function ResearchPathway() {
                     onClick={() => setActiveId(stage.id)}
                     className={`-ml-px flex items-center gap-3 border-l-2 border-transparent py-3 pl-4 text-left text-muted-foreground transition-colors hover:text-foreground aria-selected:text-foreground md:-mt-px md:ml-0 md:flex-col md:items-start md:gap-3 md:border-l-0 md:border-t-2 md:pb-0 md:pl-0 md:pr-4 md:pt-4 ${tone.selected}`}
                   >
-                    <span className={`${iconTile} ${tone.tile}`}>
-                      <Icon size={22} />
-                    </span>
-                    <span className="text-sm font-semibold leading-snug">
-                      <span className="mr-2 tabular-nums">{index + 1}</span>
-                      {stage.label}
-                    </span>
+                    <span className="figure text-[length:var(--text-2xl)] text-current">{index + 1}</span>
+                    <span className="text-sm font-medium leading-snug">{stage.label}</span>
                   </button>
                 );
               })}
@@ -213,28 +225,34 @@ export default function ResearchPathway() {
               role="tabpanel"
               tabIndex={0}
               aria-labelledby={`research-pathway-tab-${active.id}`}
-              className="paper-panel mt-8 p-6 sm:p-8"
+              className="mt-10 grid items-center gap-x-8 gap-y-8 lg:grid-cols-12"
             >
-              <div className="flex items-start justify-between gap-5">
-                <div>
-                  <h3 className="text-2xl leading-tight text-foreground sm:text-3xl">
-                    {active.label}
-                  </h3>
-                  <p className="mt-2 text-base text-muted-foreground">{active.cue}</p>
-                </div>
-                <span className={`${iconTile} ${activeTone.tile}`}>
-                  <ActiveIcon size={22} />
-                </span>
-              </div>
+              <figure
+                key={active.id}
+                data-slot={`step-${active.id}`}
+                data-alt={active.slotAlt}
+                className="relative aspect-[4/3] w-full lg:col-span-6"
+              >
+                <Image
+                  src={active.image}
+                  alt={active.imageAlt}
+                  fill
+                  sizes="(min-width: 1024px) 44rem, 100vw"
+                  className={`object-cover ${active.imagePosition}`}
+                />
+              </figure>
+              <div className="lg:col-span-5 lg:col-start-8">
+                <h3 className="text-[length:var(--text-3xl)] leading-tight">{active.label}</h3>
+                <p className="lead mt-3 text-ink-2">{active.cue}</p>
 
-              <dl className="mt-6 grid border-y border-border text-sm leading-normal sm:grid-cols-2 sm:divide-x sm:divide-border">
-                <div className="py-5 sm:pr-6">
+              <dl className="mt-8 grid border-y border-border text-sm leading-normal">
+                <div className="py-5">
                   <dt className="text-muted-foreground">Evidence carried forward</dt>
                   <dd className="mt-2 text-base font-medium leading-snug tabular-nums text-foreground">
                     {active.evidence}
                   </dd>
                 </div>
-                <div className="border-t border-border py-5 sm:border-t-0 sm:pl-6">
+                <div className="border-t border-border py-5">
                   <dt className="text-muted-foreground">What it changes</dt>
                   <dd className="mt-2 text-base font-medium leading-snug text-foreground">
                     {active.translation}
@@ -244,28 +262,21 @@ export default function ResearchPathway() {
 
               <Link
                 href={active.href}
-                className={`mt-5 inline-block text-sm font-semibold underline underline-offset-4 ${activeTone.link}`}
+                className={`mt-5 inline-block text-sm font-medium underline underline-offset-4 ${activeTone.link}`}
               >
                 {active.linkLabel}
               </Link>
+              </div>
             </div>
           </div>
 
-          <dl className="grid gap-5 text-sm leading-normal sm:grid-cols-2 lg:col-span-12 lg:grid-cols-4">
-            {fieldNotes.map((note) => {
-              const Icon = note.icon;
-              return (
-                <div key={note.label} className="paper-panel flex items-start gap-4 p-5">
-                  <span className={`${iconTile} ${tones[note.tone].tile}`} aria-hidden="true">
-                    <Icon size={22} />
-                  </span>
-                  <div>
-                    <dt className="text-muted-foreground">{note.label}</dt>
-                    <dd className="mt-1 font-medium text-foreground">{note.value}</dd>
-                  </div>
-                </div>
-              );
-            })}
+          <dl className="grid gap-x-8 text-sm leading-normal sm:grid-cols-2 lg:col-span-12 lg:grid-cols-4">
+            {fieldNotes.map((note) => (
+              <div key={note.label} className="border-t border-rule py-5">
+                <dt className="text-xs font-medium text-muted">{note.label}</dt>
+                <dd className="mt-2 text-ink">{note.value}</dd>
+              </div>
+            ))}
           </dl>
         </div>
       </div>

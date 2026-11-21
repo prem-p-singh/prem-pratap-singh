@@ -41,10 +41,9 @@ export default function GalleryPage() {
 
   return (
     <div className="min-h-screen pt-16">
-      <div className="mx-auto max-w-[100rem] px-4 sm:px-6 lg:px-8">
+      <div className="shell">
         <header className="room-green room-bleed mb-10 grid gap-x-8 gap-y-8 pb-10 pt-10 sm:pt-12 lg:grid-cols-12 lg:items-end lg:pb-14 lg:pt-14">
           <div className="lg:col-span-7">
-            <p className="section-kicker">Charts, maps, mechanisms and research illustrations</p>
             <h1 className="mt-3 text-4xl leading-tight text-foreground sm:text-5xl lg:text-6xl">
               The Visual Lab
             </h1>

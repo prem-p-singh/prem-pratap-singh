@@ -56,10 +56,10 @@ export default function JourneyImpact() {
         {cells.map((s) => (
           <div
             key={s.l}
-            className={`flex flex-col-reverse justify-end rounded-[6px] px-4 py-3 ${s.wash}`}
+            className={`flex flex-col-reverse justify-end rounded-none px-4 py-3 ${s.wash}`}
           >
-            <dt className="text-sm font-semibold leading-snug text-foreground">{s.l}</dt>
-            <dd className={`text-2xl font-semibold tabular-nums ${s.text}`}>{s.v}</dd>
+            <dt className="text-sm font-medium leading-snug text-foreground">{s.l}</dt>
+            <dd className={`text-2xl font-medium tabular-nums ${s.text}`}>{s.v}</dd>
           </div>
         ))}
       </dl>

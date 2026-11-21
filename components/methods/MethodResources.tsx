@@ -39,7 +39,7 @@ export function MethodVisualSummary() {
         </a>
         <figcaption className="flex items-center justify-between gap-4 border-t border-border px-4 py-3 text-sm text-muted-foreground sm:px-5">
           <span>One-page visual summary</span>
-          <span className="inline-flex items-center gap-1.5 font-semibold text-foreground">
+          <span className="inline-flex items-center gap-1.5 font-medium text-foreground">
             Open full size <ExternalLink className="size-4" strokeWidth={1.7} aria-hidden="true" />
           </span>
         </figcaption>
@@ -52,9 +52,6 @@ export function MethodVideos() {
     <section className="not-prose my-12" aria-labelledby="method-videos-title">
       <div className="mb-5 flex flex-wrap items-end justify-between gap-2">
         <div>
-          <p className="section-kicker">
-            Watch the method
-          </p>
           <h2
             id="method-videos-title"
             className="mt-2 text-2xl leading-tight text-foreground"
@@ -68,24 +65,24 @@ export function MethodVideos() {
         {videos.map((video) => (
           <figure
             key={video.src}
-            className="rounded-[6px] border border-border bg-muted p-3 sm:p-4"
+            className="rounded-none border border-border bg-paper-2 p-3 sm:p-4"
           >
             <video
               controls
               playsInline
               preload="none"
               aria-label={video.title}
-              className="mx-auto aspect-[9/16] w-full max-w-72 rounded-[6px] bg-black object-contain"
+              className="mx-auto aspect-[9/16] w-full max-w-72 rounded-none bg-black object-contain"
             >
               <source src={video.src} type="video/mp4" />
               Your browser does not support embedded video.
             </video>
             <figcaption className="mt-3 flex items-center justify-between gap-3 px-1 text-sm">
-              <span className="font-semibold text-foreground">{video.title}</span>
+              <span className="font-medium text-foreground">{video.title}</span>
               <span className="tabular-nums text-muted-foreground">{video.duration}</span>
             </figcaption>
             <details className="mt-3 border-t border-border px-1 pt-3 text-sm">
-              <summary className="cursor-pointer font-semibold text-foreground">Text alternative</summary>
+              <summary className="cursor-pointer font-medium text-foreground">Text alternative</summary>
               <p className="mt-2 leading-relaxed text-muted-foreground">{video.description}</p>
             </details>
           </figure>

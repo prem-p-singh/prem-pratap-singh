@@ -40,7 +40,6 @@ const tones: Record<Tone, { tile: string; edge: string; selected: string; tag: s
   },
 };
 
-const iconTile = "icon-stamp";
 
 type Chapter = {
   id: string;
@@ -119,7 +118,6 @@ export default function JourneyChapters() {
   const activeIndex = chapters.findIndex((chapter) => chapter.id === activeId);
   const active = chapters[activeIndex] ?? chapters[0];
   const activeTone = tones[active.tone];
-  const ActiveIcon = active.icon;
 
   // Same handling as the homepage workflow stepper: arrow keys, Home and End move
   // focus and selection together. Modified keys are left to the browser and system.
@@ -149,11 +147,10 @@ export default function JourneyChapters() {
 
   return (
     <section
-      className="grid gap-x-8 gap-y-10 border-t border-border py-10 lg:grid-cols-12 lg:py-14"
+      className="grid gap-x-8 gap-y-10 py-[var(--section-gap-s)] lg:grid-cols-12"
       aria-labelledby="journey-chapters-title"
     >
       <div className="room-title lg:col-span-12">
-        <p className="section-kicker">From Varanasi to Davis, now evaluating scientific AI</p>
         <h2 id="journey-chapters-title" className="mt-3 text-3xl leading-tight text-foreground sm:text-4xl">
           Four chapters, one research habit
         </h2>
@@ -163,7 +160,6 @@ export default function JourneyChapters() {
 
         <ol className="mt-8 flex flex-col gap-2 sm:flex-row sm:items-center lg:flex-col lg:items-stretch">
           {route.map((stop, index) => {
-            const Icon = stop.icon;
             return (
               <li key={stop.place} className="contents">
                 {index > 0 && (
@@ -173,11 +169,8 @@ export default function JourneyChapters() {
                   />
                 )}
                 <span className="paper-panel flex flex-1 items-center gap-3 px-4 py-3 text-sm">
-                  <span className={`${iconTile} ${tones[stop.tone].tile}`}>
-                    <Icon size={22} />
-                  </span>
                   <span>
-                    <span className="block font-semibold text-foreground">{stop.place}</span>
+                    <span className="block font-medium text-foreground">{stop.place}</span>
                     <span className="block tabular-nums text-muted-foreground">{stop.year}</span>
                   </span>
                 </span>
@@ -195,7 +188,6 @@ export default function JourneyChapters() {
           className="grid border-l border-border md:grid-cols-4 md:border-l-0 md:border-t"
         >
           {chapters.map((chapter, index) => {
-            const Icon = chapter.icon;
             const tone = tones[chapter.tone];
             return (
               <button
@@ -209,15 +201,12 @@ export default function JourneyChapters() {
                 onClick={() => setActiveId(chapter.id)}
                 className={`-ml-px flex items-start gap-3 border-l-2 border-transparent py-3 pl-4 text-left text-muted-foreground transition-colors hover:text-foreground aria-selected:text-foreground md:-mt-px md:ml-0 md:flex-col md:border-l-0 md:border-t-2 md:pb-0 md:pl-0 md:pr-4 md:pt-4 ${tone.selected}`}
               >
-                <span className={`${iconTile} ${tone.tile}`}>
-                  <Icon size={22} />
-                </span>
                 <span className="flex flex-col items-start gap-1">
                   <span className="text-xs tabular-nums">
                     {index + 1}
                     <span className="ml-3">{chapter.period}</span>
                   </span>
-                  <span className="text-sm font-semibold leading-snug">{chapter.title}</span>
+                  <span className="text-sm font-medium leading-snug">{chapter.title}</span>
                   <span className="text-xs font-normal text-muted-foreground">{chapter.place}</span>
                 </span>
               </button>
@@ -235,20 +224,17 @@ export default function JourneyChapters() {
           <div className="flex items-start justify-between gap-5">
             <div>
               <p className="text-sm tabular-nums text-muted-foreground">
-                Chapter {activeIndex + 1} · {active.period}
+                Chapter {activeIndex + 1}, {active.period}
               </p>
               <h3 className="mt-2 text-2xl leading-tight text-foreground sm:text-3xl">{active.prompt}</h3>
             </div>
-            <span className={`${iconTile} ${activeTone.tile}`}>
-              <ActiveIcon size={22} />
-            </span>
           </div>
           <p className="mt-4 max-w-[60ch] text-base leading-relaxed text-foreground">{active.story}</p>
           <ul className="mt-5 flex flex-wrap gap-2">
             {active.markers.map((marker) => (
               <li
                 key={marker}
-                className={`rounded-[3px] border px-3 py-1 text-xs font-semibold tabular-nums ${activeTone.tag}`}
+                className={`rounded-none border px-3 py-1 text-xs font-medium tabular-nums ${activeTone.tag}`}
               >
                 {marker}
               </li>
@@ -257,11 +243,11 @@ export default function JourneyChapters() {
 
           <dl className="mt-6 divide-y divide-border border-t border-border text-sm leading-normal">
             <div className="grid gap-x-4 gap-y-1 py-4 sm:grid-cols-[12rem_1fr]">
-              <dt className="font-semibold text-foreground">Place</dt>
+              <dt className="font-medium text-foreground">Place</dt>
               <dd className="text-muted-foreground">{active.place}</dd>
             </div>
             <div className="grid gap-x-4 gap-y-1 pt-4 sm:grid-cols-[12rem_1fr]">
-              <dt className="font-semibold text-foreground">The constant</dt>
+              <dt className="font-medium text-foreground">The constant</dt>
               <dd className="text-muted-foreground">{active.thread}</dd>
             </div>
           </dl>

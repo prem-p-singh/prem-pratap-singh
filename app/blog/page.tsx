@@ -44,7 +44,7 @@ const topicNodes = [
 const MAX_TAGS = 3;
 
 const tagClass =
-  "rounded-[3px] border border-field/20 bg-field-wash px-3 py-1 text-xs font-semibold text-field";
+  "rounded-none border border-field/20 bg-field-wash px-3 py-1 text-xs font-medium text-field";
 
 export default function BlogPage() {
   const posts = getAllPosts();
@@ -58,10 +58,9 @@ export default function BlogPage() {
 
   return (
     <div className="min-h-screen pt-16">
-      <div className="mx-auto max-w-[100rem] px-4 sm:px-6 lg:px-8">
+      <div className="shell">
         <header className="room-green room-bleed mb-10 grid gap-x-12 gap-y-8 pb-8 pt-10 sm:pt-12 lg:grid-cols-12 lg:items-center lg:pt-14">
           <div className="lg:col-span-7">
-            <p className="section-kicker">Research notebook</p>
             <h1 className="mt-3 text-4xl leading-tight text-foreground sm:text-5xl lg:text-6xl">
               See the idea before reading the details
             </h1>
@@ -84,7 +83,7 @@ export default function BlogPage() {
                     fill
                     priority
                     sizes="(max-width: 1024px) 100vw, 600px"
-                    className="object-cover transition-transform duration-500 group-hover:scale-[1.03]"
+                    className="object-cover"
                   />
                 </span>
               </Link>
@@ -94,7 +93,7 @@ export default function BlogPage() {
 
           {/* One ruled line across the wall: the count as a poster figure, then the three kinds of note. */}
           <div className="flex flex-wrap items-end justify-between gap-x-12 gap-y-6 border-t border-border pt-6 lg:col-span-12">
-            <p className="flex items-end gap-4 text-lg font-semibold leading-tight text-foreground">
+            <p className="flex items-end gap-4 text-lg font-medium leading-tight text-foreground">
               <span className="font-serif text-7xl leading-[0.85] tabular-nums text-accent sm:text-8xl">{posts.length}</span>
               <span>
                 published
@@ -103,15 +102,11 @@ export default function BlogPage() {
               </span>
             </p>
             <ul className="flex flex-wrap items-center gap-x-5 gap-y-3 sm:gap-x-10">
-              {topicNodes.map((topic) => {
-                const Icon = topic.icon;
-                return (
-                  <li key={topic.label} className="flex items-center gap-2 text-base font-bold text-foreground sm:gap-3 sm:text-2xl">
-                    <Icon className={`size-6 sm:size-8 ${topic.tone}`} />
-                    {topic.label}
-                  </li>
-                );
-              })}
+              {topicNodes.map((topic) => (
+                <li key={topic.label} className="font-display text-xl text-ink sm:text-3xl">
+                  {topic.label}
+                </li>
+              ))}
             </ul>
           </div>
         </header>
@@ -120,7 +115,7 @@ export default function BlogPage() {
           <article className={`paper-panel ${featuredImage ? "grid lg:grid-cols-5 lg:items-center" : ""}`}>
             {featuredImage ? (
               <div className="p-5 pb-0 sm:p-6 sm:pb-0 lg:col-span-3 lg:pb-6 lg:pr-0">
-                <div className="relative aspect-video overflow-hidden rounded-[6px] border border-border bg-card">
+                <div className="relative aspect-video overflow-hidden rounded-none border border-border bg-card">
                   <Image
                     src={featuredImage}
                     alt=""
@@ -134,11 +129,8 @@ export default function BlogPage() {
             ) : (
               // No image: a tinted band with the notebook's field icon and the post's first tag.
               <div className="flex items-center justify-between gap-4 border-b border-border bg-field-wash px-6 py-5 sm:px-8">
-                <span className="icon-stamp bg-card text-field">
-                  <FieldIcon size={22} />
-                </span>
                 {featured.tags[0] && (
-                  <span className="rounded-[3px] border border-field/20 bg-card px-3 py-1 text-xs font-semibold text-field">
+                  <span className="rounded-none border border-field/20 bg-card px-3 py-1 text-xs font-medium text-field">
                     {featured.tags[0]}
                   </span>
                 )}
@@ -146,7 +138,7 @@ export default function BlogPage() {
             )}
             <div className={`p-6 sm:p-8 ${featuredImage ? "lg:col-span-2" : ""}`}>
               <p className="flex flex-wrap items-center justify-between gap-x-4 gap-y-2 text-sm tabular-nums text-muted-foreground">
-                <span className="font-semibold">Latest field note</span>
+                <span className="font-medium">Latest field note</span>
                 <span className="flex items-center gap-2">
                   <time dateTime={featured.date}>
                     {formatContentDate(featured.date, { year: "numeric", month: "short", day: "numeric" })}
@@ -177,7 +169,7 @@ export default function BlogPage() {
                     </li>
                   ))}
                   {featuredTags.length > MAX_TAGS && (
-                    <li className="rounded-[3px] border border-border px-3 py-1 text-xs font-semibold tabular-nums text-muted-foreground">
+                    <li className="rounded-none border border-border px-3 py-1 text-xs font-medium tabular-nums text-muted-foreground">
                       +{featuredTags.length - MAX_TAGS}
                       <span className="sr-only"> more tags</span>
                     </li>

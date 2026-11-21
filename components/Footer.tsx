@@ -1,63 +1,79 @@
 import Image from "next/image";
 import Link from "next/link";
-import { FlaskConical, Github, GraduationCap, Linkedin, Mail } from "lucide-react";
+import { Mail } from "lucide-react";
+import { GitHubMark, LinkedInMark, ResearchGateMark, ScholarMark } from "@/components/icons/BrandIcons";
 import { personal } from "@/profile/personal";
 import { primaryNavigation } from "@/profile/navigation";
 
 const socialItems = [
-  { name: "GitHub", href: personal.social.github, icon: Github },
-  { name: "LinkedIn", href: personal.social.linkedin, icon: Linkedin },
-  { name: "Scholar", href: personal.social.googleScholar, icon: GraduationCap },
-  { name: "ResearchGate", href: personal.social.researchgate, icon: FlaskConical },
+  { name: "GitHub", href: personal.social.github, icon: GitHubMark },
+  { name: "LinkedIn", href: personal.social.linkedin, icon: LinkedInMark },
+  { name: "Scholar", href: personal.social.googleScholar, icon: ScholarMark },
+  { name: "ResearchGate", href: personal.social.researchgate, icon: ResearchGateMark },
   { name: "Email", href: `mailto:${personal.email}`, icon: Mail },
 ];
 
-const linkClass = "underline-offset-4 hover:text-foreground hover:underline";
+const linkClass = "text-ink-2 no-underline underline-offset-4 hover:text-ink hover:underline hover:decoration-accent";
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
-    // A floating card at the container width, so the page wash runs behind it.
-    <footer className="relative z-10 mx-auto w-full max-w-[100rem] px-4 pb-8 text-sm sm:px-6 lg:px-8">
-      <div className="paper-panel p-6 sm:p-7">
-        <div className="flex flex-col gap-4 lg:flex-row lg:items-baseline lg:justify-between">
-          <Link href="/" className="flex items-center gap-3 font-serif text-xl font-semibold text-foreground lg:self-center">
-            {/* The mark is white on clear, so it sits on a tile in the top bar's ink. */}
-            <span className="flex size-10 shrink-0 items-center justify-center rounded-[4px] bg-[#1d1418]">
-              <Image src="/images/logo-mark.png" alt="" width={32} height={32} className="size-8" />
-            </span>
+    // Index columns: the mark and name, the site's sections, the profiles, then the legal line.
+    <footer className="relative z-10 border-t border-muted bg-paper-2 text-sm">
+      <div className="shell grid gap-x-8 gap-y-10 py-16 lg:grid-cols-12">
+        <div className="lg:col-span-5">
+          <Link href="/" className="flex items-center gap-3 font-display text-3xl text-ink no-underline">
+            <Image src="/images/logo-mark.png" alt="" width={44} height={44} className="size-11" />
             {personal.name}
           </Link>
-          <nav aria-label="Footer" className="flex flex-wrap gap-x-5 gap-y-2 text-muted-foreground">
-            {primaryNavigation.map((link) => (
-              <Link key={link.name} href={link.link} className={linkClass}>
-                {link.name}
-              </Link>
-            ))}
-          </nav>
+          <p className="mt-4 max-w-[40ch] text-ink-2">{personal.location}</p>
         </div>
-        <ul className="mt-5 flex flex-wrap gap-2">
-          {socialItems.map((social) => {
-            const external = !social.href.startsWith("mailto:");
-            const Icon = social.icon;
-            return (
-              <li key={social.name}>
-                <a
-                  href={social.href}
-                  target={external ? "_blank" : undefined}
-                  rel={external ? "noopener noreferrer" : undefined}
-                  className="paper-control inline-flex items-center gap-2 px-3 py-2 text-foreground hover:text-field"
-                >
-                  <Icon className="size-4 text-field" strokeWidth={1.8} aria-hidden="true" />
-                  {social.name}
-                </a>
+        <nav aria-label="Footer" className="lg:col-span-3">
+          <h2 className="font-sans! text-xs font-medium tracking-normal text-muted">Sections</h2>
+          <ul className="mt-3 grid gap-2">
+            {primaryNavigation.map((link) => (
+              <li key={link.name}>
+                <Link href={link.link} className={linkClass}>
+                  {link.name}
+                </Link>
               </li>
-            );
-          })}
-        </ul>
-        <div className="mt-6 flex flex-wrap gap-x-4 gap-y-2 border-t border-border pt-5 text-muted-foreground">
+            ))}
+          </ul>
+        </nav>
+        <div className="lg:col-span-4">
+          <h2 className="font-sans! text-xs font-medium tracking-normal text-muted">Profiles</h2>
+          <ul className="mt-3 grid gap-2">
+            {socialItems.map((social) => {
+              const external = !social.href.startsWith("mailto:");
+              const Icon = social.icon;
+              return (
+                <li key={social.name}>
+                  <a
+                    href={social.href}
+                    target={external ? "_blank" : undefined}
+                    rel={external ? "noopener noreferrer" : undefined}
+                    className={`inline-flex items-center gap-2 ${linkClass}`}
+                  >
+                    <Icon className="size-5 shrink-0 text-ink" strokeWidth={1.8} aria-hidden="true" />
+                    {social.name}
+                  </a>
+                </li>
+              );
+            })}
+          </ul>
+        </div>
+        <div className="flex flex-wrap gap-x-6 gap-y-2 border-t border-rule pt-6 text-xs text-muted lg:col-span-12">
           <p>&copy; {currentYear} {personal.name}. All rights reserved.</p>
+          <p data-credits>
+            Photographs:{" "}
+            <a href="https://commons.wikimedia.org/wiki/File:PalouseFromSteptoeButteMay2023-2.jpg" className={linkClass}>Caleb Riston</a> (CC BY 4.0, Wikimedia Commons),{" "}
+            <a href="https://commons.wikimedia.org/wiki/File:Javier_shows_part_of_the_grape_harvest_in_his_Lysekil_vineyard_1_-_cropped.jpg" className={linkClass}>W.carter</a> (CC0, Wikimedia Commons),{" "}
+            <a href="https://commons.wikimedia.org/wiki/File:Writing_in_a_notebook_with_a_feather_pen_while_enjoying_coffee_at_a_desk_surrounded_by_flowers.jpg" className={linkClass}>Shixart1985</a> (CC BY 2.0, Wikimedia Commons),{" "}
+            <a href="https://commons.wikimedia.org/wiki/File:Aerial_View_-_Landschaft_Markgr%C3%A4flerland1.jpg" className={linkClass}>Taxiarchos228</a> (CC BY 3.0, Wikimedia Commons),{" "}
+            <a href="https://commons.wikimedia.org/wiki/File:CSIRO_ScienceImage_11401_CSIRO_researcher_with_pipette.jpg" className={linkClass}>Morgan Brown, CSIRO</a> (CC BY 3.0, Wikimedia Commons),{" "}
+            <a href="https://commons.wikimedia.org/wiki/File:Ripe_Zinfandel_grapes_in_Dry_Creek_Valley-8958.jpg" className={linkClass}>Frank Schulenburg</a> (CC BY-SA 4.0, Wikimedia Commons)
+          </p>
           <Link href="/privacy" className={linkClass}>
             Privacy
           </Link>

@@ -32,7 +32,7 @@ export default function VisualSummary({
       </a>
       <figcaption className="flex items-center justify-between gap-4 border-t border-border px-4 py-3 text-sm text-muted-foreground sm:px-5">
         <span>{label}</span>
-        <span className="inline-flex items-center gap-1.5 font-semibold text-foreground">
+        <span className="inline-flex items-center gap-1.5 font-medium text-foreground">
           Open full size <ExternalLink className="size-4" strokeWidth={1.7} aria-hidden="true" />
         </span>
       </figcaption>

@@ -2,13 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useMemo, useRef, useState, type ComponentType } from "react";
-import {
-  AnalysisIcon,
-  DataScienceIcon,
-  FieldIcon,
-  type IconProps,
-} from "@/components/icons/PortfolioIcons";
+import { useEffect, useMemo, useRef, useState } from "react";
 
 type GalleryCategory = "All" | "Research illustrations" | "Data stories" | "Methods";
 
@@ -97,16 +91,7 @@ const categoryTags: Record<Exclude<GalleryCategory, "All">, string> = {
   Methods: "border-decision/20 bg-decision-wash text-decision",
 };
 
-const tagClass = "rounded-[3px] border px-3 py-1 text-xs font-semibold";
-
-const categoryTiles: Record<
-  Exclude<GalleryCategory, "All">,
-  { icon: ComponentType<IconProps>; tile: string }
-> = {
-  "Research illustrations": { icon: FieldIcon, tile: "bg-field-wash text-field" },
-  "Data stories": { icon: DataScienceIcon, tile: "bg-data-wash text-data" },
-  Methods: { icon: AnalysisIcon, tile: "bg-decision-wash text-decision" },
-};
+const tagClass = "rounded-none border px-3 py-1 text-xs font-medium";
 
 /** The collections as list items for the page header, read from the same list as the filters.
     A server page cannot read a plain array out of a client module, so this is a component. */
@@ -115,15 +100,11 @@ export function GalleryCollections() {
     <>
       {categories.map((category) => {
         if (category === "All") return null;
-        const { icon: Icon, tile } = categoryTiles[category];
         return (
           <li
             key={category}
-            className="flex flex-col items-center gap-2 text-center text-sm font-semibold leading-snug text-foreground"
+            className="flex flex-col items-center gap-2 text-center text-sm font-medium leading-snug text-foreground"
           >
-            <span className={`icon-stamp ${tile}`}>
-              <Icon size={22} />
-            </span>
             {category}
           </li>
         );
@@ -178,7 +159,6 @@ export default function VisualGallery({ presentationItems }: VisualGalleryProps)
       >
         <div className="grid gap-x-8 gap-y-10 lg:grid-cols-12">
           <div className="room-title lg:col-span-12">
-            <p className="section-kicker">Research, seen differently</p>
             <h2 id="visual-gallery-title" className="mt-3 text-3xl leading-tight text-foreground sm:text-4xl">
               Browse the evidence wall
             </h2>
@@ -198,7 +178,7 @@ export default function VisualGallery({ presentationItems }: VisualGalleryProps)
                     type="button"
                     aria-pressed={activeCategory === category}
                     onClick={() => setActiveCategory(category)}
-                    className="rounded-[3px] border border-border bg-card px-3.5 py-1.5 text-xs font-semibold text-muted-foreground transition-colors hover:border-field hover:text-foreground aria-pressed:border-primary aria-pressed:bg-primary aria-pressed:text-primary-foreground"
+                    className="rounded-none border border-border bg-card px-3.5 py-1.5 text-xs font-medium text-muted-foreground transition-colors hover:border-field hover:text-foreground aria-pressed:border-primary aria-pressed:bg-primary aria-pressed:text-primary-foreground"
                   >
                     {category} <span className="ml-1 font-normal tabular-nums">{count}</span>
                   </button>
@@ -216,7 +196,7 @@ export default function VisualGallery({ presentationItems }: VisualGalleryProps)
                 <button
                   type="button"
                   onClick={() => setSelected(item)}
-                  className="relative block aspect-[4/3] w-full cursor-pointer overflow-hidden rounded-[6px] border border-border bg-card"
+                  className="relative block aspect-[4/3] w-full cursor-pointer overflow-hidden rounded-none border border-border bg-card"
                 >
                   <span className="sr-only">Enlarge: </span>
                   <Image
@@ -229,11 +209,11 @@ export default function VisualGallery({ presentationItems }: VisualGalleryProps)
                 </button>
                 <figcaption className="flex flex-1 flex-col items-start px-2 pb-2 pt-4">
                   <p className={`${tagClass} ${categoryTags[item.category]}`}>{item.category}</p>
-                  <p className="mb-4 mt-3 text-base font-semibold leading-snug text-foreground">{item.title}</p>
+                  <p className="mb-4 mt-3 text-base font-medium leading-snug text-foreground">{item.title}</p>
                   <Link
                     href={item.sourceHref}
                     aria-label={`${item.sourceLabel}: ${item.title}`}
-                    className="mt-auto text-sm font-semibold text-field underline underline-offset-4"
+                    className="mt-auto text-sm font-medium text-field underline underline-offset-4"
                   >
                     {item.sourceLabel}
                   </Link>
@@ -252,7 +232,7 @@ export default function VisualGallery({ presentationItems }: VisualGalleryProps)
         onClick={(event) => {
           if (event.target === event.currentTarget) closeDialog();
         }}
-        className="m-auto max-h-[92vh] w-[calc(100%-2rem)] max-w-5xl overflow-auto rounded-[6px] border border-border bg-card p-0 text-foreground [box-shadow:var(--shadow-float)] backdrop:bg-black/80"
+        className="m-auto max-h-[92vh] w-[calc(100%-2rem)] max-w-5xl overflow-auto rounded-none border border-border bg-card p-0 text-foreground backdrop:bg-black/80"
       >
         {selected && (
           <>
@@ -272,7 +252,7 @@ export default function VisualGallery({ presentationItems }: VisualGalleryProps)
                   {selected.category}
                 </p>
                 {/* The base h3 rule is unlayered, so the sans needs the important flag to win. */}
-                <h3 id="gallery-dialog-title" className="font-sans! mt-2 text-lg font-semibold leading-snug text-foreground">
+                <h3 id="gallery-dialog-title" className="font-sans! mt-2 text-lg font-medium leading-snug text-foreground">
                   {selected.title}
                 </h3>
               </div>
@@ -280,7 +260,7 @@ export default function VisualGallery({ presentationItems }: VisualGalleryProps)
                 <Link
                   href={selected.sourceHref}
                   onClick={closeDialog}
-                  className="text-sm font-semibold text-field underline underline-offset-4"
+                  className="text-sm font-medium text-field underline underline-offset-4"
                 >
                   {selected.sourceLabel}
                 </Link>

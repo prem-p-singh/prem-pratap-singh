@@ -22,7 +22,7 @@ export default function DataGuess({
   return (
     <section className="paper-panel not-prose my-8">
       <div className="border-b border-border p-5 sm:p-6">
-        <p className="w-fit rounded-[3px] border border-data/20 bg-data-wash px-3 py-1 text-xs font-semibold text-data">
+        <p className="w-fit rounded-none border border-data/20 bg-data-wash px-3 py-1 text-xs font-medium text-data">
           Guess before the graph
         </p>
         <h2 className="mt-3 text-xl leading-snug text-foreground sm:text-2xl">
@@ -42,11 +42,11 @@ export default function DataGuess({
                 aria-pressed={selected}
                 onClick={() => setChoice(option)}
                 // .paper-control fixes its own colours, so the two marked states swap it for utilities.
-                className={`flex items-center justify-between gap-3 px-4 py-3 text-left text-sm font-semibold ${
+                className={`flex items-center justify-between gap-3 px-4 py-3 text-left text-sm font-medium ${
                   isAnswer
-                    ? "rounded-[0.875rem] border border-field bg-field-wash text-foreground"
+                    ? "rounded-none border border-field bg-field-wash text-foreground"
                     : selected
-                      ? "rounded-[0.875rem] border border-decision bg-decision-wash text-foreground"
+                      ? "rounded-none border border-decision bg-decision-wash text-foreground"
                       : "paper-control"
                 }`}
               >
@@ -64,19 +64,19 @@ export default function DataGuess({
 
         {choice ? (
           <div
-            className={`mt-5 rounded-[6px] p-5 ${correct ? "bg-field-wash" : "bg-decision-wash"}`}
+            className={`mt-5 rounded-none p-5 ${correct ? "bg-field-wash" : "bg-decision-wash"}`}
             aria-live="polite"
           >
             <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
               <div>
-                <p className="text-sm font-semibold text-foreground">
+                <p className="text-sm font-medium text-foreground">
                   {correct ? "Good read." : `The data points to ${answer}.`}
                 </p>
                 <p className="mt-2 max-w-xl text-sm leading-relaxed text-muted-foreground">
                   {explanation}
                 </p>
               </div>
-              <p className={`shrink-0 text-4xl font-semibold leading-none tabular-nums ${correct ? "text-field" : "text-decision"}`}>
+              <p className={`shrink-0 text-4xl font-medium leading-none tabular-nums ${correct ? "text-field" : "text-decision"}`}>
                 {revealStat}
               </p>
             </div>

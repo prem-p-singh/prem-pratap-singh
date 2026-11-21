@@ -1,8 +1,9 @@
 import { ImageResponse } from "next/og";
+import { og } from "@/lib/og-theme";
 import { bookChapters, publications } from "@/profile/publications";
 
 export const runtime = "edge";
-export const alt = "Prem Pratap Singh — plant scientist and data scientist";
+export const alt = "Prem Pratap Singh, plant scientist and data scientist";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -22,7 +23,7 @@ export default async function OGImage() {
     (
       <div
         style={{
-          background: "#6b1d35",
+          background: og.paper,
           width: "100%",
           height: "100%",
           display: "flex",
@@ -46,12 +47,12 @@ export default async function OGImage() {
         <div
           style={{
             fontSize: 24,
-            color: "#e9c46a",
+            color: og.accent,
             marginBottom: "20px",
             fontWeight: 600,
           }}
         >
-          Crop biology · molecular evidence · data science
+          Crop biology, molecular evidence, data science
         </div>
 
         {/* Name */}
@@ -59,7 +60,7 @@ export default async function OGImage() {
           style={{
             fontSize: 104,
             fontWeight: 800,
-            color: "#fbf6ee",
+            color: og.ink,
             lineHeight: 1,
             marginBottom: "28px",
             letterSpacing: "-0.03em",
@@ -72,13 +73,13 @@ export default async function OGImage() {
         <div
           style={{
             fontSize: 26,
-            color: "#ecd3d9",
+            color: og.ink2,
             lineHeight: 1.45,
             maxWidth: "860px",
             marginBottom: "110px",
           }}
         >
-          Plant-pathogen interactions · Multi-omics · Grapevine virology · Bioinformatics
+          Plant-pathogen interactions, multi-omics, grapevine virology, bioinformatics
         </div>
 
         {/* Bottom bar */}
@@ -90,7 +91,7 @@ export default async function OGImage() {
             right: 0,
             height: "110px",
             padding: "0 80px",
-            background: "#1f4d3a",
+            background: og.paper2,
             display: "flex",
             justifyContent: "space-between",
             alignItems: "center",
@@ -100,7 +101,7 @@ export default async function OGImage() {
             style={{
               fontSize: 24,
               fontWeight: 700,
-              color: "#fbf6ee",
+              color: og.ink,
             }}
           >
             prempsingh.com
@@ -110,15 +111,12 @@ export default async function OGImage() {
               display: "flex",
               gap: "24px",
               fontSize: 20,
-              color: "#d3e4d9",
+              color: og.ink2,
             }}
           >
             <span>{articleCount} peer-reviewed articles</span>
-            <span>·</span>
             <span>{bookChapters.length} book chapters</span>
-            <span>·</span>
             <span>2300+ Citations</span>
-            <span>·</span>
             <span>h-index 25</span>
           </div>
         </div>

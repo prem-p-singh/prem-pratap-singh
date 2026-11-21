@@ -1,17 +1,10 @@
 import Link from "next/link";
 import Image from "next/image";
 import {
-  BriefcaseBusiness,
   ChevronDown,
   ChevronUp,
-  Compass,
-  Github,
-  GraduationCap,
-  Handshake,
-  Linkedin,
-  Mail,
 } from "lucide-react";
-import { FieldIcon } from "@/components/icons/PortfolioIcons";
+import { GitHubMark, LinkedInMark, ScholarMark } from "@/components/icons/BrandIcons";
 import { personal } from "@/profile/personal";
 import { projects } from "@/profile/projects";
 import { publications, bookChapters } from "@/profile/publications";
@@ -35,21 +28,35 @@ export default function Home() {
   return (
     <>
       <HeroClient />
-      <div className="room-green">
+      <div>
         <ResearchPathway />
         <ResearchSnapshot />
       </div>
       <WorkExperience />
 
+      {/* A picture band: the crop itself, between the roles and the papers. */}
+      <figure
+        data-slot="photo-1"
+        data-alt="Your own picture from the vineyard: sampling, a cluster in hand, or an infected leaf"
+        className="relative aspect-[21/9] w-full max-lg:aspect-[4/3]"
+      >
+        <Image
+          src="/images/photos/javier-shows-part-of-the-grape-harvest-in-his-lysekil-vineya-1920.jpg"
+          alt="Two hands holding freshly cut bunches of green grapes in a vineyard"
+          fill
+          sizes="100vw"
+          className="object-cover object-[50%_40%]"
+        />
+      </figure>
+
       <section
         id="research"
-        className="guided-scroll-section"
+        className="guided-scroll-section band-cream"
         aria-labelledby="research-title"
       >
-        <div className="mx-auto max-w-[100rem] px-4 sm:px-6 lg:px-8">
-          <div className="grid gap-x-8 gap-y-10 border-t border-border py-10 lg:grid-cols-12 lg:py-14">
+        <div className="shell">
+          <div className="grid gap-x-8 gap-y-10 py-[var(--section-gap-s)] lg:grid-cols-12">
             <div className="room-title lg:col-span-12">
-              <p className="section-kicker">Publications</p>
               <h2 id="research-title" className="text-3xl leading-tight text-foreground sm:text-4xl">
                 Evidence that has passed peer review
               </h2>
@@ -60,22 +67,22 @@ export default function Home() {
 
             <div className="lg:col-span-12">
               <div className="paper-panel grid gap-6 p-6 sm:grid-cols-[auto_1fr] sm:items-center sm:gap-8 sm:p-7">
-                <p className="text-sm font-semibold leading-normal text-muted-foreground">
+                <p className="text-sm font-medium leading-normal text-muted-foreground">
                   <span className="block font-serif text-6xl leading-none tabular-nums text-field">
                     {publishedJournalCount + bookChapters.length}
                   </span>
                   <span className="mt-2 block">published works</span>
                 </p>
                 <dl className="grid grid-cols-2 gap-3">
-                  <div className="flex flex-col-reverse justify-end rounded-[6px] bg-data-wash px-4 py-3">
-                    <dt className="text-sm font-semibold leading-snug text-foreground">Journal articles</dt>
-                    <dd className="text-2xl font-semibold tabular-nums text-data">
+                  <div className="flex flex-col-reverse justify-end rounded-none bg-data-wash px-4 py-3">
+                    <dt className="text-sm font-medium leading-snug text-foreground">Journal articles</dt>
+                    <dd className="text-2xl font-medium tabular-nums text-data">
                       {publishedJournalCount}
                     </dd>
                   </div>
-                  <div className="flex flex-col-reverse justify-end rounded-[6px] bg-decision-wash px-4 py-3">
-                    <dt className="text-sm font-semibold leading-snug text-foreground">Book chapters</dt>
-                    <dd className="text-2xl font-semibold tabular-nums text-decision">
+                  <div className="flex flex-col-reverse justify-end rounded-none bg-decision-wash px-4 py-3">
+                    <dt className="text-sm font-medium leading-snug text-foreground">Book chapters</dt>
+                    <dd className="text-2xl font-medium tabular-nums text-decision">
                       {bookChapters.length}
                     </dd>
                   </div>
@@ -86,7 +93,7 @@ export default function Home() {
                 <summary className="cursor-pointer list-none text-sm marker:content-none">
                   <span className="paper-panel flex items-center justify-between gap-4 px-6 py-4">
                     <span>
-                      <span className="font-semibold text-field underline underline-offset-4">
+                      <span className="font-medium text-field underline underline-offset-4">
                         Browse the publication archive
                       </span>
                       <span className="mt-1 block text-muted-foreground">Filter by format and method</span>
@@ -104,16 +111,15 @@ export default function Home() {
         </div>
       </section>
 
-      <div className="room-green">
+      <div>
       <section
         id="software"
         className="guided-scroll-section"
         aria-labelledby="software-title"
       >
-        <div className="mx-auto max-w-[100rem] px-4 sm:px-6 lg:px-8">
-          <div className="grid gap-x-8 gap-y-10 border-t border-border py-10 lg:grid-cols-12 lg:py-14">
+        <div className="shell">
+          <div className="grid gap-x-8 gap-y-10 py-[var(--section-gap-s)] lg:grid-cols-12">
             <div className="room-title lg:col-span-12">
-              <p className="section-kicker">Code</p>
               <h2 id="software-title" className="text-3xl leading-tight text-foreground sm:text-4xl">
                 Open-source tools
               </h2>
@@ -124,7 +130,7 @@ export default function Home() {
                 href={personal.social.github}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="mt-5 inline-block text-sm font-semibold text-field-strong underline underline-offset-4"
+                className="mt-5 inline-block text-sm font-medium text-field-strong underline underline-offset-4"
               >
                 All repositories on GitHub
               </a>
@@ -142,10 +148,9 @@ export default function Home() {
         className="guided-scroll-section"
         aria-labelledby="projects-title"
       >
-        <div className="mx-auto max-w-[100rem] px-4 sm:px-6 lg:px-8">
-          <div className="grid gap-x-8 gap-y-10 border-t border-border py-10 lg:grid-cols-12 lg:py-14">
+        <div className="shell">
+          <div className="grid gap-x-8 gap-y-10 py-[var(--section-gap-s)] lg:grid-cols-12">
             <div className="room-title lg:col-span-12">
-              <p className="section-kicker">Projects</p>
               <h2 id="projects-title" className="text-3xl leading-tight text-foreground sm:text-4xl">
                 Research projects
               </h2>
@@ -169,10 +174,9 @@ export default function Home() {
           className="guided-scroll-section"
           aria-labelledby="blog-title"
         >
-          <div className="mx-auto max-w-[100rem] px-4 sm:px-6 lg:px-8">
-            <div className="grid gap-x-8 gap-y-10 border-t border-border py-10 lg:grid-cols-12 lg:py-14">
+          <div className="shell">
+            <div className="grid gap-x-8 gap-y-10 py-[var(--section-gap-s)] lg:grid-cols-12">
               <div className="room-title lg:col-span-12">
-                <p className="section-kicker">Field notes</p>
                 <h2 id="blog-title" className="mt-3 text-3xl leading-tight text-foreground sm:text-4xl">
                   Ideas moving between crop and data
                 </h2>
@@ -201,11 +205,8 @@ export default function Home() {
                       ) : (
                         // No image: a tinted band with the notebook's field icon and the post's first tag.
                         <div className="flex items-center justify-between gap-4 border-b border-border bg-field-wash px-6 py-5">
-                          <span className="icon-stamp bg-card text-field">
-                            <FieldIcon size={22} />
-                          </span>
                           {post.tags[0] && (
-                            <span className="rounded-[3px] border border-field/20 bg-card px-3 py-1 text-xs font-semibold text-field">
+                            <span className="rounded-none border border-field/20 bg-card px-3 py-1 text-xs font-medium text-field">
                               {post.tags[0]}
                             </span>
                           )}
@@ -250,68 +251,44 @@ export default function Home() {
         className="guided-scroll-section room-merlot"
         aria-labelledby="contact-title"
       >
-        <div className="mx-auto max-w-[100rem] px-4 sm:px-6 lg:px-8">
-          <div className="grid gap-x-8 gap-y-10 border-t border-border py-10 lg:grid-cols-12 lg:py-14">
+        <div className="shell">
+          <div className="grid gap-x-8 gap-y-10 py-[var(--section-gap-s)] lg:grid-cols-12">
             <div className="room-title lg:col-span-12">
-              <p className="section-kicker">Where the work can grow next</p>
               <h2 id="contact-title" className="mt-3 text-3xl leading-tight text-foreground sm:text-4xl">
                 Better crop decisions, built on stronger biological data
               </h2>
             </div>
 
-            <div className="grid gap-5 md:grid-cols-2 lg:col-span-12">
-              <ul className="grid gap-5 md:col-span-2 md:grid-cols-3">
-                {opportunities.map((opportunity) => {
-                  const Icon = opportunity.icon;
-                  return (
-                    <li key={opportunity.title} className="paper-panel">
-                      <div className="flex h-full flex-col gap-5 p-6">
-                        <span
-                          className={`icon-stamp ${opportunity.tile}`}
-                        >
-                          <Icon size={22} strokeWidth={2.5} aria-hidden="true" />
-                        </span>
-                        <div>
-                          <h3 className="text-lg font-semibold leading-snug text-foreground">{opportunity.title}</h3>
-                          {"detail" in opportunity && (
-                            <p className="mt-2 text-sm leading-snug text-muted-foreground">
-                              {opportunity.detail}
-                            </p>
-                          )}
-                        </div>
-                        <ul className="mt-auto divide-y divide-border border-t border-border text-sm text-foreground">
-                          {opportunity.points.map((point) => (
-                            <li key={point} className="py-2">
-                              {point}
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-                    </li>
-                  );
-                })}
-              </ul>
+            {/* The close, set as four ruled rows across the page: what each
+                row is on the left, its content on the right. */}
+            <div className="index-list lg:col-span-12">
+              <div className="grid gap-x-8 gap-y-4 py-8 lg:grid-cols-12 lg:items-center">
+                <h3 className="lg:col-span-4">Start a conversation</h3>
+                <div className="flex flex-wrap items-center gap-x-8 gap-y-4 lg:col-span-8">
+                  <a
+                    href={`mailto:${personal.email}`}
+                    className="break-all text-lg text-ink underline-offset-4 hover:decoration-2"
+                  >
+                    {personal.email}
+                  </a>
+                  <a href={`mailto:${personal.email}`} className="btn-primary">
+                    Send an email
+                  </a>
+                </div>
+              </div>
 
-              <div className="paper-panel flex flex-col p-6">
-                <span className="icon-stamp bg-field-wash text-field">
-                  <Mail size={22} strokeWidth={2.5} aria-hidden="true" />
-                </span>
-                <p className="mt-5 text-sm font-semibold text-muted-foreground">Start a conversation</p>
-                <a
-                  href={`mailto:${personal.email}`}
-                  className="mt-1 break-all font-serif text-2xl font-semibold leading-tight text-foreground underline-offset-4 hover:text-field hover:underline"
-                >
-                  {personal.email}
-                </a>
-                <dl className="mt-6 divide-y divide-border border-t border-border text-sm">
-                  {contactFacts.map((fact) => (
-                    <div key={fact.label} className="flex flex-wrap justify-between gap-x-6 gap-y-1 py-2">
-                      <dt className="text-muted-foreground">{fact.label}</dt>
-                      <dd className="font-semibold text-foreground">{fact.value}</dd>
-                    </div>
+              <div className="grid gap-x-8 gap-y-4 py-8 lg:grid-cols-12 lg:items-baseline">
+                <h3 className="lg:col-span-4">Open to</h3>
+                <ul className="grid gap-x-8 gap-y-2 text-ink sm:grid-cols-3 lg:col-span-8">
+                  {opportunities.map((opportunity) => (
+                    <li key={opportunity}>{opportunity}</li>
                   ))}
-                </dl>
-                <ul className="mt-auto flex flex-wrap gap-2 pt-6 text-sm">
+                </ul>
+              </div>
+
+              <div className="grid gap-x-8 gap-y-4 py-8 lg:grid-cols-12 lg:items-center">
+                <h3 className="lg:col-span-4">Profiles</h3>
+                <ul className="grid gap-x-8 gap-y-3 sm:grid-cols-3 lg:col-span-8">
                   {socialLinks.map((link) => {
                     const Icon = link.icon;
                     return (
@@ -320,9 +297,9 @@ export default function Home() {
                           href={link.href}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="paper-control inline-flex items-center gap-2 px-3 py-2 text-foreground hover:text-field"
+                          className="inline-flex min-h-11 items-center gap-3 text-ink underline-offset-4 hover:decoration-2"
                         >
-                          <Icon className="size-4 text-field" strokeWidth={1.8} aria-hidden="true" />
+                          <Icon className="size-5 shrink-0" aria-hidden="true" />
                           {link.label}
                         </a>
                       </li>
@@ -340,47 +317,15 @@ export default function Home() {
   );
 }
 
-// The two facts under the email address, both taken from the profile.
-const contactFacts = [
-  { label: "Based in", value: personal.location },
-  { label: "Department", value: "Plant Pathology, UC Davis" },
-];
-
-// Icons and families as the previous design had them: roles field, collaborations biology, consulting data.
+// What the owner is open to, as three plain lines.
 const opportunities = [
-  {
-    title: "Research Scientist and Data Scientist roles",
-    points: ["Ag-bio R&D", "Molecular diagnostics", "NGS workflows", "Trait discovery"],
-    icon: BriefcaseBusiness,
-    tile: "bg-field-wash text-field",
-  },
-  {
-    title: "Research collaborations",
-    detail: "Field biology, multi-omics and reproducible analysis",
-    points: [
-      "Vineyard and field sampling",
-      "RT-qPCR and digital PCR assays",
-      "RNA sequencing on HPC",
-      "Pipelines in Snakemake, R and Python",
-    ],
-    icon: Handshake,
-    tile: "bg-biology-wash text-biology",
-  },
-  {
-    title: "Scientific consulting",
-    detail: "From experimental design to decision-ready evidence",
-    points: [
-      "Experimental and sampling design",
-      "Diagnostic assay validation",
-      "RNA-seq and metabolite data analysis",
-    ],
-    icon: Compass,
-    tile: "bg-data-wash text-data",
-  },
+  "Research Scientist and Data Scientist roles",
+  "Research collaborations",
+  "Scientific consulting",
 ];
 
 const socialLinks = [
-  { label: "Scholar", href: personal.social.googleScholar, icon: GraduationCap },
-  { label: "LinkedIn", href: personal.social.linkedin, icon: Linkedin },
-  { label: "GitHub", href: personal.social.github, icon: Github },
+  { label: "Scholar", href: personal.social.googleScholar, icon: ScholarMark },
+  { label: "LinkedIn", href: personal.social.linkedin, icon: LinkedInMark },
+  { label: "GitHub", href: personal.social.github, icon: GitHubMark },
 ].filter((link) => link.href);

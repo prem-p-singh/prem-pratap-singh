@@ -16,9 +16,8 @@ export default function DataPage() {
 
   return (
     <div className="min-h-screen pt-16">
-      <div className="mx-auto max-w-[100rem] px-4 sm:px-6 lg:px-8">
+      <div className="shell">
         <header className="room-green room-bleed mb-10 pb-10 pt-10 sm:pt-12 lg:pt-14">
-          <p className="section-kicker">Open Data, Decoded</p>
           <h1 className="mt-3 text-4xl leading-tight text-foreground sm:text-5xl lg:text-6xl">
             What public data actually says
           </h1>
@@ -37,7 +36,7 @@ export default function DataPage() {
                 <span className="absolute inset-x-0 top-0 h-1 bg-data" aria-hidden="true" />
                 <div className="lg:col-span-5">
                   {post.image && (
-                    <div className="relative aspect-video overflow-hidden rounded-[6px] border border-border bg-card">
+                    <div className="relative aspect-video overflow-hidden rounded-none border border-border bg-card">
                       <Image
                         src={post.image}
                         alt=""
@@ -50,7 +49,7 @@ export default function DataPage() {
                   )}
                   <dl className={`divide-y divide-border text-sm leading-normal ${post.image ? "mt-4" : ""}`}>
                     <div className="grid grid-cols-[7rem_1fr] gap-x-4 py-3">
-                      <dt className="font-semibold text-foreground">Published</dt>
+                      <dt className="font-medium text-foreground">Published</dt>
                       <dd className="tabular-nums text-muted-foreground">
                         <time dateTime={post.date}>
                           {formatContentDate(post.date, { year: "numeric", month: "short", day: "numeric" })}
@@ -59,7 +58,7 @@ export default function DataPage() {
                     </div>
                     {typeof post.records === "number" && (
                       <div className="grid grid-cols-[7rem_1fr] gap-x-4 py-3">
-                        <dt className="font-semibold text-foreground">Records</dt>
+                        <dt className="font-medium text-foreground">Records</dt>
                         <dd className="tabular-nums text-muted-foreground">
                           {post.records.toLocaleString()}
                         </dd>
@@ -69,7 +68,7 @@ export default function DataPage() {
                 </div>
                 <div className="flex flex-col lg:col-span-7">
                   {post.source && (
-                    <p className="self-start rounded-[3px] border border-data/20 bg-data-wash px-3 py-1 text-xs font-semibold text-data">
+                    <p className="self-start rounded-none border border-data/20 bg-data-wash px-3 py-1 text-xs font-medium text-data">
                       {post.source}
                     </p>
                   )}
@@ -92,19 +91,19 @@ export default function DataPage() {
                       {post.keyStats.map((stat) => (
                         <div
                           key={stat.label}
-                          className="flex flex-col-reverse justify-end rounded-[6px] bg-data-wash px-4 py-3"
+                          className="flex flex-col-reverse justify-end rounded-none bg-data-wash px-4 py-3"
                         >
-                          <dt className="text-sm font-semibold leading-snug text-foreground">
+                          <dt className="text-sm font-medium leading-snug text-foreground">
                             {stat.label}
                           </dt>
-                          <dd className="text-2xl font-semibold tabular-nums text-data">
+                          <dd className="text-2xl font-medium tabular-nums text-data">
                             {stat.value}
                           </dd>
                         </div>
                       ))}
                     </dl>
                   )}
-                  <p className="mt-5 text-sm font-semibold text-data underline underline-offset-4">
+                  <p className="mt-5 text-sm font-medium text-data underline underline-offset-4">
                     Open visual story
                   </p>
                 </div>

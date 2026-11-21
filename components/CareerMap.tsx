@@ -106,10 +106,9 @@ export default function CareerMap() {
   return (
     <section id="career-progression" className="scroll-mt-24" aria-labelledby="career-map-title">
       <span id="education" className="scroll-mt-24" aria-hidden="true" />
-      <div className="mx-auto max-w-[100rem] px-4 sm:px-6 lg:px-8">
-        <div className="grid gap-x-8 gap-y-10 border-t border-border py-16 lg:grid-cols-12 lg:py-24">
+      <div className="shell">
+        <div className="grid gap-x-8 gap-y-10 py-[var(--section-gap-s)] lg:grid-cols-12">
           <div className="room-title lg:col-span-12">
-            <p className="section-kicker">My research throughline</p>
             <h2 id="career-map-title" className="mt-3 text-3xl leading-tight text-foreground sm:text-4xl">
               <span>I start with the crop.</span> <span>Data helps decide what comes next.</span>
             </h2>
@@ -156,7 +155,7 @@ export default function CareerMap() {
                   <span className="text-xs tabular-nums">
                     {index + 1}. {stop.period}
                   </span>
-                  <span className="text-sm font-semibold leading-snug">{stop.title}</span>
+                  <span className="text-sm font-medium leading-snug">{stop.title}</span>
                   <span className="text-xs leading-snug">{stop.stage}</span>
                   <span className="text-xs leading-snug">{stop.organization}</span>
                 </button>

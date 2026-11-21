@@ -1,4 +1,3 @@
-import { Lightbulb } from "lucide-react";
 
 interface TldrCalloutProps {
   items: string[];
@@ -10,14 +9,10 @@ export default function TldrCallout({ items }: TldrCalloutProps) {
   return (
     <aside
       aria-label="Key takeaways"
-      className="not-prose mb-10 rounded-[6px] bg-field-wash p-5 sm:p-6"
+      className="not-prose mb-10 rounded-none bg-field-wash p-5 sm:p-6"
     >
       <div className="mb-4 flex items-center gap-3">
-        {/* On a wash the tile takes the card colour. */}
-        <span className="icon-stamp bg-card text-field">
-          <Lightbulb size={22} strokeWidth={1.8} aria-hidden="true" />
-        </span>
-        <p className="text-sm font-semibold text-field">
+        <p className="text-sm font-medium text-field">
           Quick visual read
         </p>
       </div>
@@ -25,9 +20,9 @@ export default function TldrCallout({ items }: TldrCalloutProps) {
         {items.map((item, i) => (
           <li
             key={i}
-            className="rounded-[6px] bg-card p-4 text-left"
+            className="rounded-none bg-card p-4 text-left"
           >
-            <span className="text-2xl font-semibold tabular-nums text-field">0{i + 1}</span>
+            <span className="text-2xl font-medium tabular-nums text-field">0{i + 1}</span>
             <span className="mt-2 block text-sm leading-relaxed text-foreground">{item}</span>
           </li>
         ))}

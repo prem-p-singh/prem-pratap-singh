@@ -11,15 +11,15 @@ function EvidenceTable({
 }) {
   return (
     <details className="border-t border-border px-5 py-4 sm:px-7">
-      <summary className="cursor-pointer text-sm font-semibold text-foreground marker:text-field">
+      <summary className="cursor-pointer text-sm font-medium text-foreground marker:text-field">
         Evidence detail
       </summary>
-      <div className="mt-4 overflow-x-auto rounded-[6px] border border-border">
+      <div className="mt-4 overflow-x-auto rounded-none border border-border">
         <table className="w-full min-w-[32rem] border-collapse text-sm leading-normal">
           <thead>
             <tr className="border-b border-border text-left text-muted-foreground">
               {headers.map((header) => (
-                <th key={header} scope="col" className="px-4 py-3 font-semibold">
+                <th key={header} scope="col" className="px-4 py-3 font-medium">
                   {header}
                 </th>
               ))}
@@ -31,7 +31,7 @@ function EvidenceTable({
                 {row.map((cell, cellIndex) => (
                   <td
                     key={`${cellIndex}-${cell}`}
-                    className={`px-4 py-3 text-foreground ${cellIndex > 0 ? "tabular-nums" : "font-semibold"}`}
+                    className={`px-4 py-3 text-foreground ${cellIndex > 0 ? "tabular-nums" : "font-medium"}`}
                   >
                     {cell}
                   </td>
@@ -64,7 +64,7 @@ function EvidenceFrame({
     <figure className="paper-panel not-prose my-8">
       <span className="absolute inset-x-0 top-0 h-1 bg-field" aria-hidden="true" />
       <div className="px-5 pb-3 pt-6 sm:px-7 sm:pt-7">
-        <p className="w-fit rounded-[3px] border border-field/20 bg-field-wash px-3 py-1 text-xs font-semibold text-field">
+        <p className="w-fit rounded-none border border-field/20 bg-field-wash px-3 py-1 text-xs font-medium text-field">
           {eyebrow}
         </p>
         <h3 className="mt-3 max-w-3xl text-xl leading-tight text-foreground sm:text-2xl">
@@ -124,15 +124,15 @@ export function AttentionIntensityChart() {
           const staple = ["Rice", "Maize", "Sugarcane"].includes(crop);
           return (
             <div key={crop} className="grid grid-cols-[5.5rem_1fr_3.5rem] items-center gap-3 sm:grid-cols-[7rem_1fr_4rem]">
-              <span className={`text-sm font-semibold ${staple ? "text-data" : "text-foreground"}`}>{crop}</span>
+              <span className={`text-sm font-medium ${staple ? "text-data" : "text-foreground"}`}>{crop}</span>
               {/* Shape as well as colour: pill bars for the first group, square bars for staples. */}
-              <div className={`h-3 overflow-hidden bg-muted ${staple ? "" : "rounded-full"}`}>
+              <div className={`h-3 overflow-hidden bg-paper-2 ${staple ? "" : "rounded-full"}`}>
                 <div
                   className={`h-full ${staple ? "bg-data" : "rounded-full bg-field"}`}
                   style={{ width: `${Math.max(2, (value / max) * 100)}%` }}
                 />
               </div>
-              <span className="text-right text-sm font-semibold tabular-nums text-foreground">{value.toFixed(1)}</span>
+              <span className="text-right text-sm font-medium tabular-nums text-foreground">{value.toFixed(1)}</span>
             </div>
           );
         })}
@@ -178,7 +178,7 @@ export function ResearchOpportunityMatrix() {
         />
       }
     >
-      <div className="hidden overflow-hidden rounded-[6px] border border-border bg-muted sm:block">
+      <div className="hidden overflow-hidden rounded-none border border-border bg-paper-2 sm:block">
         <svg viewBox={`0 0 ${width} ${height}`} className="h-auto w-full" role="img" aria-labelledby="opportunity-title opportunity-desc">
           <title id="opportunity-title">Crop research opportunity matrix</title>
           <desc id="opportunity-desc">Crop production scale on the horizontal axis and AI plant-disease paper count on the vertical axis.</desc>
@@ -216,10 +216,10 @@ export function ResearchOpportunityMatrix() {
           .filter(([crop]) => ["Sugarcane", "Maize", "Rice", "Cassava"].includes(crop))
           .reverse()
           .map(([crop, rate, papers, production]) => (
-            <div key={crop} className="rounded-[6px] bg-muted px-4 py-3">
+            <div key={crop} className="rounded-none bg-paper-2 px-4 py-3">
               <div className="flex items-baseline justify-between gap-3">
-                <span className="font-semibold text-foreground">{crop}</span>
-                <span className="text-sm font-semibold tabular-nums text-decision">{rate.toFixed(1)} papers / Mt</span>
+                <span className="font-medium text-foreground">{crop}</span>
+                <span className="text-sm font-medium tabular-nums text-decision">{rate.toFixed(1)} papers / Mt</span>
               </div>
               <p className="mt-1 text-xs text-muted-foreground">
                 {production.toLocaleString()} Mt production · {papers.toLocaleString()} AI papers
@@ -258,7 +258,7 @@ export function AIAdoptionTrend() {
       source="Source: OpenAlex indexed literature. Annual AI papers shown as a share of all indexed plant-disease papers."
       details={<EvidenceTable headers={["Year", "AI share"]} rows={aiShare.filter(([year]) => year % 5 === 0 || year >= 2023).map(([year, share]) => [year, `${share.toFixed(1)}%`])} />}
     >
-      <div className="hidden overflow-hidden rounded-[6px] border border-border bg-muted sm:block">
+      <div className="hidden overflow-hidden rounded-none border border-border bg-paper-2 sm:block">
         <svg viewBox={`0 0 ${width} ${height}`} className="h-auto w-full" role="img" aria-labelledby="trend-title trend-desc">
           <title id="trend-title">AI share of plant-disease research from 2005 to 2025</title>
           <desc id="trend-desc">The share rises from 3.1 percent in 2005 to 14.8 percent in 2025, with most growth after 2019.</desc>
@@ -281,17 +281,17 @@ export function AIAdoptionTrend() {
           ))}
         </svg>
       </div>
-      <div className="rounded-[6px] bg-muted p-4 sm:hidden" aria-label="AI adoption increased from 3.1 percent in 2005 to 14.8 percent in 2025">
+      <div className="rounded-none bg-paper-2 p-4 sm:hidden" aria-label="AI adoption increased from 3.1 percent in 2005 to 14.8 percent in 2025">
         <div className="grid grid-cols-[auto_1fr_auto] items-center gap-3">
           <div>
-            <p className="text-2xl font-semibold tabular-nums text-foreground">3.1%</p>
+            <p className="text-2xl font-medium tabular-nums text-foreground">3.1%</p>
             <p className="text-xs text-muted-foreground">2005</p>
           </div>
           <div className="relative h-2 rounded-full bg-field-wash">
             <span className="absolute inset-y-0 left-0 w-full rounded-full bg-field" />
           </div>
           <div className="text-right">
-            <p className="text-2xl font-semibold tabular-nums text-field">14.8%</p>
+            <p className="text-2xl font-medium tabular-nums text-field">14.8%</p>
             <p className="text-xs text-muted-foreground">2025</p>
           </div>
         </div>
@@ -323,12 +323,12 @@ export function SurveillanceRankingChart() {
           return (
             <div key={country} className="grid grid-cols-[1.25rem_7.5rem_1fr_2.5rem] items-center gap-2 sm:grid-cols-[1.5rem_9rem_1fr_3rem] sm:gap-3">
               <span className="text-xs tabular-nums text-muted-foreground">{String(index + 1).padStart(2, "0")}</span>
-              <span className={`text-sm font-semibold ${us ? "text-biology" : "text-foreground"}`}>{country}</span>
+              <span className={`text-sm font-medium ${us ? "text-biology" : "text-foreground"}`}>{country}</span>
               {/* Shape as well as colour: the highlighted row has a square bar. */}
-              <div className={`h-3 overflow-hidden bg-muted ${us ? "" : "rounded-full"}`}>
+              <div className={`h-3 overflow-hidden bg-paper-2 ${us ? "" : "rounded-full"}`}>
                 <div className={`h-full ${us ? "bg-biology" : "rounded-full bg-field"}`} style={{ width: `${Math.max(2, (rate / max) * 100)}%` }} />
               </div>
-              <span className="text-right text-sm font-semibold tabular-nums text-foreground">{rate.toFixed(1)}</span>
+              <span className="text-right text-sm font-medium tabular-nums text-foreground">{rate.toFixed(1)}</span>
             </div>
           );
         })}
@@ -374,7 +374,7 @@ export function OutbreakReadinessChart() {
           const last = Math.max(confirmed, record ?? confirmed);
           return (
             <div key={country} className="grid gap-2 sm:grid-cols-[6rem_1fr_7rem] sm:items-center sm:gap-4">
-              <span className="text-sm font-semibold text-foreground">{country}</span>
+              <span className="text-sm font-medium text-foreground">{country}</span>
               <div className="relative h-8" aria-label={`${country}: confirmed ${confirmed}; ${record ? `first public record ${record}` : "no public record"}`}>
                 <div className="absolute left-0 right-0 top-1/2 h-px -translate-y-1/2 bg-border" />
                 {record && record !== confirmed && (
@@ -387,7 +387,7 @@ export function OutbreakReadinessChart() {
                 {record && <span className="absolute top-1/2 size-3.5 -translate-x-1/2 -translate-y-1/2 rounded-full" style={{ left: `${position(record)}%`, background: toneColors[tone] }} />}
                 {!record && <span className="absolute top-1/2 -translate-x-1/2 -translate-y-1/2 text-lg font-bold text-decision" style={{ left: `${position(confirmed)}%` }}>×</span>}
               </div>
-              <span className={`w-fit rounded-[3px] px-2.5 py-1 text-xs font-semibold ${toneClasses[tone]}`}>{status}</span>
+              <span className={`w-fit rounded-none px-2.5 py-1 text-xs font-medium ${toneClasses[tone]}`}>{status}</span>
             </div>
           );
         })}
@@ -419,14 +419,14 @@ export function LandContributionChart() {
         {landContribution.map(([crop, land]) => (
           <div key={crop}>
             <div className="mb-2 flex items-center justify-between gap-4">
-              <span className="text-sm font-semibold text-foreground">{crop}</span>
-              <span className="text-sm font-semibold tabular-nums text-foreground">{land.toFixed(1)}% via land</span>
+              <span className="text-sm font-medium text-foreground">{crop}</span>
+              <span className="text-sm font-medium tabular-nums text-foreground">{land.toFixed(1)}% via land</span>
             </div>
-            <div className="flex h-9 gap-0.5 overflow-hidden rounded-[6px]" aria-label={`${crop}: ${land.toFixed(1)} percent through harvested area, ${(100 - land).toFixed(1)} percent remaining direct route`}>
-              <div className="flex items-center justify-center bg-field text-xs font-semibold text-field-foreground" style={{ width: `${land}%` }}>
+            <div className="flex h-9 gap-0.5 overflow-hidden rounded-none" aria-label={`${crop}: ${land.toFixed(1)} percent through harvested area, ${(100 - land).toFixed(1)} percent remaining direct route`}>
+              <div className="flex items-center justify-center bg-field text-xs font-medium text-field-foreground" style={{ width: `${land}%` }}>
                 {land >= 28 ? "Land expansion" : ""}
               </div>
-              <div className="flex items-center justify-center bg-data text-xs font-semibold text-data-foreground" style={{ width: `${100 - land}%` }}>
+              <div className="flex items-center justify-center bg-data text-xs font-medium text-data-foreground" style={{ width: `${100 - land}%` }}>
                 {100 - land >= 28 ? "Productivity route" : ""}
               </div>
             </div>
@@ -469,7 +469,7 @@ export function GrowthStrategyMatrix() {
       source="Source: FAOSTAT world totals, 1961–2023. Values compare the final year with 1961 and describe global observational trends."
       details={<EvidenceTable headers={["Crop", "Production growth", "Area growth", "Interpretation"]} rows={growth.map(([crop, area, production]) => [crop, `${production.toFixed(2)}×`, `${area.toFixed(2)}×`, area < 1 ? "More output, less land" : production / area > 2 ? "Output outpaced land" : "Land-intensive growth"])} />}
     >
-      <div className="hidden overflow-hidden rounded-[6px] border border-border bg-muted sm:block">
+      <div className="hidden overflow-hidden rounded-none border border-border bg-paper-2 sm:block">
         <svg viewBox={`0 0 ${width} ${height}`} className="h-auto w-full" role="img" aria-labelledby="growth-title growth-desc">
           <title id="growth-title">Production growth compared with harvested-area growth</title>
           <desc id="growth-desc">Crops toward the upper-left produced more output with less land growth; crops toward the upper-right expanded both production and land.</desc>
@@ -516,12 +516,12 @@ export function GrowthStrategyMatrix() {
           .map(([crop, area, production]) => {
             const efficient = area <= 1.1 || production / area > 2;
             return (
-              <div key={crop} className="grid grid-cols-[1fr_auto] gap-3 rounded-[6px] bg-muted px-4 py-3">
+              <div key={crop} className="grid grid-cols-[1fr_auto] gap-3 rounded-none bg-paper-2 px-4 py-3">
                 <div>
-                  <p className="font-semibold text-foreground">{crop}</p>
+                  <p className="font-medium text-foreground">{crop}</p>
                   <p className="mt-1 text-xs text-muted-foreground">Production {production.toFixed(2)}× · Land {area.toFixed(2)}×</p>
                 </div>
-                <span className={`self-center rounded-[3px] px-2.5 py-1 text-xs font-semibold ${efficient ? "bg-field-wash text-field" : "bg-biology-wash text-biology"}`}>
+                <span className={`self-center rounded-none px-2.5 py-1 text-xs font-medium ${efficient ? "bg-field-wash text-field" : "bg-biology-wash text-biology"}`}>
                   {efficient ? "Efficient" : "Land-led"}
                 </span>
               </div>
@@ -554,11 +554,11 @@ type VarianceRows = readonly (readonly [string, number, string])[];
 
 function VarianceBar({ rows }: { rows: VarianceRows }) {
   return (
-    <div className="flex h-8 gap-0.5 overflow-hidden rounded-[6px]">
+    <div className="flex h-8 gap-0.5 overflow-hidden rounded-none">
       {rows.map(([label, value, tone]) => (
         <span
           key={label}
-          className={`${tone} flex items-center justify-center text-xs font-semibold text-background`}
+          className={`${tone} flex items-center justify-center text-xs font-medium text-background`}
           style={{ width: `${value}%` }}
           title={`${label} ${value}%`}
         >
@@ -612,12 +612,12 @@ export function YieldVarianceSplit() {
     >
       <div className="space-y-6">
         <div>
-          <p className="mb-2 text-sm font-semibold text-foreground">All crops together</p>
+          <p className="mb-2 text-sm font-medium text-foreground">All crops together</p>
           <VarianceBar rows={pooledSplit} />
           <VarianceLegend rows={pooledSplit} />
         </div>
         <div>
-          <p className="mb-2 text-sm font-semibold text-foreground">
+          <p className="mb-2 text-sm font-medium text-foreground">
             Each crop tested separately
           </p>
           <VarianceBar rows={withinSplit} />
@@ -666,8 +666,8 @@ export function CropVarianceRanking() {
             key={crop}
             className="grid grid-cols-[6rem_1fr_3rem] items-center gap-3 sm:grid-cols-[8rem_1fr_3.5rem]"
           >
-            <span className="text-sm font-semibold text-foreground">{crop}</span>
-            <div className="flex h-3 overflow-hidden rounded-full bg-muted">
+            <span className="text-sm font-medium text-foreground">{crop}</span>
+            <div className="flex h-3 overflow-hidden rounded-full bg-paper-2">
               <span className="bg-field" style={{ width: `${country}%` }} />
               <span className="border-l-2 border-card bg-decision" style={{ width: `${year}%` }} />
             </div>

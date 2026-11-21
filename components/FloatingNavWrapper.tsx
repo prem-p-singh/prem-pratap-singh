@@ -7,11 +7,12 @@ import { usePathname } from "next/navigation";
 import { ChevronDown, Menu, X } from "lucide-react";
 import { exploreNavigation, primaryNavigation } from "@/profile/navigation";
 
+// One weight across states: the state is a colour and an underline, never a fill.
 const linkClass =
-  "whitespace-nowrap text-sm text-muted-foreground underline-offset-8 hover:text-foreground hover:underline aria-[current=page]:text-foreground aria-[current=page]:underline aria-[current=page]:decoration-accent aria-[current=page]:decoration-2";
+  "whitespace-nowrap text-sm font-medium text-ink-2 no-underline underline-offset-8 hover:text-ink aria-[current=page]:text-ink aria-[current=page]:underline aria-[current=page]:decoration-accent aria-[current=page]:decoration-2";
 
 const mobileRowClass =
-  "flex items-baseline justify-between gap-4 border-b border-border py-3 last:border-b-0 text-base text-foreground aria-[current=page]:underline aria-[current=page]:decoration-accent aria-[current=page]:decoration-2 aria-[current=page]:underline-offset-8";
+  "flex min-h-12 items-baseline justify-between gap-4 border-b border-rule py-3 text-base text-ink no-underline last:border-b-0 aria-[current=page]:underline aria-[current=page]:decoration-accent aria-[current=page]:decoration-2 aria-[current=page]:underline-offset-8";
 
 export default function FloatingNavWrapper() {
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -61,32 +62,23 @@ export default function FloatingNavWrapper() {
 
   return (
     <>
-      {/* The index sign: one strip of ink across the top of every room, with
-          paper-white lettering. It fills the 4rem that pages reserve with pt-16.
-          .sign-bar sets its own tokens, so it reads the same over any wall. */}
-      <header
-        ref={headerRef}
-        className="sign-bar fixed inset-x-0 top-0 z-[5001] h-16"
-      >
-        <div className="mx-auto flex h-full max-w-[100rem] items-center justify-between gap-6 px-4 sm:px-6 lg:gap-8 lg:px-8">
+      {/* One bar across the full width, on the lower paper with a hairline
+          under it. It fills the 4rem that every page reserves with pt-16. */}
+      <header ref={headerRef} className="fixed inset-x-0 top-0 z-[300] h-16 border-b border-rule bg-paper-2">
+        <div className="shell flex h-full items-center justify-between gap-6 lg:gap-8">
           <Link
             href="/"
             onClick={closeMobileMenu}
-            className="flex shrink-0 items-center gap-3 text-foreground"
+            className="flex shrink-0 items-center gap-2 text-ink no-underline"
             aria-label="Prem P. Singh, home"
           >
-            {/* The mark is white on clear, so it only works on the ink bar. */}
+            {/* The mark is white on clear; the bar's dark paper carries it. */}
             <Image src="/images/logo-mark.png" alt="" width={36} height={36} className="size-9" priority />
-            <span>
-              <span className="block font-serif text-xl font-bold leading-tight">Prem P. Singh</span>
-              <span className="block text-xs font-semibold leading-snug text-muted-foreground lg:hidden xl:block">
-                Plant scientist · Data scientist
-              </span>
-            </span>
+            <span className="font-display text-xl leading-none">Prem P. Singh</span>
           </Link>
 
           <div className="flex items-center gap-5">
-            <nav aria-label="Primary navigation" className="hidden items-center gap-5 lg:flex">
+            <nav aria-label="Primary navigation" className="hidden items-center gap-7 lg:flex">
               {primaryNavigation.map((item) => (
                 <Link key={item.name} href={item.link} aria-current={current(item.link)} className={linkClass}>
                   {item.name}
@@ -98,8 +90,8 @@ export default function FloatingNavWrapper() {
                   ref={exploreButtonRef}
                   type="button"
                   onClick={() => setExploreOpen((open) => !open)}
-                  className={`flex items-center gap-1 text-sm underline-offset-8 hover:text-foreground hover:underline ${
-                    exploreOpen ? "text-foreground" : "text-muted-foreground"
+                  className={`flex items-center gap-1 text-sm font-medium hover:text-ink ${
+                    exploreOpen ? "text-ink" : "text-ink-2"
                   }`}
                   aria-haspopup="menu"
                   aria-expanded={exploreOpen}
@@ -109,8 +101,8 @@ export default function FloatingNavWrapper() {
                   <ChevronDown className={`size-3.5 ${exploreOpen ? "rotate-180" : ""}`} aria-hidden="true" />
                 </button>
                 {exploreOpen && (
-                  <div id="desktop-explore-menu" className="absolute right-0 top-full z-20 w-64 pt-7">
-                    <div className="paper-panel p-1.5" role="menu" aria-label="Explore more">
+                  <div id="desktop-explore-menu" className="absolute right-0 top-full z-20 w-64 pt-5">
+                    <div className="border border-rule bg-paper-2 p-2" role="menu" aria-label="Explore more">
                       {exploreNavigation.map((item) => (
                         <Link
                           key={item.name}
@@ -118,10 +110,10 @@ export default function FloatingNavWrapper() {
                           role="menuitem"
                           aria-current={current(item.link)}
                           onClick={() => setExploreOpen(false)}
-                          className="block rounded-[4px] px-3 py-2 hover:bg-muted aria-[current=page]:bg-muted"
+                          className="block px-3 py-2 no-underline hover:bg-paper-3 aria-[current=page]:bg-paper-3"
                         >
-                          <span className="block text-sm font-medium text-foreground">{item.name}</span>
-                          <span className="block text-xs text-muted-foreground">{item.detail}</span>
+                          <span className="block text-sm font-medium text-ink">{item.name}</span>
+                          <span className="block text-xs text-muted">{item.detail}</span>
                         </Link>
                       ))}
                     </div>
@@ -134,7 +126,7 @@ export default function FloatingNavWrapper() {
               </a>
               <Link
                 href="/#contact"
-                className="whitespace-nowrap rounded-[10px] bg-accent px-4 py-2 text-sm font-semibold text-primary-foreground hover:bg-foreground"
+                className="inline-flex h-10 items-center whitespace-nowrap rounded-full bg-accent px-5 text-sm font-bold text-accent-ink no-underline hover:bg-accent-2"
               >
                 Let&apos;s talk
               </Link>
@@ -145,7 +137,7 @@ export default function FloatingNavWrapper() {
                 ref={mobileButtonRef}
                 type="button"
                 onClick={() => setMobileOpen((open) => !open)}
-                className="flex size-10 items-center justify-center rounded-[10px] text-foreground hover:bg-muted lg:hidden"
+                className="flex size-10 items-center justify-center rounded-full text-ink hover:bg-paper-3 lg:hidden"
                 aria-label={mobileOpen ? "Close navigation menu" : "Open navigation menu"}
                 aria-expanded={mobileOpen}
                 aria-controls="mobile-navigation"
@@ -158,12 +150,11 @@ export default function FloatingNavWrapper() {
       </header>
 
       {mobileOpen && (
-        <div id="mobile-navigation" ref={mobileMenuRef} className="fixed inset-x-4 top-18 z-[5000] sm:inset-x-6 lg:hidden">
-          {/* Same surface as .paper-panel, written out because that class forces
-              overflow: hidden and this list has to scroll on short screens. */}
+        <div id="mobile-navigation" ref={mobileMenuRef} className="fixed inset-x-4 top-18 z-[300] sm:inset-x-6 lg:hidden">
+          {/* A ruled sheet on the lower paper; it scrolls on short screens. */}
           <nav
             aria-label="Mobile navigation"
-            className="max-h-[calc(100dvh-5.5rem)] overflow-y-auto overscroll-contain rounded-[6px] border border-border bg-card px-5 py-2 [box-shadow:var(--shadow-float)]"
+            className="max-h-[calc(100dvh-5.5rem)] overflow-y-auto overscroll-contain border border-rule bg-paper-2 px-5 py-2"
           >
             {primaryNavigation.map((item) => (
               <Link
@@ -185,7 +176,7 @@ export default function FloatingNavWrapper() {
                 className={mobileRowClass}
               >
                 {item.name}
-                <span className="text-xs text-muted-foreground">{item.detail}</span>
+                <span className="text-xs text-muted">{item.detail}</span>
               </Link>
             ))}
             <a

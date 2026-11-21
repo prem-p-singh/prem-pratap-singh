@@ -23,7 +23,7 @@ const categoryTones: Record<string, Tone> = {
   "Documentation, Communication & Cross-Functional Work": "decision",
 };
 
-const tagClass = "rounded-[3px] border px-3 py-1 text-xs font-semibold";
+const tagClass = "rounded-none border px-3 py-1 text-xs font-medium";
 
 export default function SkillsMatrix() {
   return (
