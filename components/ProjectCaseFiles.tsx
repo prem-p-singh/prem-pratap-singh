@@ -63,7 +63,8 @@ export default function ProjectCaseFiles({
 
   return (
     <div>
-      <div className="grid gap-5 xl:grid-cols-2 xl:items-start">
+      {/* Wide ruled rows: the project on the left, its result set large on the right. */}
+      <div className="border-t-[1.5px] border-accent">
         {visibleProjects.map((project, index) => {
           const open = openIndex === index;
           const tone = tones[categoryTones[project.category ?? ""] ?? "field"];
@@ -74,18 +75,18 @@ export default function ProjectCaseFiles({
           const linkClass = `text-sm font-medium underline underline-offset-4 ${tone.text}`;
 
           return (
-            <article key={project.title} className="paper-panel p-6 sm:p-7">
+            <article key={project.title} className="border-b border-rule py-10">
 
               {/* The button holds only the title. Its ::after covers the header, above the
                   positioned result block, so the whole summary toggles. */}
-              <div className="relative grid gap-x-6 gap-y-5 sm:grid-cols-[1fr_12rem]">
-                <div>
+              <div className="relative grid gap-x-8 gap-y-5 lg:grid-cols-12 lg:items-center">
+                <div className="lg:col-span-8">
                   <p>
                     <span className={`inline-block ${tagClass} ${tone.tag}`}>
                       {project.category || "Research"}
                     </span>
                   </p>
-                  <h3 className="mt-4 text-2xl leading-tight text-foreground">
+                  <h3 className="mt-4 text-[length:var(--text-3xl)] leading-tight">
                     <button
                       type="button"
                       aria-expanded={open}
@@ -111,17 +112,17 @@ export default function ProjectCaseFiles({
                   </ul>
                 </div>
 
-                <div className="relative flex flex-col justify-start border-t-2 border-foreground pt-3 pr-8 sm:border-l sm:border-t-0 sm:border-border sm:pl-6 sm:pt-0">
+                <div className="relative flex flex-col justify-start pr-10 lg:col-span-4 lg:items-end lg:text-right">
                   <p>
                     <span
-                      className={`figure block text-[length:var(--text-2xl)] [overflow-wrap:anywhere] ${tone.text}`}
+                      className="figure block text-[length:var(--text-display-s)] text-accent [overflow-wrap:anywhere]"
                     >
                       {project.resultStat || "Evidence"}
                     </span>
                     <span className="mt-1 block text-sm text-muted-foreground">outcome</span>
                   </p>
                   <Chevron
-                    className="absolute right-3 top-3 size-5 text-muted-foreground"
+                    className="absolute right-0 top-3 size-5 text-muted-foreground"
                     aria-hidden="true"
                   />
                 </div>
