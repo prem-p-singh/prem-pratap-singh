@@ -54,7 +54,7 @@ export default function PathogenTable() {
               type="button"
               aria-pressed={group === g}
               onClick={() => setGroup(g)}
-              className="rounded-[3px] border border-border bg-card px-3.5 py-1.5 text-xs font-semibold text-muted-foreground transition-colors hover:border-field hover:text-foreground aria-pressed:border-primary aria-pressed:bg-primary aria-pressed:text-primary-foreground"
+              className="rounded-none border border-border bg-card px-3.5 py-1.5 text-xs font-medium text-muted-foreground transition-colors hover:border-field hover:text-foreground aria-pressed:border-primary aria-pressed:bg-primary aria-pressed:text-primary-foreground"
             >
               {g}
             </button>
@@ -63,7 +63,7 @@ export default function PathogenTable() {
       </div>
 
       {/* Table */}
-      <div className="overflow-x-auto rounded-[6px] border border-border">
+      <div className="overflow-x-auto rounded-none border border-border">
         <table className="w-full border-collapse text-sm leading-normal">
           <thead>
             <tr className="border-b border-border text-left">
@@ -80,7 +80,7 @@ export default function PathogenTable() {
                   <button
                     type="button"
                     onClick={() => setSort(key)}
-                    className={`inline-flex items-center gap-1 text-sm font-semibold transition-colors ${
+                    className={`inline-flex items-center gap-1 text-sm font-medium transition-colors ${
                       sort === key ? "text-foreground" : "text-muted-foreground hover:text-foreground"
                     }`}
                   >
@@ -99,19 +99,19 @@ export default function PathogenTable() {
             {rows.map((r) => (
               <tr key={r.pathogen}>
                 <td className="px-4 py-3">
-                  <span className="font-semibold italic text-foreground">{r.pathogen}</span>
+                  <span className="font-medium italic text-foreground">{r.pathogen}</span>
                   <span className="mt-0.5 block text-xs text-muted-foreground">
                     {r.disease}
                   </span>
                   <span
-                    className={`mt-1.5 inline-block rounded-[3px] px-2.5 py-0.5 text-xs font-semibold ${
-                      GROUP_STYLE[r.group] ?? "bg-muted text-muted-foreground"
+                    className={`mt-1.5 inline-block rounded-none px-2.5 py-0.5 text-xs font-medium ${
+                      GROUP_STYLE[r.group] ?? "bg-paper-2 text-muted-foreground"
                     }`}
                   >
                     {r.group}
                   </span>
                 </td>
-                <td className="px-4 py-3 align-top font-semibold tabular-nums text-foreground">
+                <td className="px-4 py-3 align-top font-medium tabular-nums text-foreground">
                   {r.assemblies.toLocaleString()}
                   {r.assemblies === 0 && (
                     <span className="block text-xs font-normal text-danger">none</span>

@@ -1,4 +1,5 @@
 import { ImageResponse } from "next/og";
+import { og } from "@/lib/og-theme";
 import { getPostBySlug } from "@/lib/mdx";
 import { formatContentDate } from "@/lib/date";
 
@@ -25,7 +26,7 @@ export default async function OGImage({ params }: { params: Promise<{ slug: stri
     (
       <div
         style={{
-          background: "#1f4d3a",
+          background: og.paper2,
           width: "100%",
           height: "100%",
           display: "flex",
@@ -44,12 +45,10 @@ export default async function OGImage({ params }: { params: Promise<{ slug: stri
                 key={tag}
                 style={{
                   fontSize: 14,
-                  color: "#e9c46a",
-                  border: "1px solid rgba(251,246,238,0.26)",
+                  color: og.accent,
+                  border: `1px solid ${og.rule}`,
                   borderRadius: "9999px",
                   padding: "6px 16px",
-                  letterSpacing: "0.05em",
-                  textTransform: "uppercase",
                 }}
               >
                 {tag}
@@ -63,7 +62,7 @@ export default async function OGImage({ params }: { params: Promise<{ slug: stri
           style={{
             fontSize: title.length > 60 ? 48 : 56,
             fontWeight: 800,
-            color: "#fbf6ee",
+            color: og.ink,
             lineHeight: 1.2,
             marginBottom: "32px",
             letterSpacing: "-0.02em",
@@ -84,11 +83,10 @@ export default async function OGImage({ params }: { params: Promise<{ slug: stri
             display: "flex",
             gap: "16px",
             fontSize: 18,
-            color: "#d3e4d9",
+            color: og.ink2,
           }}
         >
           {date && <span>{date}</span>}
-          {date && readingTime && <span>·</span>}
           {readingTime && <span>{readingTime}</span>}
         </div>
 
@@ -102,7 +100,7 @@ export default async function OGImage({ params }: { params: Promise<{ slug: stri
             display: "flex",
             justifyContent: "space-between",
             alignItems: "center",
-            borderTop: "1px solid rgba(251,246,238,0.26)",
+            borderTop: `1px solid ${og.rule}`,
             paddingTop: "24px",
           }}
         >
@@ -112,20 +110,20 @@ export default async function OGImage({ params }: { params: Promise<{ slug: stri
                 width: "40px",
                 height: "40px",
                 borderRadius: "50%",
-                background: "#6b1d35",
+                background: og.accent,
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
-                color: "#fbf6ee",
+                color: og.accentInk,
                 fontSize: 16,
                 fontWeight: 700,
               }}
             >
               PS
             </div>
-            <div style={{ fontSize: 18, color: "#d3e4d9" }}>Prem Pratap Singh</div>
+            <div style={{ fontSize: 18, color: og.ink2 }}>Prem Pratap Singh</div>
           </div>
-          <div style={{ fontSize: 16, color: "#d3e4d9" }}>prempsingh.com/blog</div>
+          <div style={{ fontSize: 16, color: og.ink2 }}>prempsingh.com/blog</div>
         </div>
       </div>
     ),

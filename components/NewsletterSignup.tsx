@@ -2,7 +2,6 @@
 
 import Script from "next/script";
 import { FormEvent, useCallback, useEffect, useRef, useState } from "react";
-import { ResearchDeliveryIcon } from "@/components/icons/PortfolioIcons";
 
 type FormState = "idle" | "submitting" | "success" | "error";
 
@@ -142,12 +141,12 @@ export default function NewsletterSignup() {
   };
 
   return (
-    <div className="paper-panel flex flex-col p-6">
-      <span className="icon-stamp bg-decision-wash text-decision">
-        <ResearchDeliveryIcon size={22} />
-      </span>
-      <h3 className="mt-5 text-xl leading-tight text-foreground">Occasional field notes</h3>
-      <p className="mt-1 text-sm leading-relaxed text-muted-foreground">New research, no noise.</p>
+    // One ruled row: the name and its line on the left, the field and button on the right.
+    <div className="grid gap-x-8 gap-y-4 py-8 lg:grid-cols-12 lg:items-center">
+      <div className="lg:col-span-4">
+        <h3>Occasional field notes</h3>
+        <p className="mt-2 text-sm text-muted-foreground">New research, no noise.</p>
+      </div>
 
       {turnstileConfigured ? (
         <Script
@@ -157,11 +156,12 @@ export default function NewsletterSignup() {
         />
       ) : null}
 
-      <form onSubmit={handleSubmit} className="mt-auto flex flex-col gap-2 pt-6">
-        <label htmlFor="newsletter-email" className="text-sm font-semibold text-muted-foreground">
+      <div className="lg:col-span-8">
+      <form onSubmit={handleSubmit} className="flex max-w-2xl flex-col gap-2">
+        <label htmlFor="newsletter-email" className="text-sm font-medium text-muted-foreground">
           Email address
         </label>
-        <div className="flex flex-col gap-2 sm:max-md:flex-row">
+        <div className="flex flex-col gap-3 sm:flex-row">
           <input
             id="newsletter-email"
             type="email"
@@ -220,6 +220,7 @@ export default function NewsletterSignup() {
             ? "Confirmation required. Unsubscribe anytime."
             : "Newsletter signup is temporarily unavailable.")}
       </p>
+      </div>
     </div>
   );
 }

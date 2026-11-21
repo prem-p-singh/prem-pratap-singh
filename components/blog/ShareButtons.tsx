@@ -63,7 +63,7 @@ export default function ShareButtons({ title, slug, description }: ShareButtonsP
 
   return (
     <div>
-      <p className="text-sm font-semibold text-muted-foreground">Share:</p>
+      <p className="text-sm font-medium text-muted-foreground">Share:</p>
       <div className="mt-3 flex flex-wrap gap-2">
         {shareLinks.map((link) => (
           <a

@@ -1,0 +1,74 @@
+[
+ [
+  "app/page.tsx",
+  "Publications"
+ ],
+ [
+  "app/page.tsx",
+  "Code"
+ ],
+ [
+  "app/page.tsx",
+  "Projects"
+ ],
+ [
+  "app/page.tsx",
+  "Field notes"
+ ],
+ [
+  "app/page.tsx",
+  "Where the work can grow next"
+ ],
+ [
+  "app/privacy/page.tsx",
+  "Privacy"
+ ],
+ [
+  "app/gallery/page.tsx",
+  "Charts, maps, mechanisms and research illustrations"
+ ],
+ [
+  "app/journey/page.tsx",
+  "Curiosity, Method, Evidence and Impact"
+ ],
+ [
+  "app/blog/page.tsx",
+  "Research notebook"
+ ],
+ [
+  "app/data/page.tsx",
+  "Open Data, Decoded"
+ ],
+ [
+  "components/CareerMap.tsx",
+  "My research throughline"
+ ],
+ [
+  "components/ResearchSnapshot.tsx",
+  "Capabilities"
+ ],
+ [
+  "components/JourneyChapters.tsx",
+  "From Varanasi to Davis, now evaluating scientific AI"
+ ],
+ [
+  "components/WorkExperience.tsx",
+  "Experience"
+ ],
+ [
+  "components/ResearchPathway.tsx",
+  "How I work"
+ ],
+ [
+  "components/methods/MethodResources.tsx",
+  "Watch the method"
+ ],
+ [
+  "components/gallery/VisualGallery.tsx",
+  "Research, seen differently"
+ ],
+ [
+  "components/blog/BlogSearchList.tsx",
+  "Research radar"
+ ]
+]

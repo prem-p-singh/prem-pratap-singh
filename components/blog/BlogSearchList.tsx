@@ -5,7 +5,6 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useMemo, useState } from "react";
 import { formatContentDate } from "@/lib/date";
-import { FieldIcon } from "@/components/icons/PortfolioIcons";
 import type { BlogPostMeta } from "@/lib/mdx";
 
 interface BlogSearchListProps {
@@ -29,7 +28,7 @@ const researchTrails: Array<{
 ];
 
 const tagClass =
-  "rounded-[3px] border border-field/20 bg-field-wash px-3 py-1 text-xs font-semibold text-field";
+  "rounded-none border border-field/20 bg-field-wash px-3 py-1 text-xs font-medium text-field";
 
 const DEFAULT_VISIBLE = 6;
 // Cards show this many tags; search and trails still read every tag.
@@ -75,7 +74,6 @@ export default function BlogSearchList({ posts }: BlogSearchListProps) {
       aria-labelledby="blog-trails-title"
     >
       <div className="room-title lg:col-span-12">
-        <p className="section-kicker">Research radar</p>
         <h2 id="blog-trails-title" className="mt-3 text-3xl leading-tight text-foreground sm:text-4xl">
           Pick a trail
         </h2>
@@ -96,7 +94,7 @@ export default function BlogSearchList({ posts }: BlogSearchListProps) {
                 type="button"
                 aria-pressed={activeTrail === trail.id}
                 onClick={() => chooseTrail(trail.id)}
-                className="group inline-flex items-center rounded-[3px] border border-border bg-card px-3.5 py-1.5 text-xs font-semibold text-muted-foreground transition-colors hover:border-field hover:text-foreground aria-pressed:border-primary aria-pressed:bg-primary aria-pressed:text-primary-foreground"
+                className="group inline-flex items-center rounded-none border border-border bg-card px-3.5 py-1.5 text-xs font-medium text-muted-foreground transition-colors hover:border-field hover:text-foreground aria-pressed:border-primary aria-pressed:bg-primary aria-pressed:text-primary-foreground"
               >
                 <span
                   className={`mr-2 size-2 rounded-full group-aria-pressed:bg-primary-foreground ${trail.dot}`}
@@ -120,7 +118,7 @@ export default function BlogSearchList({ posts }: BlogSearchListProps) {
       <div className="lg:col-span-12">
         <div className="paper-panel flex flex-col gap-4 px-5 py-4 sm:flex-row sm:items-center sm:justify-between sm:px-6">
           {/* The base h3 rule is unlayered, so the sans needs the important flag to win. */}
-          <h3 className="font-sans! text-base font-semibold text-foreground">
+          <h3 className="font-sans! text-base font-medium text-foreground">
             Visual index{" "}
             <span className="font-normal tabular-nums text-muted-foreground">{filtered.length}</span>
           </h3>
@@ -159,11 +157,8 @@ export default function BlogSearchList({ posts }: BlogSearchListProps) {
                     ) : (
                       // No image: a tinted band with the notebook's field icon and the post's first tag.
                       <div className="flex items-center justify-between gap-4 border-b border-border bg-field-wash px-6 py-5">
-                        <span className="icon-stamp bg-card text-field">
-                          <FieldIcon size={22} />
-                        </span>
                         {post.tags[0] && (
-                          <span className="rounded-[3px] border border-field/20 bg-card px-3 py-1 text-xs font-semibold text-field">
+                          <span className="rounded-none border border-field/20 bg-card px-3 py-1 text-xs font-medium text-field">
                             {post.tags[0]}
                           </span>
                         )}
@@ -198,7 +193,7 @@ export default function BlogSearchList({ posts }: BlogSearchListProps) {
                             </li>
                           ))}
                           {tags.length > MAX_TAGS && (
-                            <li className="rounded-[3px] border border-border px-3 py-1 text-xs font-semibold tabular-nums text-muted-foreground">
+                            <li className="rounded-none border border-border px-3 py-1 text-xs font-medium tabular-nums text-muted-foreground">
                               +{tags.length - MAX_TAGS}
                               <span className="sr-only"> more tags</span>
                             </li>
@@ -228,7 +223,7 @@ export default function BlogSearchList({ posts }: BlogSearchListProps) {
                 setQuery("");
                 setActiveTrail("all");
               }}
-              className="mt-3 text-sm font-semibold text-field underline underline-offset-4"
+              className="mt-3 text-sm font-medium text-field underline underline-offset-4"
             >
               Clear filters
             </button>

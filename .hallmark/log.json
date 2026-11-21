@@ -1,0 +1,37 @@
+[
+ {
+  "mode": "redesign",
+  "depth": "full",
+  "scope": "site",
+  "shape": "Index-First",
+  "theme": "hedgerow",
+  "axes": "dark/high-contrast-serif/chromatic-green",
+  "hero": "Index",
+  "nav": "floating pill",
+  "footer": "index columns",
+  "imagery": "the owner figures and portrait, no library photographs",
+  "photos": [],
+  "entry": "none",
+  "fingerprint": "index-first/index/floating-pill/index-columns/hedgerow/none",
+  "sections": [
+   "Index hero",
+   "Split",
+   "Steps",
+   "Rows",
+   "Grid",
+   "Figures on cream",
+   "Showcase",
+   "Grid",
+   "Grid",
+   "Rows and form"
+  ],
+  "signature": "research projects as a field-guide index on the first screen",
+  "waived": [
+   "8",
+   "28b",
+   "85"
+  ],
+  "prompt": "portfolio of a plant pathologist and data scientist",
+  "date": "2026-11-21"
+ }
+]

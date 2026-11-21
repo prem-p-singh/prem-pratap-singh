@@ -89,7 +89,7 @@ function MentorPills({
             {mentor.affiliation && <span className="font-normal">, {mentor.affiliation}</span>}
           </>
         );
-        const pill = `inline-block rounded-[3px] border px-3 py-1 text-xs font-semibold ${pillTones[tone]}`;
+        const pill = `inline-block rounded-none border px-3 py-1 text-xs font-medium ${pillTones[tone]}`;
         return (
           <li key={mentor.name}>
             {mentor.url ? (
@@ -118,10 +118,9 @@ export default function WorkExperience() {
       className="guided-scroll-section"
       aria-labelledby="work-experience-title"
     >
-      <div className="mx-auto max-w-[100rem] px-4 sm:px-6 lg:px-8">
-        <div className="grid gap-x-8 gap-y-10 border-t border-border py-10 lg:grid-cols-12 lg:py-14">
+      <div className="shell">
+        <div className="grid gap-x-8 gap-y-10 py-[var(--section-gap-s)] lg:grid-cols-12">
           <div className="room-title lg:col-span-12">
-            <p className="section-kicker">Experience</p>
             <h2
               id="work-experience-title"
               className="text-3xl leading-tight text-foreground sm:text-4xl"
@@ -147,18 +146,18 @@ export default function WorkExperience() {
                     <div className="grid gap-x-8 gap-y-4 sm:grid-cols-[10rem_1fr]">
                       <div className="text-sm leading-normal">
                         <p className="font-serif text-lg font-bold leading-tight tabular-nums text-foreground">
-                          {role.startDate}–{role.endDate}
+                          {role.startDate} to {role.endDate}
                         </p>
                         <p className="mt-1 text-muted-foreground">{role.location}</p>
                         <span
-                          className={`mt-3 inline-block rounded-[3px] border px-3 py-1 text-xs font-semibold ${tone.tag}`}
+                          className={`mt-3 inline-block rounded-none border px-3 py-1 text-xs font-medium ${tone.tag}`}
                         >
                           {detail.label}
                         </span>
                       </div>
                       <div>
                         <h3 className="text-2xl leading-tight text-foreground sm:text-3xl">{role.title}</h3>
-                        <p className="mt-2 text-base font-semibold text-muted-foreground">
+                        <p className="mt-2 text-base font-medium text-muted-foreground">
                           {role.organization}
                         </p>
                         <p className="mt-4 max-w-[60ch] text-base leading-relaxed text-foreground">
@@ -195,7 +194,7 @@ export default function WorkExperience() {
                       {detail.evidence.map((item) => (
                         <li
                           key={item}
-                          className="border-t-2 border-foreground pt-2 text-sm font-semibold leading-snug tabular-nums text-foreground"
+                          className="border-t-2 border-foreground pt-2 text-sm font-medium leading-snug tabular-nums text-foreground"
                         >
                           {item}
                         </li>
@@ -210,7 +209,7 @@ export default function WorkExperience() {
               href="/Prem_Pratap_Singh_Resume.pdf"
               target="_blank"
               rel="noopener noreferrer"
-              className="mt-6 inline-block text-sm font-semibold text-field-strong underline underline-offset-4"
+              className="mt-6 inline-block text-sm font-medium text-field-strong underline underline-offset-4"
             >
               Full career details
             </Link>

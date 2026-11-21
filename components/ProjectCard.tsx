@@ -82,7 +82,7 @@ export default function ProjectCard({ project }: ProjectCardProps) {
           {tech.map((t) => (
             <span
               key={t}
-              className="px-2 py-0.5 text-xs bg-muted text-muted-foreground rounded"
+              className="px-2 py-0.5 text-xs bg-paper-2 text-muted-foreground rounded"
             >
               {t}
             </span>

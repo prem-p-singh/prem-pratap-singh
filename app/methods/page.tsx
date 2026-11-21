@@ -22,7 +22,7 @@ export default function MethodsPage() {
 
   return (
     <div className="min-h-screen pt-16">
-      <div className="mx-auto max-w-[100rem] px-4 sm:px-6 lg:px-8">
+      <div className="shell">
         <header className="room-green room-bleed mb-10 pb-10 pt-10 sm:pt-12 lg:pt-14">
           <h1 className="text-4xl leading-tight text-foreground sm:text-5xl lg:text-6xl">
             Methods, made visible.
@@ -43,7 +43,7 @@ export default function MethodsPage() {
                 <span className="absolute inset-x-0 top-0 h-1 bg-decision" aria-hidden="true" />
                 <div className="lg:col-span-5">
                   {post.image && (
-                    <div className="relative aspect-video overflow-hidden rounded-[6px] border border-border bg-card">
+                    <div className="relative aspect-video overflow-hidden rounded-none border border-border bg-card">
                       <Image
                         src={post.image}
                         alt={post.title}
@@ -58,11 +58,11 @@ export default function MethodsPage() {
                     <dl className={`divide-y divide-border text-sm leading-normal ${post.image ? "mt-4" : ""}`}>
                       {/* Label colours as the previous design had them: origin biology, re-test data. */}
                       <div className="grid grid-cols-[7rem_1fr] gap-x-4 py-3">
-                        <dt className="font-semibold text-biology">Built in</dt>
+                        <dt className="font-medium text-biology">Built in</dt>
                         <dd className="tabular-nums text-foreground">{post.origin || "Original study"}</dd>
                       </div>
                       <div className="grid grid-cols-[7rem_1fr] gap-x-4 py-3">
-                        <dt className="font-semibold text-data">Re-tested on</dt>
+                        <dt className="font-medium text-data">Re-tested on</dt>
                         <dd className="tabular-nums text-foreground">{post.reappliedTo || "Public data"}</dd>
                       </div>
                     </dl>
@@ -70,7 +70,7 @@ export default function MethodsPage() {
                 </div>
                 <div className="flex flex-col lg:col-span-7">
                   {post.method && (
-                    <p className="self-start rounded-[3px] border border-decision/20 bg-decision-wash px-3 py-1 text-xs font-semibold text-decision">
+                    <p className="self-start rounded-none border border-decision/20 bg-decision-wash px-3 py-1 text-xs font-medium text-decision">
                       {post.method}
                     </p>
                   )}
@@ -93,12 +93,12 @@ export default function MethodsPage() {
                       {post.keyStats.map((stat) => (
                         <div
                           key={stat.label}
-                          className="flex flex-col-reverse justify-end rounded-[6px] bg-decision-wash px-4 py-3"
+                          className="flex flex-col-reverse justify-end rounded-none bg-decision-wash px-4 py-3"
                         >
-                          <dt className="text-sm font-semibold leading-snug text-foreground">
+                          <dt className="text-sm font-medium leading-snug text-foreground">
                             {stat.label}
                           </dt>
-                          <dd className="text-2xl font-semibold tabular-nums text-decision">
+                          <dd className="text-2xl font-medium tabular-nums text-decision">
                             {stat.value}
                           </dd>
                         </div>

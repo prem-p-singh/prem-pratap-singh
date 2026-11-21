@@ -46,7 +46,7 @@ const categoryTones: Record<string, keyof typeof tones> = {
   Mechanism: "biology",
 };
 
-const tagClass = "rounded-[3px] border px-3 py-1 text-xs font-semibold";
+const tagClass = "rounded-none border px-3 py-1 text-xs font-medium";
 const detailRowClass = "grid gap-x-4 gap-y-2 py-4 sm:grid-cols-[12rem_1fr]";
 
 export default function ProjectCaseFiles({
@@ -71,7 +71,7 @@ export default function ProjectCaseFiles({
           const methods = project.tech.slice(0, 3);
           const toolkit = Array.from(new Set([...(project.skills ?? []), ...project.tech]));
           const Chevron = open ? ChevronUp : ChevronDown;
-          const linkClass = `text-sm font-semibold underline underline-offset-4 ${tone.text}`;
+          const linkClass = `text-sm font-medium underline underline-offset-4 ${tone.text}`;
 
           return (
             <article key={project.title} className="paper-panel p-6 sm:p-7">
@@ -114,7 +114,7 @@ export default function ProjectCaseFiles({
                 <div className="relative flex flex-col justify-start border-t-2 border-foreground pt-3 pr-8 sm:border-l sm:border-t-0 sm:border-border sm:pl-6 sm:pt-0">
                   <p>
                     <span
-                      className={`block font-serif text-4xl font-bold leading-none tabular-nums ${tone.text}`}
+                      className={`figure block text-[length:var(--text-2xl)] [overflow-wrap:anywhere] ${tone.text}`}
                     >
                       {project.resultStat || "Evidence"}
                     </span>
@@ -130,17 +130,17 @@ export default function ProjectCaseFiles({
               <div id={panelId} hidden={!open} className="mt-6 border-t border-border pt-2">
                 <dl className="divide-y divide-border text-sm leading-normal">
                   <div className={detailRowClass}>
-                    <dt className="font-semibold text-foreground">What we did</dt>
+                    <dt className="font-medium text-foreground">What we did</dt>
                     <dd className="text-foreground">{project.description}</dd>
                   </div>
                   {project.impact && (
                     <div className={detailRowClass}>
-                      <dt className="font-semibold text-foreground">What the data showed</dt>
+                      <dt className="font-medium text-foreground">What the data showed</dt>
                       <dd className="tabular-nums text-foreground">{project.impact}</dd>
                     </div>
                   )}
                   <div className={detailRowClass}>
-                    <dt className="font-semibold text-foreground">Methods and capabilities</dt>
+                    <dt className="font-medium text-foreground">Methods and capabilities</dt>
                     <dd>
                       <ul className="flex flex-wrap gap-2">
                         {toolkit.map((item) => (
@@ -186,7 +186,7 @@ export default function ProjectCaseFiles({
                     {/* Scrolls sideways on narrow screens. Shrinking a dense figure
                         to phone width makes axis labels unreadable, so it keeps a
                         legible minimum and the reader pans instead. */}
-                    <div className="overflow-x-auto rounded-[6px] border border-border bg-card">
+                    <div className="overflow-x-auto rounded-none border border-border bg-card">
                       <Image
                         src={project.image}
                         alt={project.imageCaption || `Figure from ${project.title}`}

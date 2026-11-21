@@ -11,30 +11,6 @@ import {
 
 type Tone = "field" | "biology" | "data" | "decision";
 
-// Family colours, written out in full so Tailwind can see every class.
-const tones: Record<Tone, { tile: string; edge: string; tag: string }> = {
-  field: {
-    tile: "bg-field-wash text-field",
-    edge: "bg-field",
-    tag: "border-field/20 bg-field-wash text-field",
-  },
-  biology: {
-    tile: "bg-biology-wash text-biology",
-    edge: "bg-biology",
-    tag: "border-biology/20 bg-biology-wash text-biology",
-  },
-  data: {
-    tile: "bg-data-wash text-data",
-    edge: "bg-data",
-    tag: "border-data/20 bg-data-wash text-data",
-  },
-  decision: {
-    tile: "bg-decision-wash text-decision",
-    edge: "bg-decision",
-    tag: "border-decision/20 bg-decision-wash text-decision",
-  },
-};
-
 const capabilityPillars: Array<{
   title: string;
   description: string;
@@ -86,10 +62,9 @@ export default function ResearchSnapshot() {
       className="guided-scroll-section"
       aria-labelledby="research-snapshot-title"
     >
-      <div className="mx-auto max-w-[100rem] px-4 sm:px-6 lg:px-8">
-        <div className="grid gap-x-8 gap-y-10 border-t border-border py-10 lg:grid-cols-12 lg:py-14">
+      <div className="shell">
+        <div className="grid gap-x-8 gap-y-10 py-[var(--section-gap-s)] lg:grid-cols-12">
           <div className="room-title lg:col-span-12">
-            <p className="section-kicker">Capabilities</p>
             <h2
               id="research-snapshot-title"
               className="mt-3 text-3xl leading-tight text-foreground sm:text-4xl"
@@ -101,42 +76,29 @@ export default function ResearchSnapshot() {
             </p>
           </div>
 
-          <ul className="grid gap-5 sm:grid-cols-2 lg:col-span-12">
-            {capabilityPillars.map((pillar) => {
-              const Icon = pillar.icon;
-              const tone = tones[pillar.tone];
-              return (
-                <li
-                  key={pillar.title}
-                  className="paper-panel flex flex-col p-6 sm:last:col-span-2"
+          {/* A field guide: the capability in Prata, what it does, then its methods, on ruled rows. */}
+          <ul className="index-list lg:col-span-12">
+            {capabilityPillars.map((pillar) => (
+              <li key={pillar.title} className="grid gap-x-8 gap-y-3 py-7 lg:grid-cols-12 lg:items-baseline">
+                <h3 className="text-[length:var(--text-2xl)] leading-tight lg:col-span-4">{pillar.title}</h3>
+                <p className="max-w-[46ch] text-ink-2 lg:col-span-5">{pillar.description}</p>
+                <ul
+                  className="grid gap-1 text-xs font-medium text-muted lg:col-span-3"
+                  aria-label={`${pillar.title} methods`}
                 >
-                  <div className="flex items-start justify-between gap-6">
-                    <h3 className="text-2xl leading-tight text-foreground sm:text-3xl">{pillar.title}</h3>
-                    <span className={`icon-stamp ${tone.tile}`}>
-                      <Icon size={22} />
-                    </span>
-                  </div>
-                  <p className="mb-6 mt-3 max-w-[52ch] text-base leading-relaxed text-foreground">
-                    {pillar.description}
-                  </p>
-                  <ul
-                    className="mt-auto flex flex-wrap gap-x-6 gap-y-1 border-t border-border pt-4 text-sm font-semibold text-muted-foreground"
-                    aria-label={`${pillar.title} methods`}
-                  >
-                    {pillar.methods.map((method) => (
-                      <li key={method}>{method}</li>
-                    ))}
-                  </ul>
-                </li>
-              );
-            })}
+                  {pillar.methods.map((method) => (
+                    <li key={method}>{method}</li>
+                  ))}
+                </ul>
+              </li>
+            ))}
           </ul>
 
           <details id="skills" className="scroll-mt-24 lg:col-span-12">
             <summary className="cursor-pointer list-none text-sm text-muted-foreground marker:content-none lg:grid lg:grid-cols-12 lg:gap-x-8">
-              <span className="paper-panel block px-6 py-4 lg:col-span-12">
+              <span className="block lg:col-span-12">
                 Eight technical domains, 96 methods and research practices.{" "}
-                <span className="font-semibold text-field underline underline-offset-4">
+                <span className="font-medium text-ink underline decoration-accent underline-offset-4">
                   Open the full capability index
                 </span>
               </span>

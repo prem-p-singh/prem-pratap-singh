@@ -28,7 +28,7 @@ const suspectResponses: Record<Suspect, { title: string; body: string }> = {
     body: "The direct route remains, but viral titer carried the larger share.",
   },
   virus: {
-    title: "Close—not the whole path",
+    title: "Close, not the whole path",
     body: "Virus carried 61.8%; the rest stayed direct.",
   },
   both: {
@@ -44,8 +44,8 @@ export function VineyardCaseFile() {
   return (
     <section className="paper-panel not-prose my-10">
       <div className="border-b border-border px-5 py-6 sm:px-7">
-        <div className="flex flex-wrap items-center gap-2 text-sm font-semibold text-muted-foreground">
-          <span className="rounded-[3px] border border-biology/20 bg-biology-wash px-3 py-1 text-xs font-semibold text-biology">
+        <div className="flex flex-wrap items-center gap-2 text-sm font-medium text-muted-foreground">
+          <span className="rounded-none border border-biology/20 bg-biology-wash px-3 py-1 text-xs font-medium text-biology">
             Case file 01
           </span>
           Vineyard mystery
@@ -54,7 +54,7 @@ export function VineyardCaseFile() {
           Which route fits?
         </h2>
         <p className="mt-2 max-w-2xl text-sm leading-relaxed text-muted-foreground sm:text-base">
-          Heat · virus · gene response
+          Heat, virus, gene response
         </p>
       </div>
 
@@ -71,13 +71,13 @@ export function VineyardCaseFile() {
                 // .paper-control fixes its own colours, so the selected state swaps it for utilities.
                 className={`w-full p-4 text-left ${
                   active
-                    ? "rounded-[0.875rem] border border-primary bg-field-wash"
+                    ? "rounded-none border border-primary bg-field-wash"
                     : "paper-control"
                 }`}
               >
                 <span className="flex items-center gap-3">
                   <span
-                    className={`flex size-7 shrink-0 items-center justify-center rounded-full border text-xs font-semibold ${
+                    className={`flex size-7 shrink-0 items-center justify-center rounded-full border text-xs font-medium ${
                       active
                         ? "border-primary bg-primary text-primary-foreground"
                         : "border-border text-muted-foreground"
@@ -85,32 +85,32 @@ export function VineyardCaseFile() {
                   >
                     {active ? "✓" : "?"}
                   </span>
-                  <span className="font-semibold text-foreground">{option.label}</span>
+                  <span className="font-medium text-foreground">{option.label}</span>
                 </span>
               </button>
             );
           })}
         </div>
 
-        <div className="rounded-[6px] bg-muted p-5 sm:p-6">
+        <div className="rounded-none bg-paper-2 p-5 sm:p-6">
           {!response ? (
             <div className="flex min-h-72 flex-col items-center justify-center text-center">
-              <div className="flex w-full max-w-md items-center text-sm font-semibold text-foreground">
-                <span className="rounded-[3px] bg-biology-wash px-3 py-2 text-biology">
+              <div className="flex w-full max-w-md items-center text-sm font-medium text-foreground">
+                <span className="rounded-none bg-biology-wash px-3 py-2 text-biology">
                   Heat
                 </span>
                 <span className="mx-2 flex min-w-5 flex-1 items-center" aria-hidden="true">
                   <span className="h-px flex-1 bg-biology/35" />
                   <span className="size-1.5 rounded-full bg-data" />
                 </span>
-                <span className="rounded-[3px] bg-data-wash px-3 py-2 text-data">
+                <span className="rounded-none bg-data-wash px-3 py-2 text-data">
                   ?
                 </span>
                 <span className="mx-2 flex min-w-5 flex-1 items-center" aria-hidden="true">
                   <span className="h-px flex-1 bg-data/35" />
                   <span className="size-1.5 rounded-full bg-field" />
                 </span>
-                <span className="rounded-[3px] bg-field-wash px-3 py-2 text-field">
+                <span className="rounded-none bg-field-wash px-3 py-2 text-field">
                   Vine response
                 </span>
               </div>
@@ -120,7 +120,7 @@ export function VineyardCaseFile() {
             </div>
           ) : (
             <div aria-live="polite">
-              <p className="text-sm font-semibold text-field">
+              <p className="text-sm font-medium text-field">
                 Evidence revealed
               </p>
               <h3 className="mt-2 text-xl leading-tight text-foreground">{response.title}</h3>
@@ -131,7 +131,7 @@ export function VineyardCaseFile() {
               <div className="mt-6 space-y-5">
                 <div>
                   <div className="mb-2 flex items-center justify-between gap-4 text-xs">
-                    <span className="font-semibold text-data">
+                    <span className="font-medium text-data">
                       Through viral titer
                     </span>
                     <span className="tabular-nums text-muted-foreground">61.8%</span>
@@ -142,7 +142,7 @@ export function VineyardCaseFile() {
                 </div>
                 <div>
                   <div className="mb-2 flex items-center justify-between gap-4 text-xs">
-                    <span className="font-semibold text-biology">
+                    <span className="font-medium text-biology">
                       Direct temperature route
                     </span>
                     <span className="tabular-nums text-muted-foreground">38.2%</span>
@@ -154,21 +154,21 @@ export function VineyardCaseFile() {
               </div>
 
               <div className="mt-6 grid grid-cols-2 gap-3">
-                <div className="rounded-[6px] bg-card p-3">
-                  <p className="text-2xl font-semibold tabular-nums text-foreground">39</p>
+                <div className="rounded-none bg-card p-3">
+                  <p className="text-2xl font-medium tabular-nums text-foreground">39</p>
                   <p className="mt-1 text-xs leading-snug text-muted-foreground">
                     significant mediating genes
                   </p>
                 </div>
-                <div className="rounded-[6px] bg-card p-3">
-                  <p className="text-2xl font-semibold tabular-nums text-foreground">2,000</p>
+                <div className="rounded-none bg-card p-3">
+                  <p className="text-2xl font-medium tabular-nums text-foreground">2,000</p>
                   <p className="mt-1 text-xs leading-snug text-muted-foreground">
                     bootstrap resamples
                   </p>
                 </div>
               </div>
               <p className="mt-4 text-xs leading-relaxed text-muted-foreground">
-                61.8% describes MBF1c—not every vineyard heat response.
+                61.8% describes MBF1c, not every vineyard heat response.
               </p>
             </div>
           )}
@@ -299,8 +299,8 @@ export function CropGrowthExplorer() {
   return (
     <section className="paper-panel not-prose my-10">
       <div className="border-b border-border px-5 py-6 sm:px-7">
-        <div className="flex flex-wrap items-center gap-2 text-sm font-semibold text-muted-foreground">
-          <span className="rounded-[3px] border border-field/20 bg-field-wash px-3 py-1 text-xs font-semibold text-field">
+        <div className="flex flex-wrap items-center gap-2 text-sm font-medium text-muted-foreground">
+          <span className="rounded-none border border-field/20 bg-field-wash px-3 py-1 text-xs font-medium text-field">
             Case file 02
           </span>
           The method goes travelling
@@ -309,12 +309,12 @@ export function CropGrowthExplorer() {
           More farmland or better harvests?
         </h2>
         <p className="mt-2 max-w-2xl text-sm leading-relaxed text-muted-foreground sm:text-base">
-          63 years · 10 crops · one route split
+          63 years, 10 crops, one route split
         </p>
       </div>
 
       <div className="border-b border-border p-5 sm:p-7">
-        <p className="text-sm font-semibold text-foreground">
+        <p className="text-sm font-medium text-foreground">
           Which crop was most land-driven?
         </p>
         <div className="mt-3 flex flex-wrap gap-2" role="group" aria-label="Guess the most land-driven crop">
@@ -327,7 +327,7 @@ export function CropGrowthExplorer() {
                 setGuess(option);
                 setSelectedName(option);
               }}
-              className="rounded-[3px] border border-border bg-card px-3.5 py-1.5 text-xs font-semibold text-muted-foreground transition-colors hover:border-field hover:text-foreground aria-pressed:border-primary aria-pressed:bg-primary aria-pressed:text-primary-foreground"
+              className="rounded-none border border-border bg-card px-3.5 py-1.5 text-xs font-medium text-muted-foreground transition-colors hover:border-field hover:text-foreground aria-pressed:border-primary aria-pressed:bg-primary aria-pressed:text-primary-foreground"
             >
               {option}
             </button>
@@ -335,12 +335,12 @@ export function CropGrowthExplorer() {
         </div>
         {guess && (
           <div
-            className={`mt-4 rounded-[6px] p-4 text-sm leading-relaxed text-foreground ${
+            className={`mt-4 rounded-none p-4 text-sm leading-relaxed text-foreground ${
               guess === "Sugarcane" ? "bg-field-wash" : "bg-decision-wash"
             }`}
             aria-live="polite"
           >
-            <span className="font-semibold">
+            <span className="font-medium">
               {guess === "Sugarcane" ? "Correct." : "Sugarcane."}
             </span>{" "}
             97.2% of its modeled trend ran through harvested area.
@@ -350,11 +350,11 @@ export function CropGrowthExplorer() {
 
       <div className="p-5 sm:p-7">
         <label className="block sm:hidden">
-          <span className="text-sm font-semibold text-muted-foreground">Explore a crop</span>
+          <span className="text-sm font-medium text-muted-foreground">Explore a crop</span>
           <select
             value={selected.name}
             onChange={(event) => setSelectedName(event.target.value)}
-            className="paper-control mt-2 w-full px-4 py-3 text-sm font-semibold"
+            className="paper-control mt-2 w-full px-4 py-3 text-sm font-medium"
           >
             {crops.map((crop) => (
               <option key={crop.name} value={crop.name}>{crop.name}</option>
@@ -370,7 +370,7 @@ export function CropGrowthExplorer() {
               role="tab"
               aria-selected={selected.name === crop.name}
               onClick={() => setSelectedName(crop.name)}
-              className="shrink-0 rounded-[3px] border border-border bg-card px-3.5 py-1.5 text-xs font-semibold text-muted-foreground transition-colors hover:border-field hover:text-foreground aria-selected:border-primary aria-selected:bg-primary aria-selected:text-primary-foreground"
+              className="shrink-0 rounded-none border border-border bg-card px-3.5 py-1.5 text-xs font-medium text-muted-foreground transition-colors hover:border-field hover:text-foreground aria-selected:border-primary aria-selected:bg-primary aria-selected:text-primary-foreground"
             >
               {crop.name}
             </button>
@@ -378,25 +378,25 @@ export function CropGrowthExplorer() {
         </div>
 
         <div className="mt-4 grid gap-5 lg:grid-cols-[0.75fr_1.25fr]">
-          <div className="rounded-[6px] bg-muted p-5">
-            <p className="text-sm font-semibold tabular-nums text-muted-foreground">
-              1961–2023
+          <div className="rounded-none bg-paper-2 p-5">
+            <p className="text-sm font-medium tabular-nums text-muted-foreground">
+              1961 to 2023
             </p>
             <h3 className="mt-2 text-2xl leading-tight text-foreground">{selected.name}</h3>
-            <p className="mt-1 text-sm font-semibold text-field">{selected.verdict}</p>
+            <p className="mt-1 text-sm font-medium text-field">{selected.verdict}</p>
             <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
               {selected.detail}
             </p>
 
             <div className="mt-5 grid grid-cols-2 gap-3">
-              <div className="rounded-[6px] bg-card p-3">
-                <p className="text-xl font-semibold tabular-nums text-foreground">
+              <div className="rounded-none bg-card p-3">
+                <p className="text-xl font-medium tabular-nums text-foreground">
                   {selected.productionGrowth.toFixed(2)}×
                 </p>
                 <p className="mt-1 text-xs text-muted-foreground">production</p>
               </div>
-              <div className="rounded-[6px] bg-card p-3">
-                <p className="text-xl font-semibold tabular-nums text-foreground">
+              <div className="rounded-none bg-card p-3">
+                <p className="text-xl font-medium tabular-nums text-foreground">
                   {selected.areaGrowth.toFixed(2)}×
                 </p>
                 <p className="mt-1 text-xs text-muted-foreground">harvested area</p>
@@ -404,15 +404,15 @@ export function CropGrowthExplorer() {
             </div>
           </div>
 
-          <div className="rounded-[6px] bg-muted p-5 sm:p-6">
+          <div className="rounded-none bg-paper-2 p-5 sm:p-6">
             {selected.interpretable ? (
               <>
                 <div className="flex items-end justify-between gap-4">
                   <div>
-                    <p className="text-sm font-semibold text-muted-foreground">
+                    <p className="text-sm font-medium text-muted-foreground">
                       Modeled route split
                     </p>
-                    <p className="mt-2 text-3xl font-semibold tabular-nums text-foreground">
+                    <p className="mt-2 text-3xl font-medium tabular-nums text-foreground">
                       {selected.mediated.toFixed(1)}%
                     </p>
                     <p className="text-sm text-muted-foreground">through harvested area</p>
@@ -421,14 +421,14 @@ export function CropGrowthExplorer() {
                     <p className="text-right text-xs leading-relaxed text-muted-foreground">
                       Bootstrap interval
                       <br />
-                      {selected.ci[0].toFixed(1)}–{selected.ci[1].toFixed(1)}%
+                      {selected.ci[0].toFixed(1)} to {selected.ci[1].toFixed(1)}%
                     </p>
                   )}
                 </div>
 
                 <div className="mt-7 overflow-hidden rounded-full" aria-label={`${selected.name}: ${landShare.toFixed(1)} percent land pathway and ${yieldShare.toFixed(1)} percent direct pathway`}>
                   {/* A 2px gap keeps the two fills apart. */}
-                  <div className="flex h-10 w-full gap-0.5 text-xs font-semibold">
+                  <div className="flex h-10 w-full gap-0.5 text-xs font-medium">
                     <div
                       className="flex items-center justify-center bg-field text-field-foreground"
                       style={{ width: `${landShare}%` }}
@@ -454,15 +454,15 @@ export function CropGrowthExplorer() {
               </>
             ) : (
               <div className="flex min-h-52 flex-col justify-center">
-                <span className="self-start rounded-[3px] border border-decision/20 bg-card px-3 py-1 text-xs font-semibold text-decision">
-                  Outside the 0–100% zone
+                <span className="self-start rounded-none border border-decision/20 bg-card px-3 py-1 text-xs font-medium text-decision">
+                  Outside the 0 to 100% zone
                 </span>
-                <p className="mt-4 text-4xl font-semibold tabular-nums text-foreground">
+                <p className="mt-4 text-4xl font-medium tabular-nums text-foreground">
                   {selected.mediated > 0 ? "+" : ""}{selected.mediated.toFixed(1)}%
                 </p>
                 <p className="mt-3 max-w-xl text-sm leading-relaxed text-muted-foreground">
                   The pathways oppose each other or one exceeds the total. Read this as
-                  a warning—not a pie-chart share.
+                  a warning, not a pie-chart share.
                 </p>
               </div>
             )}
@@ -470,7 +470,7 @@ export function CropGrowthExplorer() {
         </div>
 
         <p className="mt-5 text-xs leading-relaxed text-muted-foreground">
-          Modeled global trends—not causal proof.
+          Modeled global trends, not causal proof.
         </p>
       </div>
     </section>

@@ -1,22 +1,30 @@
 import type { Metadata } from "next";
-import { Bricolage_Grotesque, Public_Sans } from "next/font/google";
+import { IBM_Plex_Mono, Manrope, Prata } from "next/font/google";
 import "./globals.css";
 import FloatingNavWrapper from "@/components/FloatingNavWrapper";
 import Footer from "@/components/Footer";
 import MicrosoftClarity from "@/components/analytics/MicrosoftClarity";
 
-const display = Bricolage_Grotesque({
-  variable: "--font-display",
+// Hedgerow's faces. Prata ships one weight; Manrope carries body, labels and
+// controls; IBM Plex Mono is the outlier, used only inside code.
+const display = Prata({
+  variable: "--font-prata",
   subsets: ["latin"],
-  weight: "variable",
+  weight: "400",
   display: "swap",
 });
 
-const text = Public_Sans({
-  variable: "--font-text",
+const text = Manrope({
+  variable: "--font-manrope",
   subsets: ["latin"],
-  weight: "variable",
-  style: ["normal", "italic"],
+  weight: ["400", "500", "700"],
+  display: "swap",
+});
+
+const mono = IBM_Plex_Mono({
+  variable: "--font-plex",
+  subsets: ["latin"],
+  weight: "400",
   display: "swap",
 });
 
@@ -40,7 +48,7 @@ export const metadata: Metadata = {
     siteName: "Prem Pratap Singh",
     title: "Prem Pratap Singh, Ph.D. | Plant Scientist · Data Scientist",
     description: "Plant scientist and data scientist combining field biology, molecular diagnostics, multi-omics, and reproducible analysis to improve crop decisions.",
-    images: [{ url: "/opengraph-image", width: 1200, height: 630, alt: "Prem Pratap Singh — plant scientist and data scientist" }],
+    images: [{ url: "/opengraph-image", width: 1200, height: 630, alt: "Prem Pratap Singh, plant scientist and data scientist" }],
   },
   twitter: {
     card: "summary_large_image",
@@ -171,7 +179,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="light" suppressHydrationWarning data-scroll-behavior="smooth">
+    <html
+      lang="en"
+      className={`${display.variable} ${text.variable} ${mono.variable}`}
+      suppressHydrationWarning
+      data-scroll-behavior="smooth"
+    >
       <head>
         <script
           type="application/ld+json"
@@ -188,7 +201,7 @@ export default function RootLayout({
         <link rel="alternate" type="application/rss+xml" title="Prem Pratap Singh's Blog" href="/feed.xml" />
       </head>
       <body
-        className={`${display.variable} ${text.variable} antialiased min-h-screen flex flex-col`}
+        className="antialiased min-h-screen flex flex-col"
         suppressHydrationWarning
       >
         <FloatingNavWrapper />

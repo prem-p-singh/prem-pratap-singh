@@ -20,12 +20,12 @@ export function KeyStats({
       {stats.map((s) => (
         <div
           key={s.label}
-          className={`flex flex-col rounded-[6px] px-4 py-4 ${statTone[tone].tile}`}
+          className={`flex flex-col rounded-none px-4 py-4 ${statTone[tone].tile}`}
         >
-          <span className={`text-2xl font-semibold leading-none tabular-nums sm:text-3xl ${statTone[tone].value}`}>
+          <span className={`text-2xl font-medium leading-none tabular-nums sm:text-3xl ${statTone[tone].value}`}>
             {s.value}
           </span>
-          <span className="mt-2 text-sm font-semibold leading-snug text-foreground">
+          <span className="mt-2 text-sm font-medium leading-snug text-foreground">
             {s.label}
           </span>
           {s.note && (
@@ -49,8 +49,8 @@ export function MythReality({
 }) {
   return (
     <div className="not-prose my-8 grid gap-4 md:grid-cols-2">
-      <div className="rounded-[6px] bg-danger-wash p-5">
-        <p className="mb-2 flex items-center gap-1.5 text-sm font-semibold text-danger">
+      <div className="rounded-none bg-danger-wash p-5">
+        <p className="mb-2 flex items-center gap-1.5 text-sm font-medium text-danger">
           <svg className="size-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} aria-hidden="true">
             <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
           </svg>
@@ -58,8 +58,8 @@ export function MythReality({
         </p>
         <p className="text-sm leading-relaxed text-foreground">{myth}</p>
       </div>
-      <div className="rounded-[6px] bg-field-wash p-5">
-        <p className="mb-2 flex items-center gap-1.5 text-sm font-semibold text-field">
+      <div className="rounded-none bg-field-wash p-5">
+        <p className="mb-2 flex items-center gap-1.5 text-sm font-medium text-field">
           <svg className="size-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} aria-hidden="true">
             <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
           </svg>
@@ -74,7 +74,7 @@ export function MythReality({
 /** One-line "so what" attached to a figure. */
 export function Takeaway({ children }: { children: ReactNode }) {
   return (
-    <div className="not-prose -mt-2 mb-8 flex items-start gap-3 rounded-[6px] bg-field-wash px-5 py-4">
+    <div className="not-prose -mt-2 mb-8 flex items-start gap-3 rounded-none bg-field-wash px-5 py-4">
       <svg className="mt-1 size-4 shrink-0 text-field" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} aria-hidden="true">
         <path strokeLinecap="round" strokeLinejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
       </svg>
@@ -95,7 +95,7 @@ export function Methods({
 }) {
   return (
     <div className="paper-panel not-prose mt-5 p-6 sm:px-10 sm:py-8">
-      <p className="mb-3 text-sm font-semibold text-muted-foreground">
+      <p className="mb-3 text-sm font-medium text-muted-foreground">
         How this was done
       </p>
       {children && (
@@ -105,7 +105,7 @@ export function Methods({
         {items.map((i) => (
           <span
             key={i}
-            className="rounded-[3px] border border-field/20 bg-field-wash px-3 py-1 text-xs font-semibold text-field"
+            className="rounded-none border border-field/20 bg-field-wash px-3 py-1 text-xs font-medium text-field"
           >
             {i}
           </span>
