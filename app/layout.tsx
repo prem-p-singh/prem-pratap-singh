@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
 import { IBM_Plex_Mono, Manrope, Prata } from "next/font/google";
-import "./globals.css";
+// Named site.css, not globals.css: Vercel restored a cached build of the old
+// globals.css after the redesign and served the old styles with the new pages.
+// A new file name cannot match that cache.
+import "./site.css";
 import FloatingNavWrapper from "@/components/FloatingNavWrapper";
 import Footer from "@/components/Footer";
 import MicrosoftClarity from "@/components/analytics/MicrosoftClarity";
