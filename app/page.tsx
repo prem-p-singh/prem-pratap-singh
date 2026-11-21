@@ -20,11 +20,11 @@ import WorkExperience from "@/components/WorkExperience";
 import NewsletterSignup from "@/components/NewsletterSignup";
 
 export default function Home() {
-  // The homepage shows the three newest notes that have a picture, so the
-  // section is led by a figure and never by an empty band.
+  // The homepage shows the five newest notes that have a picture: one large,
+  // four beside it, so the right column is as full as the left.
   const allPosts = getAllPosts();
   const picturedPosts = allPosts.filter((post) => post.visualSummary || post.image);
-  const latestPosts = (picturedPosts.length >= 3 ? picturedPosts : allPosts).slice(0, 3);
+  const latestPosts = (picturedPosts.length >= 5 ? picturedPosts : allPosts).slice(0, 5);
   const publishedJournalCount = publications.filter(
     (publication) => publication.venue !== "In Preparation"
   ).length;
@@ -186,7 +186,7 @@ export default function Home() {
                 </div>
               </div>
 
-              <ul className="grid gap-x-8 gap-y-10 lg:col-span-12 lg:grid-cols-12">
+              <ul className="grid gap-x-8 gap-y-6 lg:col-span-12 lg:grid-cols-12">
                 {latestPosts.map((post, index) => {
                   const image = post.visualSummary || post.image;
                   const lead = index === 0;
@@ -195,8 +195,8 @@ export default function Home() {
                       key={post.slug}
                       className={`relative ${
                         lead
-                          ? "lg:col-span-7 lg:row-span-2"
-                          : "grid gap-x-6 gap-y-4 border-t border-rule pt-8 sm:grid-cols-[2fr_3fr] lg:col-span-5 lg:first-of-type:border-t-0"
+                          ? "lg:col-span-7 lg:row-span-4"
+                          : "grid content-start gap-x-6 gap-y-4 border-t border-rule pt-6 sm:grid-cols-[2fr_3fr] lg:col-span-5"
                       }`}
                     >
                       {image && (
