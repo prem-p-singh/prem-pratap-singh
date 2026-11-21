@@ -20,7 +20,11 @@ import WorkExperience from "@/components/WorkExperience";
 import NewsletterSignup from "@/components/NewsletterSignup";
 
 export default function Home() {
-  const latestPosts = getAllPosts().slice(0, 2);
+  // The homepage shows the three newest notes that have a picture, so the
+  // section is led by a figure and never by an empty band.
+  const allPosts = getAllPosts();
+  const picturedPosts = allPosts.filter((post) => post.visualSummary || post.image);
+  const latestPosts = (picturedPosts.length >= 3 ? picturedPosts : allPosts).slice(0, 3);
   const publishedJournalCount = publications.filter(
     (publication) => publication.venue !== "In Preparation"
   ).length;
@@ -66,34 +70,29 @@ export default function Home() {
             </div>
 
             <div className="lg:col-span-12">
-              <div className="paper-panel grid gap-6 p-6 sm:grid-cols-[auto_1fr] sm:items-center sm:gap-8 sm:p-7">
-                <p className="text-sm font-medium leading-normal text-muted-foreground">
-                  <span className="block font-serif text-6xl leading-none tabular-nums text-field">
+              {/* The counts, set like a label: three figures parted by rules. */}
+              <dl className="grid border-y border-rule sm:grid-cols-3 sm:divide-x sm:divide-rule">
+                <div className="flex flex-col-reverse gap-3 py-8 sm:pr-8">
+                  <dt className="text-sm font-medium text-muted">Published works</dt>
+                  <dd className="figure text-[clamp(4rem,9vw,9rem)] text-accent">
                     {publishedJournalCount + bookChapters.length}
-                  </span>
-                  <span className="mt-2 block">published works</span>
-                </p>
-                <dl className="grid grid-cols-2 gap-3">
-                  <div className="flex flex-col-reverse justify-end rounded-none bg-data-wash px-4 py-3">
-                    <dt className="text-sm font-medium leading-snug text-foreground">Journal articles</dt>
-                    <dd className="text-2xl font-medium tabular-nums text-data">
-                      {publishedJournalCount}
-                    </dd>
-                  </div>
-                  <div className="flex flex-col-reverse justify-end rounded-none bg-decision-wash px-4 py-3">
-                    <dt className="text-sm font-medium leading-snug text-foreground">Book chapters</dt>
-                    <dd className="text-2xl font-medium tabular-nums text-decision">
-                      {bookChapters.length}
-                    </dd>
-                  </div>
-                </dl>
-              </div>
+                  </dd>
+                </div>
+                <div className="flex flex-col-reverse gap-3 border-t border-rule py-8 sm:border-t-0 sm:px-8">
+                  <dt className="text-sm font-medium text-muted">Journal articles</dt>
+                  <dd className="figure text-[clamp(4rem,9vw,9rem)]">{publishedJournalCount}</dd>
+                </div>
+                <div className="flex flex-col-reverse gap-3 border-t border-rule py-8 sm:border-t-0 sm:pl-8">
+                  <dt className="text-sm font-medium text-muted">Book chapters</dt>
+                  <dd className="figure text-[clamp(4rem,9vw,9rem)]">{bookChapters.length}</dd>
+                </div>
+              </dl>
 
               <details className="group mt-5">
                 <summary className="cursor-pointer list-none text-sm marker:content-none">
-                  <span className="paper-panel flex items-center justify-between gap-4 px-6 py-4">
+                  <span className="flex items-center justify-between gap-4 border-b border-rule py-5">
                     <span>
-                      <span className="font-medium text-field underline underline-offset-4">
+                      <span className="font-display text-[length:var(--text-title)] text-ink underline decoration-accent decoration-1 underline-offset-4">
                         Browse the publication archive
                       </span>
                       <span className="mt-1 block text-muted-foreground">Filter by format and method</span>
@@ -187,33 +186,32 @@ export default function Home() {
                 </div>
               </div>
 
-              <ul className="grid gap-5 md:grid-cols-2 lg:col-span-12">
-                {latestPosts.map((post) => {
+              <ul className="grid gap-x-8 gap-y-10 lg:col-span-12 lg:grid-cols-12">
+                {latestPosts.map((post, index) => {
                   const image = post.visualSummary || post.image;
+                  const lead = index === 0;
                   return (
-                    <li key={post.slug} className="paper-panel flex flex-col">
-                      {image ? (
-                        <div className="relative aspect-[16/10] border-b border-border">
+                    <li
+                      key={post.slug}
+                      className={`relative ${
+                        lead
+                          ? "lg:col-span-7 lg:row-span-2"
+                          : "grid gap-x-6 gap-y-4 border-t border-rule pt-8 sm:grid-cols-[2fr_3fr] lg:col-span-5 lg:first-of-type:border-t-0"
+                      }`}
+                    >
+                      {image && (
+                        <div className={`photo-frame relative overflow-hidden bg-paper-3 ${lead ? "aspect-[16/10]" : "aspect-[4/3]"}`}>
                           <Image
                             src={image}
                             alt=""
                             fill
-                            sizes="(max-width: 768px) 100vw, 360px"
+                            sizes={lead ? "(max-width: 1024px) 100vw, 56vw" : "(max-width: 640px) 100vw, 18vw"}
                             className="object-cover"
                           />
                         </div>
-                      ) : (
-                        // No image: a tinted band with the notebook's field icon and the post's first tag.
-                        <div className="flex items-center justify-between gap-4 border-b border-border bg-field-wash px-6 py-5">
-                          {post.tags[0] && (
-                            <span className="rounded-none border border-field/20 bg-card px-3 py-1 text-xs font-medium text-field">
-                              {post.tags[0]}
-                            </span>
-                          )}
-                        </div>
                       )}
-                      <div className="flex flex-1 flex-col p-6">
-                        <p className="flex justify-between gap-4 text-sm tabular-nums text-muted-foreground">
+                      <div className={lead ? "mt-6" : ""}>
+                        <p className="flex gap-4 text-xs font-medium tabular-nums text-muted">
                           <time dateTime={post.date}>
                             {formatContentDate(post.date, {
                               month: "short",
@@ -222,19 +220,19 @@ export default function Home() {
                           </time>
                           <span>{post.readingTime}</span>
                         </p>
-                        <h3 className="mt-3 text-xl leading-snug text-foreground">
-                          {/* The link's ::after covers the card, so the image or band is clickable too. */}
+                        <h3
+                          className={`mt-3 ${lead ? "max-w-[26ch] text-[length:var(--text-3xl)] leading-tight" : "text-[length:var(--text-title)] leading-snug"}`}
+                        >
+                          {/* The link's ::after covers the whole item, so the picture is clickable too. */}
                           <Link
                             href={`/blog/${post.slug}`}
-                            className="underline-offset-4 after:absolute after:inset-0 hover:underline"
+                            className="no-underline underline-offset-4 after:absolute after:inset-0 hover:underline hover:decoration-accent"
                           >
                             {post.title}
                           </Link>
                         </h3>
-                        {post.description && (
-                          <p className="mt-3 line-clamp-3 text-sm leading-relaxed text-muted-foreground">
-                            {post.description}
-                          </p>
+                        {lead && post.description && (
+                          <p className="mt-4 line-clamp-3 max-w-[60ch] text-ink-2">{post.description}</p>
                         )}
                       </div>
                     </li>
@@ -251,44 +249,63 @@ export default function Home() {
         className="guided-scroll-section room-merlot"
         aria-labelledby="contact-title"
       >
-        <div className="shell">
-          <div className="grid gap-x-8 gap-y-10 py-[var(--section-gap-s)] lg:grid-cols-12">
-            <div className="room-title lg:col-span-12">
-              <h2 id="contact-title" className="mt-3 text-3xl leading-tight text-foreground sm:text-4xl">
-                Better crop decisions, built on stronger biological data
-              </h2>
-            </div>
+        {/* The close opens on a vineyard; the head rests low and left over a scrim. */}
+        <div className="relative flex min-h-[68dvh] items-end overflow-hidden pb-16 pt-32 max-lg:min-h-[52dvh] max-lg:pb-10">
+          <div
+            data-slot="close"
+            data-alt="Your own picture: a vineyard block you have worked in, wide"
+            className="absolute inset-0"
+          >
+            <Image
+              src="/images/photos/vineyard-in-cabrerolles-1920.jpg"
+              alt="Autumn vines in yellow rows with a single cypress beyond"
+              fill
+              sizes="100vw"
+              className="object-cover object-[50%_62%]"
+            />
+          </div>
+          <div
+            aria-hidden="true"
+            className="absolute inset-0 z-[2] bg-[linear-gradient(90deg,color-mix(in_oklab,var(--color-paper)_88%,transparent)_0%,color-mix(in_oklab,var(--color-paper)_62%,transparent)_42%,color-mix(in_oklab,var(--color-paper)_10%,transparent)_80%),linear-gradient(0deg,var(--color-paper)_0%,transparent_40%)]"
+          />
+          <div className="shell relative z-[3]">
+            <h2 id="contact-title" className="max-w-[18ch] text-[length:var(--text-display-s)] leading-[1.05]">
+              Better crop decisions, built on stronger biological data
+            </h2>
+          </div>
+        </div>
 
-            {/* The close, set as four ruled rows across the page: what each
-                row is on the left, its content on the right. */}
-            <div className="index-list lg:col-span-12">
-              <div className="grid gap-x-8 gap-y-4 py-8 lg:grid-cols-12 lg:items-center">
-                <h3 className="lg:col-span-4">Start a conversation</h3>
-                <div className="flex flex-wrap items-center gap-x-8 gap-y-4 lg:col-span-8">
-                  <a
-                    href={`mailto:${personal.email}`}
-                    className="break-all text-lg text-ink underline-offset-4 hover:decoration-2"
-                  >
-                    {personal.email}
-                  </a>
-                  <a href={`mailto:${personal.email}`} className="btn-primary">
-                    Send an email
-                  </a>
-                </div>
+        <div className="shell">
+          <div className="grid gap-x-8 gap-y-10 pb-[var(--section-gap-s)] pt-10 lg:grid-cols-12">
+
+            {/* The close: four columns side by side under one rule, each a
+                short head with its content directly beneath. */}
+            <div className="grid border-t-[1.5px] border-accent sm:grid-cols-2 lg:col-span-12 lg:grid-cols-4 lg:divide-x lg:divide-rule">
+              <div className="py-8 lg:pr-8">
+                <h3>Start a conversation</h3>
+                <a
+                  href={`mailto:${personal.email}`}
+                  className="mt-4 block break-all text-ink underline-offset-4 hover:decoration-2"
+                >
+                  {personal.email}
+                </a>
+                <a href={`mailto:${personal.email}`} className="btn-primary mt-5">
+                  Send an email
+                </a>
               </div>
 
-              <div className="grid gap-x-8 gap-y-4 py-8 lg:grid-cols-12 lg:items-baseline">
-                <h3 className="lg:col-span-4">Open to</h3>
-                <ul className="grid gap-x-8 gap-y-2 text-ink sm:grid-cols-3 lg:col-span-8">
+              <div className="py-8 lg:px-8">
+                <h3>Open to</h3>
+                <ul className="mt-4 grid gap-2 text-ink">
                   {opportunities.map((opportunity) => (
                     <li key={opportunity}>{opportunity}</li>
                   ))}
                 </ul>
               </div>
 
-              <div className="grid gap-x-8 gap-y-4 py-8 lg:grid-cols-12 lg:items-center">
-                <h3 className="lg:col-span-4">Profiles</h3>
-                <ul className="grid gap-x-8 gap-y-3 sm:grid-cols-3 lg:col-span-8">
+              <div className="py-8 lg:px-8">
+                <h3>Profiles</h3>
+                <ul className="mt-4 grid gap-1">
                   {socialLinks.map((link) => {
                     const Icon = link.icon;
                     return (
@@ -297,7 +314,7 @@ export default function Home() {
                           href={link.href}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="inline-flex min-h-11 items-center gap-3 text-ink underline-offset-4 hover:decoration-2"
+                          className="inline-flex min-h-9 items-center gap-3 text-ink underline-offset-4 hover:decoration-2"
                         >
                           <Icon className="size-5 shrink-0" aria-hidden="true" />
                           {link.label}

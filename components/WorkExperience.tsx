@@ -133,7 +133,8 @@ export default function WorkExperience() {
           </div>
 
           <div className="lg:col-span-12">
-            <ul className="grid gap-5 xl:grid-cols-2 xl:items-start">
+            {/* A log: each role is one wide ruled row, the dates set large on the left. */}
+            <ul className="index-list">
               {workExperience.map((role) => {
                 const detail = roleDetails[role.title];
                 if (!detail) return null;
@@ -142,10 +143,10 @@ export default function WorkExperience() {
                 const currentLabel = role.endDate === "Present" ? "Current PIs" : "Supervisor";
 
                 return (
-                  <li key={role.title} className="paper-panel p-6 sm:p-7">
-                    <div className="grid gap-x-8 gap-y-4 sm:grid-cols-[10rem_1fr]">
+                  <li key={role.title} className="grid gap-x-8 gap-y-8 py-12 lg:grid-cols-12">
+                    <div className="grid gap-x-8 gap-y-4 sm:grid-cols-[15rem_1fr] lg:col-span-8">
                       <div className="text-sm leading-normal">
-                        <p className="font-serif text-lg font-bold leading-tight tabular-nums text-foreground">
+                        <p className="figure text-[length:var(--text-2xl)] leading-tight">
                           {role.startDate} to {role.endDate}
                         </p>
                         <p className="mt-1 text-muted-foreground">{role.location}</p>
@@ -156,7 +157,7 @@ export default function WorkExperience() {
                         </span>
                       </div>
                       <div>
-                        <h3 className="text-2xl leading-tight text-foreground sm:text-3xl">{role.title}</h3>
+                        <h3 className="text-[length:var(--text-3xl)] leading-tight">{role.title}</h3>
                         <p className="mt-2 text-base font-medium text-muted-foreground">
                           {role.organization}
                         </p>
@@ -166,8 +167,9 @@ export default function WorkExperience() {
                       </div>
                     </div>
 
+                    <div className="grid content-start gap-6 lg:col-span-4">
                     {(mentors.current.length > 0 || mentors.former.length > 0) && (
-                      <dl className="mt-5 grid gap-x-6 gap-y-4 border-t border-border pt-4 text-sm leading-normal">
+                      <dl className="grid gap-x-6 gap-y-4 text-sm leading-normal">
                         {mentors.current.length > 0 && (
                           <div>
                             <dt className="text-muted-foreground">{currentLabel}</dt>
@@ -188,18 +190,19 @@ export default function WorkExperience() {
                     )}
 
                     <ul
-                      className="mt-5 grid gap-3 sm:grid-cols-3"
+                      className="grid border-t border-rule"
                       aria-label={`${role.title} highlights`}
                     >
                       {detail.evidence.map((item) => (
                         <li
                           key={item}
-                          className="border-t-2 border-foreground pt-2 text-sm font-medium leading-snug tabular-nums text-foreground"
+                          className="border-b border-rule py-3 font-display text-lg leading-snug tabular-nums text-ink"
                         >
                           {item}
                         </li>
                       ))}
                     </ul>
+                    </div>
                   </li>
                 );
               })}

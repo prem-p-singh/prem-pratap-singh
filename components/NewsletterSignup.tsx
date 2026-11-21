@@ -141,9 +141,9 @@ export default function NewsletterSignup() {
   };
 
   return (
-    // One ruled row: the name and its line on the left, the field and button on the right.
-    <div className="grid gap-x-8 gap-y-4 py-8 lg:grid-cols-12 lg:items-center">
-      <div className="lg:col-span-4">
+    // One column of the close: the name, its line, then the field and button.
+    <div className="py-8 lg:pl-8">
+      <div>
         <h3>Occasional field notes</h3>
         <p className="mt-2 text-sm text-muted-foreground">New research, no noise.</p>
       </div>
@@ -156,12 +156,12 @@ export default function NewsletterSignup() {
         />
       ) : null}
 
-      <div className="lg:col-span-8">
-      <form onSubmit={handleSubmit} className="flex max-w-2xl flex-col gap-2">
+      <div className="mt-4">
+      <form onSubmit={handleSubmit} className="flex flex-col gap-2">
         <label htmlFor="newsletter-email" className="text-sm font-medium text-muted-foreground">
           Email address
         </label>
-        <div className="flex flex-col gap-3 sm:flex-row">
+        <div className="flex flex-col gap-3">
           <input
             id="newsletter-email"
             type="email"

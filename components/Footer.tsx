@@ -72,7 +72,8 @@ export default function Footer() {
             <a href="https://commons.wikimedia.org/wiki/File:Writing_in_a_notebook_with_a_feather_pen_while_enjoying_coffee_at_a_desk_surrounded_by_flowers.jpg" className={linkClass}>Shixart1985</a> (CC BY 2.0, Wikimedia Commons),{" "}
             <a href="https://commons.wikimedia.org/wiki/File:Aerial_View_-_Landschaft_Markgr%C3%A4flerland1.jpg" className={linkClass}>Taxiarchos228</a> (CC BY 3.0, Wikimedia Commons),{" "}
             <a href="https://commons.wikimedia.org/wiki/File:CSIRO_ScienceImage_11401_CSIRO_researcher_with_pipette.jpg" className={linkClass}>Morgan Brown, CSIRO</a> (CC BY 3.0, Wikimedia Commons),{" "}
-            <a href="https://commons.wikimedia.org/wiki/File:Ripe_Zinfandel_grapes_in_Dry_Creek_Valley-8958.jpg" className={linkClass}>Frank Schulenburg</a> (CC BY-SA 4.0, Wikimedia Commons)
+            <a href="https://commons.wikimedia.org/wiki/File:Ripe_Zinfandel_grapes_in_Dry_Creek_Valley-8958.jpg" className={linkClass}>Frank Schulenburg</a> (CC BY-SA 4.0, Wikimedia Commons),{" "}
+            <a href="https://commons.wikimedia.org/wiki/File:Vineyard_in_Cabrerolles.jpg" className={linkClass}>Christian Ferrer</a> (CC BY 4.0, Wikimedia Commons)
           </p>
           <Link href="/privacy" className={linkClass}>
             Privacy
