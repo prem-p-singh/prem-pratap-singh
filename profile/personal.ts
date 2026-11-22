@@ -1,6 +1,6 @@
 export const personal = {
   name: "Prem Pratap Singh",
-  title: "Postdoctoral Scholar & Plant Scientist · Plant Pathology, UC Davis",
+  title: "Research Fellow, Infinity Fellowship",
   subtitle: "Molecular Diagnostics & Multi-Omics Scientist · Ag-Bio R&D · Genomics Tools",
   heroRole: "Plant Scientist · Data Scientist · Molecular Diagnostics",
   heroStatement: "Translating noisy ag-bio data into actionable R&D insights.",
@@ -8,7 +8,7 @@ export const personal = {
     "I study crop disease from the field sample to the final model. My work brings molecular diagnostics, multi-omics, and reproducible data analysis together to find signals that can improve crop decisions.",
   tagline: "Molecular biology that closes the loop on plant disease, from sample to inference, on commercial crop systems.",
   openTo: "Open to Research Scientist and Data Scientist roles in ag-bio R&D, molecular diagnostics, NGS workflows, and trait discovery.",
-  bio: `Plant pathologist and data scientist at the University of California, Davis, leading both the laboratory and computational sides of a CDFA- and USDA-funded program on Grapevine Red Blotch Virus. Current work continues a project initiated by the late Dr. Anita Oberholster, carried out under the mentorship of Dr. David E. Block and co-conducted with Dr. Mysore R. Sudarshana (USDA-ARS, UC Davis), running from vineyard sampling through more than 300 sequencing libraries to the biological markers that link infection to plant breeding.
+  bio: `Plant pathologist and data scientist. As a postdoctoral scholar at the University of California, Davis, from 2023 to 2026, he led both the laboratory and computational sides of a CDFA- and USDA-funded program on Grapevine Red Blotch Virus. The work began in Viticulture and Enology with the late Dr. Anita Oberholster and Dr. David E. Block, and continued in Entomology under Dr. Frank Zalom, in the lab of Dr. Mysore R. Sudarshana (USDA-ARS, UC Davis), running from vineyard sampling through more than 300 sequencing libraries to the biological markers that link infection to plant breeding.
 
 The day-to-day sits between the bench and the computer: building and validating diagnostic assays, including digital PCR with documented quality controls, running large-scale RNA sequencing on high-performance computing, and writing reproducible pipelines that hold up season to season. One recent tool identifies the molecular warning signs of infection and points to candidate markers with a signal roughly 2.3 times stronger than known plant genetic regions, work aimed at earlier detection and disease-resistant breeding.
 

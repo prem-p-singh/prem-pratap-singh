@@ -8,6 +8,7 @@ export const projects: Project[] = [
     category: "Vineyard systems",
     question: "Why does red blotch become more damaging in hot seasons?",
     resultStat: "2.6×",
+    resultNote: "more sugar lost in a hot season than a cool one",
     description:
       "A multi-year study of 327 vine samples across two growing seasons and four ripening stages, funded by state and federal agriculture agencies, measuring how Grapevine Red Blotch Virus changes grape chemistry and the wine made from it.",
     impact:
@@ -34,6 +35,7 @@ export const projects: Project[] = [
     category: "Diagnostics",
     question: "Can infection be measured before symptoms become visible?",
     resultStat: "Before symptoms",
+    resultNote: "infected vines identified early",
     description:
       "Built and validated laboratory tests that measure how much virus is present in a vine, then ran them across more than ten vineyard blocks to follow infection through the season.",
     impact:
@@ -58,6 +60,7 @@ export const projects: Project[] = [
     category: "Food safety",
     question: "Can a food-safe plant treatment suppress aflatoxin without synthetic preservatives?",
     resultStat: ">90%",
+    resultNote: "of toxin production blocked",
     description:
       "Designed a plant-oil treatment wrapped inside tiny food-safe particles that stops a mold responsible for contaminating stored grain and nuts with aflatoxin, a known human carcinogen.",
     impact:
@@ -90,6 +93,7 @@ export const projects: Project[] = [
     category: "Multi-omics",
     question: "Can infection be found in chemical signals before it becomes visible?",
     resultStat: "Early markers",
+    resultNote: "candidate markers for a field test",
     description:
       "Combined several different laboratory measurements taken from the same grape samples to find the chemical fingerprints that appear once a vine becomes infected.",
     impact:
@@ -108,6 +112,7 @@ export const projects: Project[] = [
     category: "Formulation",
     question: "Can a plant-based coating protect stored food for much longer?",
     resultStat: "60+ days",
+    resultNote: "of protection for stored food, up from a few days",
     description:
       "Developed a low-cost, plant-based protective coating that releases its active ingredient gradually rather than all at once, and tested how well it held up over time.",
     impact:
@@ -137,6 +142,7 @@ export const projects: Project[] = [
     question:
       "Which mix of three plant oils works best, without testing every combination?",
     resultStat: "94.7% fit",
+    resultNote: "fit of the blend model",
     description:
       "Mapped the full space of three-oil blends from 10 planned experiments, then fitted a model that predicts any untested blend.",
     impact:
@@ -175,6 +181,7 @@ export const projects: Project[] = [
     question:
       "Which proteins do the plant compounds actually bind, and how tightly?",
     resultStat: "8 targets",
+    resultNote: "protein targets modelled",
     description:
       "Built the 3D protein models from scratch when none existed publicly, then docked the plant compounds into them, ran simulations to check the fit held, and measured binding strength.",
     impact:
@@ -212,6 +219,7 @@ export const projects: Project[] = [
     category: "Mechanism",
     question: "Where does the antifungal treatment strike the mold?",
     resultStat: "Two routes",
+    resultNote: "by which the treatment attacks the mold",
     description:
       "Traced exactly how the treatment acts on the mold, by following what happens to its outer surface, its energy production, and which of its genes switch on or off during exposure.",
     impact:

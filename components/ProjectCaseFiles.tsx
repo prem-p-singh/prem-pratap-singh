@@ -119,7 +119,7 @@ export default function ProjectCaseFiles({
                     >
                       {project.resultStat || "Evidence"}
                     </span>
-                    <span className="mt-1 block text-sm text-muted-foreground">outcome</span>
+                    <span className="mt-2 block text-sm text-muted-foreground">{project.resultNote || "outcome"}</span>
                   </p>
                   <Chevron
                     className="absolute right-0 top-3 size-5 text-muted-foreground"

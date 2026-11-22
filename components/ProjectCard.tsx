@@ -5,6 +5,8 @@ export interface Project {
   question?: string;
   /** Short outcome shown before the full case file is revealed. */
   resultStat?: string;
+  /** A few words that say what the result measures, read straight after it. */
+  resultNote?: string;
   /** Broad research area used as a compact visual label. */
   category?: string;
   impact?: string;
