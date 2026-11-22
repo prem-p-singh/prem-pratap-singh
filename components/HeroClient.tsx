@@ -2,39 +2,54 @@ import Image from "next/image";
 import type { ComponentType, SVGProps } from "react";
 import { Mail } from "lucide-react";
 import { GitHubMark, LinkedInMark, ScholarMark } from "@/components/icons/BrandIcons";
-import { workExperience } from "@/profile/experience";
+import { education, workExperience } from "@/profile/experience";
 import { personal } from "@/profile/personal";
-import { projects } from "@/profile/projects";
 import { bookChapters, publications } from "@/profile/publications";
 
+// The current full role: the first one still running that is not part-time.
 const currentRole = workExperience.find(
-  (role) => role.endDate === "Present" && role.organization.includes("Davis")
+  (role) => role.endDate === "Present" && !role.title.includes("part-time")
 );
-const study = projects[0];
 const articleCount = publications.filter(
   (publication) => publication.venue !== "In Preparation"
 ).length;
 
-// The profile facts, set as ruled rows beside the portrait.
+const doctorate = education[0];
+
+// The profile, written as a professional summary: what the role is, what the
+// work covers, and what it has delivered. Every figure comes from the profile data.
 const facts: Array<{ label: string; value: string }> = [
   ...(currentRole
-    ? [{ label: "Now", value: `${currentRole.title}, ${currentRole.organization}` }]
+    ? [{ label: "Role", value: `${currentRole.title}, ${currentRole.organization}` }]
     : []),
   {
-    label: "Study",
-    value: "California field crop diseases, including Grapevine Red Blotch Virus",
+    label: "Focus",
+    value: "AI-assisted discovery in the biology domain",
   },
-  { label: "Methods", value: study.tech.join(", ") },
   {
-    label: "Published",
-    value: `${articleCount} peer-reviewed articles, ${bookChapters.length} book chapters`,
+    label: "Expertise",
+    value:
+      "Molecular diagnostics (digital PCR, RT-qPCR), multi-omics (RNA sequencing), machine learning for biomarker discovery, evaluation of scientific reasoning in AI models, and analysis pipelines in R, Python and Snakemake",
+  },
+  {
+    label: "Track record",
+    value: `300+ samples sequenced across 10+ commercial vineyard blocks. ${articleCount} peer-reviewed articles and ${bookChapters.length} book chapters`,
+  },
+  ...(doctorate
+    ? [
+        {
+          label: "Background",
+          value: `${doctorate.title}. Postdoctoral research at UC Davis, 2023 to 2026`,
+        },
+      ]
+    : []),
+  {
+    label: "Recognition",
+    value: "M.Sc. Gold Medal. Best Poster Award, International Conference on Phytopathology, 2020",
   },
 ];
 
-// The first screen holds six rows; the full set is the projects section.
-const leadProjects = projects.slice(0, 6);
-
-const tags = ["UC Davis", "Plant pathology", "Computational biologist"];
+const tags = ["Plant pathology", "Computational biologist", "AI for science"];
 
 const links: Array<{ label: string; href: string; icon: ComponentType<SVGProps<SVGSVGElement>> }> = [
   { label: personal.email, href: `mailto:${personal.email}`, icon: Mail },
@@ -98,37 +113,6 @@ export default function HeroClient() {
         </div>
       </section>
 
-      {/* The work, set as a field guide: the project, its field, its result. */}
-      <section aria-label="Research projects at a glance" className="py-[var(--section-gap-s)]">
-        <div className="shell">
-          <ol className="index-list">
-            {leadProjects.map((project) => (
-              <li key={project.title}>
-                <a
-                  href="#projects"
-                  className="group grid items-baseline gap-x-8 gap-y-1 py-5 no-underline hover:bg-paper-2 lg:grid-cols-12"
-                >
-                  <span className="font-display text-[length:var(--text-2xl)] leading-tight text-ink lg:col-span-6">
-                    {project.title}
-                  </span>
-                  <span className="text-xs font-medium text-muted lg:col-span-3">{project.category}</span>
-                  {project.resultStat && (
-                    <span className="figure text-2xl text-ink-2 group-hover:text-accent lg:col-span-3 lg:whitespace-nowrap lg:text-right">
-                      {project.resultStat}
-                    </span>
-                  )}
-                </a>
-              </li>
-            ))}
-          </ol>
-          <p className="mt-6 text-sm">
-            <a href="#projects" className="text-ink underline-offset-4 hover:decoration-2">
-              All {projects.length} research projects
-            </a>
-          </p>
-        </div>
-      </section>
-
       {/* The profile: the portrait beside the facts a recruiter reads first. */}
       <section aria-labelledby="profile-title" className="bg-paper-2 py-[var(--section-gap-s)]">
         <div className="shell grid items-center gap-x-8 gap-y-12 lg:grid-cols-12">
@@ -171,8 +155,7 @@ export default function HeroClient() {
               ))}
             </dl>
 
-            <p className="mt-8 max-w-[60ch] text-ink-2">{personal.openTo}</p>
-            <ul className="mt-4 flex flex-wrap gap-x-4 gap-y-1 text-xs font-medium text-muted">
+            <ul className="mt-8 flex flex-wrap gap-x-4 gap-y-1 text-xs font-medium text-muted">
               {tags.map((tag) => (
                 <li key={tag}>{tag}</li>
               ))}

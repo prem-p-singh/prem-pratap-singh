@@ -82,7 +82,7 @@ const chapters: Chapter[] = [
   },
   {
     id: "vineyard",
-    period: "2023–Present",
+    period: "2023–2026",
     title: "Scale the question to vineyards",
     place: "University of California, Davis · Davis, California",
     prompt: "Follow disease from a berry to a block.",

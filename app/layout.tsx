@@ -40,7 +40,7 @@ export const metadata: Metadata = {
     template: "%s | Prem Pratap Singh",
   },
   description: "Plant scientist and data scientist combining field biology, molecular diagnostics, multi-omics, and reproducible analysis to improve crop decisions.",
-  keywords: ["Plant Science", "Data Science", "Grapevine Virology", "GRBV", "Postharvest Biology", "Food Safety", "Multi-omics", "Bioinformatics", "Machine Learning", "UC Davis", "Postdoctoral Scholar", "RNA-seq", "Plant Pathology"],
+  keywords: ["Plant Science", "Data Science", "Grapevine Virology", "GRBV", "Postharvest Biology", "Food Safety", "Multi-omics", "Bioinformatics", "Machine Learning", "UC Davis", "Research Fellow", "RNA-seq", "Plant Pathology"],
   authors: [{ name: "Prem Pratap Singh", url: siteUrl }],
   creator: "Prem Pratap Singh",
   publisher: "Prem Pratap Singh",
@@ -86,25 +86,20 @@ const personJsonLd = {
   familyName: "Singh",
   jobTitle: "Plant Scientist and Data Scientist",
   description:
-    "Plant scientist and data scientist at UC Davis combining field biology, molecular diagnostics, multi-omics, and reproducible analysis on commercial crop systems.",
+    "Plant scientist and data scientist combining field biology, molecular diagnostics, multi-omics, and reproducible analysis on commercial crop systems.",
   image: `${siteUrl}/images/portrait.jpg`,
   url: siteUrl,
-  email: "ppssingh@ucdavis.edu",
+  email: "pr0982@gmail.com",
   worksFor: {
     "@type": "Organization",
-    name: "University of California, Davis",
-    url: "https://www.ucdavis.edu",
-    department: {
-      "@type": "Organization",
-      name: "Department of Plant Pathology",
-    },
-  },
-  affiliation: {
-    "@type": "Organization",
-    name: "University of California, Davis",
-    url: "https://www.ucdavis.edu",
+    name: "Infinity Fellowship",
   },
   alumniOf: [
+    {
+      "@type": "CollegeOrUniversity",
+      name: "University of California, Davis",
+      url: "https://www.ucdavis.edu",
+    },
     {
       "@type": "CollegeOrUniversity",
       name: "Banaras Hindu University",

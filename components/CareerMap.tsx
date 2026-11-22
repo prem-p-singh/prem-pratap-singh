@@ -46,7 +46,7 @@ const stops: CareerStop[] = [
   },
   {
     id: "postdoc",
-    period: "2023–Present",
+    period: "2023–2026",
     title: "Multi-omics",
     stage: "Integrated evidence",
     organization: "Postdoctoral Scholar · UC Davis",

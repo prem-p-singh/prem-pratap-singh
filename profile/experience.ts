@@ -2,7 +2,7 @@ import type { TimelineItem } from "@/components/Timeline";
 
 export const education: TimelineItem[] = [
   {
-    title: "Ph.D. in Plant Pathology/Postharvest/Food Safety",
+    title: "Ph.D. in Plant Pathology and Computational Biology",
     organization: "Banaras Hindu University",
     location: "India",
     startDate: "2017",
@@ -29,14 +29,20 @@ export const education: TimelineItem[] = [
 
 export const workExperience: TimelineItem[] = [
   {
+    title: "Research Fellow",
+    organization: "Infinity Fellowship",
+    startDate: "2026",
+    endDate: "Present",
+  },
+  {
     title: "Postdoctoral Scholar",
     organization: "University of California, Davis",
     location: "Davis, CA, USA",
     startDate: "Sep 2023",
-    endDate: "Present",
+    endDate: "2026",
     mentor: [
-      { name: "Dr. Frank Zalom", url: "https://entnem.ucdavis.edu/people/frank-zalom", note: "current" },
-      { name: "Dr. Mysore R. Sudarshana", url: "https://www.ars.usda.gov/people-locations/person/?person-id=42584", note: "current, USDA-ARS, UC Davis" },
+      { name: "Dr. Frank Zalom", url: "https://entnem.ucdavis.edu/people/frank-zalom", note: "Entomology" },
+      { name: "Dr. Mysore R. Sudarshana", url: "https://www.ars.usda.gov/people-locations/person/?person-id=42584", note: "USDA-ARS, UC Davis" },
       { name: "Dr. David E. Block", url: "https://wineserver.ucdavis.edu/people/david-block", note: "former" },
       { name: "Dr. Anita Oberholster", url: "https://wineserver.ucdavis.edu/people/anita-oberholster", note: "former, deceased Jan 2025" },
     ],

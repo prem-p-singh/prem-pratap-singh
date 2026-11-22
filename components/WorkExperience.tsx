@@ -27,9 +27,16 @@ const roleDetails: Record<
   string,
   { summary: string; evidence: string[]; label: string; tone: Tone }
 > = {
+  // The fellowship is new; its summary and evidence wait for the owner's words.
+  "Research Fellow": {
+    summary: "",
+    evidence: [],
+    label: "Fellowship",
+    tone: "data",
+  },
   "Postdoctoral Scholar": {
     summary:
-      "I lead the field, laboratory, and computational work on California field crop diseases, including Grapevine Red Blotch Virus, from field sampling and dPCR through RNA sequencing and biological interpretation.",
+      "I led the field, laboratory, and computational work on California field crop diseases, including Grapevine Red Blotch Virus, from field sampling and dPCR through RNA sequencing and biological interpretation.",
     evidence: ["300+ crop samples", "1.3B+ sequencing reads", "Reusable analysis pipelines"],
     label: "Field + data",
     tone: "field",
@@ -140,7 +147,7 @@ export default function WorkExperience() {
                 if (!detail) return null;
                 const tone = tones[detail.tone];
                 const mentors = groupMentors(role.mentor);
-                const currentLabel = role.endDate === "Present" ? "Current PIs" : "Supervisor";
+                const currentLabel = role.endDate === "Present" ? "Current PIs" : "Supervisors";
 
                 return (
                   <li key={role.title} className="grid gap-x-8 gap-y-8 py-12 lg:grid-cols-12">
@@ -149,7 +156,7 @@ export default function WorkExperience() {
                         <p className="figure text-[length:var(--text-2xl)] leading-tight">
                           {role.startDate} to {role.endDate}
                         </p>
-                        <p className="mt-1 text-muted-foreground">{role.location}</p>
+                        {role.location && <p className="mt-1 text-muted-foreground">{role.location}</p>}
                         <span
                           className={`mt-3 inline-block rounded-none border px-3 py-1 text-xs font-medium ${tone.tag}`}
                         >
@@ -161,9 +168,11 @@ export default function WorkExperience() {
                         <p className="mt-2 text-base font-medium text-muted-foreground">
                           {role.organization}
                         </p>
-                        <p className="mt-4 max-w-[60ch] text-base leading-relaxed text-foreground">
-                          {detail.summary}
-                        </p>
+                        {detail.summary && (
+                          <p className="mt-4 max-w-[60ch] text-base leading-relaxed text-foreground">
+                            {detail.summary}
+                          </p>
+                        )}
                       </div>
                     </div>
 
@@ -189,6 +198,7 @@ export default function WorkExperience() {
                       </dl>
                     )}
 
+{detail.evidence.length > 0 && (
                     <ul
                       className="grid border-t border-rule"
                       aria-label={`${role.title} highlights`}
@@ -202,6 +212,7 @@ export default function WorkExperience() {
                         </li>
                       ))}
                     </ul>
+                    )}
                     </div>
                   </li>
                 );
