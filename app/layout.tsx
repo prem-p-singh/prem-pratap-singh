@@ -112,6 +112,7 @@ const personJsonLd = {
     "https://www.linkedin.com/in/prem-p-singh",
     "https://www.researchgate.net/profile/Prem-Singh-12",
     "https://github.com/prem-p-singh",
+    "https://premsingh.org/",
   ],
   knowsAbout: [
     "Plant Pathology",
