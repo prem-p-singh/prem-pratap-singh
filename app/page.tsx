@@ -278,9 +278,9 @@ export default function Home() {
         <div className="shell">
           <div className="grid gap-x-8 gap-y-10 pb-[var(--section-gap-s)] pt-10 lg:grid-cols-12">
 
-            {/* The close: four columns side by side under one rule, each a
+            {/* The close: three columns side by side under one rule, each a
                 short head with its content directly beneath. */}
-            <div className="grid border-t-[1.5px] border-accent sm:grid-cols-2 lg:col-span-12 lg:grid-cols-4 lg:divide-x lg:divide-rule">
+            <div className="grid border-t-[1.5px] border-accent sm:grid-cols-2 lg:col-span-12 lg:grid-cols-3 lg:divide-x lg:divide-rule">
               <div className="py-8 lg:pr-8">
                 <h3>Start a conversation</h3>
                 <a
@@ -292,15 +292,6 @@ export default function Home() {
                 <a href={`mailto:${personal.email}`} className="btn-primary mt-5">
                   Send an email
                 </a>
-              </div>
-
-              <div className="py-8 lg:px-8">
-                <h3>Open to</h3>
-                <ul className="mt-4 grid gap-2 text-ink">
-                  {opportunities.map((opportunity) => (
-                    <li key={opportunity}>{opportunity}</li>
-                  ))}
-                </ul>
               </div>
 
               <div className="py-8 lg:px-8">
@@ -333,13 +324,6 @@ export default function Home() {
     </>
   );
 }
-
-// What the owner is open to, as three plain lines.
-const opportunities = [
-  "Research Scientist and Data Scientist roles",
-  "Research collaborations",
-  "Scientific consulting",
-];
 
 const socialLinks = [
   { label: "Scholar", href: personal.social.googleScholar, icon: ScholarMark },
