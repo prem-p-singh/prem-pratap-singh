@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { Mail } from "lucide-react";
+import { Globe, Mail } from "lucide-react";
 import { GitHubMark, LinkedInMark, ResearchGateMark, ScholarMark } from "@/components/icons/BrandIcons";
 import { personal } from "@/profile/personal";
 import { primaryNavigation } from "@/profile/navigation";
@@ -10,6 +10,7 @@ const socialItems = [
   { name: "LinkedIn", href: personal.social.linkedin, icon: LinkedInMark },
   { name: "Scholar", href: personal.social.googleScholar, icon: ScholarMark },
   { name: "ResearchGate", href: personal.social.researchgate, icon: ResearchGateMark },
+  { name: "premsingh.org", href: personal.social.website, icon: Globe },
   { name: "Email", href: `mailto:${personal.email}`, icon: Mail },
 ];
 
